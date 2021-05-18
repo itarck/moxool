@@ -1,0 +1,23 @@
+{
+  "devDependencies": {
+    "css-loader": "^5.0.1",
+    "shadow-cljs": "^2.12.2",
+    "style-loader": "^2.0.0"
+  },
+  "dependencies": {
+    "@material-ui/core": "4.11.2",
+    "@material-ui/lab": "4.0.0-alpha.57",
+    "@material-ui/pickers": "3.2.10",
+    "@react-three/drei": "^3.11.2",
+    "camera-controls": "^1.27.1",
+    "p5": "^1.1.9",
+    "react": "17.0.1",
+    "react-audio-player": "0.14.0",
+    "react-dom": "17.0.1",
+    "react-h5-audio-player": "^3.5.0",
+    "react-refresh": "0.8.1",
+    "react-three-fiber": "^5.3.21",
+    "three": "^0.128.0",
+    "xregexp": "^5.0.1"
+  }
+}

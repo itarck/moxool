@@ -1,0 +1,16 @@
+(ns methodology.model.entity
+  (:require
+   [datascript.core :as d]
+   [posh.reagent :as p]))
+
+
+;; 最基础的抽象，有 :db/id :entity/name :entity/type，可以是抽象或实体的概念
+
+(def sample-1 {:db/id 1
+               :entity/name "solar"
+               :entity/type :star})
+
+(def schema {:entity/name {:db/unique :db.unique/identity}})
+
+
+;; model 

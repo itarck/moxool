@@ -1,0 +1,13 @@
+{:deps true
+
+ :builds
+ {:app {:target     :browser
+        :output-dir "public/js"
+        :asset-path "/js"
+        :modules
+        {:app {:entries [astronomy.app.core]
+               :init-fn astronomy.app.core/init!}}
+        :devtools {:after-load astronomy.app.core/update!}}}
+;  
+}
+
