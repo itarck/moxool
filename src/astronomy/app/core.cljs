@@ -18,7 +18,7 @@
                           #:app {:name "astronomy"}))
 
 
-(defonce player-app-instance (scene-in-player/create-app!
+#_(defonce player-app-instance (scene-in-player/create-app!
                           #:app {:name "astronomy"
                                  :db-url "/edn/store-system-conn1.edn"}))
 
