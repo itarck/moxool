@@ -9,7 +9,7 @@
    [reagent.dom :as rdom]
    [posh.reagent :as p]
    [cljs-http.client :as http]
-   [guilds.lib.chest :refer [create-conn!]]))
+   [methodology.lib.chest :refer [create-conn!]]))
 
 
 ;; atom 模块：用的是reagent atom，view也可以自动响应

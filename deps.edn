@@ -2,6 +2,7 @@
 
  :deps {thheller/shadow-cljs {:mvn/version "2.11.14"}
         applied-science/js-interop {:mvn/version "0.2.7"}
+        arttuka/reagent-material-ui {:mvn/version "4.11.2-0"}
         binaryage/devtools {:mvn/version "1.0.0"}
         com.lucasbradstreet/cljs-uuid-utils {:mvn/version "1.0.2"}
         cljs-bean/cljs-bean {:mvn/version "1.6.0"}

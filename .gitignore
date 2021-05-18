@@ -26,3 +26,4 @@ public/mp3
 .cpcache
 *.cp
 .DS_Store
+yarn.lock
