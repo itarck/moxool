@@ -17,17 +17,17 @@
 
 (derive :app/scene-system :circuit/system)
 (derive :app/editor-system :circuit/system)
-(derive :app/scene-atom :circuit/ratom)
+(derive :app/meta-atom :circuit/ratom)
 
 
 (def app-config
-  #:app {:scene-atom #:ratom {:init-value {:status :read-and-write}}
+  #:app {:meta-atom #:ratom {:init-value {:status :read-and-write}}
          :scene-system #:system{:system-fn create-scene-system
                                 :props {:initial-tx scene-initial-tx}
-                                :env {:scene-atom (ig/ref :app/scene-atom)}}
+                                :env {:meta-atom (ig/ref :app/meta-atom)}}
          :editor-system #:system {:system-fn create-editor-system
                                   :props {:system-name "slider"}
-                                  :env {:scene-atom (ig/ref :app/scene-atom)
+                                  :env {:meta-atom (ig/ref :app/meta-atom)
                                         :scene-system (ig/ref :app/scene-system)}}})
 
 (def app-instance (ig/init app-config))

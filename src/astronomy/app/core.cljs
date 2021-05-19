@@ -61,4 +61,5 @@
   (count (d/datoms @conn :eavt))
   (count (d/datoms db :eavt))
   ;; 
+
   )

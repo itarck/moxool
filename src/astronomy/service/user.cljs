@@ -6,12 +6,12 @@
    [methodology.model.user.person :as m.person]))
 
 
-(defn init-service! [props {:keys [process-chan service-chan conn scene-atom]}]
+(defn init-service! [props {:keys [process-chan service-chan conn meta-atom]}]
   (let [{:keys [user]} props]
     (println "clock-control started")
     (go-loop []
       (let [{:event/keys [action detail] :as event} (<! process-chan)
-            mode (if scene-atom (:mode @scene-atom) :read-and-write)]
+            mode (if meta-atom (:mode @meta-atom) :read-and-write)]
         ;; (println event)
         (when (= mode :read-and-write)
           (try

@@ -11,17 +11,17 @@
 
 (def system app.panel/system-instance)
 
-(def scene-chan (:system/scene-chan system))
+(def meta-chan (:system/meta-chan system))
 
-scene-chan
+meta-chan
 
-(go (>! scene-chan #:event {:action :scene/change-to-free-mode}))
+(go (>! meta-chan #:event {:action :scene/change-to-free-mode}))
 
-(go (>! scene-chan #:event {:action :scene/change-to-play-mode}))
+(go (>! meta-chan #:event {:action :scene/change-to-play-mode}))
 
 
-(def scene-atom (:system/scene-atom system))
-scene-atom
+(def meta-atom (:system/meta-atom system))
+meta-atom
 
 (def conn (:system/conn system))
 

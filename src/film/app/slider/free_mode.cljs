@@ -24,10 +24,10 @@
 ;; service
 
 (defn init-view-service! [props env]
-  (let [{:keys [service-chan scene-conn scene-atom]} env]
+  (let [{:keys [service-chan scene-conn meta-atom]} env]
     (go-loop []
       (let [event (<! service-chan)]
-        (when (= (:status @scene-atom) :read-and-write)
+        (when (= (:status @meta-atom) :read-and-write)
           (case (:event/action event)
             :slider/on-change (let [{:keys [slider new-value]} (:event/detail event)]
                                 (p/transact! scene-conn [[:db/add (:db/id slider) :slider/value new-value]]))
@@ -72,7 +72,7 @@
 
 (defn create-scene-system [props env]
   (let [{:keys [initial-tx]} props
-        {:keys [scene-atom]} env
+        {:keys [meta-atom]} env
         config {::conn #:conn {:schema schema
                                :initial-tx (or initial-tx default-initial-tx)}
 
@@ -81,7 +81,7 @@
                                      :props {}
                                      :env {:service-chan (ig/ref ::chan)
                                            :scene-conn (ig/ref ::conn)
-                                           :scene-atom scene-atom}}
+                                           :meta-atom meta-atom}}
 
                 ::view #:view {:view-fn RootPage
                                :props {}
@@ -90,16 +90,16 @@
         instance (ig/init config)]
     #:system {:view (::view instance)
               :conn (::conn instance)
-              :scene-atom scene-atom
+              :meta-atom meta-atom
               :api-chan (::api-chan instance)}))
 
 
 ;; mount point
 
-(def scene-atom (r/atom {:status :read-and-write}))
+(def meta-atom (r/atom {:status :read-and-write}))
 
 (defonce system
-  (create-scene-system {} {:scene-atom scene-atom}))
+  (create-scene-system {} {:meta-atom meta-atom}))
 
 (defn update! []
   (dom/render

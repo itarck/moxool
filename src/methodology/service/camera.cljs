@@ -36,11 +36,11 @@
 ;; service
 
 (defn init-service! [props env]
-  (let [{:keys [conn dom-atom scene-atom]} env]
+  (let [{:keys [conn dom-atom meta-atom]} env]
     (go-loop []
       (<! (async/timeout 20))
       (try
-        (case (:mode @scene-atom)
+        (case (:mode @meta-atom)
           :read-and-write (record-camera! dom-atom conn)
           :read-only (play-camera! dom-atom conn)
           nil)

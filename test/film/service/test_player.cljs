@@ -28,7 +28,7 @@
                                                    :props {}
                                                    :env {:service-chan (ig/ref ::chan)}}})]
     {:system-conn (create-system-conn!)
-     :scene-chan (::chan scene-system)
+     :meta-chan (::chan scene-system)
      :scene-conn (::conn scene-system)}))
 
 

@@ -11,8 +11,8 @@
 
 (defn RootView [props env]
   (let [{:keys [astro-scene user camera camera-control]} props
-        {:keys [scene-atom]} env
-        mode (if scene-atom (:mode @scene-atom) :read-and-write)]
+        {:keys [meta-atom]} env
+        mode (if meta-atom (:mode @meta-atom) :read-and-write)]
     [:<>
      [:> Canvas {:style {:background :black}}
       [v.camera/CameraView camera env]
