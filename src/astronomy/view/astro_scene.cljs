@@ -16,7 +16,7 @@
         ref @(p/pull conn '[*] [:coordinate/name "default"])
         {:scene/keys [scale]} astro-scene
         objects (m.scene/sub-objects conn (:db/id astro-scene))]
-    (println "scene view mounted" )
+    ;; (println "scene view mounted" )
     [:<>
      [:mesh {:scale [scale scale scale]}
       [:mesh {:matrixAutoUpdate false

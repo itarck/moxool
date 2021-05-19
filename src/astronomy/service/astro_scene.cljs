@@ -6,26 +6,23 @@
    [astronomy.model.astro-scene :as m.astro-scene]))
 
 
-(defmulti handle-event! (fn [event _env] (:event/action event)))
+(defmulti handle-event! (fn [props env event] (:event/action event)))
 
 
 (defmethod handle-event! :astro-scene/clock-changed
-  [{:event/keys [detail] :as event} {:keys [conn]}]
+  [{:keys [astro-scene]} {:keys [conn]} {:event/keys [detail]}]
   (let [{:keys [clock-id]} detail
-        astro-scene-id (:astro-scene-id event)
+        astro-scene-id (:db/id astro-scene)
         tx (m.astro-scene/update-by-clock-tx @conn astro-scene-id clock-id)]
     (p/transact! conn tx)))
 
 
-(defn init-service! [props {:keys [process-chan service-chan conn] :as env}]
-  (let [{:keys [astro-scene]} props
-        pprops {:astro-scene-id (:db/id astro-scene)}]
+(defn init-service! [props {:keys [process-chan] :as env}]
     (println "astro-scene started")
     (go-loop []
-      (let [event (<! process-chan)
-            process-props (merge pprops event)]
+      (let [event (<! process-chan)]
         (try
-          (handle-event! process-props env)
+          (handle-event! props env event)
           (catch js/Error e
             (js/console.log e))))
-      (recur))))
+      (recur)))
