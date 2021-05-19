@@ -1,7 +1,7 @@
 (ns astronomy.model.test-celestial
   (:require
    [shu.three.matrix4 :as m4]
-   [astronomy.test-conn :refer [create-poshed-conn!]]
+   [astronomy.test-conn :refer [create-poshed-conn! create-test-conn!]]
    [astronomy.model.celestial :as m.celestial]))
 
 
@@ -113,3 +113,16 @@
 ;;           0.638164784246439, 0.33333333333333315, 0.6939989892187058, -31.390578948738256
 ;;           0.36095804585241964, 0.6666666666666669, -0.6521233354895053, 71.22610312459298
 ;;           0, 0, 0, 1]
+
+
+(comment
+
+  (def conn (create-test-conn!))
+
+  (def db @conn)
+
+  (def celes (m.celestial/find-all-by-clock db [:clock/name "default"]))
+
+  (m.celestial/update-position-tx (first celes))
+
+  )

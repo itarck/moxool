@@ -35,19 +35,10 @@
           (case action
 
             :clock-tool/set-time-in-days (let [{:keys [time-in-days]} detail
-                                               db1 @conn
-                                               tx1 (m.clock/set-clock-time-in-days-tx clock time-in-days)
-                                               db2 (d/db-with db1 tx1)
-                                               tx2 (m.clock/update-celestial-by-clock-tx db2 (:db/id clock))
-                                               db3 (d/db-with db2 tx2)
-                                               tx3 (m.clock/update-reference-tx db3)]
-                                           (p/transact! conn (concat tx1 tx2 tx3)))
-
-            :clock-tool/update-celestial (let [tx (m.clock/update-celestial-by-clock-tx @conn (:db/id clock))]
-                                           (p/transact! conn tx))
-
-            :clock-tool/update-reference (let [tx (m.clock/update-reference-tx @conn)]
-                                           (p/transact! conn tx))
+                                               tx1 (m.clock/set-clock-time-in-days-tx clock time-in-days)]
+                                           (p/transact! conn tx1)
+                                           (go (>! service-chan #:event {:action :astro-scene/clock-changed
+                                                                         :detail {:clock-id (:db/id clock)}})))
 
             :clock-tool/reset (let [tx [[:db/add (:db/id clock-tool) :clock-tool/status :stop]
                                         [:db/add (-> clock-tool :clock-tool/clock :db/id) :clock/time-in-days 0]]]

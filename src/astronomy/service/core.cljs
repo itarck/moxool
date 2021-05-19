@@ -3,6 +3,7 @@
    [cljs.core.async :as async :refer [go >! <! chan go-loop]]
    [methodology.service.camera :as s.camera]
    [astronomy.service.user :as s.user]
+   [astronomy.service.astro-scene :as s.astro-scene]
    [astronomy.service.clock-tool :as s.clock-tool]
    [astronomy.service.info-tool :as s.info-tool]
    [astronomy.service.spaceship-camera-control :as s.spaceship]))
@@ -12,6 +13,10 @@
   [{:listen [:user]
     :process-name "user"
     :service-fn s.user/init-service!}
+   {:listen [:astro-scene]
+    :process-name "astro-scene"
+    :service-fn s.astro-scene/init-service!}
+   
    {:listen [:clock-tool]
     :process-name "clock-tool"
     :service-fn s.clock-tool/init-service!}

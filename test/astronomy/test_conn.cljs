@@ -7,15 +7,21 @@
    [posh.reagent :as p]))
 
 
-(def db nil)
-
-(go
-  (let [response (<! (http/get "/edn/free-mode.edn"))]
-    (set! db (dt/read-transit-str (:body response)))))
-
 
 (defn create-poshed-conn! []
   (let [conn (d/create-conn)]
-    (d/reset-conn! conn db)
-    (p/posh! conn)
+    (go
+      (let [response (<! (http/get "/edn/free-mode.edn"))
+            db (dt/read-transit-str (:body response))]
+        (d/reset-conn! conn db)
+        (p/posh! conn)))
     conn))
+
+
+(def create-test-conn! create-poshed-conn!)
+
+
+(comment
+  (def conn (create-poshed-conn!))
+
+  (count (d/datoms @conn :eavt)))

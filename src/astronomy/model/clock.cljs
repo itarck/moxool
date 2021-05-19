@@ -1,10 +1,5 @@
 (ns astronomy.model.clock
-  (:require
-   [cljs.core.async :refer [go >! <!] :as a]
-   [datascript.core :as d]
-   [astronomy.model.celestial :as m.celestial]
-   [astronomy.model.coordinate :as m.ref]
-   [posh.reagent :as p]))
+  (:require))
 
 
 (def day 1)
@@ -41,17 +36,6 @@
 
 (defn set-clock-time-in-days-tx [clock time-in-days]
   [[:db/add (:db/id clock) :clock/time-in-days time-in-days]])
-
-(defn update-celestial-by-clock-tx [db clock-id]
-  (let [clock (d/pull db '[*] clock-id)
-        celes (m.celestial/find-celestials-by-clock db clock)]
-    (mapcat #(m.celestial/update-position-and-quaternion-tx % clock) celes)))
-
-(defn update-reference-tx [db]
-  (let [id [:coordinate/name "default"]]
-    [[:db/add id :coordinate/position (m.ref/cal-world-position db id)]
-     [:db/add id :coordinate/quaternion (m.ref/cal-world-quaternion db id)]]))
-
 
 
 (comment 
