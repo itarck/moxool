@@ -1,9 +1,13 @@
 (ns astronomy.model.test-celestial
   (:require
+   [cljs.spec.alpha :as s]
    [shu.three.matrix4 :as m4]
    [astronomy.test-conn :refer [create-poshed-conn! create-test-conn!]]
    [astronomy.model.celestial :as m.celestial]))
 
+(def clock-1
+  #:clock {:name "default"
+           :time-in-days 1})
 
 (def celestial-1
   #:celestial
@@ -11,14 +15,16 @@
                            :axis [-1 1 0]
                            :period 360}
     :spin #:spin {:axis [1 1 1]
-                  :period 30}})
+                  :period 30}
+    :clock clock-1
+    :db/id 120
+    })
 
-(def clock-1
-  #:clock {:name "default"
-           :time-in-days 1})
-
+(s/check-asserts true)
 
 (m.celestial/cal-position celestial-1 90)
+
+(m.celestial/update-position-tx celestial-1)
 
 
 (m.celestial/cal-matrix celestial-1 1)

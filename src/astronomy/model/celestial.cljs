@@ -1,5 +1,6 @@
 (ns astronomy.model.celestial
   (:require
+   [cljs.spec.alpha :as s]
    [datascript.core :as d]
    [shu.three.vector3 :as v3]
    [shu.three.quaternion :as q]
@@ -8,7 +9,19 @@
    [astronomy.model.spin :as m.spin]))
 
 
+
 ;; abstract model
+
+(def schema
+  #:celestial {:orbit {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one :db/isComponent true}
+               :spin {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one :db/isComponent true}
+               :clock {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
+               :gltf {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}})
+
+(s/def :astronomy/celestial
+  (s/keys :req [:db/id :celestial/orbit :celestial/spin :celestial/clock]
+          :opt [:celestial/gltf]))
+
 
 (def celestial-1
   #:celestial
@@ -17,15 +30,10 @@
                            :angular-velocity (/ Math/PI 180)}
     :spin #:spin {:axis [0 1 0]
                   :angular-velocity (* 2 Math/PI)}
-    :clock [:clock/name "default"]})
+    :clock [:clock/name "default"]
+    :db/id -1})
 
-
-(def schema
-  #:celestial {:orbit {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one :db/isComponent true}
-               :spin {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one :db/isComponent true}
-               :clock {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
-               :gltf {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}})
-
+(s/valid? :astronomy/celestial celestial-1)
 
 ;; find
 
@@ -49,12 +57,14 @@
 ;; models
 
 (defn cal-position [celestial days]
+  {:pre [(s/assert :astronomy/celestial celestial)]}
   (let [{:celestial/keys [orbit]} celestial]
     (if orbit
       (m.circle-orbit/cal-position orbit days)
       [0 0 0])))
 
 (defn cal-position-matrix [celestial days]
+  {:pre [(s/assert :astronomy/celestial celestial)]}
   (let [{:celestial/keys [orbit]} celestial]
     (if orbit
       (apply m4/make-translation (m.circle-orbit/cal-position orbit days))
@@ -93,6 +103,8 @@
 ;; create transact
 
 (defn update-position-tx [celestial]
+  {:pre [(s/assert :astronomy/celestial celestial)
+         (s/assert :astronomy/clock (:celestial/clock celestial))]}
   (if (:celestial/orbit celestial)
     (let [{id :db/id :celestial/keys [orbit]} celestial
           time-in-days (-> celestial :celestial/clock :clock/time-in-days)
@@ -115,6 +127,8 @@
     [[:db/add (:db/id celestial) :celestial/matrix (:row-seq matrix)]]))
 
 (defn update-position-and-quaternion-tx [celestial]
+  {:pre [(s/assert :astronomy/celestial celestial)
+         (s/assert :astronomy/clock (:celestial/clock celestial))]}
   (vec (concat (update-position-tx celestial)
                (update-quaternion-tx celestial))))
 

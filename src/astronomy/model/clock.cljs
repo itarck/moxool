@@ -1,5 +1,6 @@
 (ns astronomy.model.clock
-  (:require))
+  (:require
+   [cljs.spec.alpha :as s]))
 
 
 (def day 1)
@@ -10,14 +11,20 @@
 (def year (* 365 day))
 
 
+;; model
+
+(def schema {:clock/name {:db/unique :db.unique/identity}})
+
+(s/def :clock/time-in-days float?)
+(s/def :clock/name string?)
+(s/def :astronomy/clock (s/keys :req [:clock/time-in-days]
+                                :opt [:clock/name]))
+
 (def sample
   #:clock {:name "default"
            :time-in-days 0.0})
 
-
-;; model
-
-(def schema {:clock/name {:db/unique :db.unique/identity}})
+(s/valid? :astronomy/clock sample)
 
 
 (defn parse-time-in-days [time-in-days]

@@ -3,6 +3,7 @@
   :url "http://example.com/FIXME"
   :min-lein-version "2.0.0"
   :dependencies [[org.clojure/clojure "1.10.0"]
+                 [org.clojure/test.check "1.1.0"]
                  [compojure "1.6.1"]
                  [funcool/cuerdas "2.2.0"]
                  [ring "1.8.1"]
