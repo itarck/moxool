@@ -51,6 +51,11 @@
         mat (m4/compose (v3/from-seq position) (q/from-seq quaternion) (v3/vector3 1 1 1))]
     (m4/invert mat)))
 
+(defn update-coordinate-tx [db id]
+  [[:db/add id :coordinate/position (cal-world-position db id)]
+   [:db/add id :coordinate/quaternion (cal-world-quaternion db id)]])
+
+;; sub
 
 (defn sub-coordinate [conn id]
   @(p/pull conn '[* {:coordinate/track-position [*]

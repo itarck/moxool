@@ -2,7 +2,7 @@
   (:require
    [datascript.core :as d]
    [astronomy.model.celestial :as m.celestial]
-   [astronomy.model.coordinate :as m.ref]
+   [astronomy.model.coordinate :as m.coordinate]
    [posh.reagent :as p]))
 
 
@@ -19,12 +19,14 @@
 
 ;; tx
 
-(defn update-celestials-by-clock-tx [db clock-id]
-  (let [celes (m.celestial/find-all-by-clock db clock-id)]
-    (mapcat #(m.celestial/update-position-and-quaternion-tx %) celes)))
 
+;; 当时间变化的时候，先更新时钟，再更新恒星、行星、卫星位置，最后更新参考系
 
-(defn update-reference-tx [db]
-  (let [id [:coordinate/name "default"]]
-    [[:db/add id :coordinate/position (m.ref/cal-world-position db id)]
-     [:db/add id :coordinate/quaternion (m.ref/cal-world-quaternion db id)]]))
+(defn update-by-clock-tx [db1 astro-scene-id clock-id]
+  (let [celes (m.celestial/find-all-by-clock db1 clock-id)
+        tx1 (mapcat #(m.celestial/update-position-and-quaternion-tx %) celes)
+        db2 (d/db-with db1 tx1)
+        astro-scene (d/pull db2 '[*] astro-scene-id)
+        coordinate-id (:db/id (:astro-scene/coordinate astro-scene))
+        tx2 (m.coordinate/update-coordinate-tx db2 coordinate-id)]
+    (concat tx1 tx2)))

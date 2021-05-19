@@ -10,21 +10,20 @@
 
 
 (defmethod handle-event! :astro-scene/clock-changed
-  [{:event/keys [detail]} {:keys [conn]}]
+  [{:event/keys [detail] :as event} {:keys [conn]}]
   (let [{:keys [clock-id]} detail
-        db2 @conn
-        tx2 (m.astro-scene/update-celestials-by-clock-tx db2 clock-id)
-        db3 (d/db-with db2 tx2)
-        tx3 (m.astro-scene/update-reference-tx db3)]
-    (p/transact! conn (concat tx2 tx3))))
+        astro-scene-id (:astro-scene-id event)
+        tx (m.astro-scene/update-by-clock-tx @conn astro-scene-id clock-id)]
+    (p/transact! conn tx)))
 
 
 (defn init-service! [props {:keys [process-chan service-chan conn] :as env}]
-  (let [{:keys [user]} props]
+  (let [{:keys [astro-scene]} props
+        pprops {:astro-scene-id (:db/id astro-scene)}]
     (println "astro-scene started")
     (go-loop []
       (let [event (<! process-chan)
-            process-props (merge props event)]
+            process-props (merge pprops event)]
         (try
           (handle-event! process-props env)
           (catch js/Error e
