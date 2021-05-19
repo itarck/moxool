@@ -1,4 +1,4 @@
-(ns astronomy.system.scene
+(ns astronomy.system.solar
   (:require
    [integrant.core :as ig]
    [methodology.lib.circuit]

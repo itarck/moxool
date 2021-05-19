@@ -2,7 +2,7 @@
   (:require
    [integrant.core :as ig]
    [methodology.lib.circuit]
-   [astronomy.system.scene :as system.scene]
+   [astronomy.system.solar :as system.solar]
    [film.system.player :refer [create-player-system]]))
 
 
@@ -17,7 +17,7 @@
 
 (defn create-app! [props]
   (let [{:app/keys [name db-url]} props
-        app-config #:app {:scene-system #:system{:system-fn system.scene/create-system!
+        app-config #:app {:scene-system #:system{:system-fn system.solar/create-system!
                                                  :props {}}
                           :player-system #:system {:system-fn create-player-system
                                                    :props {:system-name name
