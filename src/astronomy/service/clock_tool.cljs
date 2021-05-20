@@ -12,10 +12,8 @@
 
 (defmethod handle-event! :clock-tool/set-time-in-days
   [props {:keys [conn]} {:event/keys [detail]}]
-  (let [{:keys [clock time-in-days]} detail
-        tx1 (m.clock/set-clock-time-in-days-tx clock time-in-days)]
-    (p/transact! conn tx1)
-    (p/transact! conn (m.clock-tool/update-by-clock-tx @conn (:db/id clock)))))
+  (let [{:keys [clock time-in-days]} detail]
+    (p/transact! conn (m.clock-tool/update-by-clock-time-tx @conn (:db/id clock) time-in-days))))
 
 
 (defmethod handle-event! :clock-tool/reset

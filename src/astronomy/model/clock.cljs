@@ -41,8 +41,8 @@
      :seconds seconds}))
 
 
-(defn set-clock-time-in-days-tx [clock time-in-days]
-  [[:db/add (:db/id clock) :clock/time-in-days time-in-days]])
+(defn set-clock-time-in-days-tx [clock-id time-in-days]
+  [[:db/add clock-id :clock/time-in-days time-in-days]])
 
 
 (comment 

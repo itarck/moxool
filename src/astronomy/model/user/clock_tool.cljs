@@ -2,6 +2,7 @@
   (:require
    [datascript.core :as d]
    [posh.reagent :as p]
+   [astronomy.model.clock :as m.clock]
    [astronomy.model.celestial :as m.celestial]
    [astronomy.model.coordinate :as m.coordinate]))
 
@@ -31,11 +32,13 @@
      (get-in clock-tool [:clock-tool/clock :clock/time-in-days])))
 
 
-(defn update-by-clock-tx [db1 clock-id]
-  (let [celes (m.celestial/find-all-by-clock db1 clock-id)
+(defn update-by-clock-time-tx [db clock-id time-in-days]
+  (let [tx0 (m.clock/set-clock-time-in-days-tx clock-id time-in-days)
+        db1 (d/db-with db tx0)
+        celes (m.celestial/find-all-by-clock db1 clock-id)
         tx1 (mapcat #(m.celestial/update-position-and-quaternion-tx %) celes)
         db2 (d/db-with db1 tx1)
         coordinate-ids (m.coordinate/find-ids-by-clock db1 clock-id)
         tx2 (mapcat #(m.coordinate/update-coordinate-tx db2 %) coordinate-ids)]
-    (concat tx1 tx2)))
+    (concat tx0 tx1 tx2)))
 
