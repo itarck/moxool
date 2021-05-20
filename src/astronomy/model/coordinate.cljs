@@ -4,10 +4,7 @@
    [posh.reagent :as p]
    [shu.three.quaternion :as q]
    [shu.three.vector3 :as v3]
-   [shu.three.matrix4 :as m4]
-   [astronomy.model.star :as m.star]
-   [astronomy.model.planet :as m.planet]
-   [astronomy.model.satellite :as m.satellite]))
+   [shu.three.matrix4 :as m4]))
 
 
 (def ref-1
@@ -22,7 +19,16 @@
              :coordinate/track-position {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
              :coordinate/track-rotation {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}})
 
+
+
 ;; model
+
+
+(defn find-ids-by-clock [db clock-id]
+  (d/q '[:find [?id ...]
+         :in $ ?clock-id
+         :where [?id :coordinate/clock ?clock-id]]
+       db clock-id))
 
 
 (defn pull-ref-fully [db id]
@@ -35,8 +41,16 @@
         p-object (d/pull db '[*] (-> ref :coordinate/track-position :db/id))
         world-position (case (:entity/type p-object)
                          :star (:object/position p-object)
-                         :planet (m.planet/cal-world-position db (:db/id p-object))
-                         :satellite (m.satellite/cal-world-position db (:db/id p-object)))]
+                         :planet (let [planet p-object
+                                       star (d/pull db '[*] (-> planet :planet/star :db/id))]
+                                   (mapv + (:object/position planet)
+                                         (:object/position star)))
+                         :satellite (let [satellite p-object
+                                          planet (d/pull db '[*] (-> satellite :satellite/planet :db/id))
+                                          star (d/pull db '[*] (-> planet :planet/star :db/id))]
+                                      (mapv + (:object/position satellite)
+                                            (:object/position planet)
+                                            (:object/position star))))]
     world-position))
 
 (defn cal-world-quaternion [db id]

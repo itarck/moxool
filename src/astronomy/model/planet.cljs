@@ -40,9 +40,3 @@
 
 ;; model 
 
-
-(defn cal-world-position [db planet-id]
-  (let [planet (d/pull db '[*] planet-id)
-        star (d/pull db '[*] (-> planet :planet/star :db/id))]
-    (mapv + (:object/position planet)
-          (:object/position star))))

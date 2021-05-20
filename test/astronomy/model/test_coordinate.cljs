@@ -19,3 +19,4 @@ test-conn
 ;;           0, 0, 1, 0
 ;;           0, 0, 0, 1]
 
+(m.coordinate/find-ids-by-clock @test-conn [:clock/name "default"])
