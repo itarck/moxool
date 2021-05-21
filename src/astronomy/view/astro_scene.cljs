@@ -7,18 +7,21 @@
    [astronomy.view.background :as v.background]
    [astronomy.view.celestial-sphere-helper :refer [CelestialSphereHelperView]]
    [astronomy.view.galaxy :as v.galaxy]
-   [astronomy.view.constellation :as v.constel]))
+   [astronomy.view.constellation :as v.constel]
+   [astronomy.view.atmosphere :as v.atmosphere]))
 
 
-(defn AstroSceneView [entity env]
-  (let [{:keys [conn]} env
-        astro-scene @(p/pull conn '[* {:object/_scene [*]}] (:db/id entity))
+(defn AstroSceneView [props env]
+  (let [{:keys [astro-scene-id camera-control-id]} props
+        {:keys [conn]} env
+        astro-scene @(p/pull conn '[* {:object/_scene [*]}] astro-scene-id)
         ref @(p/pull conn '[*] [:coordinate/name "default"])
         {:scene/keys [scale]} astro-scene
         objects (m.scene/sub-objects conn (:db/id astro-scene))]
     ;; (println "scene view mounted" )
     [:<>
      [:mesh {:scale [scale scale scale]}
+      [v.atmosphere/AtmosphereView props env]
       [:mesh {:matrixAutoUpdate false
               :matrix (m.coordinate/cal-invert-matrix ref)}
        #_[CelestialSphereHelperView 1000000]

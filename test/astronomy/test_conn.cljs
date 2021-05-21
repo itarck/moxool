@@ -4,7 +4,9 @@
    [cljs-http.client :as http]
    [datascript.core :as d]
    [datascript.transit :as dt]
-   [posh.reagent :as p]))
+   [posh.reagent :as p]
+   [shu.three.vector3 :as v3]
+   [astronomy.model.coordinate :as m.coordinate]))
 
 
 
@@ -24,10 +26,12 @@
 (comment
   
   (def conn (create-poshed-conn!))
-
-  (d/pull @conn '[*] [:scene/name "solar"])
-
-  (d/schema @conn)
   
+  (def coor-1 (d/pull @conn '[*] [:coordinate/name "default"]))
+
+  (let [m (m.coordinate/cal-invert-matrix coor-1)
+        v (v3/vector3 0 0 0)]
+    (v3/apply-matrix4 v m))
+
   ;; 
   )

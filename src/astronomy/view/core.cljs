@@ -4,8 +4,7 @@
    [astronomy.view.astro-scene :as v.astro-scene]
    [methodology.view.camera :as v.camera]
    [astronomy.view.user.core :as v.user]
-   [astronomy.view.user.spaceship-camera-control :as v.spaceship]
-   ))
+   [astronomy.view.user.spaceship-camera-control :as v.spaceship]))
 
 
 
@@ -16,12 +15,13 @@
     [:<>
      [:> Canvas {:style {:background :black}}
       [v.camera/CameraView camera env]
-      [v.astro-scene/AstroSceneView astro-scene env]
+      [v.astro-scene/AstroSceneView {:astro-scene-id (:db/id astro-scene)
+                                     :camera-control-id (:db/id camera-control)} env]
       (when (= mode :read-and-write)
         [v.spaceship/SpaceshipCameraControlView camera-control env])
+
       [:ambientLight {:intensity 0.05}]
-      #_[:gridHelper {:args [10000 100 "gray" "gray"]}]
-      ]
+      #_[:gridHelper {:args [10000 100 "gray" "gray"]}]]
 
      [v.user/UserView {:user user
                        :camera camera

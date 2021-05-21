@@ -9,8 +9,7 @@
    ["react" :as react :refer [useRef useEffect]]
    ["camera-controls" :as CameraControls]
    ["react-three-fiber" :refer [useFrame extend useThree]]
-   [shu.three.spherical :as sph]
-   [astronomy.model.user.spaceship-camera-control :as m.scc])
+   [shu.three.spherical :as sph])
   (:import
    (goog.i18n NumberFormat)
    (goog.i18n.NumberFormat Format)))
@@ -75,10 +74,12 @@
                        :maxDistance 1e-3}]
 ;;     (println "!!camera control: " camera-control)
     (if (= mode :surface-control)
+      
       ($ CameraControlsComponent {:azimuthRotateSpeed -0.3
                                   :polarRotateSpeed -0.3
                                   :domAtom dom-atom
                                   :& surface-props})
+
       ($ CameraControlsComponent {:azimuthRotateSpeed -0.3
                                   :polarRotateSpeed -0.3
                                   :domAtom dom-atom

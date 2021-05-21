@@ -11,6 +11,7 @@
   (add-scalar! [v1 s] "Adds the scalar value s to this vector's x, y and z values.")
   (add [v1 v2] "Adds v to this vector.")
   (apply-quaternion [v q] "Applies a Quaternion transform to this vecto")
+  (apply-matrix4 [v m] "Multiplies this vector (with an implicit 1 in the 4th dimension) and m, and divides by perspective.")
   (apply-axis-angle [v axis angle] ".applyAxisAngle ( axis : Vector3, angle : Float ) : this. axis - A normalized Vector3. angle - An angle in radians.")
   (apply-axis-angle! [v axis angle] ".applyAxisAngle ( axis : Vector3, angle : Float ) : this. axis - A normalized Vector3. angle - An angle in radians.")
   (apply-euler [v e] "Applies euler transform to this vector by converting the Euler object to a Quaternion and applying.")
@@ -70,6 +71,10 @@
   (apply-quaternion [v q]
     (let [vc (clone' v)]
       (j/call vc :applyQuaternion q)))
+
+  (apply-matrix4 [v q]
+    (let [vc (clone' v)]
+      (j/call vc :applyMatrix4 q)))
 
   (apply-axis-angle [v axis angle]
     (let [vc (clone' v)]
