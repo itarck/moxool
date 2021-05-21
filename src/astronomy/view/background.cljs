@@ -11,7 +11,7 @@
 
 (defnc StarsView [props env]
   #_(println "mount stars")
-  (let [{:keys [star-count] :or {star-count 5000}} props
+  (let [{:keys [star-count] :or {star-count 1000}} props
         positions (use-memo [star-count]
                             (let [positions #js []]
                               (doseq [_i (range star-count)]

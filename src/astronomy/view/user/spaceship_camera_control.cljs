@@ -8,7 +8,18 @@
    ["three" :as three]
    ["react" :as react :refer [useRef useEffect]]
    ["camera-controls" :as CameraControls]
-   ["react-three-fiber" :refer [useFrame extend useThree]]))
+   ["react-three-fiber" :refer [useFrame extend useThree]]
+   [shu.three.spherical :as sph]
+   [astronomy.model.user.spaceship-camera-control :as m.scc])
+  (:import
+   (goog.i18n NumberFormat)
+   (goog.i18n.NumberFormat Format)))
+
+
+(def nff (NumberFormat. Format/COMPACT_LONG))
+
+(defn- nf [num]
+  (.format nff (str num)))
 
 
 (extend #js {:CameraControls CameraControls})
@@ -55,7 +66,8 @@
         orbit-props {:up (->js up)
                      :target (->js target)
                      :position (->js position)
-                     :minDistance (* 1.01 min-distance)}
+                     :minDistance (* 1.01 min-distance)
+                     :maxDistance 1000000000000000}
         surface-props {:up (->js up)
                        :target (->js target)
                        :position (->js position)
@@ -87,54 +99,63 @@
    :background "rgba(200, 200, 200, 0.7)"})
 
 
-(defn SpaceshipCameraToolView [{:keys [camera-control] :as props} {:keys [service-chan conn]}]
+(defn SpaceshipCameraToolView [{:keys [camera camera-control] :as props} {:keys [service-chan conn dom-atom]}]
   (let [entity @(p/pull conn '[*] (:db/id camera-control))
-        mode (:spaceship-camera-control/mode entity)]
+        mode (:spaceship-camera-control/mode entity)
+        scc-instance (:spaceship-camera-control @dom-atom)
+        pulled-camera @(p/pull conn '[*] (:db/id camera))
+        [r phi theta]  (apply sph/from-cartesian-coords (:camera/position pulled-camera))]
     [:div {:style {:position :absolute
-                   :bottom "10px"
+                   :bottom "0px"
                    :left "1%"
-                   :width "140px"
+                   :width "300px"
                    :font-size "24px"}}
-     [:div {:class "d-flex justify-content-center"
-            :style {:margin "2px"}}
-      [:div {:style camera-cell}]
-      [:div {:style camera-cell}
-       [:div {:style camera-button
-              :class "d-flex justify-content-center"}
-        [:i {:class "bi bi-caret-up-fill"
-             :onClick #(go (>! service-chan #:event{:action :spaceship-camera-control/up}))}]]]
-      [:div {:style camera-cell}]]
+     [:div {:style {:width "140px"}}
+      [:div {:class "d-flex justify-content-center"
+             :style {:margin "2px"}}
+       [:div {:style camera-cell}]
+       [:div {:style camera-cell}
+        [:div {:style camera-button
+               :class "d-flex justify-content-center"}
+         [:i {:class "bi bi-caret-up-fill"
+              :onClick #(go (>! service-chan #:event{:action :spaceship-camera-control/up}))}]]]
+       [:div {:style camera-cell}]]
 
-     [:div {:class "d-flex justify-content-center"
-            :style {:margin "2px"}}
-      [:div {:style camera-cell}
-       [:div {:style camera-button
-              :class "d-flex justify-content-center"}
-        [:i {:class "bi bi-caret-left-fill"
-             :onClick #(go (>! service-chan #:event{:action :spaceship-camera-control/left}))}]]]
+      [:div {:class "d-flex justify-content-center"
+             :style {:margin "2px"}}
+       [:div {:style camera-cell}
+        [:div {:style camera-button
+               :class "d-flex justify-content-center"}
+         [:i {:class "bi bi-caret-left-fill"
+              :onClick #(go (>! service-chan #:event{:action :spaceship-camera-control/left}))}]]]
 
-      [:div {:style camera-cell}
-       [:div {:style camera-button
-              :class "d-flex justify-content-center"}
-        (if (= mode :orbit-control)
-          [:i {:class "bi bi-geo-fill"
-               :onClick #(go (>! service-chan #:event{:action :spaceship-camera-control/landing}))}]
-          [:i {:class "bi bi-hurricane"
-               :onClick #(go (>! service-chan #:event{:action :spaceship-camera-control/fly}))}])]]
+       [:div {:style camera-cell}
+        [:div {:style camera-button
+               :class "d-flex justify-content-center"}
+         (if (= mode :orbit-control)
+           [:i {:class "bi bi-geo-fill"
+                :onClick #(go (>! service-chan #:event{:action :spaceship-camera-control/landing}))}]
+           [:i {:class "bi bi-hurricane"
+                :onClick #(go (>! service-chan #:event{:action :spaceship-camera-control/fly}))}])]]
 
-      [:div {:style camera-cell}
-       [:div {:style camera-button
-              :class "d-flex justify-content-center"}
-        [:i {:class "bi bi-caret-right-fill"
-             :onClick #(go (>! service-chan #:event{:action :spaceship-camera-control/right}))}]]]]
+       [:div {:style camera-cell}
+        [:div {:style camera-button
+               :class "d-flex justify-content-center"}
+         [:i {:class "bi bi-caret-right-fill"
+              :onClick #(go (>! service-chan #:event{:action :spaceship-camera-control/right}))}]]]]
 
-     [:div {:class "d-flex justify-content-center"
-            :style {:margin "2px"}}
-      [:div {:style camera-cell}]
-      [:div {:style camera-cell}
-       [:div {:style camera-button
-              :class "d-flex justify-content-center"}
-        [:i {:class "bi bi-caret-down-fill"
-             :onClick #(go (>! service-chan #:event{:action :spaceship-camera-control/down}))}]]]
-      [:div {:style camera-cell}]]])
-  )
+      [:div {:class "d-flex justify-content-center"
+             :style {:margin "2px"}}
+       [:div {:style camera-cell}]
+       [:div {:style camera-cell}
+        [:div {:style camera-button
+               :class "d-flex justify-content-center"}
+         [:i {:class "bi bi-caret-down-fill"
+              :onClick #(go (>! service-chan #:event{:action :spaceship-camera-control/down}))}]]]
+       [:div {:style camera-cell}]]]
+     [:p {:style {:font-size "14px"
+                  :color "#aaa"}}
+      (str "距离原点 (光秒)："
+           (let [d (/ r 100.0)]
+             (nf d)))]]))
+

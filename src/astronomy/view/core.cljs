@@ -24,5 +24,6 @@
       ]
 
      [v.user/UserView {:user user
+                       :camera camera
                        :camera-control camera-control} env]]))
 

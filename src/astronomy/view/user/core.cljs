@@ -20,11 +20,12 @@
         nil)]]))
 
 
-(defn UserView [{:keys [user camera-control] :as props} {:keys [conn] :as env}]
+(defn UserView [{:keys [user camera camera-control] :as props} {:keys [conn] :as env}]
   (let [user @(p/pull conn '[*] (:db/id user))
         backpack (:person/backpack user)]
     [:<>
-     [m.spaceship/SpaceshipCameraToolView {:camera-control camera-control} env]
+     [m.spaceship/SpaceshipCameraToolView {:camera-control camera-control
+                                           :camera camera} env]
      [v.backpack/BackPackView {:user user
                                :backpack backpack} env]
      (when (:person/right-tool user)
