@@ -10,7 +10,7 @@
 
 
 
-;; abstract model
+;; schema
 
 (def schema
   #:celestial {:orbit {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one :db/isComponent true}
@@ -20,33 +20,49 @@
 
 (s/def :astronomy/celestial
   (s/keys :req [:db/id :celestial/orbit :celestial/spin :celestial/clock]
-          :opt [:celestial/gltf]))
+          :opt [:celestial/gltf :celestial/name]))
 
 
-(def celestial-1
-  #:celestial
-   {:orbit #:circle-orbit {:start-position [0 0 -500]
-                           :axis [0 1 0]
-                           :angular-velocity (/ Math/PI 180)}
-    :spin #:spin {:axis [0 1 0]
-                  :angular-velocity (* 2 Math/PI)}
-    :clock [:clock/name "default"]
-    :db/id -1})
+(comment
 
-(s/valid? :astronomy/celestial celestial-1)
+  (def celestial-1
+    #:celestial
+     {:orbit #:circle-orbit {:start-position [0 0 -500]
+                             :axis [0 1 0]
+                             :angular-velocity (/ Math/PI 180)}
+      :spin #:spin {:axis [0 1 0]
+                    :angular-velocity (* 2 Math/PI)}
+      :clock [:clock/name "default"]
+      :name "地球"
+      :db/id -1})
+
+  (s/valid? :astronomy/celestial celestial-1)
+  
+  ;; 
+  )
+
 
 ;; find
 
-(def ids-by-clock-query
+(def query-ids-by-clock
   '[:find [?id ...]
     :in $ ?clock-id
     :where [?id :celestial/clock ?clock-id]])
 
+(def query-all-id-and-chinese-name
+  '[:find ?id ?chinese-name
+    :where [?id :celestial/chinese-name ?chinese-name]])
+
 (def relation-selector
   '[* {:celestial/clock [*]}])
 
+(defn find-all-ids-has-chinese-name [db]
+  (d/q '[:find [?id ...]
+         :where [?id :celestial/chinese-name]]
+       db))
+
 (defn find-all-by-clock [db clock-id]
-  (let [ids (d/q ids-by-clock-query db clock-id)
+  (let [ids (d/q query-ids-by-clock db clock-id)
         celes (d/pull-many db relation-selector ids)]
     celes))
 

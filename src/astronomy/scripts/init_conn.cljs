@@ -88,6 +88,7 @@ ecliptic-axis
          :chinese-name "太阳"
          :radius 2.32
          :color "red"
+         :celestial/chinese-name "太阳"
          :celestial/gltf #:gltf {:url "models/12-sun_and_solar_flares/scene.gltf"
                                  :scale [1.12 1.12 1.12]}
          :object/position [0 0 0]
@@ -103,7 +104,7 @@ ecliptic-axis
     :radius 0.021
     :color "blue"
     :star [:star/name "sun"]
-
+    :celestial/chinese-name "地球"
     :celestial/orbit #:circle-orbit {:star [:star/name "sun"]
                                      :start-position [0 0 -500]
                                      :axis ecliptic-axis
@@ -124,7 +125,7 @@ ecliptic-axis
     :radius 0.00579
     :color "green"
     :planet [:planet/name "earth"]
-
+    :celestial/chinese-name "月球"
     :celestial/orbit #:circle-orbit {:start-position [0 0 1.281]
                                      :axis lunar-axis
                                      :angular-velocity (period-to-angular-velocity 27)}

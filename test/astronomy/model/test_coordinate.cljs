@@ -10,13 +10,16 @@
 
 test-conn
 
-(def ref1 @(p/pull test-conn '[*] [:celestial-ref/name "default"]))
+(def ref1 @(p/pull test-conn '[*] [:coordinate/name "default"]))
+
+ref1
 
 (m.coordinate/cal-invert-matrix ref1)
 ;; => #object[Matrix4 
 ;;           1, 0, 0, 0
 ;;           0, 1, 0, 0
-;;           0, 0, 1, 0
+;;           0, 0, 1, 500
 ;;           0, 0, 0, 1]
+
 
 (m.coordinate/find-ids-by-clock @test-conn [:clock/name "default"])

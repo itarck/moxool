@@ -22,11 +22,12 @@
 
 
 (comment
+  
   (def conn (create-poshed-conn!))
 
   (count (d/datoms @conn :eavt))
 
-  (d/pull @conn '[*] [:backpack/name "default"])
+  (d/pull @conn '[*] [:planet/name "earth"])
   
   ;; 
   )

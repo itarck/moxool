@@ -1,6 +1,8 @@
 (ns astronomy.model.test-celestial
   (:require
    [cljs.spec.alpha :as s]
+   [datascript.core :as d]
+   [posh.reagent :as p]
    [shu.three.matrix4 :as m4]
    [astronomy.test-conn :refer [create-poshed-conn! create-test-conn!]]
    [astronomy.model.celestial :as m.celestial]))
@@ -127,8 +129,13 @@
 
   (def db @conn)
 
-  (def celes (m.celestial/find-all-by-clock db [:clock/name "default"]))
-
-  (m.celestial/update-position-tx (first celes))
-
+  (d/q '[:find ?id ?chinese-name
+         :where [?id :celestial/chinese-name ?chinese-name]]
+       db)
+  
+  @(p/q '[:find ?id ?chinese-name
+          :where [?id :celestial/chinese-name ?chinese-name]]
+        conn)
+  
+  ;; 
   )
