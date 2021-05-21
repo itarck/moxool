@@ -24,7 +24,7 @@
         {:object/keys [position quaternion]} star]
     ;; (println "star view" (:planet/_star star))
     [:mesh {:position position}
-     [:pointLight {:intensity 8}]
+     [:pointLight {:intensity 3}]
      (if gltf
        [:mesh {:quaternion (or quaternion [0 0 0 1])}
         [:mesh {:scale [radius radius radius]}
