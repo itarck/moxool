@@ -87,6 +87,8 @@
                                                                             :clock clock}}))} "开始")
               ($ mt/Button {:onClick #(go (>! service-chan #:event{:action :clock-tool/stop
                                                                    :detail {:clock-tool clock-tool
-                                                                            :clock clock}}))}
-                 "停止"))))]))
+                                                                            :clock clock}}))} "停止")
+              ($ mt/Button {:onClick #(go (>! service-chan #:event{:action :clock-tool/next-step
+                                                                   :detail {:clock-tool clock-tool
+                                                                            :clock clock}}))} "下一步"))))]))
 

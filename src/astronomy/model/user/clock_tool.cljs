@@ -27,9 +27,9 @@
 (defn pull-clock-tool [db id]
   (d/pull db '[* {:clock-tool/clock [*]}] id))
 
-(defn tick-clock [clock-tool]
+(defn tick-clock [clock-tool clock]
   (+ (:clock-tool/days-per-step clock-tool)
-     (get-in clock-tool [:clock-tool/clock :clock/time-in-days])))
+     (get-in clock [:clock/time-in-days])))
 
 
 (defn update-by-clock-time-tx [db clock-id time-in-days]
