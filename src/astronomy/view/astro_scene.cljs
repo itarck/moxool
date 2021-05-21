@@ -28,5 +28,8 @@
          (case (:entity/type object)
            :star ^{:key (:db/id object)} [v.star/StarView object env]
            :galaxy ^{:key (:db/id object)} [v.galaxy/GalaxyView object env]
-           nil))]]]
+           nil))]
+      
+      [:PolarGridHelper {:args #js [10 4 10 360 "gray" "gray"]}]
+      ]]
     ))
