@@ -17,5 +17,5 @@
                        :db/cardinality :db.cardinality/one}})
 
 
-(defn pull2 [conn id]
+(defn sub-info-tool [conn id]
   @(p/pull conn '[* {:info-tool/object [*]}] id))

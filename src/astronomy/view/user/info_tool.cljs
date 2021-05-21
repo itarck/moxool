@@ -9,7 +9,7 @@
 
 
 (defn InfoToolView [props {:keys [service-chan conn]}]
-  (let [info-tool (m.info-tool/pull2 conn (:db/id props))]
+  (let [info-tool (m.info-tool/sub-info-tool conn (:db/id props))]
     [:div.p-2
      [:div
       [:img {:src (:tool/icon info-tool)

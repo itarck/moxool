@@ -1,4 +1,6 @@
 (ns astronomy.model.user.coordinate-tool
+  (:require
+   [posh.reagent :as p])
   )
 
 
@@ -9,3 +11,8 @@
    :tool/icon "/image/pirate/earth.jpg"
    :tool/backpack {:backpack/name "default"}
    :entity/type :coordinate-tool})
+
+
+
+(defn sub-coordinate-tool [conn id]
+  @(p/pull conn '[*] id))

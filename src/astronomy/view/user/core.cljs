@@ -4,7 +4,8 @@
    [methodology.view.backpack :as v.backpack]
    [astronomy.view.user.clock-tool :as v.clock-tool]
    [astronomy.view.user.spaceship-camera-control :as m.spaceship]
-   [astronomy.view.user.info-tool :as v.info-tool]))
+   [astronomy.view.user.info-tool :as v.info-tool]
+   [astronomy.view.user.coordinate-tool :as v.coordinate-tool]))
 
 
 (defn RightHandToolView [{:keys [tool]} {:keys [conn] :as env}]
@@ -14,6 +15,7 @@
       (case (:entity/type tool)
         :clock-tool [v.clock-tool/ClockToolView tool env]
         :info-tool [v.info-tool/InfoToolView tool env]
+        :coordinate-tool [v.coordinate-tool/CoordinateToolView tool env]
         nil)]]))
 
 
