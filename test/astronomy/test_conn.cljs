@@ -25,9 +25,9 @@
   
   (def conn (create-poshed-conn!))
 
-  (count (d/datoms @conn :eavt))
+  (d/pull @conn '[*] [:scene/name "solar"])
 
-  (d/pull @conn '[*] [:planet/name "earth"])
+  (d/schema @conn)
   
   ;; 
   )

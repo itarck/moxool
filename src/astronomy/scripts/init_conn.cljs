@@ -61,17 +61,19 @@ ecliptic-axis
            :position [200 200 200]
            :quaternion [0 0 0 1]})
 
-(def scene
-  #:astro-scene {:astro-scene/coordinate -10
-                 :scene/name "solar"
-                 :scene/chinese-name "太阳系"
-                 :scene/scale 100
-                 :entity/type :scene})
 
 (def clock
   #:clock {:name "default"
            :time-in-days 0.5})
 
+(def scene
+  #:astro-scene {:coordinate -10
+                 :camera [:camera/name "default"]
+                 :clock [:clock/name "default"]
+                 :scene/name "solar"
+                 :scene/chinese-name "太阳系"
+                 :scene/scale 100
+                 :entity/type :scene})
 
 (def coordinate-1
   #:coordinate {:db/id -10
@@ -246,7 +248,7 @@ galaxy-quaternion
 
 (defn init-conn! []
   (let [conn (d/create-conn schema)]
-    (d/transact! conn [camera scene clock sun earth
+    (d/transact! conn [camera clock scene sun earth
                        moon coordinate-1
                        galaxy])
     (d/transact! conn [person1 clock-tool1
