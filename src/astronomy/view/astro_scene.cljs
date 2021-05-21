@@ -2,6 +2,7 @@
   (:require
    [posh.reagent :as p]
    [methodology.model.scene :as m.scene]
+   [shu.three.vector3 :as v3]
    [astronomy.model.coordinate :as m.coordinate]
    [astronomy.view.star :as v.star]
    [astronomy.view.background :as v.background]
@@ -11,27 +12,40 @@
    [astronomy.view.atmosphere :as v.atmosphere]))
 
 
-(defn AstroSceneView [props env]
+(defn AstroSceneView [props {:keys [conn] :as env}]
   (let [{:keys [astro-scene-id camera-control-id]} props
-        {:keys [conn]} env
         astro-scene @(p/pull conn '[* {:object/_scene [*]}] astro-scene-id)
-        ref @(p/pull conn '[*] [:coordinate/name "default"])
         {:scene/keys [scale]} astro-scene
-        objects (m.scene/sub-objects conn (:db/id astro-scene))]
+        objects (m.scene/sub-objects conn (:db/id astro-scene))
+
+        camera-control @(p/pull conn '[*] camera-control-id)
+        coor-1 @(p/pull conn '[*] [:coordinate/name "default"])
+        sun-position (m.coordinate/original-position coor-1)
+        {:spaceship-camera-control/keys [up]} camera-control
+        angle (v3/angle-to (v3/from-seq up) sun-position)
+        has-day-light? (and
+                        (= :surface-control (:spaceship-camera-control/mode camera-control))
+                        (< angle (* 0.5 Math/PI)))]
     ;; (println "scene view mounted" )
     [:<>
      [:mesh {:scale [scale scale scale]}
       [v.atmosphere/AtmosphereView props env]
+      
       [:mesh {:matrixAutoUpdate false
-              :matrix (m.coordinate/cal-invert-matrix ref)}
+              :matrix (m.coordinate/cal-invert-matrix coor-1)}
        #_[CelestialSphereHelperView 1000000]
        #_[v.constel/ConstellationsView {} env]
-       [v.background/BackgroundView]
+
+       (when-not has-day-light?
+         [v.background/BackgroundView])
+       
        (for [object objects]
          (case (:entity/type object)
            :star ^{:key (:db/id object)} [v.star/StarView object env]
            :galaxy ^{:key (:db/id object)} [v.galaxy/GalaxyView object env]
            nil))]
+      
+      
       
       #_[:PolarGridHelper {:args #js [10 4 10 360 "gray" "gray"]}]
       ]]

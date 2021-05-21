@@ -65,6 +65,9 @@
         mat (m4/compose (v3/from-seq position) (q/from-seq quaternion) (v3/vector3 1 1 1))]
     (m4/invert mat)))
 
+(defn original-position [coor-1]
+  (v3/apply-matrix4 (v3/vector3 0 0 0) (cal-invert-matrix coor-1)))
+
 ;; tx 
 
 (defn update-track-position-tx [coordinate-id track-position-id]
