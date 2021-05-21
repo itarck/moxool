@@ -27,7 +27,7 @@
 
 (defn update! []
   (rdom/render
-   (:app/view editor-app-instance)
+   (:app/view free-app-instance)
    (j/call js/document :getElementById  "app")))
 
 

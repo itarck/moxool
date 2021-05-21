@@ -9,7 +9,7 @@
    [ring.middleware.defaults :refer [wrap-defaults site-defaults api-defaults]]))
 
 
-(def resource-folder "/Users/tizac/room/toolset/public/")
+(def resource-folder "/Users/tizac/room/moxool/public/")
 
 ;; handlers
 

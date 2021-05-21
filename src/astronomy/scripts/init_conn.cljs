@@ -14,7 +14,8 @@
    [methodology.model.core :as mtd-model]
    [astronomy.model.core :as ast-model]
    [astronomy.model.clock :as m.clock]
-   [astronomy.model.star :as m.star]))
+   [astronomy.model.star :as m.star]
+   [astronomy.model.user.clock-tool :as m.clock-tool]))
 
 
 
@@ -190,7 +191,6 @@ galaxy-quaternion
                                   :owner -1
                                   :cell (vec (for [i (range 10)]
                                                #:backpack-cell{:index i}))}
-            ;; :right-tool {:db/id -2}
             :entity/type :person})
 
 
@@ -204,7 +204,6 @@ galaxy-quaternion
                 :tool/name "clock control 1"
                 :tool/chinese-name "时钟1"
                 :tool/icon "/image/pirate/sheep.jpg"
-                :tool/backpack -3
                 :entity/type :clock-tool})
 
 
@@ -212,7 +211,6 @@ galaxy-quaternion
   #:info-tool {:tool/name "info tool 1"
                :tool/chinese-name "信息查询工具"
                :tool/icon "/image/pirate/cow.jpg"
-               :tool/backpack {:backpack/name "default"}
                :entity/type :info-tool})
 
 (def spaceship-camera-control
@@ -228,18 +226,20 @@ galaxy-quaternion
     :tool/icon "/image/pirate/cow.jpg"
     :entity/type :spaceship-camera-control})
 
+(def coordinate-tool-1
+  {:tool/name "coordinate tool 1"
+   :tool/chinese-name "坐标系设置工具"
+   :tool/icon "/image/pirate/earth.jpg"
+   :entity/type :coordinate-tool})
+
 ;; processes
 
 
 (defn kick-start! [conn]
-  (let [clock {:db/id [:clock/name "default"]}
+  (let [clock-id [:clock/name "default"]
         time-in-days 0
-        tx (m.clock/set-clock-time-in-days-tx clock time-in-days)]
-    (p/transact! conn tx)
-    (let [tx (m.clock/update-celestial-by-clock-tx @conn (:db/id clock))]
-      (p/transact! conn tx))
-    (let [tx (m.clock/update-reference-tx @conn)]
-      (p/transact! conn tx))))
+        tx (m.clock-tool/update-by-clock-time-tx @conn clock-id time-in-days)]
+    (p/transact! conn tx)))
 
 
 (defn init-conn! []
@@ -248,12 +248,14 @@ galaxy-quaternion
                        moon coordinate-1
                        galaxy])
     (d/transact! conn [person1 clock-tool1
-                       info-tool spaceship-camera-control])
+                       info-tool spaceship-camera-control
+                       coordinate-tool-1])
 
     (let [person (d/pull @conn '[*] [:person/name "dr who"])
           bp (d/pull @conn '[*] (-> person :person/backpack :db/id))]
       (d/transact! conn (m.backpack/put-in-cell-tx bp 0 {:db/id [:tool/name "clock control 1"]}))
-      (d/transact! conn (m.backpack/put-in-cell-tx bp 1 {:db/id [:tool/name "info tool 1"]})))
+      (d/transact! conn (m.backpack/put-in-cell-tx bp 1 {:db/id [:tool/name "info tool 1"]}))
+      (d/transact! conn (m.backpack/put-in-cell-tx bp 2 {:db/id [:tool/name "coordinate tool 1"]})))
 
     (kick-start! conn)
     conn))
@@ -319,14 +321,6 @@ galaxy-quaternion
         (println (:body response)))
       (>! ch @conn))
     ch))
-
-
-(defn run! []
-  (let [db (create-db)]
-    (go (let [db-name "free-mode.edn"
-              response (<! (http/post "/api/db/save" {:edn-params {:db-name db-name
-                                                                   :db-value (dt/write-transit-str db)}}))]
-          (println (:body response))))))
 
 
 
