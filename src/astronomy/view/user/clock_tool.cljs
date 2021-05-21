@@ -13,7 +13,9 @@
 
 
 (defn ClockToolView [props {:keys [service-chan conn]}]
-  (let [{:clock-tool/keys [steps-per-second step-interval clock] :as clock-tool} @(p/pull conn '[*] (:db/id props))
+  (let [clock-tool @(p/pull conn '[*] (get-in props [:clock-tool :db/id]))
+        camera-control @(p/pull conn '[*] (get-in props [:camera-control :db/id]))
+        {:clock-tool/keys [steps-per-second step-interval clock]} clock-tool
         clock @(p/pull conn '[*] (:db/id clock))
         {:clock/keys [time-in-days]} clock
         step-interval-in-chinese (case step-interval
@@ -24,8 +26,7 @@
         gen-click-step-interval (fn [step-interval]
                                   #(go (>! service-chan #:event{:action :clock-tool/change-step-interval
                                                                 :detail {:clock-tool clock-tool
-                                                                         :step-interval step-interval}})))
-        parsed-time (m.clock/parse-time-in-days time-in-days)]
+                                                                         :step-interval step-interval}})))]
 
     [:div.p-2
      [:div
@@ -35,14 +36,26 @@
                       :font-weight "bold"}} "时钟"]]
 
      ($ mt/Grid {:container true :spacing 1}
-        ($ mt/Grid {:item true :xs 12}
-           ($ mt/Typography {:variant "subtitle2"}
-              (let [{:keys [days minutes hours seconds]} parsed-time]
-                (str "当前时间： 第"
-                     days "天 "
-                     hours ":"
-                     minutes ":"
-                     (gstring/format "%0.3f" seconds) ))))
+
+        (if (= (:spaceship-camera-control/mode camera-control) :surface-control)
+          ($ mt/Grid {:item true :xs 12}
+             ($ mt/Typography {:variant "subtitle2"}
+                (let [longitude (m.clock/cal-longitude (:spaceship-camera-control/position camera-control))
+                      local-time (m.clock/cal-local-time time-in-days longitude)
+                      {:keys [days minutes hours seconds]} (m.clock/parse-time-in-days local-time)]
+                  (str "本地时间： 第"
+                       days "天 "
+                       hours ":"
+                       minutes ":"
+                       (gstring/format "%0.3f" seconds)))))
+          ($ mt/Grid {:item true :xs 12}
+             ($ mt/Typography {:variant "subtitle2"}
+                (let [{:keys [days minutes hours seconds]} (m.clock/parse-time-in-days time-in-days)]
+                  (str "当前时间： 第"
+                       days "天 "
+                       hours ":"
+                       minutes ":"
+                       (gstring/format "%0.3f" seconds))))))
 
         ($ mt/Grid {:item true :xs 12}
            ($ mt/Typography {:variant "subtitle2"}

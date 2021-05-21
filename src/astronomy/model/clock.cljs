@@ -1,6 +1,8 @@
 (ns astronomy.model.clock
   (:require
-   [cljs.spec.alpha :as s]))
+   [cljs.spec.alpha :as s]
+   [shu.goog.math :as gmath]
+   [shu.three.spherical :as sph]))
 
 
 (def day 1)
@@ -41,13 +43,29 @@
      :seconds seconds}))
 
 
+(defn cal-longitude [position]
+  (let [[px py pz] position
+        [r phi theta] (vec (sph/from-cartesian-coords px py pz))]
+    (->
+     (+ theta Math/PI)
+     (gmath/standard-angle-in-radians)
+     (gmath/to-degree))))
+
+
+(defn cal-local-time [standard-time-in-days longitude]
+  (+ standard-time-in-days (/ longitude 360.0)))
+
+
 (defn set-clock-time-in-days-tx [clock-id time-in-days]
   [[:db/add clock-id :clock/time-in-days time-in-days]])
 
 
-(comment 
-  
+(comment
+
   (parse-time-in-days 34.4234)
   ;; => {:days 34, :hours 10, :minutes 9, :seconds 41.76000000007986}
-  
+
+  (sph/from-cartesian-coords 0 0 -1)
+
+  ;; 
   )

@@ -2,10 +2,12 @@
   (:require
    [applied-science.js-interop :as j]
    [posh.reagent :as p]
-   [shu.three.vector3 :as v3]))
+   [shu.three.vector3 :as v3]
+   [shu.goog.math :as gmath]
+   [shu.three.spherical :as sph]))
 
 
-(def spaceship-camera-control-entity
+(def sample
   #:spaceship-camera-control
    {:name "default"
     :mode :surface-control
@@ -22,6 +24,15 @@
 (def schema
   #:spaceship-camera-control
    {:name {:db/unique :db.unique/identity}})
+
+
+(defn cal-longitude [scc]
+  (let [[px py pz] (:spaceship-camera-control/position scc)
+        [r phi theta] (vec (sph/from-cartesian-coords px py pz))]
+    (->
+     (+ theta Math/PI)
+     (gmath/standard-angle-in-radians)
+     (gmath/to-degree))))
 
 
 (defn cal-target [position direction]
@@ -86,3 +97,11 @@
 
     (p/transact! conn [cc])))
 
+
+
+(comment 
+  
+  (cal-longitude #:spaceship-camera-control{:position [-1 0 0]})
+
+
+  )
