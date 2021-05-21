@@ -27,8 +27,11 @@
        [:> mt/Typography {:variant "subtitle2"} "坐标系中心："]
        [:> mt/Select {:value (-> coordinate :coordinate/track-position :db/id)
                       :onChange (fn [e]
-                                  (let [value (j/get-in e [:target :value])]
-                                    (println value)))}
+                                  (let [new-id (j/get-in e [:target :value])]
+                                    (go (>! service-chan
+                                            #:event {:action :coordinate-tool/set-track-position
+                                                     :detail {:coordinate-id (:db/id coordinate)
+                                                              :track-position-id new-id}}))))}
         (for [[id name] candidate-id-and-names]
           ^{:key id}
           [:> mt/MenuItem {:value id} name])]]
@@ -37,8 +40,11 @@
        [:> mt/Typography {:variant "subtitle2"} "坐标系平面："]
        [:> mt/Select {:value (-> coordinate :coordinate/track-rotation :db/id)
                       :onChange (fn [e]
-                                  (let [value (j/get-in e [:target :value])]
-                                    (println value)))}
+                                  (let [new-id (j/get-in e [:target :value])]
+                                    (go (>! service-chan
+                                            #:event {:action :coordinate-tool/set-track-rotation
+                                                     :detail {:coordinate-id (:db/id coordinate)
+                                                              :track-rotation-id new-id}}))))}
         (for [[id name] candidate-id-and-names]
           ^{:key id}
           [:> mt/MenuItem {:value id} name])]]]

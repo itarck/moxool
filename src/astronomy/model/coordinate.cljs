@@ -65,6 +65,15 @@
         mat (m4/compose (v3/from-seq position) (q/from-seq quaternion) (v3/vector3 1 1 1))]
     (m4/invert mat)))
 
+;; tx 
+
+(defn update-track-position-tx [coordinate-id track-position-id]
+  [{:db/id coordinate-id
+    :coordinate/track-position track-position-id}])
+
+(defn update-track-rotation-tx [coordinate-id track-rotation-id]
+  [{:db/id coordinate-id
+    :coordinate/track-rotation track-rotation-id}])
 
 (defn update-coordinate-tx [db id]
   [[:db/add id :coordinate/position (cal-world-position db id)]

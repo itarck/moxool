@@ -53,21 +53,16 @@
   '[:find ?id ?chinese-name
     :where [?id :celestial/chinese-name ?chinese-name]])
 
-(def relation-selector
+(def select-with-clock
   '[* {:celestial/clock [*]}])
-
-(defn find-all-ids-has-chinese-name [db]
-  (d/q '[:find [?id ...]
-         :where [?id :celestial/chinese-name]]
-       db))
 
 (defn find-all-by-clock [db clock-id]
   (let [ids (d/q query-ids-by-clock db clock-id)
-        celes (d/pull-many db relation-selector ids)]
+        celes (d/pull-many db select-with-clock ids)]
     celes))
 
 (defn pull-whole [db id]
-  (d/pull db relation-selector id))
+  (d/pull db select-with-clock id))
 
 
 ;; models

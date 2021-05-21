@@ -6,7 +6,8 @@
    [astronomy.service.astro-scene :as s.astro-scene]
    [astronomy.service.clock-tool :as s.clock-tool]
    [astronomy.service.info-tool :as s.info-tool]
-   [astronomy.service.spaceship-camera-control :as s.spaceship]))
+   [astronomy.service.spaceship-camera-control :as s.spaceship]
+   [astronomy.service.coordinate-tool :as s.coordinate-tool]))
 
 
 (def processes
@@ -26,6 +27,10 @@
    {:listen [:spaceship-camera-control]
     :process-name "spaceship-camera-control"
     :service-fn s.spaceship/init-service!}
+   {:listen [:coordinate-tool]
+    :process-name "coordinate-tool"
+    :service-fn s.coordinate-tool/init-service!}
+   
    {:listen []
     :process-name "camera"
     :service-fn s.camera/init-service!}])
