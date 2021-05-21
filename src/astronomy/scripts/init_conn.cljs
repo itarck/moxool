@@ -227,10 +227,11 @@ galaxy-quaternion
     :entity/type :spaceship-camera-control})
 
 (def coordinate-tool-1
-  {:tool/name "coordinate tool 1"
-   :tool/chinese-name "坐标系设置工具"
-   :tool/icon "/image/pirate/earth.jpg"
-   :entity/type :coordinate-tool})
+  #:coordinate-tool {:coordinate [:coordinate/name "default"]
+                     :tool/name "coordinate tool 1"
+                     :tool/chinese-name "坐标系设置工具"
+                     :tool/icon "/image/pirate/earth.jpg"
+                     :entity/type :coordinate-tool})
 
 ;; processes
 
@@ -322,6 +323,8 @@ galaxy-quaternion
       (>! ch @conn))
     ch))
 
+
+(async-run!)
 
 
 (comment

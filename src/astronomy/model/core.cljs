@@ -15,6 +15,8 @@
    [astronomy.model.constellation :as m.constellation]
 
    [astronomy.model.user.clock-tool :as m.clock-tool]
+   [astronomy.model.user.info-tool :as m.info-tool]
+   [astronomy.model.user.coordinate-tool :as m.coordinate-tool]
    [astronomy.model.user.spaceship-camera-control :as m.spaceship]
    ))
 
@@ -34,7 +36,9 @@
    m.constellation/schema
    
    m.clock-tool/schema
-   m.spaceship/schema))
+   m.spaceship/schema
+   m.info-tool/schema
+   m.coordinate-tool/schema))
 
 
 (def camera

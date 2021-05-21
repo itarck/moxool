@@ -26,10 +26,3 @@
      [v.user/UserView {:user user
                        :camera-control camera-control} env]]))
 
-
-(defn FreeAppView [props env]
-  [:div {:style {:position :absolute
-                 :height "720px"
-                 :width "1280px"}}
-   [RootView props env]])
-
