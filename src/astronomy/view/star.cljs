@@ -30,7 +30,7 @@
         [:mesh {:scale [radius radius radius]}
          [v.gltf/GltfView gltf env]]
 
-        [:PolarGridHelper {:args #js [1000 12 10 10000 "yellow" "yellow"]}]
+        #_[:PolarGridHelper {:args #js [1000 12 10 10000 "yellow" "yellow"]}]
         
         ;; 
         ]

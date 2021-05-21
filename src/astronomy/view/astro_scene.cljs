@@ -21,8 +21,8 @@
      [:mesh {:scale [scale scale scale]}
       [:mesh {:matrixAutoUpdate false
               :matrix (m.coordinate/cal-invert-matrix ref)}
-       [CelestialSphereHelperView 1000000]
-       [v.constel/ConstellationsView {} env]
+       #_[CelestialSphereHelperView 1000000]
+       #_[v.constel/ConstellationsView {} env]
        [v.background/BackgroundView]
        (for [object objects]
          (case (:entity/type object)
@@ -30,6 +30,6 @@
            :galaxy ^{:key (:db/id object)} [v.galaxy/GalaxyView object env]
            nil))]
       
-      [:PolarGridHelper {:args #js [10 4 10 360 "gray" "gray"]}]
+      #_[:PolarGridHelper {:args #js [10 4 10 360 "gray" "gray"]}]
       ]]
     ))

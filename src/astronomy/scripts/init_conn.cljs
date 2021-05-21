@@ -200,7 +200,7 @@ galaxy-quaternion
 (def clock-tool1
   #:clock-tool {:db/id -2
                 :status :stop
-                :steps-per-second 20
+                :steps-per-second 50
                 :step-interval :hour
                 :days-per-step (/ 1 24)
                 :clock [:clock/name "default"]
@@ -258,8 +258,8 @@ galaxy-quaternion
     (let [person (d/pull @conn '[*] [:person/name "dr who"])
           bp (d/pull @conn '[*] (-> person :person/backpack :db/id))]
       (d/transact! conn (m.backpack/put-in-cell-tx bp 0 {:db/id [:tool/name "clock control 1"]}))
-      (d/transact! conn (m.backpack/put-in-cell-tx bp 1 {:db/id [:tool/name "info tool 1"]}))
-      (d/transact! conn (m.backpack/put-in-cell-tx bp 2 {:db/id [:tool/name "coordinate tool 1"]})))
+      #_(d/transact! conn (m.backpack/put-in-cell-tx bp 1 {:db/id [:tool/name "info tool 1"]}))
+      #_(d/transact! conn (m.backpack/put-in-cell-tx bp 2 {:db/id [:tool/name "coordinate tool 1"]})))
 
     (kick-start! conn)
     conn))
