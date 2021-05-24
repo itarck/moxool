@@ -12,7 +12,7 @@
 
 
 (defn visual-magnitude->size [vm]
-  (/ (/ 31536000 80) (Math/pow 1.3 vm)))
+  (/ (/ 31536000 100) (Math/pow 1.3 vm)))
 
 
 (defn StarsProjectionComponent [props {:keys [conn] :as env}]

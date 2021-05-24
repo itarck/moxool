@@ -27,10 +27,13 @@
 (defn pull-clock-tool [db id]
   (d/pull db '[* {:clock-tool/clock [*]}] id))
 
-(defn tick-clock [clock-tool clock]
-  (+ (:clock-tool/days-per-step clock-tool)
-     (get-in clock [:clock/time-in-days])))
+(defn cal-next-step [clock-tool clock]
+  (+ (get-in clock [:clock/time-in-days])
+     (:clock-tool/days-per-step clock-tool)))
 
+(defn cal-prev-step [clock-tool clock]
+  (- (get-in clock [:clock/time-in-days])
+     (:clock-tool/days-per-step clock-tool)))
 
 (defn update-by-clock-time-tx [db clock-id time-in-days]
   (let [tx0 (m.clock/set-clock-time-in-days-tx clock-id time-in-days)

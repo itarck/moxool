@@ -30,7 +30,7 @@
         (p/transact! conn [[:db/add clock-tool-id :clock-tool/status :start]])
         (loop []
           (let [clock-tool (m.clock-tool/pull-clock-tool @conn clock-tool-id)
-                time-in-days (m.clock-tool/tick-clock clock-tool (:clock-tool/clock clock-tool))
+                time-in-days (m.clock-tool/cal-next-step clock-tool (:clock-tool/clock clock-tool))
                 {:clock-tool/keys [steps-per-second status]} clock-tool
                 step-timeout (/ 1000 steps-per-second)]
             (<! (timeout step-timeout))
@@ -63,7 +63,8 @@
                         :minute (/ 1 24.0 60.0)
                         :hour (/ 1 24.0)
                         :star-day 0.99726968
-                        :day 1)
+                        :day 1
+                        :year 365)
         tx [{:db/id (:db/id clock-tool)
              :clock-tool/step-interval step-interval
              :clock-tool/days-per-step days-per-step}]]
@@ -79,7 +80,15 @@
 (defmethod handle-event! :clock-tool/next-step
   [props {:keys [conn service-chan]} {:event/keys [detail]}]
   (let [{:keys [clock-tool clock]} detail
-        time-in-days (m.clock-tool/tick-clock clock-tool clock)]
+        time-in-days (m.clock-tool/cal-next-step clock-tool clock)]
+    (go (>! service-chan #:event {:action :clock-tool/set-time-in-days
+                                  :detail {:clock clock
+                                           :time-in-days time-in-days}}))))
+
+(defmethod handle-event! :clock-tool/prev-step
+  [props {:keys [conn service-chan]} {:event/keys [detail]}]
+  (let [{:keys [clock-tool clock]} detail
+        time-in-days (m.clock-tool/cal-prev-step clock-tool clock)]
     (go (>! service-chan #:event {:action :clock-tool/set-time-in-days
                                   :detail {:clock clock
                                            :time-in-days time-in-days}}))))

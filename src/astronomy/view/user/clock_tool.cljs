@@ -22,7 +22,8 @@
                                    :minute "分"
                                    :hour "小时"
                                    :star-day "恒星日"
-                                   :day "日")
+                                   :day "日"
+                                   :year "年")
         gen-click-step-interval (fn [step-interval]
                                   #(go (>! service-chan #:event{:action :clock-tool/change-step-interval
                                                                 :detail {:clock-tool clock-tool
@@ -87,14 +88,17 @@
                  "恒星日")
               ($ mt/Button {:onClick (gen-click-step-interval :day)
                             :variant (if (= step-interval :day) "contained" "outlined")}
-                 "日")))
+                 "日")
+              ($ mt/Button {:onClick (gen-click-step-interval :year)
+                            :variant (if (= step-interval :year) "contained" "outlined")}
+                 "年")))
 
         ($ mt/Grid {:item true :xs 12}
            ($ mt/Typography {:variant "subtitle2"} "动作")
            ($ mt/ButtonGroup {:size "small"}
-              ($ mt/Button {:onClick #(go (>! service-chan #:event{:action :clock-tool/reset
+              ($ mt/Button {:onClick #(go (>! service-chan #:event{:action :clock-tool/prev-step
                                                                    :detail {:clock-tool clock-tool
-                                                                            :clock clock}}))} "重置")
+                                                                            :clock clock}}))} "上一步")
               ($ mt/Button {:onClick #(go (>! service-chan #:event{:action :clock-tool/start
                                                                    :detail {:clock-tool clock-tool
                                                                             :clock clock}}))} "开始")
