@@ -6,7 +6,8 @@
    [datascript.transit :as dt]
    [posh.reagent :as p]
    [shu.three.vector3 :as v3]
-   [astronomy.model.coordinate :as m.coordinate]))
+   [astronomy.model.coordinate :as m.coordinate]
+   [astronomy.model.constellation :as m.constel]))
 
 
 
@@ -24,10 +25,22 @@
 
 
 (comment
-  
+
   (def conn (create-poshed-conn!))
-  
+
   (def coor-1 (d/pull @conn '[*] [:coordinate/name "default"]))
+
+  (count (d/q '[:find [?id ...]
+                :where [?id :star/HR]]
+              @conn))
+
+  (count (m.constel/find-all-star-ids @conn))
+
+  (m.constel/sub-all-constellation-stars conn)
+
+  @(p/pull conn '[*] (first star-ids))
+
+  (m.constel/cal-celestial-sphere-position 0 0)
 
   (let [m (m.coordinate/cal-invert-matrix coor-1)
         v (v3/vector3 0 0 0)]

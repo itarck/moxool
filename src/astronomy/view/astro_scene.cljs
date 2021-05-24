@@ -1,9 +1,11 @@
 (ns astronomy.view.astro-scene
   (:require
    [posh.reagent :as p]
+   [helix.core :refer [$]]
    [methodology.model.scene :as m.scene]
    [shu.three.vector3 :as v3]
    [astronomy.model.coordinate :as m.coordinate]
+   [astronomy.model.constellation :as m.constel]
    [astronomy.view.star :as v.star]
    [astronomy.view.background :as v.background]
    [astronomy.view.celestial-sphere-helper :refer [CelestialSphereHelperView]]
@@ -34,11 +36,13 @@
       [:mesh {:matrixAutoUpdate false
               :matrix (m.coordinate/cal-invert-matrix coor-1)}
        #_[CelestialSphereHelperView 1000000]
-       #_[v.constel/ConstellationsView {} env]
+       [v.constel/ConstellationsView {} env]
 
        (when-not has-day-light?
          [v.background/BackgroundView])
        
+       [v.background/StarsProjectionComponent {:stars (m.constel/sub-all-constellation-stars conn)} env]
+
        (for [object objects]
          (case (:entity/type object)
            :star ^{:key (:db/id object)} [v.star/StarView object env]

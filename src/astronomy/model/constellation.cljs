@@ -1,5 +1,6 @@
 (ns astronomy.model.constellation
   (:require
+   [datascript.core :as d]
    [shu.three.vector3 :as v3]
    [shu.goog.math :as gmath]
    [posh.reagent :as p]))
@@ -20,10 +21,25 @@
 
 (def schema #:constellation{:abbreviation {:db/unique :db.unique/identity}})
 
+
 ;; model
 
+(def find-all-ids-query
+  '[:find [?id ...]
+    :where
+    [?id :constellation/abbreviation _]])
+
+(defn find-all-star-ids [db]
+  (let [constels (d/q '[:find [?star-lines ...]
+                        :where [?id :constellation/star-lines ?star-lines]]
+                      db)]
+    (distinct (flatten constels))))
+
+
+(defn generate-star-projection [])
+
 (defn cal-celestial-sphere-position [right-ascension declination]
-  (let [radius 1000000]
+  (let [radius 31536000]
     (v3/from-spherical-coords
      radius
      (gmath/to-radians (- 90 declination))
@@ -37,6 +53,16 @@
           [?id :constellation/abbreviation _]]
         conn))
 
+(defn sub-all-constellation-star-ids [conn]
+  (let [constels @(p/q '[:find [?star-lines ...]
+                        :where [?id :constellation/star-lines ?star-lines]]
+                      conn)]
+    (distinct (flatten constels))))
+
+(defn sub-all-constellation-stars [conn]
+  (let [ids (sub-all-constellation-star-ids conn)]
+    (doall
+     (mapv (fn [id] @(p/pull conn '[*] id)) ids))))
 
 (defn sub-constellation [conn constel-id]
   (let [constel @(p/pull conn '[*] constel-id)

@@ -4,9 +4,37 @@
    [cljs.core.async :as a :refer [go >! <!]]
    [helix.core :refer [defnc $]]
    [helix.hooks :refer [use-memo]]
+   [posh.reagent :as p]
    [shu.goog.math :as gmath]
    [shu.three.vector3 :as v3]
-   [shu.general.core :as g]))
+   [shu.general.core :as g]
+   [astronomy.model.constellation :as m.constel]))
+
+
+(defn visual-magnitude->size [vm]
+  (/ (/ 31536000 50) (Math/pow 1.3 vm)))
+
+
+(defn StarsProjectionComponent [props {:keys [conn] :as env}]
+  [:<>
+   (for [star (:stars props)]
+     (let [{:star/keys [right-ascension declination visual-magnitude]} star
+           position (seq (m.constel/cal-celestial-sphere-position right-ascension declination))]
+      ;;  (println star)
+       (when (and right-ascension declination visual-magnitude position)
+         ($ "points" {:key (:db/id star)}
+            ($ "bufferGeometry"
+               ($ "bufferAttribute" {:attach-object #js ["attributes" "position"]
+                                     :count         1
+                                     :array         (js/Float32Array. (clj->js position))
+                                     :item-size     3}))
+            ($ "pointsMaterial" {:size             (* 100 (visual-magnitude->size visual-magnitude))
+                                 :size-attenuation true
+                                 :color            "white"
+                                 :transparent      true
+                                 :opacity          1
+                                 :fog              false})))))])
+
 
 
 (defnc StarsView [props env]

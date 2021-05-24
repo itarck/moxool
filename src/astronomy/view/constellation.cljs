@@ -9,7 +9,7 @@
 
 
 (defn gen-star-points [stars]
-  (let [radius 1000000]
+  (let [radius 31536000]
     (clj->js
      (for [star stars]
        (let [{:star/keys [right-ascension declination]} star
