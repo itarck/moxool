@@ -58,7 +58,7 @@
                        minutes ":"
                        (gstring/format "%0.3f" seconds))))))
 
-        ($ mt/Grid {:item true :xs 12}
+        #_($ mt/Grid {:item true :xs 12}
            ($ mt/Typography {:variant "subtitle2"}
               (str "播放速度： " steps-per-second " fps"))
            ($ mt/Slider

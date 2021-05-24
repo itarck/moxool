@@ -35,13 +35,13 @@
       
       [:mesh {:matrixAutoUpdate false
               :matrix (m.coordinate/cal-invert-matrix coor-1)}
-       [CelestialSphereHelperView 31536000]
-       [v.constel/ConstellationsView {} env]
+      ;;  [CelestialSphereHelperView 31536000]
+      ;;  [v.constel/ConstellationsView {} env]
 
        (when-not has-day-light?
          [v.background/BackgroundView])
        
-       [v.background/StarsProjectionComponent {:stars (m.constel/sub-all-constellation-stars conn)} env]
+      ;;  [v.background/StarsProjectionComponent {:stars (m.constel/sub-all-constellation-stars conn)} env]
 
        (for [object objects]
          (case (:entity/type object)
