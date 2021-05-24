@@ -36,7 +36,7 @@
     (j/call lineGeometry :setFromPoints (gen-latitude-points radius latitude))
     ($ "line" {:geometry lineGeometry}
        ($ "lineBasicMaterial" {:linewidth 1
-                               :color "gray"
+                               :color (if (= latitude 0) "red" "gray")
                                :linecap "round"
                                :linejoin "round"}))))
 
@@ -46,7 +46,7 @@
     (j/call lineGeometry :setFromPoints (gen-longitude-points radius longitude))
     ($ "line" {:geometry lineGeometry}
        ($ "lineBasicMaterial" {:linewidth 1
-                               :color "gray"
+                               :color (if (= longitude 0) "red" "gray")
                                :linecap "round"
                                :linejoin "round"}))))
 

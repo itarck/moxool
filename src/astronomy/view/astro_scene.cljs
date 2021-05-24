@@ -35,7 +35,7 @@
       
       [:mesh {:matrixAutoUpdate false
               :matrix (m.coordinate/cal-invert-matrix coor-1)}
-       #_[CelestialSphereHelperView 1000000]
+       [CelestialSphereHelperView 31536000]
        [v.constel/ConstellationsView {} env]
 
        (when-not has-day-light?

@@ -35,11 +35,11 @@
       (println "spaceship camera control service event: " event)
       (println "spaceship camera control service dom-atom: " dom-atom)
       (case (:event/action event)
-        :spaceship-camera-control/up (let [direction (v3/multiply-scalar (m.spaceship/get-camera-direction camera) 1)
+        :spaceship-camera-control/up (let [direction (v3/multiply-scalar (m.spaceship/get-camera-direction camera) 0.1)
                                            new-position (v3/add (m.spaceship/get-camera-position instance) direction)
                                            cc (m.spaceship/locate-at-min-distance-tx entity new-position new-position direction)]
                                        (p/transact! conn [cc]))
-        :spaceship-camera-control/down (let [direction (v3/multiply-scalar (m.spaceship/get-camera-direction camera) 1)
+        :spaceship-camera-control/down (let [direction (v3/multiply-scalar (m.spaceship/get-camera-direction camera) 0.1)
                                              new-position (v3/sub (m.spaceship/get-camera-position instance) direction)
                                              cc (m.spaceship/locate-at-min-distance-tx entity new-position new-position direction)]
                                          (p/transact! conn [cc]))
@@ -47,7 +47,7 @@
                                              step (->
                                                    (v3/cross (m.spaceship/get-camera-position instance) direction)
                                                    (v3/normalize)
-                                                   (v3/multiply-scalar 1))
+                                                   (v3/multiply-scalar 0.1))
                                              new-position (v3/add (m.spaceship/get-camera-position instance) step)
                                              cc (m.spaceship/locate-at-min-distance-tx entity new-position new-position direction)]
                                          (p/transact! conn [cc]))
@@ -55,7 +55,7 @@
                                               step (->
                                                     (v3/cross (m.spaceship/get-camera-position instance) direction)
                                                     (v3/normalize)
-                                                    (v3/multiply-scalar 1))
+                                                    (v3/multiply-scalar 0.1))
                                               new-position (v3/sub (m.spaceship/get-camera-position instance) step)
                                               cc (m.spaceship/locate-at-min-distance-tx entity new-position new-position direction)]
                                           (p/transact! conn [cc]))
