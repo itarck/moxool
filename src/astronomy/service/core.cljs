@@ -4,6 +4,7 @@
    [methodology.service.camera :as s.camera]
    [astronomy.service.user :as s.user]
    [astronomy.service.astro-scene :as s.astro-scene]
+   [astronomy.service.universe-tool :as s.universe-tool]
    [astronomy.service.clock-tool :as s.clock-tool]
    [astronomy.service.info-tool :as s.info-tool]
    [astronomy.service.spaceship-camera-control :as s.spaceship]
@@ -17,7 +18,10 @@
    {:listen [:astro-scene]
     :process-name "astro-scene"
     :service-fn s.astro-scene/init-service!}
-   
+
+   {:listen [:universe-tool]
+    :process-name "universe-tool"
+    :service-fn s.universe-tool/init-service!}
    {:listen [:clock-tool]
     :process-name "clock-tool"
     :service-fn s.clock-tool/init-service!}

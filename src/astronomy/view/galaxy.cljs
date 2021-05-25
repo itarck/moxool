@@ -22,8 +22,9 @@
         {:galaxy/keys [radius]} galaxy
         {:object/keys [position quaternion]} galaxy
         {:celestial/keys [gltf]} galaxy]
-    [:mesh {:scale [radius radius radius]
-            :position (or position [0 0 0])
-            :quaternion (or quaternion [0 0 0 1])}
-     [v.gltf/GltfView gltf env]]))
+    (when (:object/show? galaxy)
+      [:mesh {:scale [radius radius radius]
+              :position (or position [0 0 0])
+              :quaternion (or quaternion [0 0 0 1])}
+       [v.gltf/GltfView gltf env]])))
 

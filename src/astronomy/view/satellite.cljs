@@ -37,16 +37,18 @@
         qt (m.circle-orbit/cal-tilt-quaternion orbit)]
     ;; (println "satellite view " satellite)
     [:mesh {:position position}
-     (if gltf
-       [:mesh
-        [:mesh {:scale [radius radius radius]}
-         [v.gltf/GltfView gltf env]]
-        #_[:PolarGridHelper {:args #js [0.3 8 5 64 "white" "white"]}]]
+     (when (:object/show? satellite)
+       (if gltf
+         [:mesh
+          [:mesh {:scale [radius radius radius]}
+           [v.gltf/GltfView gltf env]]
+          #_[:PolarGridHelper {:args #js [0.3 8 5 64 "white" "white"]}]]
 
-       [:> Sphere {:args [radius 10 10]
-                   :position [0 0 0]
-                   :quaternion quaternion}
-        [:meshStandardMaterial {:color color}]])
+         [:> Sphere {:args [radius 10 10]
+                     :position [0 0 0]
+                     :quaternion quaternion}
+          [:meshStandardMaterial {:color color}]]))
+     
 
      #_[:gridHelper {:args [1 20 "gray" "gray"]
                    :position [0 0 0]

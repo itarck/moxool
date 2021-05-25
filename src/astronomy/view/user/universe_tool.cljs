@@ -35,6 +35,10 @@
            [:> mt/Switch
             {:color "default"
              :size "small"
-             :onChange #(js/console.log (j/get-in % [:target :checked]))}]
-           [:span "是"]])]]
-      (str (map :entity/chinese-name objects))]]))
+             :checked (or (:object/show? object) false)
+             :onChange (fn [event]
+                         (let [show? (j/get-in event [:target :checked])]
+                           (go (>! service-chan #:event {:action :universe-tool/load-object
+                                                         :detail {:object-id (:db/id object)
+                                                                  :show? show?}}))))}]
+           [:span "是"]])]]]]))

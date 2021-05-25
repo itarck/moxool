@@ -25,20 +25,22 @@
     ;; (println "star view" (:planet/_star star))
     [:mesh {:position position}
      [:pointLight {:intensity 3}]
-     (if gltf
-       [:mesh {:quaternion (or quaternion [0 0 0 1])}
-        [:mesh {:scale [radius radius radius]}
-         [v.gltf/GltfView gltf env]]
+     (when (:object/show? star)
+       (if gltf
+         [:mesh {:quaternion (or quaternion [0 0 0 1])}
+          [:mesh {:scale [radius radius radius]}
+           [v.gltf/GltfView gltf env]]
 
-        #_[:PolarGridHelper {:args #js [1000 12 10 10000 "yellow" "yellow"]}]
-        
+          #_[:PolarGridHelper {:args #js [1000 12 10 10000 "yellow" "yellow"]}]
+
         ;; 
-        ]
+          ]
 
-       [:> Sphere {:args [radius 10 10]
-                   :position [0 0 0]
-                   :quaternion (or quaternion [0 0 0 1])}
-        [:meshStandardMaterial {:color color}]])
+         [:> Sphere {:args [radius 10 10]
+                     :position [0 0 0]
+                     :quaternion (or quaternion [0 0 0 1])}
+          [:meshStandardMaterial {:color color}]]))
+     
      
      [:<>
       (for [planet (:planet/_star star)]

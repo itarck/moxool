@@ -41,32 +41,34 @@
         {:object/keys [position quaternion]} planet
         {:celestial/keys [gltf orbit spin]} planet
         q-orbit-tilt (m.circle-orbit/cal-tilt-quaternion orbit)
-        ;; q-spin-tilt (m.spin/cal-tilt-quaternion spin)
         satellites (:satellite/_planet planet)]
     ;; (println "planet view: " planet)
-    [:group {:position position}
-     (if gltf
-       [:mesh {:quaternion quaternion}
-        [:mesh {:scale [radius radius radius]
-                :onClick (fn [e]
-                           (let [pt (j/get-in e [:intersections 0 :point])
-                                 point (seq (j/call pt :toArray))]
-                             (go (>! service-chan #:event {:action :user/object-clicked
-                                                           :detail {:click-point point
-                                                                    :object planet}}))))}
-         [v.gltf/GltfView gltf env]]
-        #_[:PolarGridHelper {:args [0.5 8 5 64 "deepskyblue" "deepskyblue"]}]
-        ]
 
-       [:> Sphere {:args [radius 10 10]
-                   :position [0 0 0]
-                   :quaternion quaternion}
-        [:gridHelper {:args [0.2 10 "yellow" "yellow"]}]
-        [:meshStandardMaterial {:color color}]])
+    [:group {:position position}
+     (when (:object/show? planet)
+       (if gltf
+         [:mesh {:quaternion quaternion}
+          [:mesh {:scale [radius radius radius]
+                  :onClick (fn [e]
+                             (let [pt (j/get-in e [:intersections 0 :point])
+                                   point (seq (j/call pt :toArray))]
+                               (go (>! service-chan #:event {:action :user/object-clicked
+                                                             :detail {:click-point point
+                                                                      :object planet}}))))}
+           [v.gltf/GltfView gltf env]]
+          #_[:PolarGridHelper {:args [0.5 8 5 64 "deepskyblue" "deepskyblue"]}]]
+
+         [:> Sphere {:args [radius 10 10]
+                     :position [0 0 0]
+                     :quaternion quaternion}
+          [:gridHelper {:args [0.2 10 "yellow" "yellow"]}]
+          [:meshStandardMaterial {:color color}]]))
      
+
      #_[:gridHelper {:args [2 10 "gray" "gray"]
-                   :position [0 0 0]
-                   :quaternion (vec q-orbit-tilt)}]
+                     :position [0 0 0]
+                     :quaternion (vec q-orbit-tilt)}]
+
      [:<>
       (for [satellite satellites]
         ^{:key (:db/id satellite)}
