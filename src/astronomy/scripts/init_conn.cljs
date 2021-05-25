@@ -72,7 +72,7 @@ ecliptic-axis
                  :clock [:clock/name "default"]
                  :scene/name "solar"
                  :scene/chinese-name "太阳系"
-                 :scene/scale 100
+                 :scene/scale 10000
                  :entity/type :scene})
 
 (def coordinate-1

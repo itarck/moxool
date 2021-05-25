@@ -20,7 +20,7 @@
       (when (= mode :read-and-write)
         [v.spaceship/SpaceshipCameraControlView camera-control env])
 
-      [:ambientLight {:intensity 0.05}]
+      [:ambientLight {:intensity 0.1}]
       #_[:gridHelper {:args [10000 100 "gray" "gray"]}]]
 
      [v.user/UserView {:user user
