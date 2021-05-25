@@ -19,5 +19,9 @@
                 :camera {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}})
 
 
+(defn sub-scene-with-objects [conn id]
+  @(p/pull conn '[* {:object/_scene [*]}] id))
+
+
 ;; tx
 

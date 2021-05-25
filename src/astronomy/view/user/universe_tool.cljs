@@ -3,19 +3,38 @@
    [applied-science.js-interop :as j]
    [cljs.core.async :refer [go >! <! go-loop] :as a]
    [posh.reagent :as p]
-   [astronomy.model.user.info-tool :as m.info-tool]))
+   [helix.core :refer [$]]
+   ["@material-ui/core" :as mt]
+   [astronomy.model.user.universe-tool :as m.universe-tool]
+   [astronomy.model.astro-scene :as m.astro-scene]))
 
 
 
 (defn UniverseToolView [props {:keys [service-chan conn]}]
-  (let [info-tool (m.info-tool/sub-info-tool conn (:db/id props))]
+  (let [universe-tool @(p/pull conn '[*] (:db/id props))
+        astro-scene (m.astro-scene/sub-scene-with-objects conn (-> universe-tool :universe-tool/astro-scene :db/id))
+        objects (:object/_scene astro-scene)]
     [:div.p-2
      [:div
-      [:img {:src (:tool/icon info-tool)
+      [:img {:src (:tool/icon universe-tool)
              :class "astronomy-button"}]
       [:span {:style {:font-size "18px"
                       :font-weight "bold"}}
-       (:tool/chinese-name info-tool)]]
+       (:tool/chinese-name universe-tool)]]
 
      [:div
-      "宇宙工具包"]]))
+      [:> mt/Grid {:container true :spacing 1}
+       [:> mt/Grid {:item true :xs 12}
+        [:> mt/Typography {:variant "subtitle1"}
+         "是否加载"]
+        (for [object objects]
+          ^{:key (:db/id object)}
+          [:div
+           (str (:entity/chinese-name object) "：    ")
+           [:span "否"]
+           [:> mt/Switch
+            {:color "default"
+             :size "small"
+             :onChange #(js/console.log (j/get-in % [:target :checked]))}]
+           [:span "是"]])]]
+      (str (map :entity/chinese-name objects))]]))

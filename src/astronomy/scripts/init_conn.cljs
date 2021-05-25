@@ -96,6 +96,7 @@ ecliptic-axis
          :object/position [0 0 0]
          :object/quaternion ecliptic-quaternion
          :object/scene [:scene/name "solar"]
+         :entity/chinese-name "太阳"
          :entity/type :star})
 
 
@@ -118,6 +119,7 @@ ecliptic-axis
     :celestial/clock [:clock/name "default"]
     :object/scene [:scene/name "solar"]
     :object/quaternion [0 0 0 1]
+    :entity/chinese-name "地球"
     :entity/type :planet})
 
 (def moon
@@ -139,6 +141,7 @@ ecliptic-axis
     :object/scene [:scene/name "solar"]
     ;; :object/position [0 0 30]
     :object/quaternion [0 0 0 1]
+    :entity/chinese-name "月球"
     :entity/type :satellite})
 
 
@@ -183,6 +186,7 @@ galaxy-quaternion
     :object/position (vec galaxy-center-vector)
     :object/quaternion (vec galaxy-quaternion)
     :object/scene [:scene/name "solar"]
+    :entity/chinese-name "银河"
     :entity/type :galaxy})
 
 
