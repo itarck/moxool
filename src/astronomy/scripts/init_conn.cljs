@@ -90,7 +90,6 @@ ecliptic-axis
          :chinese-name "太阳"
          :radius 2.32
          :color "red"
-         :celestial/chinese-name "太阳"
          :celestial/gltf #:gltf {:url "models/12-sun_and_solar_flares/scene.gltf"
                                  :scale [1.12 1.12 1.12]}
          :object/position [0 0 0]
@@ -100,6 +99,27 @@ ecliptic-axis
          :entity/chinese-name "太阳"
          :entity/type :star})
 
+(def mercury
+  #:planet
+   {:name "mercury"
+    :chinese-name "水星"
+    :star [:star/name "sun"]
+    :radius 0.008132333
+
+    :celestial/orbit #:circle-orbit {:star [:star/name "sun"]
+                                     :start-position [0 0 -200]
+                                     :axis ecliptic-axis
+                                     :angular-velocity (period-to-angular-velocity 88)}
+    :celestial/spin #:spin {:axis [0 1 0]
+                            :angular-velocity (period-to-angular-velocity 58)}
+    :celestial/gltf #:gltf {:url "models/16-solar/Mercury_1_4878.glb"
+                            :scale [0.002 0.002 0.002]}
+    :celestial/clock [:clock/name "default"]
+    :object/scene [:scene/name "solar"]
+    :object/quaternion [0 0 0 1]
+    :object/show? true
+    :entity/chinese-name "水星"
+    :entity/type :planet})
 
 (def earth
   #:planet
@@ -108,15 +128,14 @@ ecliptic-axis
     :radius 0.021
     :color "blue"
     :star [:star/name "sun"]
-    :celestial/chinese-name "地球"
     :celestial/orbit #:circle-orbit {:star [:star/name "sun"]
                                      :start-position [0 0 -500]
                                      :axis ecliptic-axis
                                      :angular-velocity (period-to-angular-velocity 365.25)}
     :celestial/spin #:spin {:axis [0 1 0]
                             :angular-velocity (period-to-angular-velocity 0.99726968)}
-    :celestial/gltf #:gltf {:url "models/15-earth/scene.gltf"
-                            :scale [0.01 0.01 0.01]}
+    :celestial/gltf #:gltf {:url "models/16-solar/Earth_1_12756.glb"
+                            :scale [0.002 0.002 0.002]}
     :celestial/clock [:clock/name "default"]
     :object/scene [:scene/name "solar"]
     :object/quaternion [0 0 0 1]
@@ -131,7 +150,6 @@ ecliptic-axis
     :radius 0.00579
     :color "green"
     :planet [:planet/name "earth"]
-    :celestial/chinese-name "月球"
     :celestial/orbit #:circle-orbit {:start-position [0 0 1.281]
                                      :axis lunar-axis
                                      :angular-velocity (period-to-angular-velocity 27)}
@@ -263,7 +281,7 @@ galaxy-quaternion
 
 (defn init-conn! []
   (let [conn (d/create-conn schema)]
-    (d/transact! conn [camera clock scene sun earth
+    (d/transact! conn [camera clock scene sun earth mercury
                        moon coordinate-1
                        galaxy])
     (d/transact! conn [person1 universe-tool-1 clock-tool1
@@ -274,7 +292,7 @@ galaxy-quaternion
           bp (d/pull @conn '[*] (-> person :person/backpack :db/id))]
       (d/transact! conn (m.backpack/put-in-cell-tx bp 0 {:db/id [:tool/name "universe tool"]}))
       (d/transact! conn (m.backpack/put-in-cell-tx bp 1 {:db/id [:tool/name "clock control 1"]}))
-      #_(d/transact! conn (m.backpack/put-in-cell-tx bp 2 {:db/id [:tool/name "coordinate tool 1"]}))
+      (d/transact! conn (m.backpack/put-in-cell-tx bp 2 {:db/id [:tool/name "coordinate tool 1"]}))
       #_(d/transact! conn (m.backpack/put-in-cell-tx bp 2 {:db/id [:tool/name "info tool 1"]})))
 
     (kick-start! conn)

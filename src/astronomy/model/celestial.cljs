@@ -51,7 +51,9 @@
 
 (def query-all-id-and-chinese-name
   '[:find ?id ?chinese-name
-    :where [?id :celestial/chinese-name ?chinese-name]])
+    :where
+    [?id :celestial/gltf _]
+    [?id :entity/chinese-name ?chinese-name]])
 
 (def select-with-clock
   '[* {:celestial/clock [*]}])
