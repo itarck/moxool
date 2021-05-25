@@ -196,6 +196,13 @@ galaxy-quaternion
                                                #:backpack-cell{:index i}))}
             :entity/type :person})
 
+(def universe-tool-1
+  #:universe-tool{:astro-scene [:scene/name "solar"]
+                  :tool/name "universe tool"
+                  :tool/chinese-name "宇宙工具"
+                  :tool/icon "/image/moxool/universe.webp"
+
+                  :entity/type :universe-tool})
 
 (def clock-tool1
   #:clock-tool {:db/id -2
@@ -205,16 +212,17 @@ galaxy-quaternion
                 :days-per-step (/ 1 24)
                 :clock [:clock/name "default"]
                 :tool/name "clock control 1"
-                :tool/chinese-name "时钟1"
-                :tool/icon "/image/pirate/sheep.jpg"
+                :tool/chinese-name "时间工具"
+                :tool/icon "/image/moxool/clock.webp"
                 :entity/type :clock-tool})
 
 
 (def info-tool
   #:info-tool {:tool/name "info tool 1"
                :tool/chinese-name "信息查询工具"
-               :tool/icon "/image/pirate/cow.jpg"
+               :tool/icon "/image/moxool/info.webp"
                :entity/type :info-tool})
+
 
 (def spaceship-camera-control
   #:spaceship-camera-control
@@ -251,14 +259,15 @@ galaxy-quaternion
     (d/transact! conn [camera clock scene sun earth
                        moon coordinate-1
                        galaxy])
-    (d/transact! conn [person1 clock-tool1
+    (d/transact! conn [person1 universe-tool-1 clock-tool1
                        info-tool spaceship-camera-control
                        coordinate-tool-1])
 
     (let [person (d/pull @conn '[*] [:person/name "dr who"])
           bp (d/pull @conn '[*] (-> person :person/backpack :db/id))]
-      (d/transact! conn (m.backpack/put-in-cell-tx bp 0 {:db/id [:tool/name "clock control 1"]}))
-      (d/transact! conn (m.backpack/put-in-cell-tx bp 1 {:db/id [:tool/name "coordinate tool 1"]}))
+      (d/transact! conn (m.backpack/put-in-cell-tx bp 0 {:db/id [:tool/name "universe tool"]}))
+      (d/transact! conn (m.backpack/put-in-cell-tx bp 1 {:db/id [:tool/name "clock control 1"]}))
+      #_(d/transact! conn (m.backpack/put-in-cell-tx bp 2 {:db/id [:tool/name "coordinate tool 1"]}))
       #_(d/transact! conn (m.backpack/put-in-cell-tx bp 2 {:db/id [:tool/name "info tool 1"]})))
 
     (kick-start! conn)

@@ -2,8 +2,9 @@
   (:require
    [posh.reagent :as p]
    [methodology.view.backpack :as v.backpack]
+   [astronomy.view.user.universe-tool :as v.universe-tool]
    [astronomy.view.user.clock-tool :as v.clock-tool]
-   [astronomy.view.user.spaceship-camera-control :as m.spaceship]
+   [astronomy.view.user.spaceship-camera-control :as v.spaceship]
    [astronomy.view.user.info-tool :as v.info-tool]
    [astronomy.view.user.coordinate-tool :as v.coordinate-tool]))
 
@@ -17,6 +18,7 @@
                                                  :camera-control camera-control} env]
         :info-tool [v.info-tool/InfoToolView tool env]
         :coordinate-tool [v.coordinate-tool/CoordinateToolView tool env]
+        :universe-tool [v.universe-tool/UniverseToolView tool env]
         nil)]]))
 
 
@@ -24,7 +26,7 @@
   (let [user @(p/pull conn '[*] (:db/id user))
         backpack (:person/backpack user)]
     [:<>
-     [m.spaceship/SpaceshipCameraToolView {:camera-control camera-control
+     [v.spaceship/SpaceshipCameraToolView {:camera-control camera-control
                                            :camera camera} env]
      [v.backpack/BackPackView {:user user
                                :backpack backpack} env]

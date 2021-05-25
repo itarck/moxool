@@ -14,10 +14,12 @@
    [astronomy.model.star :as m.star]
    [astronomy.model.constellation :as m.constellation]
 
+   [astronomy.model.user.universe-tool :as m.universe-tool]
    [astronomy.model.user.clock-tool :as m.clock-tool]
    [astronomy.model.user.info-tool :as m.info-tool]
    [astronomy.model.user.coordinate-tool :as m.coordinate-tool]
    [astronomy.model.user.spaceship-camera-control :as m.spaceship]
+
    ))
 
 
@@ -35,6 +37,7 @@
    m.star/schema
    m.constellation/schema
    
+   m.universe-tool/schema
    m.clock-tool/schema
    m.spaceship/schema
    m.info-tool/schema
