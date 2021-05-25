@@ -90,8 +90,8 @@ ecliptic-axis
          :chinese-name "太阳"
          :radius 2.32
          :color "red"
-         :celestial/gltf #:gltf {:url "models/12-sun_and_solar_flares/scene.gltf"
-                                 :scale [1.12 1.12 1.12]}
+         :celestial/gltf #:gltf {:url "models/16-solar/Sun_1_1391000.glb"
+                                 :scale [0.002 0.002 0.002]}
          :object/position [0 0 0]
          :object/quaternion ecliptic-quaternion
          :object/scene [:scene/name "solar"]
@@ -119,6 +119,28 @@ ecliptic-axis
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "水星"
+    :entity/type :planet})
+
+(def venus
+  #:planet
+   {:name "venus"
+    :chinese-name "金星"
+    :star [:star/name "sun"]
+    :radius 0.020172667
+
+    :celestial/orbit #:circle-orbit {:star [:star/name "sun"]
+                                     :start-position [0 0 -350]
+                                     :axis ecliptic-axis
+                                     :angular-velocity (period-to-angular-velocity 243)}
+    :celestial/spin #:spin {:axis [0 1 0]
+                            :angular-velocity (period-to-angular-velocity 224)}
+    :celestial/gltf #:gltf {:url "models/16-solar/Venus_1_12103.glb"
+                            :scale [0.002 0.002 0.002]}
+    :celestial/clock [:clock/name "default"]
+    :object/scene [:scene/name "solar"]
+    :object/quaternion [0 0 0 1]
+    :object/show? true
+    :entity/chinese-name "金星"
     :entity/type :planet})
 
 (def earth
@@ -164,6 +186,119 @@ ecliptic-axis
     :entity/chinese-name "月球"
     :entity/type :satellite})
 
+(def mars
+  #:planet
+   {:name "mars"
+    :chinese-name "火星"
+    :star [:star/name "sun"]
+    :radius 0.011323333
+
+    :celestial/orbit #:circle-orbit {:star [:star/name "sun"]
+                                     :start-position [0 0 -750]
+                                     :axis ecliptic-axis
+                                     :angular-velocity (period-to-angular-velocity 687)}
+    :celestial/spin #:spin {:axis [0 1 0]
+                            :angular-velocity (period-to-angular-velocity 1.03)}
+    :celestial/gltf #:gltf {:url "models/16-solar/Mars_1_6792.glb"
+                            :scale [0.002 0.002 0.002]}
+    :celestial/clock [:clock/name "default"]
+    :object/scene [:scene/name "solar"]
+    :object/quaternion [0 0 0 1]
+    :object/show? true
+    :entity/chinese-name "火星"
+    :entity/type :planet})
+
+
+(def jupiter
+  #:planet
+   {:name "jupiter"
+    :chinese-name "木星"
+    :star [:star/name "sun"]
+    :radius 0.238306667
+
+    :celestial/orbit #:circle-orbit {:star [:star/name "sun"]
+                                     :start-position [0 0 -2600]
+                                     :axis ecliptic-axis
+                                     :angular-velocity (period-to-angular-velocity (* 11.856 365))}
+    :celestial/spin #:spin {:axis [0 1 0]
+                            :angular-velocity (period-to-angular-velocity 0.413)}
+    :celestial/gltf #:gltf {:url "models/16-solar/Jupiter_1_142984.glb"
+                            :scale [0.002 0.002 0.002]}
+    :celestial/clock [:clock/name "default"]
+    :object/scene [:scene/name "solar"]
+    :object/quaternion [0 0 0 1]
+    :object/show? true
+    :entity/chinese-name "木星"
+    :entity/type :planet})
+
+
+(def saturn
+  #:planet
+   {:name "saturn"
+    :chinese-name "土星"
+    :star [:star/name "sun"]
+    :radius 0.200893333
+
+    :celestial/orbit #:circle-orbit {:star [:star/name "sun"]
+                                     :start-position [0 0 -4750]
+                                     :axis ecliptic-axis
+                                     :angular-velocity (period-to-angular-velocity (* 29.448 365))}
+    :celestial/spin #:spin {:axis [0 1 0]
+                            :angular-velocity (period-to-angular-velocity 0.444)}
+    :celestial/gltf #:gltf {:url "models/16-solar/Saturn_1_120536.glb"
+                            :scale [0.002 0.002 0.002]}
+    :celestial/clock [:clock/name "default"]
+    :object/scene [:scene/name "solar"]
+    :object/quaternion [0 0 0 1]
+    :object/show? true
+    :entity/chinese-name "土星"
+    :entity/type :planet})
+
+
+(def uranus
+  #:planet
+   {:name "uranus"
+    :chinese-name "天王星"
+    :star [:star/name "sun"]
+    :radius 0.085196667
+
+    :celestial/orbit #:circle-orbit {:star [:star/name "sun"]
+                                     :start-position [0 0 -9569.907333]
+                                     :axis ecliptic-axis
+                                     :angular-velocity (period-to-angular-velocity (* 84.02 365))}
+    :celestial/spin #:spin {:axis [0 1 0]
+                            :angular-velocity (period-to-angular-velocity 0.718)}
+    :celestial/gltf #:gltf {:url "models/16-solar/Uranus_1_51118.glb"
+                            :scale [0.002 0.002 0.002]}
+    :celestial/clock [:clock/name "default"]
+    :object/scene [:scene/name "solar"]
+    :object/quaternion [0 0 0 1]
+    :object/show? true
+    :entity/chinese-name "天王星"
+    :entity/type :planet})
+
+
+(def neptune
+  #:planet
+   {:name "neptune"
+    :chinese-name "海王星"
+    :star [:star/name "sun"]
+    :radius 0.082546667
+
+    :celestial/orbit #:circle-orbit {:star [:star/name "sun"]
+                                     :start-position [0 0 -14994.17633]
+                                     :axis ecliptic-axis
+                                     :angular-velocity (period-to-angular-velocity (* 164.79 365))}
+    :celestial/spin #:spin {:axis [0 1 0]
+                            :angular-velocity (period-to-angular-velocity 0.67125)}
+    :celestial/gltf #:gltf {:url "models/16-solar/Neptune_1_49528.glb"
+                            :scale [0.002 0.002 0.002]}
+    :celestial/clock [:clock/name "default"]
+    :object/scene [:scene/name "solar"]
+    :object/quaternion [0 0 0 1]
+    :object/show? true
+    :entity/chinese-name "海王星"
+    :entity/type :planet})
 
 ;; * 银心：在天球赤道座标系统的座标是：
 ;; 赤经 17h45m40.04s，赤纬 -29º 00' 28.1"（J2000 分点）。25000光年
@@ -281,9 +416,8 @@ galaxy-quaternion
 
 (defn init-conn! []
   (let [conn (d/create-conn schema)]
-    (d/transact! conn [camera clock scene sun earth mercury
-                       moon coordinate-1
-                       galaxy])
+    (d/transact! conn [camera clock scene sun earth mercury venus moon mars jupiter saturn uranus neptune
+                       galaxy coordinate-1])
     (d/transact! conn [person1 universe-tool-1 clock-tool1
                        info-tool spaceship-camera-control
                        coordinate-tool-1])
