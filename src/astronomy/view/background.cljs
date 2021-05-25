@@ -89,7 +89,7 @@
                                 :count         star-count
                                 :array         positions
                                 :item-size     3}))
-       ($ "pointsMaterial" {:size             900000000000000
+       ($ "pointsMaterial" {:size             600000000000000
                             :size-attenuation true
                             :color            "orange"
                             :transparent      true
@@ -119,7 +119,7 @@
                                 :item-size     3}))
        ($ "pointsMaterial" {:size             60000000000000000
                             :size-attenuation true
-                            :color            "red"
+                            :color            "yellow"
                             :transparent      true
                             :opacity          1
                             :fog              false}))))

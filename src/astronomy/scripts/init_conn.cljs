@@ -241,7 +241,7 @@ galaxy-quaternion
   #:coordinate-tool {:coordinate [:coordinate/name "default"]
                      :tool/name "coordinate tool 1"
                      :tool/chinese-name "坐标系设置工具"
-                     :tool/icon "/image/pirate/earth.jpg"
+                     :tool/icon "/image/moxool/coordinate.jpg"
                      :entity/type :coordinate-tool})
 
 ;; processes
