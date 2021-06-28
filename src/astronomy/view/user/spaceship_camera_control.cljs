@@ -5,20 +5,16 @@
    [cljs-bean.core :refer [bean ->clj ->js]]
    [helix.core :refer [defnc $]]
    [posh.reagent :as p]
+   [goog.string :as gstring]
+   [astronomy.model.user.spaceship-camera-control :as m.spaceship]
+   [astronomy.model.astro-scene :as m.astro-scene]
+   [shu.astronomy.light :as shu.light]
    ["three" :as three]
    ["react" :as react :refer [useRef useEffect]]
    ["camera-controls" :as CameraControls]
-   ["react-three-fiber" :refer [useFrame extend useThree]]
-   [shu.three.spherical :as sph])
-  (:import
-   (goog.i18n NumberFormat)
-   (goog.i18n.NumberFormat Format)))
+   ["@material-ui/core" :as mt]
+   ["react-three-fiber" :refer [useFrame extend useThree]]))
 
-
-(def nff (NumberFormat. Format/COMPACT_LONG))
-
-(defn- nf [num]
-  (.format nff (str num)))
 
 
 (extend #js {:CameraControls CameraControls})
@@ -38,7 +34,7 @@
 
 
 (defnc CameraControlsComponent [props]
-  (let [{:keys [position up target minDistance maxDistance domAtom]} props
+  (let [{:keys [position up target minDistance maxDistance zoom domAtom]} props
         [px py pz] (seq position)
         [tx ty tz] (seq target)
         [ux uy uz] (seq up)
@@ -52,111 +48,92 @@
                  (swap! domAtom assoc :spaceship-camera-control (j/get ref :current))
                  (j/call-in camera [:up :set] ux uy uz)
                  (j/call-in ref [:current :updateCameraUp])
-                 (j/call-in ref [:current :setLookAt] px py pz tx ty tz true)))
+                 (j/call-in ref [:current :setLookAt] px py pz tx ty tz true)
+                 (j/call-in ref [:current :zoomTo] (or zoom 1) true)))
     ($ :cameraControls {:ref ref
                         :args #js [camera (j/get gl :domElement)]
                         :minDistance minDistance
                         :maxDistance (or maxDistance js/Infinity)})))
 
 
-(defn SpaceshipCameraControlView [props {:keys [conn dom-atom] :as env}]
-  (let [camera-control @(p/pull conn '[*] (:db/id props))
-        {:spaceship-camera-control/keys [mode position up target min-distance]} camera-control
+(def max-distance (* 10000 46500000000 shu.light/light-year-unit))
+
+
+(defn SpaceshipCameraControlView [{:keys [astro-scene] :as props} {:keys [conn dom-atom] :as env}]
+  (let [camera-control @(p/pull conn '[*] (get-in props [:spaceship-camera-control :db/id]))
+        center-cele-id @(p/q m.astro-scene/find-center-celestial-id-query conn (get-in props [:astro-scene :db/id]))
+        center-celestial @(p/pull conn '[:celestial/radius :db/id] center-cele-id)
+        {:spaceship-camera-control/keys [mode position up target zoom]} camera-control
         orbit-props {:up (->js up)
                      :target (->js target)
                      :position (->js position)
-                     :minDistance (* 1.01 min-distance)
-                     :maxDistance 1000000000000000}
+                     :minDistance (* 1.01 (* (:celestial/radius center-celestial) (:scene/scale astro-scene)))
+                     :maxDistance max-distance
+                     :zoom zoom}
         surface-props {:up (->js up)
                        :target (->js target)
                        :position (->js position)
                        :minDistance 1e-3
-                       :maxDistance 1e-3}]
-;;     (println "!!camera control: " camera-control)
-    (if (= mode :surface-control)
-      
+                       :maxDistance 1e-3
+                       :zoom zoom}]
+    ;; (println "!!camera control loaded: " )
+    (if (= mode :orbit-control)
       ($ CameraControlsComponent {:azimuthRotateSpeed -0.3
                                   :polarRotateSpeed -0.3
                                   :domAtom dom-atom
-                                  :& surface-props})
+                                  :& orbit-props})
 
       ($ CameraControlsComponent {:azimuthRotateSpeed -0.3
                                   :polarRotateSpeed -0.3
                                   :domAtom dom-atom
-                                  :& orbit-props}))))
+                                  :& surface-props}))))
 
 
 ;; tool view
 
-(def camera-cell
-  {:width "42px"
-   :height "42px"
-   :margin-right "3px"})
 
-(def camera-button
-  {:margin "0px"
-   :width "40px"
-   :height "40px"
-   :background "rgba(200, 200, 200, 0.7)"})
+(defn SpaceshipCameraToolView [props {:keys [service-chan conn dom-atom]}]
+  (let [tool @(p/pull conn '[*] (get-in props [:tool :db/id]))
+        {:spaceship-camera-control/keys [surface-ratio zoom]} tool
+        mode-and-names [[:surface-control "星球表面移动模式"]
+                        [:orbit-control "轨道环绕运动模式"]
+                        [:static-control "固定位置模式"]]]
+    [:div {:class "astronomy-righthand"}
+     [:div {:class "astronomy-righthand-tool"}
+      [:div.p-2
+       [:div
+        [:img {:src (:tool/icon tool)
+               :class "astronomy-button"}]
+        [:span {:style {:font-size "18px"
+                        :font-weight "bold"}}
+         (:tool/chinese-name tool)]]
 
 
-(defn SpaceshipCameraToolView [{:keys [camera camera-control] :as props} {:keys [service-chan conn dom-atom]}]
-  (let [entity @(p/pull conn '[*] (:db/id camera-control))
-        mode (:spaceship-camera-control/mode entity)
-        scc-instance (:spaceship-camera-control @dom-atom)
-        pulled-camera @(p/pull conn '[*] (:db/id camera))
-        [r phi theta]  (apply sph/from-cartesian-coords (:camera/position pulled-camera))]
-    [:div {:style {:position :absolute
-                   :bottom "0px"
-                   :left "1%"
-                   :width "300px"
-                   :font-size "24px"}}
-     [:div {:style {:width "140px"}}
-      [:div {:class "d-flex justify-content-center"
-             :style {:margin "2px"}}
-       [:div {:style camera-cell}]
-       [:div {:style camera-cell}
-        [:div {:style camera-button
-               :class "d-flex justify-content-center"}
-         [:i {:class "bi bi-caret-up-fill"
-              :onClick #(go (>! service-chan #:event{:action :spaceship-camera-control/up}))}]]]
-       [:div {:style camera-cell}]]
+       [:> mt/Grid {:container true :spacing 1}
+        [:> mt/Grid {:item true :xs 12}
+         [:> mt/Typography {:variant "subtitle1"} "当前模式："]
+         [:> mt/Select {:value (:spaceship-camera-control/mode tool)
+                        :onChange (fn [e]
+                                    (let [new-mode (j/get-in e [:target :value])]
+                                      (go (>! service-chan
+                                              #:event {:action :spaceship-camera-control/change-mode
+                                                       :detail {:new-mode new-mode}}))))}
+          (for [[mode mode-name] mode-and-names]
+            ^{:key mode}
+            [:> mt/MenuItem {:value mode} mode-name])]]
 
-      [:div {:class "d-flex justify-content-center"
-             :style {:margin "2px"}}
-       [:div {:style camera-cell}
-        [:div {:style camera-button
-               :class "d-flex justify-content-center"}
-         [:i {:class "bi bi-caret-left-fill"
-              :onClick #(go (>! service-chan #:event{:action :spaceship-camera-control/left}))}]]]
-
-       [:div {:style camera-cell}
-        [:div {:style camera-button
-               :class "d-flex justify-content-center"}
-         (if (= mode :orbit-control)
-           [:i {:class "bi bi-geo-fill"
-                :onClick #(go (>! service-chan #:event{:action :spaceship-camera-control/landing}))}]
-           [:i {:class "bi bi-hurricane"
-                :onClick #(go (>! service-chan #:event{:action :spaceship-camera-control/fly}))}])]]
-
-       [:div {:style camera-cell}
-        [:div {:style camera-button
-               :class "d-flex justify-content-center"}
-         [:i {:class "bi bi-caret-right-fill"
-              :onClick #(go (>! service-chan #:event{:action :spaceship-camera-control/right}))}]]]]
-
-      [:div {:class "d-flex justify-content-center"
-             :style {:margin "2px"}}
-       [:div {:style camera-cell}]
-       [:div {:style camera-cell}
-        [:div {:style camera-button
-               :class "d-flex justify-content-center"}
-         [:i {:class "bi bi-caret-down-fill"
-              :onClick #(go (>! service-chan #:event{:action :spaceship-camera-control/down}))}]]]
-       [:div {:style camera-cell}]]]
-     [:p {:style {:font-size "14px"
-                  :color "#aaa"}}
-      (str "距离原点 (光秒)："
-           (let [d (/ r 100.0)]
-             (nf d)))]]))
-
+        (when (m.spaceship/surface-mode? tool)
+            [:> mt/Grid {:item true :xs 12}
+             [:> mt/Typography {:variant "subtitle1"} (str "高度/星球半径：" (gstring/format "%0.4f" (- surface-ratio 1)))]
+             ($ mt/Slider
+                {:style (->js {:color "#666"
+                               :width "200px"})
+                 :value surface-ratio
+                 :onChange (fn [e value]
+                             (go (>! service-chan #:event {:action :spaceship-camera-control/change-surface-ratio
+                                                           :detail {:spaceship-camera-control-id (:db/id tool)
+                                                                    :surface-ratio value}})))
+                 :step 0.002 :min 1.0001 :max 1.1 :marks true
+                 :getAriaValueText identity
+                 :aria-labelledby "discrete-slider-restrict"
+                 :valueLabelDisplay "auto"})])]]]]))

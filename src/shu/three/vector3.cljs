@@ -159,6 +159,8 @@
   (def v1 (vector3 1 2 2))
   (def v2 (vector3 1 3 6))
 
+  v1
+
   (length (normalize v1))
 
   (= (type (vector3)) three/Vector3)

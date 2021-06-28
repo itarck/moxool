@@ -23,6 +23,7 @@
     (p/transact! conn (m.coordinate/update-coordinate-tx @conn coordinate-id))))
 
 
+
 (defn init-service! [props {:keys [process-chan] :as env}]
   (println "coordinate-control started")
   (go-loop []

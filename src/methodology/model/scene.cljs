@@ -14,7 +14,7 @@
 ;; model
 
 (defn sub-objects [conn scene-id]
-  (let [scene @(p/pull conn '[{:object/_scene [*]}] scene-id)]
+  (let [scene @(p/pull conn '[{:object/_scene [:db/id :entity/type]}] scene-id)]
     (:object/_scene scene)))
 
 

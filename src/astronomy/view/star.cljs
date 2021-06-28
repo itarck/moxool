@@ -1,9 +1,16 @@
 (ns astronomy.view.star
   (:require
-   ["@react-three/drei" :refer [Sphere]]
+   [applied-science.js-interop :as j]
+   [helix.core :refer [defnc $]]
+   [helix.hooks :refer [use-memo]]
    [posh.reagent :as p]
-
+   ["@react-three/drei" :refer [Sphere Plane]]
+   ["three" :as three]
+   [shu.three.quaternion :as q]
+   [shu.three.vector3 :as v3]
    [methodology.view.gltf :as v.gltf]
+   [astronomy.model.star :as m.star]
+   [astronomy.model.constellation :as m.constel]
    [astronomy.view.planet :as v.planet]))
 
 
@@ -17,34 +24,87 @@
 
 ;; 绑定数据层
 
-(defn StarView [entity {:keys [conn] :as env}]
-  (let [star @(p/pull conn '[* {:planet/_star [:db/id]}] (:db/id entity))
-        {:star/keys [color radius]} star
-        {:celestial/keys [gltf]} star
-        {:object/keys [position quaternion]} star]
+(defnc SunLight [props]
+  (let [{:keys [position intensity shadow-camera-near shadow-camera-far shadow-camera-size]} props
+        l (new three/DirectionalLight "white" intensity)]
+    (j/apply-in l [:position :set] position)
+    (j/assoc! l :castShadow true)
+    (j/assoc! l :decay 2)
+    (j/assoc-in! l [:shadow :camera :near] shadow-camera-near)
+    (j/assoc-in! l [:shadow :camera :far] shadow-camera-far)
+    (j/assoc-in! l [:shadow :camera :left] (- shadow-camera-size))
+    (j/assoc-in! l [:shadow :camera :right] shadow-camera-size)
+    (j/assoc-in! l [:shadow :camera :bottom] (- shadow-camera-size))
+    (j/assoc-in! l [:shadow :camera :top] shadow-camera-size)
+    ($ :primitive {:object l})))
+
+
+(defn StarView [{:keys [has-day-light?] :as props} {:keys [conn] :as env}]
+  (let [star @(p/pull conn '[* {:planet/_star [:db/id]}] (get-in props [:object :db/id]))
+        celestial-scale (get-in props [:astro-scene :astro-scene/celestial-scale])
+        {:star/keys [color]} star
+        {:celestial/keys [gltf radius]} star
+        {:object/keys [position quaternion]} star
+        scaled-radius (* radius celestial-scale)]
     ;; (println "star view" (:planet/_star star))
     [:mesh {:position position}
+
      (when (= (:star/name star) "sun")
-       [:pointLight {:intensity 8}])
-     
+       [:<>
+        ($ SunLight {:position #js [0 0 0]
+                     :intensity 5
+                     :shadow-camera-near 1
+                     :shadow-camera-far 100000000
+                     :shadow-camera-size 500})])
+
      (when (:object/show? star)
        (if gltf
          [:mesh {:quaternion (or quaternion [0 0 0 1])}
-          [:mesh {:scale [radius radius radius]}
+          [:mesh {:scale [scaled-radius scaled-radius scaled-radius]}
            [v.gltf/GltfView gltf env]]
 
-          #_[:PolarGridHelper {:args #js [1000 12 10 10000 "yellow" "yellow"]}]
-
-        ;; 
-          ]
+          #_[:PolarGridHelper {:args #js [1000 4 2 10000 "yellow" "yellow"]}]]
 
          [:> Sphere {:args [radius 10 10]
                      :position [0 0 0]
                      :quaternion (or quaternion [0 0 0 1])}
           [:meshStandardMaterial {:color color}]]))
-     
-     
+
      [:<>
       (for [planet (:planet/_star star)]
         ^{:key (:db/id planet)}
-        [v.planet/PlanetView planet env])]]))
+        [v.planet/PlanetView {:planet planet
+                              :has-day-light? has-day-light?
+                              :astro-scene (:astro-scene props)} env])]]))
+
+
+(defnc StarsSphereComponent [props]
+  #_(println "mount stars")
+  (let [stars (:stars props)
+        star-count (count stars)
+        positions (use-memo [star-count]
+                            (let [positions #js []]
+                              (doseq [star stars]
+                                (let [[x y z] (m.star/cal-star-position-vector star)]
+                                  (j/push! positions x)
+                                  (j/push! positions y)
+                                  (j/push! positions z)))
+                              (js/Float32Array.  positions)))]
+    ($ "points"
+       ($ "bufferGeometry"
+          ($ "bufferAttribute" {:attach-object #js ["attributes" "position"]
+                                :count         star-count
+                                :array         positions
+                                :item-size     3}))
+       ($ "pointsMaterial" {:size             250000000000
+                            :size-attenuation true
+                            :color            "white"
+                            :transparent      true
+                            :opacity          1
+                            :fog              false}))))
+
+
+(defn StarsSphereView [{:keys [has-day-light?]} {:keys [conn]}]
+  (let [stars (m.constel/sub-all-constellation-stars conn)]
+    (when-not has-day-light?
+      ($ StarsSphereComponent {:stars stars}))))

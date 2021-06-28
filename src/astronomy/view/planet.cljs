@@ -2,13 +2,12 @@
   (:require
    [applied-science.js-interop :as j]
    [cljs.core.async :refer [go >! <!]]
-   ["@react-three/drei" :refer [Sphere]]
    [posh.reagent :as p]
-
-   [astronomy.model.circle-orbit :as m.circle-orbit]
-   [astronomy.model.spin :as m.spin]
-
+   [shu.three.vector3 :as v3]
+   [astronomy.model.ellipse-orbit :as m.ellipse-orbit]
+   [methodology.lib.geometry :as v.geo]
    [methodology.view.gltf :as v.gltf]
+   [astronomy.view.celestial-sphere-helper :refer [CelestialSphereHelperView]]
    [astronomy.view.satellite :as v.satellite]))
 
 
@@ -35,41 +34,74 @@
 
 ;; 绑定数据层
 
-(defn PlanetView [entity {:keys [conn service-chan] :as env}]
-  (let [planet @(p/pull conn '[{:satellite/_planet [:db/id]} *] (:db/id entity))
-        {:planet/keys [color radius]} planet
+(defn PlanetPositionLineView [{:keys [planet]} env]
+  (let [color (or (get-in planet [:celestial/orbit :orbit/color])
+                  "gray")]
+    [v.geo/LineComponent {:points [(v3/from-seq [0 0 0])
+                                   (v3/from-seq (map #(* 1.003 %) (:object/position planet)))]
+                          :color color}]))
+  
+
+(defn PlanetOrbitView [{:keys [orbit]} env]
+  (cond
+    (= (:orbit/type orbit) :ellipse-orbit)
+    [v.geo/LineComponent {:points (m.ellipse-orbit/cal-orbit-points-vectors orbit (* 10 360))
+                          :color (:orbit/color orbit)}]
+
+    :else
+    [v.geo/CircleComponent {:center [0 0 0]
+                            :radius (:circle-orbit/radius orbit) 
+                            :axis (:circle-orbit/axis orbit) 
+                            :color (:orbit/color orbit)
+                            :circle-points (* 360 20)}]))
+
+
+(defn PlanetSpinPlaneView [{:keys [size]} env]
+  [:<>
+   [:gridHelper {:args [size 10 "gray gray"]}]
+   [v.geo/LineComponent {:points [(v3/from-seq [0 0 0])
+                                  (v3/from-seq [(* 0.7 size) 0 0])]
+                         :color "red"}]])
+
+(defn PlanetView [{:keys [planet astro-scene has-day-light?] :as props} {:keys [conn service-chan] :as env}]
+  (let [planet @(p/pull conn '[{:satellite/_planet [:db/id]
+                                :celestial/orbit [*]
+                                :celestial/spin [*]} *] (:db/id planet))
         {:object/keys [position quaternion]} planet
-        {:celestial/keys [gltf orbit spin]} planet
-        q-orbit-tilt (m.circle-orbit/cal-tilt-quaternion orbit)
-        satellites (:satellite/_planet planet)]
+        {:celestial/keys [gltf orbit radius spin]} planet
+        satellites (:satellite/_planet planet)
+        scaled-radius (* radius (:astro-scene/celestial-scale astro-scene))]
     ;; (println "planet view: " planet)
 
-    [:group {:position position}
-     (when (:object/show? planet)
-       (if gltf
-         [:mesh {:quaternion quaternion}
-          [:mesh {:scale [radius radius radius]
-                  :onClick (fn [e]
-                             (let [pt (j/get-in e [:intersections 0 :point])
-                                   point (seq (j/call pt :toArray))]
-                               (go (>! service-chan #:event {:action :user/object-clicked
-                                                             :detail {:click-point point
-                                                                      :object planet}}))))}
-           [v.gltf/GltfView gltf env]]
-          #_[:PolarGridHelper {:args [0.5 8 5 64 "deepskyblue" "deepskyblue"]}]]
+    [:<>
+     [:mesh {:position position}
+      (when (and (:object/show? planet) gltf)
+        [:mesh {:quaternion quaternion}
+         [:mesh {:scale [scaled-radius scaled-radius scaled-radius]
+                 :onClick (fn [e]
+                            (let [pt (j/get-in e [:intersections 0 :point])
+                                  point (seq (j/call pt :toArray))]
+                              (go (>! service-chan #:event {:action :user/object-clicked
+                                                            :detail {:click-point point
+                                                                     :alt-key (j/get-in e [:altKey])
+                                                                     :meta-key (j/get-in e [:metaKey])
+                                                                     :shift-key (j/get-in e [:shiftKey])
+                                                                     :object planet}}))))}
+          [v.gltf/GltfView gltf env]]
 
-         [:> Sphere {:args [radius 10 10]
-                     :position [0 0 0]
-                     :quaternion quaternion}
-          [:gridHelper {:args [0.2 10 "yellow" "yellow"]}]
-          [:meshStandardMaterial {:color color}]]))
-     
+         #_[:PolarGridHelper {:args [5 8 5 64 "deepskyblue" "deepskyblue"]}]
+         (when (:spin/show-helper? spin)
+           [PlanetSpinPlaneView {:size (* 4 scaled-radius)} env])])
 
-     #_[:gridHelper {:args [2 10 "gray" "gray"]
-                     :position [0 0 0]
-                     :quaternion (vec q-orbit-tilt)}]
 
-     [:<>
-      (for [satellite satellites]
-        ^{:key (:db/id satellite)}
-        [v.satellite/SatelliteView satellite env])]]))
+      [:<>
+       (for [satellite satellites]
+         ^{:key (:db/id satellite)}
+         [v.satellite/SatelliteView {:satellite satellite
+                                     :has-day-light? has-day-light?
+                                     :astro-scene astro-scene} env])]]
+
+     (when (:orbit/show? orbit) [PlanetOrbitView {:orbit orbit} env])
+     (when (:orbit/show? orbit) [PlanetPositionLineView {:planet planet} env])
+
+     ]))

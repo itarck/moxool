@@ -17,10 +17,11 @@
                      "astronomy-cell")]
          ^{:key (:db/id cell)}
          [:div {:class style
-                :onClick #(go (>! service-chan #:event{:action :user/active-backpack-cell
+                :onClick #(go (>! service-chan #:event{:action :user/click-backpack-cell
                                                        :detail {:user user
                                                                 :backpack bp
-                                                                :cell cell}}))}
+                                                                :cell cell
+                                                                :active-cell active-cell}}))}
           (when tool
             [:img {:src (-> tool :tool/icon)
                    :class "astronomy-button"}])]))]))

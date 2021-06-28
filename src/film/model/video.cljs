@@ -30,6 +30,11 @@
 
 ;; model
 
+(def find-all-video-ids-query
+  '[:find [?vid ...]
+    :where
+    [?vid :video/name]])
+
 (defn pull-one [db id]
   (d/pull db '[*] id))
 

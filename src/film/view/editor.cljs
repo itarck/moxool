@@ -58,9 +58,9 @@
                     :onChange (fn [e]
                                 (let [el @local-ref
                                       file (first (j/get el :files))]
-                                  (go (>! out-chan [:video :video/upload-mp3 {:video video
-                                                                              :filename (str start-timestamp ".mp3")
-                                                                              :file file}]))))}]]
+                                  (go (>! out-chan [:editor :editor/upload-mp3 {:video video
+                                                                                :filename (str start-timestamp ".mp3")
+                                                                                :file file}]))))}]]
           [:li.list-group-item "操作: "
            [Button "加载视频" #(go (>! out-chan
                                    [:player :player/open-video {:player-id (:db/id player)
@@ -91,7 +91,9 @@
      (when scene-view
        scene-view)
 
-     [v.player/PlayerPanel {:player player} out-chan system-conn]
+     [v.player/PlayerPanel {:player player
+                            :editor editor
+                            :scene scene} out-chan system-conn]
      #_[v.player/AudioPlayerPanel {:player player} out-chan system-conn]
 
      [:div.container-fluid.m-0.p-0

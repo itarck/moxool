@@ -1,5 +1,6 @@
 (ns astronomy.model.clock
   (:require
+   [goog.string :as gstring]
    [cljs.spec.alpha :as s]
    [shu.goog.math :as gmath]
    [shu.three.spherical :as sph]))
@@ -29,15 +30,24 @@
 (s/valid? :astronomy/clock sample)
 
 
+(defn quot' [a b]
+  (int (/ a b)))
+
+(defn rem' [a b]
+  (- a (* b (quot' a b))))
+
 (defn parse-time-in-days [time-in-days]
-  (let [quot-days (quot time-in-days day)
-        rem-days (rem time-in-days day)
-        quot-hours (quot rem-days hour)
-        rem-hours (rem rem-days hour)
-        quot-minutes (quot rem-hours minute)
-        rem-minutes (rem rem-hours minute)
+  (let [quot-years (quot' time-in-days year)
+        rem-years (rem' time-in-days year)
+        quot-days (quot' rem-years day)
+        rem-days (rem' rem-years day)
+        quot-hours (quot' rem-days hour)
+        rem-hours (rem' rem-days hour)
+        quot-minutes (quot' rem-hours minute)
+        rem-minutes (rem' rem-hours minute)
         seconds (/ rem-minutes second')]
-    {:days quot-days
+    {:years quot-years
+     :days quot-days
      :hours quot-hours
      :minutes quot-minutes
      :seconds seconds}))
@@ -60,12 +70,20 @@
   [[:db/add clock-id :clock/time-in-days time-in-days]])
 
 
+(defn format-time-in-days [time-in-days]
+  (let [{:keys [years days minutes hours seconds]} (parse-time-in-days time-in-days)]
+    (str "第" years "年，"
+         "第" days "天，"
+         (if (< hours 10) (str "0" hours) hours) ":"
+         (if (< minutes 10) (str "0" minutes) minutes) ":"
+         (when (< (int seconds) 10) "0")
+         (gstring/format "%0.3f" (/ (int (* 1000 seconds)) 1000)))))
+
+
+
 (comment
-
-  (parse-time-in-days 34.4234)
-  ;; => {:days 34, :hours 10, :minutes 9, :seconds 41.76000000007986}
-
-  (sph/from-cartesian-coords 0 0 -1)
+  
+  (gstring/format "%2.0f" 2)
 
   ;; 
   )

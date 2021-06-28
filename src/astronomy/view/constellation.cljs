@@ -5,11 +5,13 @@
    [shu.three.vector3 :as v3]
    ["@react-three/drei" :refer [Html]]
    ["three" :as three]
+   [posh.reagent :as p]
+   [shu.astronomy.light :as shu.light]
    [astronomy.model.constellation :as m.constel]))
 
 
 (defn gen-star-points [stars]
-  (let [radius 31536000]
+  (let [radius (* 100 shu.light/light-year-unit)]
     (clj->js
      (for [star stars]
        (let [{:star/keys [right-ascension declination]} star
@@ -25,31 +27,30 @@
     (j/call lineGeometry :setFromPoints (gen-star-points star-line))
     [:line {:geometry lineGeometry}
        [:lineBasicMaterial {:args {:linewidth 1
-                                   :color "green"
+                                   :color "#003300"
                                    :linecap "butt"
                                    :linejoin "butt"}}]]))
 
 
 (defn ConstellationView [props {:keys [conn] :as env}]
-  (let [{:keys [constellation]} props
-        constel-entity (m.constel/sub-constellation conn (:db/id constellation))
-        {:constellation/keys [chinese-name right-ascension declination star-lines]} constel-entity]
-    [:<>
-     [:> Html {:position (vec (m.constel/cal-celestial-sphere-position right-ascension declination))
-               :zIndexRange [0 0]
-               :style {:color "green"
-                       :font-size "14px"}}
-      [:p chinese-name]]
-     (for [star-line star-lines]
-       ^{:key (str (:db/id constel-entity) (rand))}
-       [StarLineView star-line])]))
+  (let [constel-entity (m.constel/sub-constellation conn (get-in props [:object :db/id]))
+        {:constellation/keys [show? chinese-name right-ascension declination star-lines]} constel-entity]
+    (when show?
+      [:<>
+       [:> Html {:position (vec (m.constel/cal-celestial-sphere-position right-ascension declination))
+                 :zIndexRange [0 0]
+                 :style {:color "green"
+                         :font-size "14px"}}
+        [:p chinese-name]]
+       (for [star-line star-lines]
+         ^{:key (str (:db/id constel-entity) (rand))}
+         [StarLineView star-line])])))
 
 
-(defn ConstellationsView [props {:keys [conn] :as env}]
-  (let [constellation-ids (m.constel/sub-all-constellation-ids conn)]
-    [:<>
-     (for [id constellation-ids]
-       ^{:key id}
-       [ConstellationView {:constellation {:db/id id}} env])])
-  
-  )
+(defn ConstellationsView [{:keys [has-day-light?] :as props} {:keys [conn] :as env}]
+    (let [constellation-ids (m.constel/sub-all-constellation-ids conn)]
+      (when (not has-day-light?)
+        [:<>
+         (for [id constellation-ids]
+           ^{:key id}
+           [ConstellationView {:object {:db/id id}} env])])))

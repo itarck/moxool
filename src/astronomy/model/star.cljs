@@ -1,7 +1,11 @@
 (ns astronomy.model.star
-  (:require 
+  (:require
    [datascript.core :as d]
-   [posh.reagent :as p]))
+   [posh.reagent :as p]
+   [shu.three.vector3 :as v3]
+   [shu.goog.math :as gmath]
+   [shu.astronomy.light :as shu.light]
+   [astronomy.model.celestial :as m.celestial]))
 
 
 
@@ -36,20 +40,19 @@
 
 
 ;; model
- 
+
 
 (defn parse-raw-bsc-data [star]
   (let [{:star/keys [RAh RAm RAs DEd DEm DEs]} star
-        right-ascension (+ (* (/ RAh 24.0) 360.0)
-                           (/ RAm 60.0)
-                           (/ RAs 3600.0))
-        declination (+ DEd
-                       (/ DEm 60.0)
-                       (/ DEs 3600.0))]
+        right-ascension (+ (* RAh (/ 360 24.0))
+                           (* RAm (/ 360 24.0 60.0))
+                           (* RAs (/ 360 24.0 3600.0)))
+        declination (if (>= DEd 0)
+                      (+ DEd (/ DEm 60.0) (/ DEs 3600.0))
+                      (- DEd (/ DEm 60.0) (/ DEs 3600.0)))]
     (-> star
         (assoc :star/right-ascension right-ascension)
         (assoc :star/declination declination))))
-
 
 (defn find-all-stars [db]
   (let [ids (d/q '[:find [?id ...]
@@ -69,8 +72,32 @@
     (:object/position star)))
 
 
+(defn show-all-planet-orbits-tx [star show?]
+  (let [planets (:planet/_star star)]
+    (mapcat #(m.celestial/update-show-orbit-tx % show?) planets)))
+
+
+(defn visual-magnitude->length [vm]
+  (* (* 100 shu.light/light-year-unit) (Math/pow 10 (/ vm 8))))
+
+
+(defn cal-star-position-vector [star]
+  (let [{:star/keys [visual-magnitude right-ascension declination]} star
+        radius (visual-magnitude->length visual-magnitude)]
+    (v3/from-spherical-coords
+     radius
+     (gmath/to-radians (- 90 declination))
+     (gmath/to-radians right-ascension))))
+
+
 (comment 
   (parse-raw-bsc-data sample2)
   ;; => #:star{:DEm 13, :HR 1, :RAh 0, :RAm 5, :DEd 45, :HD 3, :right-ascension 0.08608333333333333, :visual-magnitude 6.7, :DEs 45, :RAs 9.9, :declination 45.22916666666667}
+
+  
+  (visual-magnitude->length 1)
+  ;; => 158.48931924611136
+
+
 
   )

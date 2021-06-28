@@ -4,6 +4,7 @@
    [cljs-http.client :as http]
    [datascript.core :as d]
    [datascript.transit :as dt]
+   [posh.reagent :as p]
    [film.model.player :as m.player]
    [film.model.video :as m.video]
    [film.model.editor :as m.editor]))
@@ -46,6 +47,10 @@
                                       db-value (:db-value (:body response))]
                                   (when db-value
                                     (d/reset-conn! system-conn (dt/read-transit-str db-value)))))
+            :editor/upload-mp3 (let [{:keys [video filename file]} event]
+                                 (p/transact! system-conn [{:db/id (:db/id video)
+                                                            :video/mp3 (str "mp3/" filename)}])
+                                 (http/post "/api/mp3/upload" {:multipart-params [[:filename filename] [:file file]]}))
 
             (println "service.system: event not match" signal))
             (catch js/Error e

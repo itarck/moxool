@@ -8,32 +8,8 @@
    [shu.goog.math :as gmath]
    [shu.three.vector3 :as v3]
    [shu.general.core :as g]
-   [astronomy.model.constellation :as m.constel]))
-
-
-(defn visual-magnitude->size [vm]
-  (/ (/ 31536000 100) (Math/pow 1.3 vm)))
-
-
-(defn StarsProjectionComponent [props {:keys [conn] :as env}]
-  [:<>
-   (for [star (:stars props)]
-     (let [{:star/keys [right-ascension declination visual-magnitude]} star
-           position (seq (m.constel/cal-celestial-sphere-position right-ascension declination))]
-      ;;  (println star)
-       (when (and right-ascension declination visual-magnitude position)
-         ($ "points" {:key (:db/id star)}
-            ($ "bufferGeometry"
-               ($ "bufferAttribute" {:attach-object #js ["attributes" "position"]
-                                     :count         1
-                                     :array         (js/Float32Array. (clj->js position))
-                                     :item-size     3}))
-            ($ "pointsMaterial" {:size             (* 100 (visual-magnitude->size visual-magnitude))
-                                 :size-attenuation true
-                                 :color            "white"
-                                 :transparent      true
-                                 :opacity          1
-                                 :fog              false})))))])
+   [astronomy.model.constellation :as m.constel]
+   [shu.astronomy.light :as shu.light]))
 
 
 
@@ -57,16 +33,19 @@
                                 :count         star-count
                                 :array         positions
                                 :item-size     3}))
-       ($ "pointsMaterial" {:size             1200000000
+       ($ "pointsMaterial" {:size             80000000000
                             :size-attenuation true
                             :color            "white"
                             :transparent      true
                             :opacity          1
                             :fog              false}))))
 
+(def astro-scene-scale 1e4)
 
-(def low-distance (* 100000000 365 86400))
-(def up-distance (* 9000000000 365 86400))
+(def low-distance (* 10000 10000 shu.light/light-year-unit))
+(def up-distance (* 400 10000 10000 shu.light/light-year-unit))
+
+(def point-size-ratio 2e-3)
 
 
 (defnc StarsView2 [props]
@@ -76,7 +55,7 @@
                             (let [positions #js []]
                               (doseq [_i (range star-count)]
                                 (let [[x y z] (v3/from-spherical-coords
-                                               (* (+ 0.5 (* (rand) 0.3)) low-distance)
+                                               (* (+ 0.5 (* (rand) 0.5)) low-distance)
                                                (* (rand) Math/PI)
                                                (* (rand) Math/PI (g/rand-sign)))]
                                   (j/push! positions x)
@@ -89,7 +68,7 @@
                                 :count         star-count
                                 :array         positions
                                 :item-size     3}))
-       ($ "pointsMaterial" {:size             600000000000000
+       ($ "pointsMaterial" {:size             (* point-size-ratio low-distance astro-scene-scale)
                             :size-attenuation true
                             :color            "orange"
                             :transparent      true
@@ -99,7 +78,7 @@
 
 (defnc StarsView3 [props]
   #_(println "mount stars")
-  (let [{:keys [star-count] :or {star-count 1000}} props
+  (let [{:keys [star-count] :or {star-count 10000}} props
         positions (use-memo [star-count]
                             (let [positions #js []]
                               (doseq [_i (range star-count)]
@@ -117,9 +96,9 @@
                                 :count         star-count
                                 :array         positions
                                 :item-size     3}))
-       ($ "pointsMaterial" {:size             60000000000000000
+       ($ "pointsMaterial" {:size             (* point-size-ratio up-distance astro-scene-scale)
                             :size-attenuation true
-                            :color            "yellow"
+                            :color            "red"
                             :transparent      true
                             :opacity          1
                             :fog              false}))))
@@ -127,5 +106,5 @@
 (defn BackgroundView [props env]
   [:<>
    ($ StarsView)
-   ($ StarsView2)
-   ($ StarsView3)])
+  ;;  ($ StarsView2)
+   #_($ StarsView3)])

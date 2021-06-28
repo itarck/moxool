@@ -3,17 +3,14 @@
    [applied-science.js-interop :as j]
    [cljs-bean.core :refer [->js]]
    [cljs.core.async :refer [go >! <! go-loop] :as a]
-   [cuerdas.core :as cue]
-   [goog.string :as gstring]
    [helix.core :refer [$]]
    [posh.reagent :as p]
-   [reagent.core :as r]
    ["@material-ui/core" :as mt]
    [astronomy.model.clock :as m.clock]))
 
 
 (defn ClockToolView [props {:keys [service-chan conn]}]
-  (let [clock-tool @(p/pull conn '[*] (get-in props [:clock-tool :db/id]))
+  (let [clock-tool @(p/pull conn '[*] (get-in props [:tool :db/id]))
         camera-control @(p/pull conn '[*] (get-in props [:camera-control :db/id]))
         {:clock-tool/keys [steps-per-second step-interval clock]} clock-tool
         clock @(p/pull conn '[*] (:db/id clock))
@@ -29,50 +26,48 @@
                                                                 :detail {:clock-tool clock-tool
                                                                          :step-interval step-interval}})))]
 
-    [:div.p-2
-     [:div
-      [:img {:src (:tool/icon clock-tool)
-             :class "astronomy-button"}]
-      [:span {:style {:font-size "18px"
-                      :font-weight "bold"}} "时钟"]]
+    [:div {:class "astronomy-righthand"}
+     [:div {:class "astronomy-righthand-tool"}
+      [:div.p-2
+       [:div
+        [:img {:src (:tool/icon clock-tool)
+               :class "astronomy-button"}]
+        [:span {:style {:font-size "18px"
+                        :font-weight "bold"}} (:tool/chinese-name clock-tool)]]
 
-     ($ mt/Grid {:container true :spacing 1}
+       [:> mt/Grid {:container true :spacing 1}
 
         (if (= (:spaceship-camera-control/mode camera-control) :surface-control)
+          [:<>
+           ($ mt/Grid {:item true :xs 4}
+              ($ mt/Typography {:variant "subtitle2"}
+                 "本地时间： "))
+           ($ mt/Grid {:item true :xs 8}
+              ($ mt/Typography {:variant "subtitle2"}
+                 (let [longitude (m.clock/cal-longitude (:spaceship-camera-control/position camera-control))
+                       local-time (m.clock/cal-local-time time-in-days longitude)]
+                   (m.clock/format-time-in-days local-time))))]
+
+
           ($ mt/Grid {:item true :xs 12}
              ($ mt/Typography {:variant "subtitle2"}
-                (let [longitude (m.clock/cal-longitude (:spaceship-camera-control/position camera-control))
-                      local-time (m.clock/cal-local-time time-in-days longitude)
-                      {:keys [days minutes hours seconds]} (m.clock/parse-time-in-days local-time)]
-                  (str "本地时间： 第"
-                       days "天 "
-                       hours ":"
-                       minutes ":"
-                       (gstring/format "%0.3f" seconds)))))
-          ($ mt/Grid {:item true :xs 12}
-             ($ mt/Typography {:variant "subtitle2"}
-                (let [{:keys [days minutes hours seconds]} (m.clock/parse-time-in-days time-in-days)]
-                  (str "当前时间： 第"
-                       days "天 "
-                       hours ":"
-                       minutes ":"
-                       (gstring/format "%0.3f" seconds))))))
+                (str "当前时间： " (m.clock/format-time-in-days time-in-days)))))
 
         #_($ mt/Grid {:item true :xs 12}
-           ($ mt/Typography {:variant "subtitle2"}
-              (str "播放速度： " steps-per-second " fps"))
-           ($ mt/Slider
-              {:style (->js {:color "#666"
-                             :width "200px"})
-               :value steps-per-second
-               :onChange (fn [e value]
-                           (go (>! service-chan #:event {:action :clock-tool/change-steps-per-second
-                                                         :detail {:clock-tool clock-tool
-                                                                  :steps-per-second value}})))
-               :step 1 :min 1 :max 50 :marks true
-               :getAriaValueText identity
-               :aria-labelledby "discrete-slider-restrict"
-               :valueLabelDisplay "auto"}))
+             ($ mt/Typography {:variant "subtitle2"}
+                (str "播放速度： " steps-per-second " fps"))
+             ($ mt/Slider
+                {:style (->js {:color "#666"
+                               :width "200px"})
+                 :value steps-per-second
+                 :onChange (fn [e value]
+                             (go (>! service-chan #:event {:action :clock-tool/change-steps-per-second
+                                                           :detail {:clock-tool clock-tool
+                                                                    :steps-per-second value}})))
+                 :step 1 :min 1 :max 50 :marks true
+                 :getAriaValueText identity
+                 :aria-labelledby "discrete-slider-restrict"
+                 :valueLabelDisplay "auto"}))
 
         ($ mt/Grid {:item true :xs 12}
            ($ mt/Typography {:variant "subtitle2"} "时间步长：" step-interval-in-chinese)
@@ -107,5 +102,5 @@
                                                                             :clock clock}}))} "停止")
               ($ mt/Button {:onClick #(go (>! service-chan #:event{:action :clock-tool/next-step
                                                                    :detail {:clock-tool clock-tool
-                                                                            :clock clock}}))} "下一步"))))]))
+                                                                            :clock clock}}))} "下一步")))]]]]))
 

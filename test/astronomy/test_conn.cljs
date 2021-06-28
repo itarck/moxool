@@ -5,8 +5,7 @@
    [datascript.core :as d]
    [datascript.transit :as dt]
    [posh.reagent :as p]
-   [shu.three.vector3 :as v3]
-   [astronomy.model.coordinate :as m.coordinate]
+   [astronomy.app.scene-free :as scene-free]
    [astronomy.model.constellation :as m.constel]))
 
 
@@ -24,27 +23,30 @@
 (def create-test-conn! create-poshed-conn!)
 
 
+(defn create-system-conn! []
+  (let [test-app-instance (scene-free/create-app! #:app{:scene-db-url "/edn/free-mode.edn"})]
+    (:app/scene-conn test-app-instance)))
+
+
 (comment
 
   (def conn (create-poshed-conn!))
+  (count (d/datoms @conn :eavt))
+  (count (d/schema @conn))
 
   (def coor-1 (d/pull @conn '[*] [:coordinate/name "default"]))
 
-  (count (d/q '[:find [?id ...]
-                :where [?id :star/HR]]
-              @conn))
+  @(p/pull conn '[*] [:coordinate/name "default"])
+  @(p/pull conn '[*] [:atmosphere/name "default"])
 
-  (count (m.constel/find-all-star-ids @conn))
+  (m.constel/sub-all-constellations-id-and-names conn)
 
-  (m.constel/sub-all-constellation-stars conn)
+  @(p/pull conn '[*] [:constellation/abbreviation "UMi"])
+  ;; => {:db/id 9234, :constellation/abbreviation "UMi", :constellation/star-lines [[465 6830 6363 5944 5604 5776 6157 5944]]}
 
-  @(p/pull conn '[*] (first star-ids))
+  @(p/pull conn '[*] 465)
+  ;; => {:star/DEs 51, :star/bsc-name "1Alp UMi", :star/HR 424, :star/DEm 15, :star/right-ascension 30.530194444444444, :star/RAh 2, :db/id 465, :star/declination 89.26416666666667, :star/RAm 31, :star/visual-magnitude 2.02, :star/HD 8890, :star/RAs 48.7, :star/DEd 89}
 
-  (m.constel/cal-celestial-sphere-position 0 0)
+ 
 
-  (let [m (m.coordinate/cal-invert-matrix coor-1)
-        v (v3/vector3 0 0 0)]
-    (v3/apply-matrix4 v m))
-
-  ;; 
-  )
+)

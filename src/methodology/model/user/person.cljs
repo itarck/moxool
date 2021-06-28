@@ -1,6 +1,7 @@
 (ns methodology.model.user.person
   (:require 
-   [datascript.core :as d]))
+   [datascript.core :as d]
+   [posh.reagent :as p]))
 
 
 (def person1 #:person {:db/id -1
@@ -14,10 +15,31 @@
 (def schema
   {:person/name {:db/unique :db.unique/identity}
    :person/backpack {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
+   :person/mouse {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
+   :person/camera-control {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
    :person/right-tool {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}})
 
 
 (defn pull2 [db id]
   (d/pull db '[* {:person/right-tool [*]
                   :person/backpack [*]}] id))
+
+
+
+(defn select-tool-tx [person tool-id]
+  (when tool-id
+    [[:db/add (:db/id person) :person/right-tool tool-id]]))
+
+
+(defn drop-tool-tx [person]
+  [[:db.fn/retractAttribute (:db/id person) :person/right-tool]])
+
+
+(defn sub-user-name-exist? [conn user-name]
+  (seq
+   @(p/q '[:find [?id ...]
+           :in $ ?user-name
+           :where
+           [?id :person/name ?user-name]]
+         conn user-name)))
 

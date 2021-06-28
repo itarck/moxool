@@ -16,14 +16,15 @@
   (let [player (m.player/sub-whole-player system-conn (get-in props [:player :db/id]))
         video (:player/current-video player)]
     [:div {:style {:position :absolute
-                   :width "1280px"
-                   :top "680px"}}
+                   :width "600px"
+                   :top "5px"}}
      [:> ReactAudioPlayer
       {:src (:video/mp3 video)
        :controls true
        :preload "auto"
-       :style {:width "1280px"
-               :height "40px"}
+       :style {:width "400px"
+               :height "40px"
+               :opacity "0.7"}
        :onPause (fn [e]
                   (println "on pause")
                   (go (>! out-chan [:player :player/pause-play {:player player}])))
@@ -40,17 +41,27 @@
 
 
 (defn PlayerPanel [props out-chan system-conn]
-  (let [player (m.player/sub-player system-conn (get-in props [:player :db/id]))
+  (let [{:keys [editor scene]} props
+        player (m.player/sub-player system-conn (get-in props [:player :db/id]))
         current-time (get-in player [:player/session :current-time])
         total-time (get-in player [:player/session :total-time])]
 ;;     (println "player view " player)
     [:div {:class "methodology-player"}
      [:div {:class "btn-toolbar"}
+
       [:h4 {:on-click #(go (>! out-chan [:player :player/start-play {:player player}]))}
        [:i {:class "bi bi-play"}]]
-      [:h4 {:on-click #(go (>! out-chan [:player :player/pause-play {:player player}]))
-            :style {:margin-right "10px"}}
+      [:h4 {:on-click #(go (>! out-chan [:player :player/pause-play {:player player}]))}
        [:i {:class "bi bi-pause"}]]
+
+      [:h4 {:on-click #(go (>! out-chan [:editor :editor/start-record {:editor editor
+                                                                       :scene scene}]))}
+       [:i {:class "bi bi-record"}]]
+      [:h4 {:on-click #(go (>! out-chan [:editor :editor/stop-record {:editor editor
+                                                                      :scene scene}]))
+            :style {:margin-right "15px"}}
+       [:i {:class "bi bi-stop"}]]
+
       [:div {:class "input-group col"
              :style {:padding "0 10px"}}
        [slider {:value current-time
@@ -69,6 +80,6 @@
     [:div {:style {:position :absolute
                    :height "720px"
                    :width "1280px"}}
-     (when scene-view
-       scene-view)
-     [PlayerPanel {:player player} studio-chan studio-conn]]))
+     (when scene-view scene-view)
+     #_[PlayerPanel {:player player} studio-chan studio-conn]
+     [AudioPlayerPanel {:player player} studio-chan studio-conn]]))

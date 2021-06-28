@@ -4,53 +4,51 @@
    [helix.core :refer [$]]
    [methodology.model.scene :as m.scene]
    [shu.three.vector3 :as v3]
+   [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.model.coordinate :as m.coordinate]
-   [astronomy.model.constellation :as m.constel]
-   [astronomy.view.star :as v.star]
    [astronomy.view.background :as v.background]
-   [astronomy.view.celestial-sphere-helper :refer [CelestialSphereHelperView]]
-   [astronomy.view.galaxy :as v.galaxy]
    [astronomy.view.constellation :as v.constel]
+   [astronomy.view.star :as v.star]
+   [astronomy.model.atmosphere :as m.atmosphere]
    [astronomy.view.atmosphere :as v.atmosphere]))
 
 
-(defn AstroSceneView [props {:keys [conn] :as env}]
-  (let [{:keys [astro-scene-id camera-control-id]} props
-        astro-scene @(p/pull conn '[* {:object/_scene [*]}] astro-scene-id)
+(defn AstroSceneView [props {:keys [conn object-libray] :as env}]
+  (let [astro-scene @(p/pull conn '[*] (get-in props [:astro-scene :db/id]))
+        atmosphere (m.atmosphere/sub-unique-one conn)
         {:scene/keys [scale]} astro-scene
         objects (m.scene/sub-objects conn (:db/id astro-scene))
-
-        camera-control @(p/pull conn '[*] camera-control-id)
-        coor-1 @(p/pull conn '[*] [:coordinate/name "default"])
-        sun-position (m.coordinate/original-position coor-1)
-        {:spaceship-camera-control/keys [up]} camera-control
-        angle (v3/angle-to (v3/from-seq up) sun-position)
-        has-day-light? (and
-                        (= :surface-control (:spaceship-camera-control/mode camera-control))
-                        (< angle (* 0.5 Math/PI)))]
-    ;; (println "scene view mounted" )
+        spaceship-camera-control @(p/pull conn '[*] (get-in props [:spaceship-camera-control :db/id]))
+        coor-1 @(p/pull conn '[*] (get-in astro-scene [:astro-scene/coordinate :db/id]))
+        has-day-light? (m.astro-scene/has-day-light? coor-1 spaceship-camera-control atmosphere 0.5)
+        has-atmosphere? (m.astro-scene/has-day-light? coor-1 spaceship-camera-control atmosphere 0.55)]
+    ;; (println "scene view mounted ?? ")
     [:<>
      [:mesh {:scale [scale scale scale]}
-      [v.atmosphere/AtmosphereView props env]
-      
-      [:mesh {:matrixAutoUpdate false
-              :matrix (m.coordinate/cal-invert-matrix coor-1)}
-      ;;  [CelestialSphereHelperView 31536000]
-      ;;  [v.constel/ConstellationsView {} env]
+      [v.atmosphere/AtmosphereView {:has-atmosphere? has-atmosphere?} env]
+
+      [:group {:matrixAutoUpdate false
+               :matrix (m.coordinate/cal-invert-matrix coor-1)}
+
+       [v.constel/ConstellationsView {:has-day-light? has-day-light?} env]
 
        (when-not has-day-light?
          [v.background/BackgroundView])
-       
-      ;;  [v.background/StarsProjectionComponent {:stars (m.constel/sub-all-constellation-stars conn)} env]
+
+       [v.star/StarsSphereView {:has-day-light? has-day-light?} env]
+
 
        (for [object objects]
-         (case (:entity/type object)
-           :star ^{:key (:db/id object)} [v.star/StarView object env]
-           :galaxy ^{:key (:db/id object)} [v.galaxy/GalaxyView object env]
-           nil))]
-      
-      
-      
-      #_[:PolarGridHelper {:args #js [10 4 10 360 "gray" "gray"]}]
-      ]]
+         (let [object-view-fn (get object-libray (:entity/type object))]
+           (when object-view-fn
+             (case (:entity/type object)
+               :star ^{:key (:db/id object)} [object-view-fn {:object object
+                                                              :has-day-light? has-day-light?
+                                                              :astro-scene astro-scene} env]
+               :horizontal-coordinate-tool  ^{:key (:db/id object)} [object-view-fn {:object object
+                                                                                     :spaceship-camera-control spaceship-camera-control
+                                                                                     :astro-scene astro-scene} env]
+               ^{:key (:db/id object)} [object-view-fn {:object object} env]))))]
+
+      #_[:PolarGridHelper {:args [10 4 10 360 "red" "red"]}]]]
     ))

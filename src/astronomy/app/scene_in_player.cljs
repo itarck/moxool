@@ -24,4 +24,6 @@
                                                            :db-url db-url}
                                                    :env {:scene-system (ig/ref :app/scene-system)}}}
         instance (ig/init app-config)]
-    #:app {:view (get-in instance [:app/player-system :system/view])}))
+    #:app {:view (get-in instance [:app/player-system :system/view])
+           :scene-system (get-in instance [:app/scene-system])
+           :player-system (get-in instance [:app/player-system])}))

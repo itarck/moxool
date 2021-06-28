@@ -16,10 +16,13 @@
 
 
 (defn create-app! [props]
-  (let [app-config #:app {:scene-system #:system{:system-fn system.solar/create-system!
-                                                 :props {}}}
+  (let [{:app/keys [scene-db-url]} props
+        app-config #:app {:scene-system #:system{:system-fn system.solar/create-system!
+                                                 :props {:db-url scene-db-url}}}
         app-instance (ig/init app-config)]
     #:app {:view [WrappedFreeView (get-in app-instance [:app/scene-system :system/view])] 
-           :scene-conn (get-in app-instance [:app/scene-system :system/conn])}))
+           :scene-conn (get-in app-instance [:app/scene-system :system/conn])
+           :service-chan (get-in app-instance [:app/scene-system :system/service-chan])
+           :scene-system (get-in app-instance [:app/scene-system])}))
 
 

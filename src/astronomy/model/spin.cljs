@@ -1,5 +1,6 @@
 (ns astronomy.model.spin
   (:require
+   [shu.goog.math :as gmath]
    [shu.three.vector3 :as v3]
    [shu.three.quaternion :as q]
    [shu.three.matrix4 :as m4]))
@@ -48,8 +49,19 @@
                            (m4/identity-matrix4))]
     self-spin-matrix))
 
+(defn cal-spin-axis [right-ascension declination]
+  (seq (v3/from-spherical-coords
+        1
+        (gmath/to-radians (- 90.0 declination))
+        (gmath/to-radians right-ascension))))
 
 
 (comment
   (cal-quaternion sample1 2)
+
+  (cal-spin-axis 270 67)
+
+  (cal-spin-axis 257.311 -15.175)
+
+  
   )

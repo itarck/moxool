@@ -50,3 +50,40 @@
     height: 38px;
     padding: 5px 15px;
 }
+
+.astronomy-lefthand {
+    position: absolute;
+    bottom: 0px;
+    left: 1%;
+    width: 300px;
+    font-size: 24px;
+}
+
+.astronomy-hud {
+    position: absolute;
+    top: 50px;
+    left: 190px;
+    width: 900px;
+    /* height: 550px; */
+    background: rgba(255, 255, 255, 0.2);
+    font-size: 14px
+}
+
+.astronomy-hud-content {
+    margin: 5px;
+    /* opacity: 0.8; */
+    width: 890px;
+    /* height: 540px; */
+    background: rgba(200, 200, 200);
+    
+}
+
+
+.methodology-mouse {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 1280px;
+    height: 720px;
+    font-size: 14px;
+}

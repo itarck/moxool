@@ -18,7 +18,7 @@
 
 
 (defn GalaxyView [props {:keys [conn] :as env}]
-  (let [galaxy @(p/pull conn '[*] (:db/id props))
+  (let [galaxy @(p/pull conn '[*] (get-in props [:object :db/id]))
         {:galaxy/keys [radius]} galaxy
         {:object/keys [position quaternion]} galaxy
         {:celestial/keys [gltf]} galaxy]

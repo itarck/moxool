@@ -5,23 +5,19 @@
    [shu.three.vector3 :as v3]))
 
 
-(def hour-degree (/ 360 24.))
-(def minute-degree (/ 1 60.0))
-(def second-degree (/ 1 3600.0))
-
 (defn to-right-ascension
   "in degree"
   [hours minutes seconds]
-  (+ (* hours hour-degree)
-     (* minutes minute-degree)
-     (* seconds second-degree)))
+  (+ (* hours (/ 360 24.))
+     (* minutes (/ 360 24 60.0))
+     (* seconds (/ 360 24 3600.0))))
 
 (defn to-declination
   "in degree"
   [degrees minutes seconds]
   (* (gmath/sign degrees) (+ (Math/abs degrees)
-                             (* minutes minute-degree)
-                             (* seconds second-degree))))
+                             (* minutes (/ 1 60.0))
+                             (* seconds (/ 1 3600.0)))))
 
 
 (def light-second-unit 1)

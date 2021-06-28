@@ -35,10 +35,13 @@
   (d/pull db '[* {:coordinate/track-position [*]
                   :coordinate/track-rotation [*]}] id))
 
+(defn sub-coordinate-fully [conn id]
+  @(p/pull conn '[* {:coordinate/track-position [*]
+                     :coordinate/track-rotation [*]}] id))
 
 (defn cal-world-position [db id]
-  (let [ref (d/pull db '[* {:coordinate/track-position [:db/id :entity/type]}] id)
-        p-object (d/pull db '[*] (-> ref :coordinate/track-position :db/id))
+  (let [coor (d/pull db '[* {:coordinate/track-position [:db/id :entity/type]}] id)
+        p-object (d/pull db '[*] (-> coor :coordinate/track-position :db/id))
         world-position (case (:entity/type p-object)
                          :star (:object/position p-object)
                          :planet (let [planet p-object
@@ -54,19 +57,23 @@
     world-position))
 
 (defn cal-world-quaternion [db id]
-  (let [ref (d/pull db '[* {:coordinate/track-rotation [:db/id :entity/type]}] id)
-        r-object (d/pull db '[*] (-> ref :coordinate/track-rotation :db/id))
+  (let [coor (d/pull db '[* {:coordinate/track-rotation [:db/id :entity/type]}] id)
+        r-object (d/pull db '[*] (-> coor :coordinate/track-rotation :db/id))
         world-quaternion (:object/quaternion r-object)]
     world-quaternion))
 
 
-(defn cal-invert-matrix [ref]
-  (let [{:coordinate/keys [position quaternion]} ref
+(defn cal-invert-matrix [coor]
+  (let [{:coordinate/keys [position quaternion]} coor
         mat (m4/compose (v3/from-seq position) (q/from-seq quaternion) (v3/vector3 1 1 1))]
     (m4/invert mat)))
 
 (defn original-position [coor-1]
   (v3/apply-matrix4 (v3/vector3 0 0 0) (cal-invert-matrix coor-1)))
+
+(defn is-earth-center? [coor-1]
+  (= (get-in coor-1 [:coordinate/track-position :planet/name])
+     "earth"))
 
 ;; tx 
 

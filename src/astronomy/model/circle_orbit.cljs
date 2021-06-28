@@ -13,9 +13,10 @@
   (/ (* 2 Math/PI) period))
 
 (def sample1
-  #:circle-orbit {:start-position [0 0 -500]
-                  :axis [1 2 0]
-                  :period 365})
+  #:circle-orbit {:start-position [0 0 -1.281]
+                  :radius 1.281
+                  :axis [0 1 0]
+                  :angular-velocity (period-to-angular-velocity 27)})
 
 
 (defn cal-position [orbit days]

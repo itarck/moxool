@@ -16,6 +16,13 @@
                         :object/show? show?}])))
 
 
+(defmethod handle-event! :universe-tool/change-celestial-scale
+  [props {:keys [conn]} {:event/keys [detail]}]
+  (let [{:keys [astro-scene-id celestial-scale]} detail]
+    (p/transact! conn [{:db/id astro-scene-id
+                        :astro-scene/celestial-scale celestial-scale}])))
+
+
 (defn init-service! [props {:keys [process-chan] :as env}]
   (println "universe tool started")
   (go-loop []

@@ -10,10 +10,13 @@
 
 
 (defnc CameraComponent [props]
-  (let [{:keys [camera]} (->clj (useThree))
+  (let [three-instance (useThree)
+    {:keys [camera scene]} (->clj three-instance)
         {:keys [domAtom position quaternion far near]} (->clj props)]
     (when domAtom
-      (swap! domAtom assoc :camera camera))
+      (swap! domAtom assoc :camera camera)
+      (swap! domAtom assoc :three-instance three-instance)
+      (swap! domAtom assoc :scene scene))
     (println "camera mounted")
     ($ PerspectiveCamera {:makeDefault true
                           ;; :args #js [50]

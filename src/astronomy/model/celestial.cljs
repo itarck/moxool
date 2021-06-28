@@ -5,6 +5,7 @@
    [shu.three.vector3 :as v3]
    [shu.three.quaternion :as q]
    [shu.three.matrix4 :as m4]
+   [astronomy.model.ellipse-orbit :as m.ellipse-orbit]
    [astronomy.model.circle-orbit :as m.circle-orbit]
    [astronomy.model.spin :as m.spin]))
 
@@ -53,6 +54,7 @@
   '[:find ?id ?chinese-name
     :where
     [?id :celestial/gltf _]
+    [?id :celestial/clock]
     [?id :entity/chinese-name ?chinese-name]])
 
 (def select-with-clock
@@ -72,16 +74,15 @@
 (defn cal-position [celestial days]
   {:pre [(s/assert :astronomy/celestial celestial)]}
   (let [{:celestial/keys [orbit]} celestial]
-    (if orbit
-      (m.circle-orbit/cal-position orbit days)
-      [0 0 0])))
+    (cond
+      (and orbit (= (:orbit/type orbit) :ellipse-orbit)) (m.ellipse-orbit/cal-position orbit days)
+      orbit (m.circle-orbit/cal-position orbit days)
+      :else [0 0 0])))
 
 (defn cal-position-matrix [celestial days]
   {:pre [(s/assert :astronomy/celestial celestial)]}
-  (let [{:celestial/keys [orbit]} celestial]
-    (if orbit
-      (apply m4/make-translation (m.circle-orbit/cal-position orbit days))
-      (m4/identity-matrix4))))
+  (let [position (cal-position celestial days)]
+    (apply m4/make-translation position)))
 
 (defn cal-quaternion [celestial days]
   (let [{:celestial/keys [spin]} celestial]
@@ -121,7 +122,7 @@
   (if (:celestial/orbit celestial)
     (let [{id :db/id :celestial/keys [orbit]} celestial
           time-in-days (-> celestial :celestial/clock :clock/time-in-days)
-          position (vec (m.circle-orbit/cal-position orbit time-in-days))]
+          position (vec (cal-position celestial time-in-days))]
       [[:db/add id :object/position position]])
     []))
 
@@ -146,3 +147,11 @@
                (update-quaternion-tx celestial))))
 
 
+(defn update-show-orbit-tx [celestial show?]
+  [{:db/id (get-in celestial [:celestial/orbit :db/id])
+    :orbit/show? show?}])
+
+
+(defn update-show-spin-helper-tx [celestial show?]
+  [{:db/id (get-in celestial [:celestial/spin :db/id])
+    :spin/show-helper? show?}])

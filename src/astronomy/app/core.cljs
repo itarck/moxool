@@ -14,15 +14,15 @@
 
 ;; mount point
 
-(defonce editor-app-instance (scene-in-editor/create-app!
-                          #:app {:name "astronomy"}))
+#_(defonce editor-app-instance (scene-in-editor/create-app!
+                              #:app {:name "astronomy"}))
 
 
 #_(defonce player-app-instance (scene-in-player/create-app!
-                          #:app {:name "astronomy"
-                                 :db-url "/edn/store-system-conn1.edn"}))
+                              #:app {:name "astronomy"
+                                     :db-url "/db/3-one-day.edn"}))
 
-(defonce free-app-instance (scene-free/create-app! {}))
+(defonce free-app-instance (scene-free/create-app! #:app{:scene-db-url "/edn/free-mode.edn"}))
 
 
 (defn update! []

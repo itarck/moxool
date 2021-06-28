@@ -1,9 +1,15 @@
 (ns astronomy.view.satellite
   (:require
+   [applied-science.js-interop :as j]
    ["@react-three/drei" :refer [Sphere]]
+   [cljs.core.async :refer [go >! <!]]
    [posh.reagent :as p]
+   [shu.three.vector3 :as v3]
    [methodology.view.gltf :as v.gltf]
-   [astronomy.model.circle-orbit :as m.circle-orbit]))
+   [astronomy.model.ellipse-orbit :as m.ellipse-orbit]
+   [astronomy.model.circle-orbit :as m.circle-orbit]
+   [astronomy.model.astro-scene :as m.astro-scene]
+   [methodology.lib.geometry :as v.geo]))
 
 
 (def moon
@@ -29,29 +35,64 @@
 
 ;; 绑定数据层
 
-(defn SatelliteView [entity {:keys [conn] :as env}]
-  (let [satellite @(p/pull conn '[*] (:db/id entity))
-        {:satellite/keys [color radius]} satellite
+(defn CelestialPositionLineView [{:keys [celestial]} env]
+  (let [color (or (get-in celestial [:celestial/orbit :orbit/color])
+                  "gray")]
+    [v.geo/LineComponent {:points [(v3/from-seq [0 0 0])
+                                   (v3/from-seq (map #(* 1.003 %) (:object/position celestial)))]
+                          :color color}
+     ]))
+
+
+(defn CelestialOrbitView [{:keys [orbit]} env]
+  (cond
+    (= (:orbit/type orbit) :ellipse-orbit)
+    [v.geo/LineComponent {:points (m.ellipse-orbit/cal-orbit-points-vectors orbit (* 10 360))
+                          :color (:orbit/color orbit)}]
+
+    :else
+    [v.geo/CircleComponent {:center [0 0 0]
+                            :radius (:circle-orbit/radius orbit) 
+                            :axis (:circle-orbit/axis orbit) 
+                            :color (:orbit/color orbit)
+                            :circle-points (* 360 20)}]))
+
+
+(defn SatelliteView [{:keys [satellite astro-scene has-day-light?] :as props} {:keys [conn service-chan] :as env}]
+  (let [satellite @(p/pull conn '[{:celestial/orbit [*]
+                                   :celestial/spin [*]}
+                                  *] (:db/id satellite))
+        {:satellite/keys [color]} satellite
         {:object/keys [position quaternion]} satellite
-        {:celestial/keys [orbit gltf]} satellite
-        qt (m.circle-orbit/cal-tilt-quaternion orbit)]
-    ;; (println "satellite view " satellite)
-    [:mesh {:position position}
-     (when (:object/show? satellite)
-       (if gltf
-         [:mesh
-          [:mesh {:scale [radius radius radius]}
-           [v.gltf/GltfView gltf env]]
-          #_[:PolarGridHelper {:args #js [0.3 8 5 64 "white" "white"]}]]
+        {:celestial/keys [orbit gltf radius spin]} satellite
+        scaled-radius (* radius (:astro-scene/celestial-scale astro-scene))]
+    ;; (println "satellite view " (and (:object/show? satellite) (not (:has-day-light? props))))
+    [:<>
+     [:mesh {:position position}
+      (when (and (:object/show? satellite) (not has-day-light?))
 
-         [:> Sphere {:args [radius 10 10]
-                     :position [0 0 0]
-                     :quaternion quaternion}
-          [:meshStandardMaterial {:color color}]]))
+        [:mesh {:quaternion quaternion}
+         (if gltf
+           [:mesh {:scale [scaled-radius scaled-radius scaled-radius]
+                   :onClick (fn [e]
+                              (let [pt (j/get-in e [:intersections 0 :point])
+                                    point (seq (j/call pt :toArray))]
+                                (go (>! service-chan #:event {:action :user/object-clicked
+                                                              :detail {:click-point point
+                                                                       :alt-key (j/get-in e [:altKey])
+                                                                       :meta-key (j/get-in e [:metaKey])
+                                                                       :shift-key (j/get-in e [:shiftKey])
+                                                                       :object satellite}}))))}
+            [v.gltf/GltfView gltf env]]
+           [:> Sphere {:args [radius 10 10]
+                       :position [0 0 0]
+                       :quaternion quaternion}
+            [:meshStandardMaterial {:color color}]])
+         (when (:spin/show-helper? spin)
+           [:gridHelper {:args [(* 4 scaled-radius) 10 "gray gray"]}])])]
+
+     (when (:orbit/show? orbit) [CelestialOrbitView {:orbit orbit} env])
+     (when (:orbit/show? orbit) [CelestialPositionLineView {:celestial satellite} env])
      
-
-     #_[:gridHelper {:args [1 20 "gray" "gray"]
-                   :position [0 0 0]
-                   :quaternion (vec qt)}]]
-    ))
+     ]))
 

@@ -34,6 +34,13 @@
   (let [cell (find-nth-cell backpack nth-cell)]
     [[:db/add (:db/id cell) :backpack-cell/tool (:db/id tool)]]))
 
+(defn active-cell-tx [backpack cell-id]
+  [[:db/add (:db/id backpack) :backpack/active-cell cell-id]])
+
+(defn deactive-cell-tx [backpack]
+  [[:db.fn/retractAttribute (:db/id backpack) :backpack/active-cell]])
+
+
 
 ;; subscribe 
 

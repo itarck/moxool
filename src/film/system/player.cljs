@@ -33,7 +33,8 @@
                                     :studio-conn (ig/ref ::conn)
                                     :scene-system scene-system}}}
         instance (ig/init config)]
-    #:system{:view (::view instance)}))
+    #:system{:view (::view instance)
+             :conn (::conn instance)}))
 
 
 ;; mount point

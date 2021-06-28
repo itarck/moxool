@@ -3,32 +3,25 @@
    [posh.reagent :as p]
    [cljs.core.async :refer [go >! <!]]
    [integrant.core :as ig]
-   [astronomy.app.free-mode :as free-app]))
+   [astronomy.service.clock-tool :as s.clock-tool]
+   [astronomy.app.scene-free :as scene-free]))
 
 
-(def system (ig/init free-app/config))
 
+(def free-app-instance (scene-free/create-app! {}))
 
-(def conn (::free-app/conn system))
-
-
-(def service-chan (::free-app/chan system))
+(def conn (get-in free-app-instance [:app/scene-conn]))
 
 
 (:clock/time-in-days @(p/pull conn '[*] [:clock/name "default"]))
 ;; => 0
 
+(time
+ (doseq [t (range 1000)]
+   (s.clock-tool/handle-event! {} {:conn conn} #:event{:action :clock-tool/set-time-in-days
+                                                       :detail {:clock {:db/id [:clock/name "default"]}
+                                                                :time-in-days t}})))
 
-(go (>! service-chan #:event {:action :clock/set-time-in-days
-                              :detail {:clock {:db/id [:clock/name "default"]}
-                                       :time-in-days 1}}))
 
 (:clock/time-in-days @(p/pull conn '[*] [:clock/name "default"]))
 ;; => 1
-
-
-(let [earth @(p/pull conn '[*] [:planet/name "earth"])]
-  (:object/position earth))
-
-(go (>! service-chan #:event {:action :spaceship-camera-control/hello
-                              :detail "hello"}))

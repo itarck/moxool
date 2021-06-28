@@ -1,70 +1,68 @@
 (ns astronomy.app.test-free-mode
   (:require
+   [applied-science.js-interop :as j]
+   [datascript.core :as d]
    [posh.reagent :as p]
    [cljs.core.async :refer [go >! timeout <!]]
-   [astronomy.app.core :refer [system]]
-   [astronomy.app.free-mode :as app.free-mode]
-   [astronomy.app.load-gltf :as app.gltf]
-   [astronomy.model.user.spaceship-camera-control :as m.spaceship]))
+   [astronomy.model.celestial :as m.celestial]
+   [astronomy.model.constellation :as m.constel]
+   [astronomy.app.scene-free :as scene-free]
+   [astronomy.app.core :refer [free-app-instance]]
+   [methodology.model.scene :as m.scene]
+   [shu.three.vector3 :as v3]
+   ["three" :as three]
+   [astronomy.model.atmosphere :as m.atm]))
+
+;; 
+
+(def test-app-instance (scene-free/create-app! {}))
 
 
+;; test instance 
 
-(def conn (:system/conn system))
+(keys free-app-instance)
 
-(def service-chan (:system/chan system))
+(def conn (:app/scene-conn free-app-instance))
 
-(def dom-atom (:system/dom-atom system))
+(count (m.scene/sub-objects conn [:scene/name "solar"]))
 
-dom-atom
+(def service-chan (:app/service-chan free-app-instance))
 
+(def dom-atom (get-in free-app-instance [:app/scene-system :system/dom-atom]))
 
+(keys @dom-atom)
 
-(go
-  (doseq [i (range 10)]
-    (<! (timeout 50))
-    (let [event-1 #:event {:action :clock-tool/set-time-in-days
-                           :detail {:clock {:db/id [:clock/name "default"]}
-                                    :time-in-days i}}]
-      (go (>! service-chan event-1)))))
+(def mouse (j/get-in (:three-instance @dom-atom) [:mouse]))
 
+(seq (j/call mouse :toArray))
 
-(let [event-1 #:event {:action :clock-tool/set-time-in-days
-                       :detail {:clock {:db/id [:clock/name "default"]}
-                                :time-in-days 0.2}}]
-  (go (>! service-chan event-1)))
+(j/get-in (:three-instance @dom-atom) [:size :width])
 
+(def earth-object (j/get (get-in @dom-atom [8]) :current))
 
-@(p/pull conn '[*] [:clock/name "default"])
+earth-object
 
-@(p/pull conn '[*] [:coordinate/name "default"])
+(:celestial/gltf @(p/pull conn '[*] [:planet/name "earth"]))
 
-@(p/pull conn '[*] [:spaceship-camera-control/name "default"])
-
-;; => {:db/id 2, :coordinate/clock #:db{:id 3}, :coordinate/name "default", :coordinate/position [1.2172257975706384 1.2172257975706384 499.99703671393445], :coordinate/quaternion [0 0.587785252292473 0 0.8090169943749475], :coordinate/track-position #:db{:id 6}, :coordinate/track-rotation #:db{:id 6}}
+(j/get (:scene @dom-atom) :children)
 
 
-(let [env {:conn conn
-           :dom-atom dom-atom}
-      spaceship @(p/pull conn '[*] [:spaceship-camera-control/name "default"])]
-  (m.spaceship/landing! spaceship env))
+(go (>! service-chan #:event {:action :universe-tool/change-celestial-scale
+                              :detail {:scene-id [:scene/name "solar"]
+                                       :celestial-scale 10}}))
 
+(def atmo1 (m.atm/sub-unique-one conn))
 
-@(p/pull conn '[*] [:spaceship-camera-control/name "default"])
-;; => {:tool/icon "/image/pirate/cow.jpg", :tool/chinese-name "相机控制", :spaceship-camera-control/name "default", :spaceship-camera-control/mode :orbit-control, :entity/type :spaceship-camera-control, :spaceship-camera-control/up [0 1 0], :spaceship-camera-control/min-distance 8, :tool/name "spaceship camera tool", :db/id 31, :spaceship-camera-control/position [200 200 200], :spaceship-camera-control/target [0 0 0]}
-
-
-@(p/pull conn '[*] [:planet/name "earth"])
-;; => {:object/scene #:db{:id 2}, :celestial/clock #:db{:id 4}, :planet/chinese-name "地球", :entity/type :planet, :planet/name "earth", :object/quaternion [0 0 0 1], :celestial/gltf #:db{:id 8}, :planet/star #:db{:id 5}, :planet/radius 0.08, :db/id 7, :celestial/spin {:db/id 9, :spin/angular-velocity 6.283185307179586, :spin/axis [0 1 0]}, :planet/color "blue", :celestial/orbit {:db/id 10, :circle-orbit/angular-velocity 0.01721420632103996, :circle-orbit/axis [-1 1 0], :circle-orbit/star [:star/name "sun"], :circle-orbit/start-position [0 0 -500]}}
-
+atmo1
 
 @(p/pull conn '[*] [:coordinate/name "default"])
-;; => {:db/id 3, :coordinate/clock #:db{:id 4}, :coordinate/name "default", :coordinate/position [0 0 0], :coordinate/quaternion [0 0 0 1], :coordinate/track-position #:db{:id 7}, :coordinate/track-rotation #:db{:id 7}}
+;; => {:db/id 4, :coordinate/clock #:db{:id 2}, :coordinate/name "default", :coordinate/position [0 0 -498.6596333], :coordinate/quaternion [0 0 0 1], :coordinate/track-position #:db{:id 8}, :coordinate/track-rotation #:db{:id 8}}
 
 
-@(p/pull conn '[*] [:camera/name "default"])
-;; => {:db/id 1, :camera/far 315360000000000000000N, :camera/name "default", :camera/near 0.001, :camera/position [13.407380197618506 414.8546200519799 479.9417257887149], :camera/quaternion [-0.3487719629638101 0.013086644847652557 0.004870597946723298 0.937103588112138]}
+(m.atm/sun-position-vector atmo1)
 
-;; => {:db/id 1, :camera/far 315360000000000000000N, :camera/name "default", :camera/near 0.001, :camera/position [-414.5928298778137 187.75662912590357 442.14070996513124], :camera/quaternion [-0.13914626069289482 -0.3636455584538221 -0.05503335784712415 0.9194408928669984]}
 
-@(p/pull conn '[*] [:satellite/name "moon"])
-;; => {:object/scene #:db{:id 2}, :celestial/clock #:db{:id 4}, :satellite/planet #:db{:id 7}, :satellite/radius 0.00579, :satellite/chinese-name "月球", :entity/type :satellite, :object/quaternion [0 0 0.2036417511401775 0.9790454724845838], :celestial/gltf #:db{:id 12}, :object/position [0 0 1], :satellite/name "moon", :db/id 11, :celestial/spin {:db/id 13, :spin/angular-velocity 0.23271056693257727, :spin/axis [-0.3987490689252462 0.917060074385124 0]}, :satellite/color "green", :celestial/orbit {:db/id 14, :circle-orbit/angular-velocity 0.20943951023931953, :circle-orbit/axis [-0.3987490689252462 0.917060074385124 0], :circle-orbit/start-position [0 0 1]}}
+@(p/pull conn '[*] [:constellation/abbreviation "Mic"])
+;; => {:constellation/chinese-name "显微镜座", :constellation/star-lines [[8192 8176 8080 8006]], :constellation/abbreviation "Mic", :constellation/right-ascension 300.9646666666667, :constellation/latin-name "Microscopium", :constellation/declination -35.72516666666667, :db/id 9204, :constellation/group "拉卡伊", :constellation/quadrant "SQ4", :constellation/area 209.513}
+
+

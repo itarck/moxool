@@ -3,6 +3,7 @@
    [datascript.core :as d]
    [shu.three.vector3 :as v3]
    [shu.goog.math :as gmath]
+   [shu.astronomy.light :as shu.light]
    [posh.reagent :as p]))
 
 
@@ -19,7 +20,8 @@
 
 ;; schema
 
-(def schema #:constellation{:abbreviation {:db/unique :db.unique/identity}})
+(def schema #:constellation{:abbreviation {:db/unique :db.unique/identity}
+                            :chinese-name {:db/unique :db.unique/identity}})
 
 
 ;; model
@@ -29,21 +31,22 @@
     :where
     [?id :constellation/abbreviation _]])
 
+(def find-all-names-query
+  '[:find [?name ...]
+    :where
+    [?id :constellation/chinese-name ?name]])
+
 (defn find-all-star-ids [db]
   (let [constels (d/q '[:find [?star-lines ...]
                         :where [?id :constellation/star-lines ?star-lines]]
                       db)]
     (distinct (flatten constels))))
 
+(def find-all-group-names-query
+  '[:find [?group-name ...]
+    :where
+    [?id :constellation/group ?group-name]])
 
-(defn generate-star-projection [])
-
-(defn cal-celestial-sphere-position [right-ascension declination]
-  (let [radius 31536000]
-    (v3/from-spherical-coords
-     radius
-     (gmath/to-radians (- 90 declination))
-     (gmath/to-radians right-ascension))))
 
 ;; subs
 
@@ -72,3 +75,34 @@
                               @(p/pull conn '[:db/id :star/right-ascension :star/declination] star-id)))]
 
     (assoc constel :constellation/star-lines pulled-star-lines)))
+
+
+(defn sub-all-constellations-names [conn]
+  (let [names @(p/q find-all-names-query conn)]
+    (sort names)))
+
+(defn sub-all-group-names [conn]
+  @(p/q find-all-group-names-query conn))
+
+
+(defn sub-ids-by-group-name [conn group-name]
+  @(p/q '[:find [?id ...]
+          :in $ ?group-name
+          :where
+          [?id :constellation/group ?group-name]]
+        conn group-name))
+
+;; model
+
+(defn cal-celestial-sphere-position [right-ascension declination]
+  (let [radius (* 100 shu.light/light-year-unit)]
+    (v3/from-spherical-coords
+     radius
+     (gmath/to-radians (- 90 declination))
+     (gmath/to-radians right-ascension))))
+
+;; tx
+
+(defn update-show-tx [constel show?]
+  [{:db/id (:db/id constel)
+    :constellation/show? show?}])

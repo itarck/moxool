@@ -1,6 +1,10 @@
 (ns astronomy.model.planet
   (:require
    [datascript.core :as d]
+   [shu.goog.math :as gmath]
+   [shu.three.vector3 :as v3]
+   [shu.three.spherical :as sph]
+   [shu.three.quaternion :as q]
    [posh.reagent :as p]))
 
 ;; 包含ns: planet
@@ -40,3 +44,21 @@
 
 ;; model 
 
+(defn is-coordinate-center? [planet coordinate]
+  (= (:db/id planet) (get-in coordinate [:coordinate/track-position :db/id])))
+
+(defn random-position [radius axis]
+  (let [v1 (v3/from-spherical (sph/spherical radius (/ Math/PI 2) (* Math/PI 2 (rand))))
+        q1 (q/from-unit-vectors (v3/vector3 0 1 0) (v3/from-seq axis))]
+    (seq (v3/apply-quaternion v1 q1))))
+
+
+(comment
+  
+  (def ecliptic-axis
+    (let [ang 23.4]
+      [(- (Math/sin (gmath/to-radians ang)))
+       (Math/cos (gmath/to-radians ang))
+       0]))
+  
+  (random-position 100 ecliptic-axis))

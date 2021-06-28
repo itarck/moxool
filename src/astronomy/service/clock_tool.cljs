@@ -34,6 +34,7 @@
                 {:clock-tool/keys [steps-per-second status]} clock-tool
                 step-timeout (/ 1000 steps-per-second)]
             (<! (timeout step-timeout))
+            (go (>! service-chan #:event{:action :clock-tool/count-event}))
             (case status
               :start (do
                        (go (>! service-chan #:event{:action :clock-tool/set-time-in-days
@@ -76,7 +77,7 @@
   (let [{:keys [steps-per-second clock-tool]} detail]
     (p/transact! conn [[:db/add (:db/id clock-tool) :clock-tool/steps-per-second steps-per-second]])))
 
-            
+
 (defmethod handle-event! :clock-tool/next-step
   [props {:keys [conn service-chan]} {:event/keys [detail]}]
   (let [{:keys [clock-tool clock]} detail
@@ -93,6 +94,17 @@
                                   :detail {:clock clock
                                            :time-in-days time-in-days}}))))
 
+(defmethod handle-event! :clock-tool/count-event
+  [props {:keys [state-atom]} {:event/keys [detail]}]
+  (swap! state-atom update :clock-tool/count-event inc)
+  (when (= (mod (:clock-tool/count-event @state-atom) 100) 0)
+    (let [d2 (new js/Date)
+          d1 (:clock-tool/count-event-clock @state-atom)]
+      (when d1
+        (println "clock count event 100 times" (- d2 d1) "mseconds"))
+      (swap! state-atom assoc :clock-tool/count-event-clock d2))))
+
+
 (defn init-service! [props {:keys [process-chan] :as env}]
   (println "clock-control started")
   (go-loop []
@@ -102,4 +114,5 @@
         (catch js/Error e
           (js/console.log e))))
     (recur)))
+
 
