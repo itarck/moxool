@@ -21,8 +21,6 @@ output.*
 .lsp
 .clj-kondo
 public/models
-public/edn
-public/mp3
 .cpcache
 *.cp
 .DS_Store
