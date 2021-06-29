@@ -50,7 +50,7 @@
               ($ Suspense {:fallback nil}
                  ($ CompassComponent)))
 
-            [:> Cylinder {:args [0.0000001 0.0000006 0.00001 4]
+            #_[:> Cylinder {:args [0.0000001 0.0000006 0.00001 4]
                           :castShadow true}
              [:meshStandardMaterial {:color "black"}]]]]]]))))
 
