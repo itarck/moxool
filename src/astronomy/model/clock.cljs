@@ -74,7 +74,7 @@
   (let [{:keys [years days minutes hours seconds]} (parse-time-in-days time-in-days)]
     (str "第" years "年，"
          "第" days "天，"
-         (if (< hours 10) (str "0" hours) hours) ":"
+         (if (and (> hours 0) (< hours 10)) (str "0" hours) hours) ":"
          (if (< minutes 10) (str "0" minutes) minutes) ":"
          (when (< (int seconds) 10) "0")
          (gstring/format "%0.3f" (/ (int (* 1000 seconds)) 1000)))))
