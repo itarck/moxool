@@ -38,7 +38,7 @@
            [:<>
             (when show-horizontal-plane?
               [:polarGridHelper {:args [radius 4 10 60 "green" "green"]}])
-            
+
             [v.celestial-sphere/CelestialSphereHelperView {:radius radius
                                                            :show-latitude? show-latitude?
                                                            :show-longitude? show-longitude?
@@ -50,9 +50,9 @@
               ($ Suspense {:fallback nil}
                  ($ CompassComponent)))
 
-            #_[:> Cylinder {:args [0.00001 0.00001 0.0001 10]
-                            :castShadow true}
-               [:meshStandardMaterial {:color "black"}]]]]]]))))
+            [:> Cylinder {:args [0.0000001 0.0000006 0.00001 4]
+                          :castShadow true}
+             [:meshStandardMaterial {:color "black"}]]]]]]))))
 
 
 

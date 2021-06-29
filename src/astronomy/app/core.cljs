@@ -18,16 +18,16 @@
                               #:app {:name "astronomy"}))
 
 
-(defonce player-app-instance (scene-in-player/create-app!
+#_(defonce player-app-instance (scene-in-player/create-app!
                               #:app {:name "astronomy"
                                      :db-url "/db/10-sphere.edn"}))
 
-#_(defonce free-app-instance (scene-free/create-app! #:app{:scene-db-url "/edn/free-mode.edn"}))
+(defonce free-app-instance (scene-free/create-app! #:app{:scene-db-url "/edn/free-mode.edn"}))
 
 
 (defn update! []
   (rdom/render
-   (:app/view player-app-instance)
+   (:app/view free-app-instance)
    (j/call js/document :getElementById  "app")))
 
 
