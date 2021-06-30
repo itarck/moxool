@@ -45,9 +45,9 @@
                :star ^{:key (:db/id object)} [object-view-fn {:object object
                                                               :has-day-light? has-day-light?
                                                               :astro-scene astro-scene} env]
-               :horizontal-coordinate-tool  ^{:key (:db/id object)} [object-view-fn {:object object
-                                                                                     :spaceship-camera-control spaceship-camera-control
-                                                                                     :astro-scene astro-scene} env]
+               :horizontal-coordinate  ^{:key (:db/id object)} [object-view-fn {:object object
+                                                                                :spaceship-camera-control spaceship-camera-control
+                                                                                :astro-scene astro-scene} env]
                ^{:key (:db/id object)} [object-view-fn {:object object} env]))))]
 
       #_[:PolarGridHelper {:args [10 4 10 360 "red" "red"]}]]]

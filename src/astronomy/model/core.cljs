@@ -14,6 +14,7 @@
    [astronomy.model.star :as m.star]
    [astronomy.model.constellation :as m.constellation]
    [astronomy.model.atmosphere :as m.atmosphere]
+   [astronomy.model.horizontal-coordinate :as m.horizon]
 
    [astronomy.model.user.universe-tool :as m.universe-tool]
    [astronomy.model.user.clock-tool :as m.clock-tool]
@@ -22,7 +23,7 @@
    [astronomy.model.user.spaceship-camera-control :as m.spaceship]
    [astronomy.model.user.goto-celestial-tool :as m.goto-tool]
    [astronomy.model.user.ppt-tool :as m.ppt-tool]
-   [astronomy.model.user.horizontal-coordinate-tool :as m.horizon]
+   
    ))
 
 
@@ -40,6 +41,7 @@
    m.star/schema
    m.constellation/schema
    m.atmosphere/schema
+   m.horizon/schema
 
    m.universe-tool/schema
    m.clock-tool/schema
@@ -47,8 +49,7 @@
    m.info-tool/schema
    m.coordinate-tool/schema
    m.goto-tool/schema
-   m.ppt-tool/schema
-   m.horizon/schema))
+   m.ppt-tool/schema))
 
 
 (def basic-db

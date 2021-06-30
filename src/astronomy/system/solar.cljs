@@ -11,14 +11,16 @@
    [astronomy.view.galaxy :as v.galaxy]
    [astronomy.view.constellation :as v.constel]
    [astronomy.view.atmosphere :as v.atmosphere]
+   [astronomy.view.horizontal-coordinate :as v.horizon]
 
+   
    [astronomy.view.user.universe-tool :as v.universe-tool]
    [astronomy.view.user.clock-tool :as v.clock-tool]
    [astronomy.view.user.spaceship-camera-control :as v.spaceship]
    [astronomy.view.user.info-tool :as v.info-tool]
    [astronomy.view.user.coordinate-tool :as v.coordinate-tool]
    [astronomy.view.user.ppt-tool :as v.ppt-tool]
-   [astronomy.view.user.horizontal-coordinate-tool :as v.horizon]
+   [astronomy.view.user.horizontal-coordinate-tool :as v.horizon-tool]
    [astronomy.view.user.goto-celestial-tool :as v.goto]
    [astronomy.view.user.equatorial-coordinate-tool :as v.ect]
    [astronomy.view.user.constellation-tool :as v.constellation-tool]
@@ -47,7 +49,7 @@
    :universe-tool v.universe-tool/UniverseToolView
    :spaceship-camera-control v.spaceship/SpaceshipCameraToolView
    :ppt-tool v.ppt-tool/PPTToolView
-   :horizontal-coordinate-tool v.horizon/HorizontalCoordinateToolView
+   :horizontal-coordinate-tool v.horizon-tool/HorizontalCoordinateToolView
    :goto-celestial-tool v.goto/GotoCelestialToolView
    :equatorial-coordinate-tool v.ect/EquatorialCoordinateToolView
    :constellation-tool v.constellation-tool/ConstellationToolView
@@ -58,7 +60,7 @@
 (def object-libray 
   {:star v.star/StarView
    :galaxy v.galaxy/GalaxyView
-   :horizontal-coordinate-tool v.horizon/HorizontalCoordinateSceneView
+   :horizontal-coordinate v.horizon/HorizontalCoordinateSceneView
    :equatorial-coordinate-tool v.ect/EquatorialCoordinateSceneView
    :constellation v.constel/ConstellationView 
    :atmosphere v.atmosphere/AtmosphereView})
