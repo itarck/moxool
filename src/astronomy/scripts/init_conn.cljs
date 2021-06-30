@@ -915,7 +915,7 @@ ecliptic-axis
 (def horizontal-coordinate-1
   #:horizontal-coordinate{:name "default"
                           :chinese-name "默认"
-                          :position [0.02 0.02 0.02]
+                          :position [-0.009008207147170837 0.010816331246425266 -0.015625579486578216]
                           :radius 0.001
                           :longitude-interval 90
                           :latitude-interval 10
@@ -932,11 +932,11 @@ ecliptic-axis
   #:horizontal-coordinate{:name "Alexandria"
                           :chinese-name "亚历山大港"
                           :position [-0.009008207147170837 0.010816331246425266 -0.015625579486578216]
-                          :radius 0.0005
+                          :radius 0.001
                           :longitude-interval 90
                           :latitude-interval 10
-                          :show-latitude? true
-                          :show-longitude?  true
+                          :show-latitude? false
+                          :show-longitude?  false
                           :show-horizontal-plane? false
                           :show-compass? false
 
@@ -946,12 +946,13 @@ ecliptic-axis
 (def horizontal-coordinate-3
   #:horizontal-coordinate{:name "Aswan"
                           :chinese-name "阿斯旺"
-                          :position [-0.010444387301182155 0.008494526124969702 -0.016143011510370495]
-                          :radius 0.0005
+                          ;; :position [-0.010444387301182155 0.008494526124969702 -0.016143011510370495]
+                          :position [-0.010466612292815682 0.008441806766644699 -0.016155622677143835]
+                          :radius 0.001
                           :longitude-interval 90
                           :latitude-interval 10
-                          :show-latitude? true
-                          :show-longitude?  true
+                          :show-latitude? false
+                          :show-longitude?  false
                           :show-horizontal-plane? false
                           :show-compass? false
 
@@ -1052,7 +1053,7 @@ galaxy-quaternion
   #:spaceship-camera-control
    {:name "default"
     :mode :orbit-control
-    :surface-ratio 1.0001
+    :surface-ratio 1.000
     :min-distance 210
     :position [2000 2000 2000]
     :zoom 1

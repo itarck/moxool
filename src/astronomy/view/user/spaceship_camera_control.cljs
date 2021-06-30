@@ -133,7 +133,7 @@
                              (go (>! service-chan #:event {:action :spaceship-camera-control/change-surface-ratio
                                                            :detail {:spaceship-camera-control-id (:db/id tool)
                                                                     :surface-ratio value}})))
-                 :step 0.0002 :min 1.0001 :max 1.01 :marks true
+                 :step 0.0002 :min 1.0000 :max 1.01 :marks true
                  :getAriaValueText identity
                  :aria-labelledby "discrete-slider-restrict"
                  :valueLabelDisplay "auto"})])]]]]))

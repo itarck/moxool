@@ -1,6 +1,7 @@
 (ns astronomy.view.user.horizontal-coordinate-tool
   (:require
    [applied-science.js-interop :as j]
+   [helix.core :refer [$]]
    [cljs.core.async :refer [go >! <! go-loop] :as a]
    [posh.reagent :as p]
    ["@material-ui/core" :as mt]
@@ -103,18 +104,18 @@
                                                                              :show? show?}}))))}]
          [:span "是"]]
 
-        #_[:> mt/Grid {:item true :xs 6}
-           [:> mt/Typography {:variant "subtitle2"} "天球半径"]]
-        #_[:> mt/Grid {:item true :xs 6}
-           ($ mt/Slider
-              {:style (clj->js {:color "#666"
-                                :width "100px"})
-               :value radius
-               :onChange (fn [e value]
-                           (go (>! service-chan #:event {:action :horizontal-coordinate-tool/change-radius
-                                                         :detail {:tool tool
-                                                                  :radius value}})))
-               :step 0.001 :min 0.001 :max 0.01 :marks true
-               :getAriaValueText identity
-               :aria-labelledby "discrete-slider-restrict"
-               :valueLabelDisplay "auto"})]]]]]))
+        [:> mt/Grid {:item true :xs 6}
+         [:> mt/Typography {:variant "subtitle2"} "天球半径"]]
+        [:> mt/Grid {:item true :xs 6}
+         ($ mt/Slider
+            {:style (clj->js {:color "#666"
+                              :width "100px"})
+             :value radius
+             :onChange (fn [e value]
+                         (go (>! service-chan #:event {:action :horizontal-coordinate-tool/change-radius
+                                                       :detail {:tool tool
+                                                                :radius value}})))
+             :step 0.0001 :min 0.0001 :max 0.005 :marks true
+             :getAriaValueText identity
+             :aria-labelledby "discrete-slider-restrict"
+             :valueLabelDisplay "auto"})]]]]]))

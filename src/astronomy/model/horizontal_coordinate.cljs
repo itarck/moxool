@@ -87,7 +87,7 @@
 
 (defn change-radius-tx [hc radius]
   [{:db/id (:db/id hc)
-    :horizontal-coordinate/change-radius-tx radius}])
+    :horizontal-coordinate/radius radius}])
 
 
 ;; subs
