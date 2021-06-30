@@ -56,6 +56,7 @@
         astro-scene (d/pull @conn '[*] (get-in props [:astro-scene :db/id]))
         position-in-scene (m.spaceship/get-landing-position-in-scene spaceship-camera-control astro-scene)
         tx (m.horizon/set-position-tx {:db/id [:horizontal-coordinate/name "default"]} position-in-scene)]
+    ;; (println "horizontal-coordinate-tool/update-default: " position-in-scene)
     (p/transact! conn tx)))
 
 

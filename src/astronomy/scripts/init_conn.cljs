@@ -927,6 +927,38 @@ ecliptic-axis
                           :entity/type :horizontal-coordinate})
 
 
+(def horizontal-coordinate-2
+  #:horizontal-coordinate{:name "Alexandria"
+                          :chinese-name "亚历山大港"
+                          :position [-0.009008207147170837 0.010816331246425266 -0.015625579486578216]
+                          :radius 0.0005
+                          :longitude-interval 90
+                          :latitude-interval 10
+                          :show-latitude? true
+                          :show-longitude?  true
+                          :show-horizontal-plane? false
+                          :show-compass? false
+
+                          :object/scene [:scene/name "solar"]
+                          :entity/type :horizontal-coordinate})
+
+(def horizontal-coordinate-3
+  #:horizontal-coordinate{:name "Aswan"
+                          :chinese-name "阿斯旺"
+                          :position [-0.009008207147170837 0.010816331246425266 -0.015625579486578216]
+                          :radius 0.0005
+                          :longitude-interval 90
+                          :latitude-interval 10
+                          :show-latitude? true
+                          :show-longitude?  true
+                          :show-horizontal-plane? false
+                          :show-compass? false
+
+                          :object/scene [:scene/name "solar"]
+                          :entity/type :horizontal-coordinate})
+
+
+
 ;; * 银心：在天球赤道座标系统的座标是：
 ;; 赤经 17h45m40.04s，赤纬 -29º 00' 28.1"（J2000 分点）。25000光年
 
@@ -1190,7 +1222,8 @@ galaxy-quaternion
                       ;;  saturn 
                       ;;  titan uranus neptune triton pluto charon 
                       ;;  eris haumea halley
-                       galaxy coordinate-1 horizontal-coordinate-1 atmosphere])
+                       galaxy coordinate-1 atmosphere
+                       horizontal-coordinate-1 horizontal-coordinate-2 horizontal-coordinate-3])
     (d/transact! conn [spaceship-camera-control person1 universe-tool-1 clock-tool1 info-tool
                        #_coordinate-tool-1 ppt-tool horizontal-coordinate-tool-1 goto-tool-1
                        equatorial-coordinate-tool-1 constellation-tool-1 atmosphere-tool-1 eagle-eye-tool])
