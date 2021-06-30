@@ -1,12 +1,14 @@
 (ns astronomy.model.horizontal-coordinate
   (:require
+   [posh.reagent :as p]
    [shu.three.quaternion :as q]
    [shu.three.vector3 :as v3]
    [shu.three.spherical :as sph]))
 
 
 (def schema
-  #:horizontal-coordinate {:name {:db/unique :db.unique/identity}})
+  #:horizontal-coordinate {:name {:db/unique :db.unique/identity}
+                           :chinese-name {:db/unique :db.unique/identity}})
 
 
 (comment
@@ -66,6 +68,34 @@
   [#:horizontal-coordinate {:position new-position
                             :db/id (:db/id hc)}])
 
+
+(defn change-show-longitude-tx [hc show?]
+  [{:db/id (:db/id hc)
+    :horizontal-coordinate/show-longitude? show?}])
+
+(defn change-show-latitude-tx [hc show?]
+  [{:db/id (:db/id hc)
+    :horizontal-coordinate/show-latitude? show?}])
+
+(defn change-show-compass-tx [hc show?]
+  [{:db/id (:db/id hc)
+    :horizontal-coordinate/show-compass? show?}])
+
+(defn change-show-horizontal-plane-tx [hc show?]
+  [{:db/id (:db/id hc)
+    :horizontal-coordinate/show-horizontal-plane? show?}])
+
+(defn change-radius-tx [hc radius]
+  [{:db/id (:db/id hc)
+    :horizontal-coordinate/change-radius-tx radius}])
+
+
+;; subs
+
+(defn sub-chinese-names [conn]
+  @(p/q '[:find [?chinese-name ...]
+          :where [_ :horizontal-coordinate/chinese-name ?chinese-name]]
+        conn))
 
 
 (comment

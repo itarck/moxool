@@ -914,6 +914,7 @@ ecliptic-axis
 
 (def horizontal-coordinate-1
   #:horizontal-coordinate{:name "default"
+                          :chinese-name "默认"
                           :position [0.02 0.02 0.02]
                           :radius 0.001
                           :longitude-interval 90
@@ -945,7 +946,7 @@ ecliptic-axis
 (def horizontal-coordinate-3
   #:horizontal-coordinate{:name "Aswan"
                           :chinese-name "阿斯旺"
-                          :position [-0.009008207147170837 0.010816331246425266 -0.015625579486578216]
+                          :position [-0.010444387301182155 0.008494526124969702 -0.016143011510370495]
                           :radius 0.0005
                           :longitude-interval 90
                           :latitude-interval 10
@@ -1137,14 +1138,10 @@ galaxy-quaternion
 
 
 (def horizontal-coordinate-tool-1
-  #:horizontal-coordinate-tool{:target {:db/id [:horizontal-coordinate/name "default"]}
-
-                               :object/scene [:scene/name "solar"]
-
+  #:horizontal-coordinate-tool{:tool/target {:db/id [:horizontal-coordinate/name "default"]}
                                :tool/name "horizontal-coordinate-tool-1"
                                :tool/chinese-name "地平坐标系工具"
                                :tool/icon "/image/moxool/horizon-coordinate.jpg"
-
                                :entity/type :horizontal-coordinate-tool})
 
 (def equatorial-coordinate-tool-1

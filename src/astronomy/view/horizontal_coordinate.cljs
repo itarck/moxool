@@ -19,13 +19,10 @@
 (defn HorizontalCoordinateSceneView
   [props {:keys [conn] :as env}]
   (let [hc @(p/pull conn '[*] (get-in props [:object :db/id]))
-        _ (println hc)
         {:horizontal-coordinate/keys [radius show-latitude? show-longitude? show-horizontal-plane? show-compass? position]} hc
         astro-scene @(p/pull conn '[*] (get-in props [:astro-scene :db/id]))
         coordinate @(p/pull conn '[*] (get-in astro-scene [:astro-scene/coordinate :db/id]))
         earth @(p/pull conn '[*] [:planet/name "earth"])]
-    (println "Horizontal Coordinate view:  " (= (:db/id earth) (get-in coordinate [:coordinate/track-position :db/id])))
-    (println "Horizontal Coordinate view:  " (vec (m.horizon/cal-quaternion-on-sphere position)) position)
     (when (= (:db/id earth) (get-in coordinate [:coordinate/track-position :db/id]))
       (let [q2 (vec (m.horizon/cal-quaternion-on-sphere position))]
         [:mesh {:position (:object/position earth)}

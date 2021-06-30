@@ -3,15 +3,18 @@
    [applied-science.js-interop :as j]
    [cljs.core.async :refer [go >! <! go-loop] :as a]
    [posh.reagent :as p]
-   ["@material-ui/core" :as mt]))
+   ["@material-ui/core" :as mt]
+   [astronomy.model.horizontal-coordinate :as m.horizon]))
 
 
 
 (defn HorizontalCoordinateToolView [props {:keys [service-chan conn]}]
   (let [tool @(p/pull conn '[*] (get-in props [:tool :db/id]))
-        horizontal-coordinate @(p/pull conn '[*] (get-in tool [:horizontal-coordinate-tool/target :db/id]))
+        horizontal-coordinate @(p/pull conn '[*] (get-in tool [:tool/target :db/id]))
         {:horizontal-coordinate/keys [radius show-latitude? show-longitude? show-horizontal-plane? show-compass?]} horizontal-coordinate
-        spaceship-camera-control @(p/pull conn '[*] (get-in props [:spaceship-camera-control :db/id]))]
+        spaceship-camera-control @(p/pull conn '[*] (get-in props [:spaceship-camera-control :db/id]))
+        chinese-names (concat ["未选择"] (m.horizon/sub-chinese-names conn))]
+    (println "HorizontalCoordinateToolView: " tool)
     [:div {:class "astronomy-righthand"}
      [:div {:class "astronomy-righthand-tool"}
       [:div.p-2
@@ -23,6 +26,19 @@
          (:tool/chinese-name tool)]]
 
        [:> mt/Grid {:container true :spacing 1}
+        [:> mt/Grid {:item true :xs 12}
+         [:> mt/Select {:value (or (first (:tool/query-args tool))
+                                   "未选择")
+                        :onChange (fn [e]
+                                    (let [new-value (j/get-in e [:target :value])]
+                                      (go (>! service-chan
+                                              #:event {:action :horizontal-coordinate-tool/change-query-args
+                                                       :detail {:tool tool
+                                                                :query-args [new-value]}}))))}
+          (for [name chinese-names]
+            ^{:key name}
+            [:> mt/MenuItem {:value name} name])]]
+        
         [:> mt/Grid {:item true :xs 12}
          [:> mt/Typography {:variant "subtitle1"}
           (if (= :surface-control (:spaceship-camera-control/mode spaceship-camera-control))

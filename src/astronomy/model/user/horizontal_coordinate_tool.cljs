@@ -2,6 +2,7 @@
   (:require))
 
 
+
 (comment
 
   (def sample
@@ -19,3 +20,12 @@
   )
 
 
+;; tx
+
+(defn change-query-args-tx [tool query-args]
+  [{:db/id (:db/id tool)
+    :tool/query-args query-args}])
+
+(defn change-target-tx [tool target]
+  [{:db/id (:db/id tool)
+    :tool/target (:db/id target)}])
