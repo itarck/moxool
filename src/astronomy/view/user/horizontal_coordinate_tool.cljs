@@ -7,7 +7,6 @@
    ["react" :as react :refer [Suspense]]
    ["@material-ui/core" :as mt]
    ["@react-three/drei" :refer [Cylinder useTexture]]
-   [astronomy.model.user.spaceship-camera-control :as m.spaceship]
    [astronomy.model.user.horizontal-coordinate-tool :as m.horizon]
    
    [astronomy.view.celestial-sphere-helper :as v.celestial-sphere]))
@@ -23,18 +22,16 @@
 (defn HorizontalCoordinateSceneView
   [props {:keys [conn] :as env}]
   (let [hct @(p/pull conn '[*] (get-in props [:object :db/id]))
-        {:horizontal-coordinate-tool/keys [radius show-latitude? show-longitude? show-horizontal-plane? show-compass?]} hct
-        spaceship-camera-control @(p/pull conn '[*] (get-in props [:spaceship-camera-control :db/id]))
+        {:horizontal-coordinate-tool/keys [radius show-latitude? show-longitude? show-horizontal-plane? show-compass? position]} hct
         astro-scene @(p/pull conn '[*] (get-in props [:astro-scene :db/id]))
         coordinate @(p/pull conn '[*] (get-in astro-scene [:astro-scene/coordinate :db/id]))
         earth @(p/pull conn '[*] [:planet/name "earth"])]
     (when (= (:db/id earth) (get-in coordinate [:coordinate/track-position :db/id]))
-      (let [p (m.spaceship/get-landing-position-in-scene spaceship-camera-control astro-scene)
-            q2 (vec (m.horizon/cal-quaternion-on-sphere (:spaceship-camera-control/landing-position spaceship-camera-control)))]
+      (let [q2 (vec (m.horizon/cal-quaternion-on-sphere position))]
         [:mesh {:position (:object/position earth)}
          [:mesh {:quaternion (:object/quaternion earth)}
           [:mesh {:quaternion q2
-                  :position p}
+                  :position position}
            [:<>
             (when show-horizontal-plane?
               [:polarGridHelper {:args [radius 4 10 60 "green" "green"]}])

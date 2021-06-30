@@ -1091,7 +1091,8 @@ galaxy-quaternion
 
 
 (def horizontal-coordinate-tool-1
-  #:horizontal-coordinate-tool{:position [0.02 0.02 0.02]
+  #:horizontal-coordinate-tool{:name "default"
+                               :position [0.02 0.02 0.02]
                                :radius 0.001
                                :longitude-interval 90
                                :latitude-interval 10

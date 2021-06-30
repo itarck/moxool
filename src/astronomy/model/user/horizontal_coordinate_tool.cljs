@@ -6,6 +6,9 @@
    [shu.three.spherical :as sph]))
 
 
+(def schema
+  #:horizontal-coordinate-tool {:name {:db/unique :db.unique/identity}})
+
 
 (comment
 
@@ -59,6 +62,15 @@
         q1 (q/from-axis-angle (cal-phi-rotate-axis hct) (:phi sp))
         q2 (q/from-axis-angle (v3/vector3 0 1 0) (:theta sp))]
     (q/multiply q1 q2)))
+
+
+;; tx
+
+
+(defn set-position-tx [scc new-position]
+  [#:horizontal-coordinate-tool{:position new-position
+                                :db/id (:db/id scc)}])
+
 
 
 (comment

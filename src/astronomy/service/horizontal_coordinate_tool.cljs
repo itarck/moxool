@@ -1,6 +1,9 @@
 (ns astronomy.service.horizontal-coordinate-tool
   (:require
    [posh.reagent :as p]
+   [datascript.core :as d]
+   [astronomy.model.user.spaceship-camera-control :as m.spaceship]
+   [astronomy.model.user.horizontal-coordinate-tool :as m.horizon]
    [cljs.core.async :refer [go-loop go >! <! timeout] :as a]))
 
 
@@ -9,7 +12,7 @@
 
 (defmethod handle-event! :horizontal-coordinate-tool/log
   [props {:keys [conn]} {:event/keys [detail]}]
-  (println detail))
+  (println "horizontal-cooridnate-tool/log: " detail))
 
 (defmethod handle-event! :horizontal-coordinate-tool/change-show-longitude
   [props {:keys [conn]} {:event/keys [detail]}]
@@ -45,6 +48,17 @@
         tx [{:db/id (:db/id tool)
              :horizontal-coordinate-tool/radius radius}]]
     (p/transact! conn tx)))
+
+
+(defmethod handle-event! :horizontal-coordinate-tool/update-default
+  [props {:keys [conn]} {:event/keys [detail]}]
+  (let [spaceship-camera-control (d/pull @conn '[*] (get-in detail [:spaceship-camera-control :db/id]))
+        astro-scene (d/pull @conn '[*] (get-in props [:astro-scene :db/id]))
+        position-in-scene (m.spaceship/get-landing-position-in-scene spaceship-camera-control astro-scene)
+        tx (m.horizon/set-position-tx {:db/id [:horizontal-coordinate-tool/name "default"]} position-in-scene)]
+    (println "horizontal-coordinate-tool/update-default: " tx)
+    (p/transact! conn tx)))
+
 
 (defn init-service! [props {:keys [process-chan] :as env}]
   (go-loop []
