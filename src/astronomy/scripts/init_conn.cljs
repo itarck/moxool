@@ -1081,7 +1081,7 @@ galaxy-quaternion
 
 (def ppt-tool
   #:ppt-tool {:query-type :ppt-by-name
-              :query-args ["10.地球是球形"]
+              :query-args ["11.地球的大小"]
               :ppts [#:ppt{:pages [#:ppt-page{:image-url "/slides/1.universe-distance/Slide1.jpeg"}
                                    #:ppt-page{:image-url "/slides/1.universe-distance/Slide2.jpeg"}
                                    #:ppt-page{:image-url "/slides/1.universe-distance/Slide3.jpeg"}
@@ -1131,6 +1131,12 @@ galaxy-quaternion
                                     #:ppt-page{:image-url "/slides/10.sphere/Slide3.jpeg"}
                                     #:ppt-page{:image-url "/slides/10.sphere/Slide4.jpeg"}]
                             :chinese-name "10.地球是球形"
+                            :current-page 0}
+                     #:ppt {:pages [#:ppt-page{:image-url "/slides/11.earth-size/Slide1.jpeg"}
+                                    #:ppt-page{:image-url "/slides/11.earth-size/Slide2.jpeg"}
+                                    #:ppt-page{:image-url "/slides/11.earth-size/Slide3.jpeg"}
+                                    ]
+                            :chinese-name "11.地球的大小"
                             :current-page 0}]
               :tool/name "ppt tool"
               :tool/chinese-name "脚本"
