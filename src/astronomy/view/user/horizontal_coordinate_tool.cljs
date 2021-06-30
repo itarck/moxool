@@ -38,12 +38,15 @@
           (for [name chinese-names]
             ^{:key name}
             [:> mt/MenuItem {:value name} name])]]
-        
-        [:> mt/Grid {:item true :xs 12}
-         [:> mt/Typography {:variant "subtitle1"}
-          (if (= :surface-control (:spaceship-camera-control/mode spaceship-camera-control))
-            "当前位于地表，可使用地平坐标系"
-            "当前不在地表，无法使用地平坐标系")]]
+
+        [:> mt/Grid {:item true :xs 6}
+         [:> mt/Typography {:variant "subtitle2"} "操作"]]
+        [:> mt/Grid {:item true :xs 6}
+         [:> mt/ButtonGroup {:size "small"}
+          [:> mt/Button {:onClick #(go (>! service-chan #:event{:action :horizontal-coordinate-tool/landing-at-target
+                                                                :detail {:tool tool
+                                                                         :show? true}}))} "前往"]]]
+
         [:> mt/Grid {:item true :xs 6}
          [:> mt/Typography {:variant "subtitle2"} "显示经度"]]
         [:> mt/Grid {:item true :xs 6}
@@ -99,21 +102,19 @@
                                                                     :detail {:tool tool
                                                                              :show? show?}}))))}]
          [:span "是"]]
-         
-         #_[:> mt/Grid {:item true :xs 6}
-         [:> mt/Typography {:variant "subtitle2"} "天球半径"]]
-         #_[:> mt/Grid {:item true :xs 6}
-          ($ mt/Slider
-             {:style (clj->js {:color "#666"
-                               :width "100px"})
-              :value radius
-              :onChange (fn [e value]
-                          (go (>! service-chan #:event {:action :horizontal-coordinate-tool/change-radius
-                                                        :detail {:tool tool
-                                                                 :radius value}})))
-              :step 0.001 :min 0.001 :max 0.01 :marks true
-              :getAriaValueText identity
-              :aria-labelledby "discrete-slider-restrict"
-              :valueLabelDisplay "auto"})]
-         
-         ]]]]))
+
+        #_[:> mt/Grid {:item true :xs 6}
+           [:> mt/Typography {:variant "subtitle2"} "天球半径"]]
+        #_[:> mt/Grid {:item true :xs 6}
+           ($ mt/Slider
+              {:style (clj->js {:color "#666"
+                                :width "100px"})
+               :value radius
+               :onChange (fn [e value]
+                           (go (>! service-chan #:event {:action :horizontal-coordinate-tool/change-radius
+                                                         :detail {:tool tool
+                                                                  :radius value}})))
+               :step 0.001 :min 0.001 :max 0.01 :marks true
+               :getAriaValueText identity
+               :aria-labelledby "discrete-slider-restrict"
+               :valueLabelDisplay "auto"})]]]]]))

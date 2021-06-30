@@ -60,6 +60,16 @@
         ;; (println :horizontal-coordinate-tool/change-query-args tx)
         (p/transact! conn tx)))))
 
+(defmethod handle-event! :horizontal-coordinate-tool/landing-at-target
+  [props {:keys [conn service-chan]} {:event/keys [detail]}]
+  (let [{:keys [tool]} detail
+        astro-scene (d/pull @conn '[*] (get-in props [:astro-scene :db/id]))
+        hc (d/pull @conn '[*] (get-in tool [:tool/target :db/id]))
+        click-point (mapv #(* (:scene/scale astro-scene) %) (:horizontal-coordinate/position hc))]
+    (go (>! service-chan #:event{:action :spaceship-camera-control/landing-at-position
+                                 :detail {:position click-point
+                                          :spaceship-camera-control {:db/id [:spaceship-camera-control/name "default"]}}}))))
+
 
 (defn init-service! [props {:keys [process-chan] :as env}]
   (go-loop []

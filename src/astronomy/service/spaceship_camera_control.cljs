@@ -98,17 +98,23 @@
 
 (defmethod handle-event! :spaceship-camera-control/object-clicked
   [props {:keys [conn dom-atom service-chan] :as env} {:event/keys [detail] :as event}]
-  ;; (println detail)
+  (println "spaceship-camera-control/object-clicked: " detail)
   (when (:meta-key detail)
-    (let [{:keys [click-point current-tool]} detail
-          camera (:camera @dom-atom)
-          scc (d/pull @conn '[*] (:db/id current-tool))
-          direction (vec (m.spaceship/get-camera-direction camera))
-          tx (m.spaceship/landing-tx scc click-point direction)]
-      (p/transact! conn tx)
-      (go (>! service-chan #:event{:action :horizontal-coordinate-tool/update-default
-                                   :detail {:spaceship-camera-control {:db/id (:db/id scc)}}})))))
+    (let [{:keys [click-point current-tool]} detail]
+      (go (>! service-chan #:event{:action :spaceship-camera-control/landing-at-position
+                                   :detail {:position click-point
+                                            :spaceship-camera-control current-tool}})))))
 
+(defmethod handle-event! :spaceship-camera-control/landing-at-position
+  [props {:keys [conn dom-atom service-chan] :as env} {:event/keys [detail] :as event}]
+  (let [{:keys [position spaceship-camera-control]} detail
+        camera (:camera @dom-atom)
+        scc (d/pull @conn '[*] (:db/id spaceship-camera-control))
+        direction (vec (m.spaceship/get-camera-direction camera))
+        tx (m.spaceship/landing-tx scc position direction)]
+    (p/transact! conn tx)
+    (go (>! service-chan #:event{:action :horizontal-coordinate-tool/update-default
+                                 :detail {:spaceship-camera-control {:db/id (:db/id scc)}}}))))
 
 (defmethod handle-event! :spaceship-camera-control/change-mode
   [props {:keys [conn service-chan] :as env} {:event/keys [detail]}]
