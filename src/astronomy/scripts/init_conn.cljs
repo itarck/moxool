@@ -1053,7 +1053,7 @@ galaxy-quaternion
   #:spaceship-camera-control
    {:name "default"
     :mode :orbit-control
-    :surface-ratio 1.000
+    :surface-ratio 1.0001
     :min-distance 210
     :position [2000 2000 2000]
     :zoom 1
