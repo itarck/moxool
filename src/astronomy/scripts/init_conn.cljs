@@ -207,7 +207,7 @@ ecliptic-axis
                                      :orbit/type :circle-orbit
                                      :orbit/period 365.2564
                                      :orbit/color "green"
-                                     :orbit/show? false}
+                                     :orbit/show? true}
     :celestial/spin #:spin {:axis [0 1 0]
                             :period 0.99726968
                             :angular-velocity (period-to-angular-velocity 0.99726968)}
@@ -236,7 +236,7 @@ ecliptic-axis
 
                                      :orbit/type :circle-orbit
                                      :orbit/color "white"
-                                     :orbit/show? false
+                                     :orbit/show? true
                                      :orbit/period 27.321661}
     :celestial/spin #:spin {:axis (m.spin/cal-spin-axis 266.86	65.64)
                             :period 27.321661
@@ -1081,7 +1081,7 @@ galaxy-quaternion
 
 (def ppt-tool
   #:ppt-tool {:query-type :ppt-by-name
-              :query-args ["12.地球的大小"]
+              :query-args ["11.公元前的日心说模型"]
               :ppts [#:ppt{:pages [#:ppt-page{:image-url "/slides/1.universe-distance/Slide1.jpeg"}
                                    #:ppt-page{:image-url "/slides/1.universe-distance/Slide2.jpeg"}
                                    #:ppt-page{:image-url "/slides/1.universe-distance/Slide3.jpeg"}
@@ -1132,11 +1132,19 @@ galaxy-quaternion
                                     #:ppt-page{:image-url "/slides/10.sphere/Slide4.jpeg"}]
                             :chinese-name "10.地球是球形"
                             :current-page 0}
+                     #:ppt {:pages [#:ppt-page{:image-url "/slides/11.heliocentric/Slide1.jpeg"}
+                                    #:ppt-page{:image-url "/slides/11.heliocentric/Slide2.jpeg"}
+                                    #:ppt-page{:image-url "/slides/11.heliocentric/Slide3.jpeg"}
+                                    #:ppt-page{:image-url "/slides/11.heliocentric/Slide4.jpeg"}
+                                    #:ppt-page{:image-url "/slides/11.heliocentric/Slide5.jpeg"}
+                                    #:ppt-page{:image-url "/slides/11.heliocentric/Slide6.jpeg"}
+                                    ]
+                            :chinese-name "11.公元前的日心说模型"
+                            :current-page 0}
                      #:ppt {:pages [#:ppt-page{:image-url "/slides/12.earth-size/Slide1.jpeg"}
                                     #:ppt-page{:image-url "/slides/12.earth-size/Slide2.jpeg"}
                                     #:ppt-page{:image-url "/slides/12.earth-size/Slide3.jpeg"}
-                                    #:ppt-page{:image-url "/slides/12.earth-size/Slide4.jpeg"}
-                                    ]
+                                    #:ppt-page{:image-url "/slides/12.earth-size/Slide4.jpeg"}]
                             :chinese-name "12.地球的大小"
                             :current-page 0}]
               :tool/name "ppt tool"
@@ -1230,7 +1238,7 @@ galaxy-quaternion
                        galaxy coordinate-1 atmosphere
                        horizontal-coordinate-1 horizontal-coordinate-2 horizontal-coordinate-3])
     (d/transact! conn [spaceship-camera-control person1 universe-tool-1 clock-tool1 info-tool
-                       #_coordinate-tool-1 ppt-tool horizontal-coordinate-tool-1 goto-tool-1
+                       coordinate-tool-1 ppt-tool horizontal-coordinate-tool-1 goto-tool-1
                        equatorial-coordinate-tool-1 constellation-tool-1 atmosphere-tool-1 eagle-eye-tool])
 
     (let [person (d/pull @conn '[*] [:person/name "dr who"])
@@ -1241,11 +1249,11 @@ galaxy-quaternion
       (d/transact! conn (m.backpack/put-in-cell-tx bp 3 {:db/id [:tool/name "spaceship camera tool"]}))
       (d/transact! conn (m.backpack/put-in-cell-tx bp 4 {:db/id [:tool/name "horizontal-coordinate-tool-1"]}))
       (d/transact! conn (m.backpack/put-in-cell-tx bp 5 {:db/id [:tool/name "equatorial-coordinate-tool"]}))
-      ;; (d/transact! conn (m.backpack/put-in-cell-tx bp 6 {:db/id [:tool/name "coordinate tool 1"]}))
-      (d/transact! conn (m.backpack/put-in-cell-tx bp 6 {:db/id [:tool/name "constellation-tool"]}))
+      (d/transact! conn (m.backpack/put-in-cell-tx bp 6 {:db/id [:tool/name "coordinate tool 1"]}))
+      (d/transact! conn (m.backpack/put-in-cell-tx bp 7 {:db/id [:tool/name "constellation-tool"]}))
       ;; (d/transact! conn (m.backpack/put-in-cell-tx bp 8 {:db/id [:tool/name "universe tool"]}))
-      (d/transact! conn (m.backpack/put-in-cell-tx bp 7 {:db/id [:tool/name "atmosphere-tool"]}))
-      (d/transact! conn (m.backpack/put-in-cell-tx bp 8 {:db/id [:tool/name "eagle-eye-tool"]}))
+      (d/transact! conn (m.backpack/put-in-cell-tx bp 8 {:db/id [:tool/name "atmosphere-tool"]}))
+      (d/transact! conn (m.backpack/put-in-cell-tx bp 9 {:db/id [:tool/name "eagle-eye-tool"]}))
       ;; (d/transact! conn (m.backpack/put-in-cell-tx bp 8 {:db/id [:tool/name "info tool 1"]}))
       )
 
