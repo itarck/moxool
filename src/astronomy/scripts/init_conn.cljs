@@ -207,7 +207,7 @@ ecliptic-axis
                                      :orbit/type :circle-orbit
                                      :orbit/period 365.2564
                                      :orbit/color "green"
-                                     :orbit/show? true}
+                                     :orbit/show? false}
     :celestial/spin #:spin {:axis [0 1 0]
                             :period 0.99726968
                             :angular-velocity (period-to-angular-velocity 0.99726968)}
@@ -236,7 +236,7 @@ ecliptic-axis
 
                                      :orbit/type :circle-orbit
                                      :orbit/color "white"
-                                     :orbit/show? true
+                                     :orbit/show? false
                                      :orbit/period 27.321661}
     :celestial/spin #:spin {:axis (m.spin/cal-spin-axis 266.86	65.64)
                             :period 27.321661
@@ -1081,7 +1081,7 @@ galaxy-quaternion
 
 (def ppt-tool
   #:ppt-tool {:query-type :ppt-by-name
-              :query-args ["11.公元前的日心说模型"]
+              :query-args ["13.浑仪：在地球不同地点看太阳"]
               :ppts [#:ppt{:pages [#:ppt-page{:image-url "/slides/1.universe-distance/Slide1.jpeg"}
                                    #:ppt-page{:image-url "/slides/1.universe-distance/Slide2.jpeg"}
                                    #:ppt-page{:image-url "/slides/1.universe-distance/Slide3.jpeg"}
@@ -1137,8 +1137,7 @@ galaxy-quaternion
                                     #:ppt-page{:image-url "/slides/11.heliocentric/Slide3.jpeg"}
                                     #:ppt-page{:image-url "/slides/11.heliocentric/Slide4.jpeg"}
                                     #:ppt-page{:image-url "/slides/11.heliocentric/Slide5.jpeg"}
-                                    #:ppt-page{:image-url "/slides/11.heliocentric/Slide6.jpeg"}
-                                    ]
+                                    #:ppt-page{:image-url "/slides/11.heliocentric/Slide6.jpeg"}]
                             :chinese-name "11.公元前的日心说模型"
                             :current-page 0}
                      #:ppt {:pages [#:ppt-page{:image-url "/slides/12.earth-size/Slide1.jpeg"}
@@ -1146,6 +1145,11 @@ galaxy-quaternion
                                     #:ppt-page{:image-url "/slides/12.earth-size/Slide3.jpeg"}
                                     #:ppt-page{:image-url "/slides/12.earth-size/Slide4.jpeg"}]
                             :chinese-name "12.地球的大小"
+                            :current-page 0}
+                     #:ppt {:pages [#:ppt-page{:image-url "/slides/13.armillary/Slide1.jpeg"}
+                                    #:ppt-page{:image-url "/slides/13.armillary/Slide2.jpeg"}
+                                    #:ppt-page{:image-url "/slides/13.armillary/Slide3.jpeg"}]
+                            :chinese-name "13.浑仪：在地球不同地点看太阳"
                             :current-page 0}]
               :tool/name "ppt tool"
               :tool/chinese-name "脚本"
