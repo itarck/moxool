@@ -1082,7 +1082,7 @@ galaxy-quaternion
 
 (def ppt-tool
   #:ppt-tool {:query-type :ppt-by-name
-              :query-args ["13.浑仪：在地球不同地点看太阳"]
+              :query-args ["14.天球坐标系"]
               :ppts [#:ppt{:pages [#:ppt-page{:image-url "/slides/1.universe-distance/Slide1.jpeg"}
                                    #:ppt-page{:image-url "/slides/1.universe-distance/Slide2.jpeg"}
                                    #:ppt-page{:image-url "/slides/1.universe-distance/Slide3.jpeg"}
@@ -1151,7 +1151,15 @@ galaxy-quaternion
                                     #:ppt-page{:image-url "/slides/13.armillary/Slide2.jpeg"}
                                     #:ppt-page{:image-url "/slides/13.armillary/Slide3.jpeg"}]
                             :chinese-name "13.浑仪：在地球不同地点看太阳"
-                            :current-page 0}]
+                            :current-page 0}
+                     #:ppt {:pages [#:ppt-page{:image-url "/slides/14.equatorial/Slide1.jpeg"}
+                                    #:ppt-page{:image-url "/slides/14.equatorial/Slide2.jpeg"}
+                                    #:ppt-page{:image-url "/slides/14.equatorial/Slide3.jpeg"}]
+                            :chinese-name "14.天球坐标系"
+                            :current-page 0}
+                     
+                     
+                     ]
               :tool/name "ppt tool"
               :tool/chinese-name "脚本"
               :tool/icon "/image/moxool/ppt.jpg"
