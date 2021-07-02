@@ -11,6 +11,7 @@
    [shu.three.vector3 :as v3]
    [shu.three.quaternion :as q]
    [shu.astronomy.equatorial :as eq]
+   [shu.astronomy.light :as shu.light]
    [methodology.model.user.backpack :as m.backpack]
    [methodology.model.core :as mtd-model]
    [astronomy.model.ellipse-orbit :as m.ellipse-orbit]
@@ -1165,7 +1166,8 @@ galaxy-quaternion
                                :entity/type :horizontal-coordinate-tool})
 
 (def equatorial-coordinate-tool-1
-  #:equatorial-coordinate-tool{:show-latitude? false
+  #:equatorial-coordinate-tool{:radius (* 1 shu.light/light-year-unit)
+                               :show-latitude? false
                                :show-longitude? false
                                :show-regression-line false
                                :show-latitude-0? false

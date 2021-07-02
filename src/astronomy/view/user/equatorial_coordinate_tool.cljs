@@ -34,13 +34,13 @@
 (defn EquatorialCoordinateSceneView
   [props {:keys [conn] :as env}]
   (let [ect @(p/pull conn '[*] (get-in props [:object :db/id]))
-        {:equatorial-coordinate-tool/keys [show-latitude? show-longitude? show-regression-line?
+        {:equatorial-coordinate-tool/keys [radius show-latitude? show-longitude? show-regression-line?
                                            show-latitude-0? show-longitude-0? show-ecliptic?
                                            show-lunar-orbit?]} ect
         earth @(p/pull conn '[*] [:planet/name "earth"])]
     [:mesh {:position (:object/position earth)}
      [:<>
-      [v.celestial-sphere/CelestialSphereHelperView {:radius 400
+      [v.celestial-sphere/CelestialSphereHelperView {:radius radius
                                                      :longitude-interval 30
                                                      :show-latitude? show-latitude?
                                                      :show-longitude? show-longitude?
@@ -49,23 +49,23 @@
 
       (when show-latitude-0?
         [:<>
-         [v.celestial-sphere/LatitudeView {:radius 400
+         [v.celestial-sphere/LatitudeView {:radius radius
                                            :latitude 0
                                            :color "red"}]
-         [v.celestial-sphere/LongitudeMarksView {:radius 400
+         [v.celestial-sphere/LongitudeMarksView {:radius radius
                                                  :color "red"}]])
       (when show-longitude-0?
         [:<>
-         [v.celestial-sphere/LongitudeView {:radius 400
+         [v.celestial-sphere/LongitudeView {:radius radius
                                             :longitude 0
                                             :color "red"}]])
 
       (when show-regression-line?
         [:<>
-         [v.celestial-sphere/LatitudeView {:radius 400
+         [v.celestial-sphere/LatitudeView {:radius radius
                                            :latitude 23.4
                                            :color "red"}]
-         [v.celestial-sphere/LatitudeView {:radius 400
+         [v.celestial-sphere/LatitudeView {:radius radius
                                            :latitude -23.4
                                            :color "red"}]])
       (when show-ecliptic?

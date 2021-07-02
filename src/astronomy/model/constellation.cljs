@@ -95,7 +95,7 @@
 ;; model
 
 (defn cal-celestial-sphere-position [right-ascension declination]
-  (let [radius (* 100 shu.light/light-year-unit)]
+  (let [radius (* 1 shu.light/light-year-unit)]
     (v3/from-spherical-coords
      radius
      (gmath/to-radians (- 90 declination))
@@ -103,6 +103,10 @@
 
 ;; tx
 
-(defn update-show-tx [constel show?]
+(defn update-show-lines-tx [constel show?]
   [{:db/id (:db/id constel)
-    :constellation/show? show?}])
+    :constellation/show-lines? show?}])
+
+(defn update-show-name-tx [constel show?]
+  [{:db/id (:db/id constel)
+    :constellation/show-name? show?}])

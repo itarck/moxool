@@ -6,7 +6,8 @@
 (comment
 
   (def sample
-    #:equatorial-coordinate-tool{:show-latitude? true
+    #:equatorial-coordinate-tool{:radius 10000
+                                 :show-latitude? true
                                  :show-longitude? true
                                  :show-latitude-0? true
                                  :show-longitude-0? true

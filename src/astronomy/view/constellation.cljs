@@ -11,7 +11,7 @@
 
 
 (defn gen-star-points [stars]
-  (let [radius (* 100 shu.light/light-year-unit)]
+  (let [radius (* 1 shu.light/light-year-unit)]
     (clj->js
      (for [star stars]
        (let [{:star/keys [right-ascension declination]} star
@@ -34,17 +34,19 @@
 
 (defn ConstellationView [props {:keys [conn] :as env}]
   (let [constel-entity (m.constel/sub-constellation conn (get-in props [:object :db/id]))
-        {:constellation/keys [show? chinese-name right-ascension declination star-lines]} constel-entity]
-    (when show?
-      [:<>
+        {:constellation/keys [show-lines? show-name? chinese-name right-ascension declination star-lines]} constel-entity]
+    [:<>
+     (when show-name?
        [:> Html {:position (vec (m.constel/cal-celestial-sphere-position right-ascension declination))
                  :zIndexRange [0 0]
                  :style {:color "green"
                          :font-size "14px"}}
-        [:p chinese-name]]
-       (for [star-line star-lines]
-         ^{:key (str (:db/id constel-entity) (rand))}
-         [StarLineView star-line])])))
+        [:p chinese-name]])
+     (when show-lines?
+       [:<>
+        (for [star-line star-lines]
+          ^{:key (str (:db/id constel-entity) (rand))}
+          [StarLineView star-line])])]))
 
 
 (defn ConstellationsView [{:keys [has-day-light?] :as props} {:keys [conn] :as env}]

@@ -29,13 +29,17 @@
     (p/transact! conn tx)))
 
 
-(defmethod handle-event! :constellation-tool/show
+(defmethod handle-event! :constellation-tool/show-lines
   [props {:keys [conn]} {:event/keys [detail]}]
   (let [{:keys [show? constellation-ids]} detail
-        tx (mapcat (fn [id] (m.constel/update-show-tx {:db/id id} show?)) constellation-ids)]
-    (println "constellation-tool/show: " tx)
+        tx (mapcat (fn [id] (m.constel/update-show-lines-tx {:db/id id} show?)) constellation-ids)]
     (p/transact! conn tx)))
 
+(defmethod handle-event! :constellation-tool/show-name
+  [props {:keys [conn]} {:event/keys [detail]}]
+  (let [{:keys [show? constellation-ids]} detail
+        tx (mapcat (fn [id] (m.constel/update-show-name-tx {:db/id id} show?)) constellation-ids)]
+    (p/transact! conn tx)))
 
 (defn init-service! [props {:keys [process-chan] :as env}]
   (go-loop []

@@ -41,8 +41,8 @@
                ^{:key (:value query-type)}
                [:> mt/MenuItem {:value (:value query-type)} (:name query-type)])]]
 
-           (when (#{:one-by-name :by-group} (:constellation-tool/query-type tool) )
-             [:> mt/Grid {:item true :xs 6}
+           (when (#{:one-by-name :by-group} (:constellation-tool/query-type tool))
+             [:> mt/Grid {:item true :xs 5}
               [:> mt/Select {:value (or (first (:constellation-tool/query-args tool))
                                         "未选择")
                              :onChange (fn [e]
@@ -53,16 +53,35 @@
                                                                      :query-args [new-value]}}))))}
                (for [name constellation-candinates]
                  ^{:key name}
-                 [:> mt/MenuItem {:value name} name])]])])
+                 [:> mt/MenuItem {:value name} name])]])])]
 
-        [:> mt/Grid {:item true :xs 12}
-         [:> mt/Typography {:variant "subtitle1"} "操作"]
-         [:> mt/ButtonGroup {:size "small"}
-          [:> mt/Button {:onClick #(go (>! service-chan #:event{:action :constellation-tool/show
-                                                                :detail {:tool tool
-                                                                         :constellation-ids selected-constellation-ids
-                                                                         :show? true}}))} "显示"]
-          [:> mt/Button {:onClick #(go (>! service-chan #:event{:action :constellation-tool/show
-                                                                :detail {:tool tool
-                                                                         :constellation-ids selected-constellation-ids
-                                                                         :show? false}}))} "隐藏"]]]]]]]))
+        [:> mt/Grid {:container true :spacing 1}
+         [:> mt/Grid {:item true :xs 6}
+          [:> mt/Typography {:variant "subtitle1"} "显示星座线"]]
+         [:> mt/Grid {:item true :xs 6}
+          [:> mt/ButtonGroup {:size "small"}
+           [:> mt/Button {:onClick #(go (>! service-chan #:event{:action :constellation-tool/show-lines
+                                                                 :detail {:tool tool
+                                                                          :constellation-ids selected-constellation-ids
+                                                                          :show? true}}))} "显示"]
+           [:> mt/Button {:onClick #(go (>! service-chan #:event{:action :constellation-tool/show-lines
+                                                                 :detail {:tool tool
+                                                                          :constellation-ids selected-constellation-ids
+                                                                          :show? false}}))} "隐藏"]]]
+         [:> mt/Grid {:item true :xs 6}
+          [:> mt/Typography {:variant "subtitle1"} "显示星座名"]]
+         [:> mt/Grid {:item true :xs 6}
+          [:> mt/ButtonGroup {:size "small"}
+           [:> mt/Button {:onClick #(go (>! service-chan #:event{:action :constellation-tool/show-name
+                                                                 :detail {:tool tool
+                                                                          :constellation-ids selected-constellation-ids
+                                                                          :show? true}}))} "显示"]
+           [:> mt/Button {:onClick #(go (>! service-chan #:event{:action :constellation-tool/show-name
+                                                                 :detail {:tool tool
+                                                                          :constellation-ids selected-constellation-ids
+                                                                          :show? false}}))} "隐藏"]]]]
+        
+
+ 
+        ]]]))
+
