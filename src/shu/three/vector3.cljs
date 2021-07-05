@@ -7,17 +7,16 @@
 
 (defprotocol IVector3
   (almost-equal? [v1 v2])
-  (add! [v1 v2] "Adds v to this vector.")
-  (add-scalar! [v1 s] "Adds the scalar value s to this vector's x, y and z values.")
+  (add-scalar [v1 s] "Adds the scalar value s to this vector's x, y and z values.")
   (add [v1 v2] "Adds v to this vector.")
   (apply-quaternion [v q] "Applies a Quaternion transform to this vecto")
+  (apply-matrix3 [v m] "Multiplies this vector by m")
   (apply-matrix4 [v m] "Multiplies this vector (with an implicit 1 in the 4th dimension) and m, and divides by perspective.")
+  (apply-normal-matrix [v m] "Multiplies this vector by normal matrix m and normalizes the result.")
   (apply-axis-angle [v axis angle] ".applyAxisAngle ( axis : Vector3, angle : Float ) : this. axis - A normalized Vector3. angle - An angle in radians.")
-  (apply-axis-angle! [v axis angle] ".applyAxisAngle ( axis : Vector3, angle : Float ) : this. axis - A normalized Vector3. angle - An angle in radians.")
   (apply-euler [v e] "Applies euler transform to this vector by converting the Euler object to a Quaternion and applying.")
   (angle-to [v1 v2] "Returns the angle between this vector and vector v in radians.")
   (clone' [v])
-  (cross! [v1 v2] "Sets this vector to cross product of a and b.")
   (cross [v1 v2] "Sets this vector to cross product of a and b.")
   (dot [v1 v2] "Calculate the dot product of this vector and v.")
   (equals [v1 v2])
@@ -58,30 +57,34 @@
   (almost-equal? [v1 v2]
     (g/almost-equal? v1 v2))
 
-  (add! [v1 v2]
-    (j/call v1 :add v2))
-
   (add [v1 v2]
     (let [vc (clone' v1)]
       (j/call vc :add v2)))
 
-  (add-scalar! [v1 s]
-    (j/call v1 :addScalar s))
+  (add-scalar [v1 s]
+    (let [vc (clone' v1)]
+      (j/call vc :addScalar s)))
 
   (apply-quaternion [v q]
     (let [vc (clone' v)]
       (j/call vc :applyQuaternion q)))
 
+  (apply-matrix3 [v q]
+    (let [vc (clone' v)]
+      (j/call vc :applyMatrix3 q)))
+
   (apply-matrix4 [v q]
     (let [vc (clone' v)]
       (j/call vc :applyMatrix4 q)))
 
+  (apply-normal-matrix [v m3]
+    (let [vc (clone' v)]
+      (j/call vc :applyNormalMatrix m3)
+      vc))
+
   (apply-axis-angle [v axis angle]
     (let [vc (clone' v)]
       (j/call vc :applyAxisAngle axis angle)))
-
-  (apply-axis-angle! [v axis angle]
-    (j/call v :applyAxisAngle axis angle))
 
   (apply-euler [v e]
     (let [vc (clone' v)]
@@ -96,9 +99,6 @@
   (cross [v1 v2]
     (let [vc (clone' v1)]
       (j/call vc :cross v2)))
-
-  (cross! [v1 v2]
-    (j/call v1 :cross v2))
 
   (dot [v1 v2]
     (let [vc (clone' v1)]

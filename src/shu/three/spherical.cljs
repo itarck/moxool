@@ -60,7 +60,7 @@
 
 
 (comment
-  
-  (from-cartesian-coords 0 0 1)
 
+  (from-cartesian-coords 0 1 0)
+  
   )
