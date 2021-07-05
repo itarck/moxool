@@ -9,12 +9,10 @@
 (defprotocol IThreeQuanternion
   (almost-equals [q1 q2])
   (angle-to [q1 q2] "Returns the angle between this quaternion and quaternion q in radians.")
-  (copy [q] "Copies the x, y, z and w properties of q into this quaternion.")
   (clone' [q] "Creates a new Quaternion with identical x, y, z and w properties to this one.")
   (conjugate [q] "Returns the rotational conjugate of this quaternion. The conjugate of a quaternion represents the same rotation in the opposite direction about the rotational axis.")
   (equals [q1 q2] "Quaternion that this quaternion will be compared to.")
   (dot [q1 q2] "Calculates the dot product of quaternions v and this one.")
-  (from-array [a] [a offset])
   (invert [q] "Inverts this quaternion - calculates the conjugate. The quaternion is assumed to have unit length.")
   (length [q] "Computes the Euclidean length (straight-line length) of this quaternion, considered as a 4 dimensional vector.")
   (length-sq [q] "Computes the squared Euclidean length (straight-line length) of this quaternion, considered as a 4 dimensional vector. This can be useful if you are comparing the lengths of two quaternions, as this is a slightly more efficient calculation than length().")
@@ -65,23 +63,15 @@
   (clone' [this]
     (j/call this :clone))
 
-  (conjugate
-    [q]
+  (conjugate [q]
     (let [q2 (clone' q)]
       (j/call q2 :conjugate)))
-
-  (copy [this]
-    (throw not-implemented-error))
 
   (equals [this b]
     (j/call this :equals b))
 
   (dot [q1 q2]
     (j/call q1 :dot q2))
-
-  (from-array
-    ([a] (throw (gen-exception "please use (quatn a)")))
-    ([a offset] (throw (gen-exception "please use (quatn a)"))))
 
   (invert [q]
     (let [qc (clone' q)]
@@ -102,7 +92,9 @@
       (j/call q :multiply q2)))
 
   (rotate-towards [q1 q2 step]
-    (j/call q1 :rotateTowards q2 step))
+    (let [qc (clone' q1)]
+      (j/call qc :rotateTowards q2 step)
+      qc))
 
   (slerp [q1 q2 t]
     (let [q1c (clone' q1)]
@@ -129,6 +121,12 @@
   (let [q (quaternion)]
     (j/call q :identity)
     q))
+
+(defn from-array
+  ([a] (let [qc (three/Quaternion)] 
+         (j/call qc  :fromArray a)))
+  ([a offset] (let [qc (three/Quaternion)]
+                (j/call qc  :fromArray a) offset)))
 
 (defn from-axis-angle
   "Sets this quaternion from rotation specified by axis and angle.

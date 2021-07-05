@@ -1,5 +1,6 @@
 (ns shu.three.test-quaternion
   (:require
+   [applied-science.js-interop :as j]
    [cljs.test :refer-macros [deftest is testing run-tests]]
    [shu.three.quaternion :as tq :refer [quaternion quatn]]
    [shu.three.vector3 :as tv3]
@@ -54,3 +55,16 @@
 
 
 (run-tests)
+
+
+(comment 
+  
+  (def q1 (quaternion 1 2 3 5))
+  (def q2 (quaternion 5 5 3 2))
+
+ (tq/rotate-towards q1 q2 1)
+  
+  (j/call :rotateTowards q1 q2 1)
+  q1
+  
+  )
