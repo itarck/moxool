@@ -25,7 +25,7 @@
                      :inclination-in-degree 7.005
                      :longitude-of-the-ascending-node-in-degree 48.331
                      :argument-of-periapsis-in-degree 29.124
-                     :start-position-angle-in-degree 0
+                     :mean-anomaly-in-degree 0
                      :angular-velocity-in-degree (period-to-angular-velocity-in-degree 87.97)
                      :orbit/type :ellipse-orbit
                      :orbit/period 87.97
@@ -40,7 +40,7 @@
                   :inclination-in-degree 0.00005
                   :longitude-of-the-ascending-node-in-degree -11.26064
                   :argument-of-periapsis-in-degree 114.20783
-                  :start-position-angle-in-degree 357.51716
+                  :mean-anomaly-in-degree 357.51716
                   :angular-velocity-in-degree (period-to-angular-velocity-in-degree 365.25636042)
 
                   :orbit/type :ellipse-orbit
@@ -48,10 +48,6 @@
                   :orbit/color "green"
                   :orbit/show? true})
 
-
-(defn current-angular-in-degree [ellipse-orbit days]
-  (let [{:ellipse-orbit/keys [start-position-angle-in-degree angular-velocity-in-degree]} ellipse-orbit]
-    (+ (* angular-velocity-in-degree days) start-position-angle-in-degree)))
 
 (defn cal-semi-focal-length [ellipse-orbit]
   (let [{:ellipse-orbit/keys [semi-major-axis eccentricity]} ellipse-orbit]
@@ -61,13 +57,6 @@
   (let [a (:ellipse-orbit/semi-major-axis ellipse-orbit)
         c (cal-semi-focal-length ellipse-orbit)]
     (Math/sqrt (- (* a a) (* c c)))))
-
-(defn cal-position-on-plane [ellipse-orbit days]
-  (let [a (:ellipse-orbit/semi-major-axis ellipse-orbit)
-        c (cal-semi-focal-length ellipse-orbit)
-        b (Math/sqrt (- (* a a) (* c c)))
-        theta (gmath/to-radians (current-angular-in-degree ellipse-orbit days))]
-    [(* -1 b (Math/sin theta)) 0 (+ (* -1 a (Math/cos theta)) c)]))
 
 (defn cal-true-anomaly [eccentricity mean-anomaly]
   ;; https://en.wikipedia.org/wiki/Mean_anomaly
@@ -86,17 +75,16 @@
     (* a (/ (- 1 (Math/pow e 2))
             (+ 1 (* e (Math/cos f)))))))
 
-(defn cal-current-mean-anomaly-in-radians [start-position-angle-in-degree angular-velocity-in-degree epoch-days]
-  (gmath/to-radians (+ start-position-angle-in-degree (* angular-velocity-in-degree epoch-days))))
+(defn cal-current-mean-anomaly-in-radians [mean-anomaly-in-degree angular-velocity-in-degree epoch-days]
+  (gmath/to-radians (+ mean-anomaly-in-degree (* angular-velocity-in-degree epoch-days))))
 
 (defn cal-position-to-vernal-equinox [ellipse-orbit epoch-days]
-  (let [{:ellipse-orbit/keys [semi-major-axis start-position-angle-in-degree eccentricity angular-velocity-in-degree]} ellipse-orbit
-        mean-anomaly (cal-current-mean-anomaly-in-radians start-position-angle-in-degree angular-velocity-in-degree epoch-days)
+  (let [{:ellipse-orbit/keys [semi-major-axis mean-anomaly-in-degree eccentricity angular-velocity-in-degree]} ellipse-orbit
+        mean-anomaly (cal-current-mean-anomaly-in-radians mean-anomaly-in-degree angular-velocity-in-degree epoch-days)
         true-anomaly (cal-true-anomaly eccentricity mean-anomaly)
         radius (cal-radius semi-major-axis eccentricity true-anomaly)
         position (v3/from-spherical-coords radius (/ Math/PI 2) true-anomaly)]
     (seq position)))
-
 
 (defn cal-position-vector [ellipse-orbit days]
   (let [p (cal-position-to-vernal-equinox ellipse-orbit days)
@@ -122,23 +110,7 @@
       (cal-position-vector ellipse-orbit days))))
 
 
-
-
-
 (comment
-
-  (current-angular-in-degree sample1 180)
-
-  (cal-position-on-plane sample1 0)
-
-
-  (cal-position-on-plane sample1 0)
-  ;; => [1.21695 0 0]
-
-  (cal-position-on-plane sample1 180)
-  ;; => [-1.3450499999999999 0 -1.566810356882668E-16]
-
-  (cal-position-on-plane sample1 270)
 
   (cal-position sample1 30)
 

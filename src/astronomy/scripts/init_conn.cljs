@@ -133,7 +133,7 @@ ecliptic-axis
                                       :inclination-in-degree 7.005
                                       :longitude-of-the-ascending-node-in-degree 48.331
                                       :argument-of-periapsis-in-degree 29.124
-                                      :start-position-angle-in-degree 0
+                                      :mean-anomaly-in-degree 0
                                       :angular-velocity-in-degree (m.ellipse-orbit/period-to-angular-velocity-in-degree 87.97)
 
                                       :orbit/type :ellipse-orbit
@@ -165,7 +165,7 @@ ecliptic-axis
                                       :inclination-in-degree 3.39458
                                       :longitude-of-the-ascending-node-in-degree 76.678
                                       :argument-of-periapsis-in-degree 55.186
-                                      :start-position-angle-in-degree 0
+                                      :mean-anomaly-in-degree 0
                                       :angular-velocity-in-degree (m.ellipse-orbit/period-to-angular-velocity-in-degree 224.7)
 
                                       :orbit/type :ellipse-orbit
@@ -204,11 +204,11 @@ ecliptic-axis
                                      :inclination-in-degree 0.00005
                                      :longitude-of-the-ascending-node-in-degree -11.26064
                                      :argument-of-periapsis-in-degree 114.20783
-                                     :start-position-angle-in-degree 357.51716
-                                     :angular-velocity-in-degree (m.ellipse-orbit/period-to-angular-velocity-in-degree 365.25636042)
+                                     :mean-anomaly-in-degree 357.51716
+                                     :angular-velocity-in-degree (m.ellipse-orbit/period-to-angular-velocity-in-degree 365.256363004)
 
                                      :orbit/type :ellipse-orbit
-                                     :orbit/period 365.25636042
+                                     :orbit/period 365.256363004
                                      :orbit/color "green"
                                      :orbit/show? true}
     #_#:circle-orbit {:star [:star/name "sun"]
@@ -283,7 +283,7 @@ ecliptic-axis
                                       :inclination-in-degree 1.85061
                                       :longitude-of-the-ascending-node-in-degree 49.57854
                                       :argument-of-periapsis-in-degree 286.502
-                                      :start-position-angle-in-degree 19.3871
+                                      :mean-anomaly-in-degree 19.3871
                                       :angular-velocity-in-degree (m.ellipse-orbit/period-to-angular-velocity-in-degree 686.93)
 
                                       :orbit/type :ellipse-orbit
@@ -389,7 +389,7 @@ ecliptic-axis
                                       :inclination-in-degree 10.593
                                       :longitude-of-the-ascending-node-in-degree 80.3293
                                       :argument-of-periapsis-in-degree 72.522
-                                      :start-position-angle-in-degree 95.9891
+                                      :mean-anomaly-in-degree 95.9891
                                       :angular-velocity-in-degree (m.ellipse-orbit/period-to-angular-velocity-in-degree 1681.63)
 
                                       :orbit/type :ellipse-orbit
@@ -428,7 +428,7 @@ ecliptic-axis
                                       :inclination-in-degree 10.829
                                       :longitude-of-the-ascending-node-in-degree 304.401
                                       :argument-of-periapsis-in-degree 178.664
-                                      :start-position-angle-in-degree 320.215
+                                      :mean-anomaly-in-degree 320.215
                                       :angular-velocity-in-degree (m.ellipse-orbit/period-to-angular-velocity-in-degree 643.219)
 
                                       :orbit/type :ellipse-orbit
@@ -459,7 +459,7 @@ ecliptic-axis
                                       :inclination-in-degree 1.305
                                       :longitude-of-the-ascending-node-in-degree 100.492
                                       :argument-of-periapsis-in-degree 275.066
-                                      :start-position-angle-in-degree 18.818
+                                      :mean-anomaly-in-degree 18.818
                                       :angular-velocity-in-degree (m.ellipse-orbit/period-to-angular-velocity-in-degree (* 11.856 365))
 
                                       :orbit/type :ellipse-orbit
@@ -776,7 +776,7 @@ ecliptic-axis
                                       :inclination-in-degree 17.1405
                                       :longitude-of-the-ascending-node-in-degree 110.299
                                       :argument-of-periapsis-in-degree 113.834
-                                      :start-position-angle-in-degree 14.53
+                                      :mean-anomaly-in-degree 14.53
                                       :angular-velocity-in-degree (m.ellipse-orbit/period-to-angular-velocity-in-degree (* 247.92 365))
 
                                       :orbit/type :ellipse-orbit
@@ -846,7 +846,7 @@ ecliptic-axis
                                       :inclination-in-degree 28.2137
                                       :longitude-of-the-ascending-node-in-degree 122.167
                                       :argument-of-periapsis-in-degree 239.041
-                                      :start-position-angle-in-degree 202.67
+                                      :mean-anomaly-in-degree 202.67
                                       :angular-velocity-in-degree (m.ellipse-orbit/period-to-angular-velocity-in-degree 103468)
 
                                       :orbit/type :ellipse-orbit
@@ -874,7 +874,7 @@ ecliptic-axis
                                       :inclination-in-degree 44.187
                                       :longitude-of-the-ascending-node-in-degree 35.8696
                                       :argument-of-periapsis-in-degree 151.4305
-                                      :start-position-angle-in-degree 197.634
+                                      :mean-anomaly-in-degree 197.634
                                       :angular-velocity-in-degree (m.ellipse-orbit/period-to-angular-velocity-in-degree 203600)
 
                                       :orbit/type :ellipse-orbit
@@ -905,7 +905,7 @@ ecliptic-axis
                                       :inclination-in-degree 162.26
                                       :longitude-of-the-ascending-node-in-degree 58.42
                                       :argument-of-periapsis-in-degree 111.33
-                                      :start-position-angle-in-degree 100
+                                      :mean-anomaly-in-degree 100
                                       :angular-velocity-in-degree (m.ellipse-orbit/period-to-angular-velocity-in-degree (* 75.3 365))
                                       :orbit/type :ellipse-orbit
                                       :orbit/period (* 75.3 365)
