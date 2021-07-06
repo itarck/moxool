@@ -222,6 +222,8 @@ ecliptic-axis
                       :orbit/color "green"
                       :orbit/show? false}
     :celestial/spin #:spin {:axis [0 1 0]
+                            :axis-center [-0.3971478906347807 0.9177546256839811 -7.295488395810108E-17]
+                            :axis-anglar-velocity (period-to-angular-velocity (* 365.25 -25722))
                             :period 0.99726968
                             :angular-velocity (period-to-angular-velocity 0.99726968)}
     :celestial/gltf #:gltf {:url "models/16-solar/Earth_1_12756.glb"

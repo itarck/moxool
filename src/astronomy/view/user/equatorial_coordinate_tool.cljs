@@ -8,7 +8,8 @@
    [shu.three.vector3 :as v3]
    [shu.three.quaternion :as q]
    [methodology.lib.geometry :as v.geo]
-   [astronomy.view.celestial-sphere-helper :as v.celestial-sphere]))
+   [astronomy.view.celestial-sphere-helper :as v.celestial-sphere]
+   [astronomy.model.spin :as m.spin]))
 
 
 (def ecliptic-axis
@@ -37,8 +38,11 @@
         {:equatorial-coordinate-tool/keys [radius show-latitude? show-longitude? show-regression-line?
                                            show-latitude-0? show-longitude-0? show-ecliptic?
                                            show-lunar-orbit?]} ect
-        earth @(p/pull conn '[*] [:planet/name "earth"])]
-    [:mesh {:position (:object/position earth)}
+        earth @(p/pull conn '[*] [:planet/name "earth"])
+        clock @(p/pull conn '[*] (-> (:celestial/clock earth) :db/id))
+        axial-q (m.spin/cal-axial-quaternion (:celestial/spin earth) (:clock/time-in-days clock))]
+    [:mesh {:position (:object/position earth)
+            :quaternion axial-q}
      [:<>
       [v.celestial-sphere/CelestialSphereHelperView {:radius radius
                                                      :longitude-interval 30
