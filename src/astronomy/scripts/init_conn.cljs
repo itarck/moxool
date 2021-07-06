@@ -199,16 +199,28 @@ ecliptic-axis
     :color "blue"
     :star [:star/name "sun"]
     :celestial/radius 0.021
-    :celestial/orbit #:circle-orbit {:star [:star/name "sun"]
-                                     :radius 498.6596333
-                                     :start-position [0 0 -498.6596333]
-                                     :axis ecliptic-axis
-                                     :angular-velocity (period-to-angular-velocity 365.2564)
+    :celestial/orbit #:ellipse-orbit{:semi-major-axis 499.0052919
+                                     :eccentricity 0.0167086
+                                     :inclination-in-degree 0.00005
+                                     :longitude-of-the-ascending-node-in-degree -11.26064
+                                     :argument-of-periapsis-in-degree 114.20783
+                                     :start-position-angle-in-degree 358.617
+                                     :angular-velocity-in-degree (m.ellipse-orbit/period-to-angular-velocity-in-degree 365.2564)
 
-                                     :orbit/type :circle-orbit
+                                     :orbit/type :ellipse-orbit
                                      :orbit/period 365.2564
                                      :orbit/color "green"
-                                     :orbit/show? false}
+                                     :orbit/show? true}
+    #_#:circle-orbit {:star [:star/name "sun"]
+                      :radius 498.6596333
+                      :start-position [0 0 -498.6596333]
+                      :axis ecliptic-axis
+                      :angular-velocity (period-to-angular-velocity 365.2564)
+
+                      :orbit/type :circle-orbit
+                      :orbit/period 365.2564
+                      :orbit/color "green"
+                      :orbit/show? false}
     :celestial/spin #:spin {:axis [0 1 0]
                             :period 0.99726968
                             :angular-velocity (period-to-angular-velocity 0.99726968)}
