@@ -36,15 +36,15 @@
 
 (def earth-sample
   #:ellipse-orbit{:semi-major-axis 499.0052919
-                  :eccentricity 0.0167086
+                  :eccentricity 0.01671022
                   :inclination-in-degree 0.00005
                   :longitude-of-the-ascending-node-in-degree -11.26064
                   :argument-of-periapsis-in-degree 114.20783
-                  :start-position-angle-in-degree 358.617
-                  :angular-velocity-in-degree (period-to-angular-velocity-in-degree 365.2564)
+                  :start-position-angle-in-degree 357.51716
+                  :angular-velocity-in-degree (period-to-angular-velocity-in-degree 365.25636042)
 
                   :orbit/type :ellipse-orbit
-                  :orbit/period 365.2564
+                  :orbit/period 365.25636042
                   :orbit/color "green"
                   :orbit/show? true})
 
@@ -163,8 +163,17 @@
   (cal-position-vector earth-sample 0)
   ;; => #object[Vector3 [-441.2104749761639 -190.92839178407485 98.16697513462124]]
 
-  (cal-position-vector earth-sample 78.8)
-  ;; => #object[Vector3 [-9.54325587336405 -4.129837581001016 -497.06573272564674]]
+  (cal-position-vector earth-sample 77)
+  ;; => #object[Vector3 [5.482166245307989 2.3722584895551755 -496.8727082469014]]
+
+
+  (cal-position-vector earth-sample 78)
+  ;; => #object[Vector3 [6.397173283217713 2.7682183280058337 -496.8433765198534]]
+
+  (cal-position-vector earth-sample 79)
+  ;; => #object[Vector3 [-1.5111700601941565 -0.6540355033083146 -497.0291786548116]]
+
+  (cal-position-vector earth-sample 80)
 
   (cal-position-to-vernal-equinox earth-sample 0)
   

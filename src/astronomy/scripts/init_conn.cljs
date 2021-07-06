@@ -200,27 +200,27 @@ ecliptic-axis
     :star [:star/name "sun"]
     :celestial/radius 0.021
     :celestial/orbit #:ellipse-orbit{:semi-major-axis 499.0052919
-                                     :eccentricity 0.0167086
+                                     :eccentricity 0.01671022
                                      :inclination-in-degree 0.00005
                                      :longitude-of-the-ascending-node-in-degree -11.26064
                                      :argument-of-periapsis-in-degree 114.20783
-                                     :start-position-angle-in-degree 358.617
-                                     :angular-velocity-in-degree (m.ellipse-orbit/period-to-angular-velocity-in-degree 365.2564)
+                                     :start-position-angle-in-degree 357.51716
+                                     :angular-velocity-in-degree (m.ellipse-orbit/period-to-angular-velocity-in-degree 365.25636042)
 
                                      :orbit/type :ellipse-orbit
-                                     :orbit/period 365.2564
+                                     :orbit/period 365.25636042
                                      :orbit/color "green"
                                      :orbit/show? true}
     #_#:circle-orbit {:star [:star/name "sun"]
-                    :radius 498.6596333
-                    :start-position [0 0 -498.6596333]
-                    :axis ecliptic-axis
-                    :angular-velocity (period-to-angular-velocity 365.2564)
+                      :radius 498.6596333
+                      :start-position [0 0 -498.6596333]
+                      :axis ecliptic-axis
+                      :angular-velocity (period-to-angular-velocity 365.2564)
 
-                    :orbit/type :circle-orbit
-                    :orbit/period 365.2564
-                    :orbit/color "green"
-                    :orbit/show? false}
+                      :orbit/type :circle-orbit
+                      :orbit/period 365.2564
+                      :orbit/color "green"
+                      :orbit/show? false}
     :celestial/spin #:spin {:axis [0 1 0]
                             :period 0.99726968
                             :angular-velocity (period-to-angular-velocity 0.99726968)}
@@ -1168,10 +1168,7 @@ galaxy-quaternion
                                     #:ppt-page{:image-url "/slides/14.equatorial/Slide2.jpeg"}
                                     #:ppt-page{:image-url "/slides/14.equatorial/Slide3.jpeg"}]
                             :chinese-name "14.天球坐标系"
-                            :current-page 0}
-                     
-                     
-                     ]
+                            :current-page 0}]
               :tool/name "ppt tool"
               :tool/chinese-name "脚本"
               :tool/icon "/image/moxool/ppt.jpg"

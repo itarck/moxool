@@ -3,7 +3,8 @@
    [goog.string :as gstring]
    [cljs.spec.alpha :as s]
    [shu.goog.math :as gmath]
-   [shu.three.spherical :as sph]))
+   [shu.three.spherical :as sph]
+   [shu.astronomy.date-time :as dt]))
 
 
 (def day 1)
@@ -80,6 +81,8 @@
          (when (< (int seconds) 10) "0")
          (gstring/format "%0.3f" (/ (int (* 1000 seconds)) 1000)))))
 
+(defn utc-format-string [epoch-days]
+  (dt/format-string (dt/from-epoch-days epoch-days)))
 
 
 (comment

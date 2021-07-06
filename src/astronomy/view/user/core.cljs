@@ -17,7 +17,7 @@
      [:p {:style {:font-size "14px"
                   :color "#aaa"}}
       [:div (str "距离原点：" (shu.light/semantic-distance-in-light-seconds (/ r 10000)))]
-      [:div (str "世界时间：" (m.clock/format-time-in-days (:clock/time-in-days clock)))]
+      [:div (str "世界时间：" (m.clock/utc-format-string (:clock/time-in-days clock)))]
       #_[:div (str "鼠标：" (str (let [{:mouse/keys [page-x page-y]} mouse]
                               [(int page-x) (int page-y)])))]]]))
 
