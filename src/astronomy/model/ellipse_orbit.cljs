@@ -17,20 +17,39 @@
 (defn period-to-angular-velocity-in-degree [period]
   (/ 360 period))
 
-(def sample1
-  #:ellipse-orbit {:semi-major-axis 193.1642156
-                   :eccentricity 0.205630
-                   :inclination-in-degree 7.005
-                   :longitude-of-the-ascending-node-in-degree 48.331
-                   :argument-of-periapsis-in-degree 29.124
-                   :start-position-angle-in-degree 0
-                   :angular-velocity-in-degree (period-to-angular-velocity-in-degree 87.97)
-                   :orbit/type :ellipse-orbit
-                   :orbit/period 87.97
-                   :circle-orbit/color "white"
-                   :circle-orbit/show? true
-                   :circle-orbit/radius 193.1642156
-                   :circle-orbit/period 87.97})
+(comment 
+  
+  (def sample1
+    #:ellipse-orbit {:semi-major-axis 193.1642156
+                     :eccentricity 0.205630
+                     :inclination-in-degree 7.005
+                     :longitude-of-the-ascending-node-in-degree 48.331
+                     :argument-of-periapsis-in-degree 29.124
+                     :start-position-angle-in-degree 0
+                     :angular-velocity-in-degree (period-to-angular-velocity-in-degree 87.97)
+                     :orbit/type :ellipse-orbit
+                     :orbit/period 87.97
+                     :circle-orbit/color "white"
+                     :circle-orbit/show? true
+                     :circle-orbit/radius 193.1642156
+                     :circle-orbit/period 87.97})
+
+  (def earth-sample 
+    #:ellipse-orbit{:semi-major-axis 499.0052919
+                    :eccentricity 0.0167086
+                    :inclination-in-degree 0.00005
+                    :longitude-of-the-ascending-node-in-degree -11.26064
+                    :argument-of-periapsis-in-degree 114.20783
+                    :start-position-angle-in-degree 358.617
+                    :angular-velocity-in-degree (period-to-angular-velocity-in-degree 365.2564)
+
+                    :orbit/type :ellipse-orbit
+                    :orbit/period 365.2564
+                    :orbit/color "green"
+                    :orbit/show? true})
+  
+  
+  )
 
 (defn current-angular-in-degree [ellipse-orbit days]
   (let [{:ellipse-orbit/keys [start-position-angle-in-degree angular-velocity-in-degree]} ellipse-orbit]
@@ -52,20 +71,6 @@
         theta (gmath/to-radians (current-angular-in-degree ellipse-orbit days))]
     [(* -1 b (Math/sin theta)) 0 (+ (* -1 a (Math/cos theta)) c)]))
 
-;;   "有问题，需要调试"
-(defn cal-position-quaternion [ellipse-orbit]
-  (let [{:ellipse-orbit/keys [inclination-in-degree
-                              longitude-of-the-ascending-node-in-degree
-                              argument-of-periapsis-in-degree]} ellipse-orbit
-        q1 (q/from-axis-angle (v3/vector3 0 1 0) (gmath/to-radians argument-of-periapsis-in-degree))
-        q2 (q/from-axis-angle (v3/vector3 0 0 -1) (gmath/to-radians inclination-in-degree))
-        q3 (q/from-axis-angle (v3/vector3 0 1 0) (gmath/to-radians longitude-of-the-ascending-node-in-degree))
-        q4 (q/from-axis-angle (v3/vector3 0 0 1) (gmath/to-radians 23.4))]
-    (-> (q/quaternion)
-        (q/multiply q1)
-        (q/multiply q2)
-        (q/multiply q3)
-        (q/multiply q4))))
 
 (defn cal-position-vector [ellipse-orbit days]
   (let [p (cal-position-on-plane ellipse-orbit days)
@@ -81,11 +86,6 @@
         (v3/apply-quaternion q2)
         (v3/apply-quaternion q3)
         (v3/apply-quaternion q4))))
-
-#_(defn cal-position-vector [ellipse-orbit days]
-  (let [p (cal-position-on-plane ellipse-orbit days)
-        q (cal-position-quaternion ellipse-orbit)]
-    (v3/apply-quaternion (v3/from-seq p) q)))
 
 (defn cal-position [ellipse-orbit days]
   (seq (cal-position-vector ellipse-orbit days)))
