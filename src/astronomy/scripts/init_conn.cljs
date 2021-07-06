@@ -199,7 +199,7 @@ ecliptic-axis
     :color "blue"
     :star [:star/name "sun"]
     :celestial/radius 0.021
-    :celestial/orbit #_#:ellipse-orbit{:semi-major-axis 499.0052919
+    :celestial/orbit #:ellipse-orbit{:semi-major-axis 499.0052919
                                      :eccentricity 0.0167086
                                      :inclination-in-degree 0.00005
                                      :longitude-of-the-ascending-node-in-degree -11.26064
@@ -211,7 +211,7 @@ ecliptic-axis
                                      :orbit/period 365.2564
                                      :orbit/color "green"
                                      :orbit/show? true}
-    #:circle-orbit {:star [:star/name "sun"]
+    #_#:circle-orbit {:star [:star/name "sun"]
                     :radius 498.6596333
                     :start-position [0 0 -498.6596333]
                     :axis ecliptic-axis
