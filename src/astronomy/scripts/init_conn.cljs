@@ -23,6 +23,7 @@
    [astronomy.model.user.clock-tool :as m.clock-tool]))
 
 
+(def ecliptic-angle 23.439291111)
 
 (defn period-to-angular-velocity [period]
   (/ (* 2 Math/PI) period))
@@ -32,7 +33,7 @@
 
 
 (def ecliptic-quaternion
-  (let [ang 23.4]
+  (let [ang ecliptic-angle]
     (vec (q/from-unit-vectors
           (v3/vector3 0 1 0)
           (v3/normalize (v3/from-seq [(- (Math/sin (gmath/to-radians ang)))
@@ -40,7 +41,7 @@
                                       0]))))))
 
 (def ecliptic-axis
-  (let [ang 23.4]
+  (let [ang ecliptic-angle]
     [(- (Math/sin (gmath/to-radians ang)))
      (Math/cos (gmath/to-radians ang))
      0]))
@@ -49,15 +50,12 @@ ecliptic-quaternion
 ;; => [0 0 0.2036417511401775 0.9790454724845838]
 
 
-
 (def lunar-axis
-  (let [ang (+ 23.4 5.15)]
+  (let [ang (+ ecliptic-angle 5.15)]
     [(- (Math/sin (gmath/to-radians ang)))
      (Math/cos (gmath/to-radians ang))
      0]))
 
-ecliptic-axis
-lunar-axis
 
 (def equatorial-quaternion [0 0 0 1])
 
@@ -244,15 +242,28 @@ ecliptic-axis
     :color "green"
     :planet [:planet/name "earth"]
     :celestial/radius 0.00579
-    :celestial/orbit #:circle-orbit {:start-position [0 0 -1.281]
+    :celestial/orbit #:circle-orbit {:start-position [-0.016974988456277856 0.09411960646215528 -1.2774248899431686]
                                      :radius 1.281
-                                     :axis lunar-axis
+                                     :axis [-0.34885989419537267 0.9342903258325582 0.07347354134438353]
+                                     :axis-precession-center (seq ecliptic-axis)
+                                     :axis-precession-velocity (period-to-angular-velocity -6798)
                                      :angular-velocity (period-to-angular-velocity 27.321661)
+                                     :draconitic-angular-velocity (period-to-angular-velocity 27.212220815)
 
                                      :orbit/type :circle-orbit
                                      :orbit/color "white"
-                                     :orbit/show? false
+                                     :orbit/show? true
                                      :orbit/period 27.321661}
+    #_#:circle-orbit {:start-position [0 0 -1.281]
+                      :radius 1.281
+                      :axis lunar-axis
+                      :angular-velocity (period-to-angular-velocity 27.321661)
+
+                      :orbit/type :circle-orbit
+                      :orbit/color "white"
+                      :orbit/show? false
+                      :orbit/period 27.321661}
+
     :celestial/spin #:spin {:axis (m.spin/cal-spin-axis 266.86	65.64)
                             :period 27.321661
                             :angular-velocity (period-to-angular-velocity 27.321661)}

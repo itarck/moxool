@@ -11,26 +11,29 @@
    [astronomy.view.celestial-sphere-helper :as v.celestial-sphere]
    [astronomy.model.spin :as m.spin]))
 
+(def ecliptic-angle 23.439291111)
 
 (def ecliptic-axis
-  (let [ang 23.4]
+  (let [ang ecliptic-angle]
     [(- (Math/sin (gmath/to-radians ang)))
      (Math/cos (gmath/to-radians ang))
      0]))
 
 (def ecliptic-quaternion
-  (let [ang 23.4]
+  (let [ang ecliptic-angle]
     (vec (q/from-unit-vectors
           (v3/vector3 0 1 0)
           (v3/normalize (v3/from-seq [(- (Math/sin (gmath/to-radians ang)))
                                       (Math/cos (gmath/to-radians ang))
                                       0]))))))
 
-(def lunar-axis
+#_(def lunar-axis
   (let [ang (+ 23.4 5.15)]
     [(- (Math/sin (gmath/to-radians ang)))
      (Math/cos (gmath/to-radians ang))
      0]))
+
+(def lunar-axis [-0.34885989419537267 0.9342903258325582 0.07347354134438353])
 
 (defn EquatorialCoordinateSceneView
   [props {:keys [conn] :as env}]
