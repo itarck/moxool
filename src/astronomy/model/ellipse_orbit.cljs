@@ -1,10 +1,8 @@
 (ns astronomy.model.ellipse-orbit
   (:require
    [shu.goog.math :as gmath]
-   [shu.three.euler :as e]
    [shu.three.quaternion :as q]
-   [shu.three.vector3 :as v3]
-   [shu.three.spherical :as sph]))
+   [shu.three.vector3 :as v3]))
 
 
 ;; data
@@ -19,20 +17,20 @@
   (/ 360 period))
 
   
-  (def sample1
-    #:ellipse-orbit {:semi-major-axis 193.1642156
-                     :eccentricity 0.205630
-                     :inclination-in-degree 7.005
-                     :longitude-of-the-ascending-node-in-degree 48.331
-                     :argument-of-periapsis-in-degree 29.124
-                     :mean-anomaly-in-degree 0
-                     :angular-velocity-in-degree (period-to-angular-velocity-in-degree 87.97)
-                     :orbit/type :ellipse-orbit
-                     :orbit/period 87.97
-                     :circle-orbit/color "white"
-                     :circle-orbit/show? true
-                     :circle-orbit/radius 193.1642156
-                     :circle-orbit/period 87.97})
+(def sample1
+  #:ellipse-orbit {:semi-major-axis 193.1642156
+                   :eccentricity 0.205630
+                   :inclination-in-degree 7.005
+                   :longitude-of-the-ascending-node-in-degree 48.331
+                   :argument-of-periapsis-in-degree 29.124
+                   :mean-anomaly-in-degree 0
+                   :angular-velocity-in-degree (period-to-angular-velocity-in-degree 87.97)
+                   :orbit/type :ellipse-orbit
+                   :orbit/period 87.97
+                   :circle-orbit/color "white"
+                   :circle-orbit/show? true
+                   :circle-orbit/radius 193.1642156
+                   :circle-orbit/period 87.97})
 
 (def earth-sample
   #:ellipse-orbit{:semi-major-axis 499.0052919
@@ -41,10 +39,10 @@
                   :longitude-of-the-ascending-node-in-degree -11.26064
                   :argument-of-periapsis-in-degree 114.20783
                   :mean-anomaly-in-degree 357.51716
-                  :angular-velocity-in-degree (period-to-angular-velocity-in-degree 365.25636042)
+                  :angular-velocity-in-degree (period-to-angular-velocity-in-degree 365.256363004)
 
                   :orbit/type :ellipse-orbit
-                  :orbit/period 365.25636042
+                  :orbit/period 365.256363004
                   :orbit/color "green"
                   :orbit/show? true})
 
@@ -149,5 +147,7 @@
 
   (cal-position-to-vernal-equinox earth-sample 0)
   
+  (cal-position earth-sample 0)
+
   ;; 
   )

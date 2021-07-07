@@ -31,6 +31,10 @@
 (def ecliptic-axis 
   (from-ecliptic-to-equatorial (v3/vector3 0 1 0)))
 
+ecliptic-axis
+;; => #object[Vector3 [-0.3977771559301344 0.9174820620699532 0]]
+
+
 (defn period-to-angular-velocity [period]
   (/ (* 2 Math/PI) period))
 

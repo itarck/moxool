@@ -242,7 +242,7 @@ ecliptic-axis
     :color "green"
     :planet [:planet/name "earth"]
     :celestial/radius 0.00579
-    :celestial/orbit #:circle-orbit {:start-position [-0.016974988456277856 0.09411960646215528 -1.2774248899431686]
+    :celestial/orbit #:circle-orbit {:start-position [-0.7592958587703179 -0.20624249999135819 -1.0108881392377498]
                                      :radius 1.281
                                      :axis [-0.34885989419537267 0.9342903258325582 0.07347354134438353]
                                      :axis-precession-center (seq ecliptic-axis)
