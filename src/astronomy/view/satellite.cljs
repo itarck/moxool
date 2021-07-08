@@ -66,7 +66,7 @@
         {:object/keys [position quaternion]} satellite
         {:celestial/keys [orbit gltf radius spin]} satellite
         scaled-radius (* radius (:astro-scene/celestial-scale astro-scene))]
-    ;; (println "satellite view " (and (:object/show? satellite) (not (:has-day-light? props))))
+    ;; (println "satellite view " satellite)
     [:<>
      [:mesh {:position position}
       (when (and (:object/show? satellite) (not has-day-light?))

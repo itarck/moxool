@@ -20,7 +20,8 @@
    [astronomy.model.planet :as m.planet]
    [astronomy.model.star :as m.star]
    [astronomy.model.spin :as m.spin]
-   [astronomy.model.user.clock-tool :as m.clock-tool]))
+   [astronomy.model.user.clock-tool :as m.clock-tool]
+   [astronomy.model.moon-orbit :as m.moon-orbit]))
 
 
 (def ecliptic-angle 23.439291111)
@@ -242,7 +243,29 @@ ecliptic-axis
     :color "green"
     :planet [:planet/name "earth"]
     :celestial/radius 0.00579
-    :celestial/orbit #:circle-orbit {:start-position [-0.7592958587703179 -0.20624249999135819 -1.0108881392377498]
+    :celestial/orbit #:moon-orbit {:axis (seq m.moon-orbit/lunar-axis-j2000)
+                                   :axis-precession-center (seq ecliptic-axis)
+                                   :axis-precession-velocity (m.moon-orbit/period-to-angular-velocity-in-degree -6798)
+
+                                   :semi-major-axis 1.282219005
+                                   :eccentricity 0.0549
+                                   :inclination 5.145
+                                   :longitude-of-axis-j2000 35.062704829851896
+                                   :longitude-of-the-ascending-node-j2000 125.062704829851896
+                                   :argument-of-periapsis-j2000 93.02187830704196
+                                   :mean-anomaly 0
+
+                                   :angular-velocity (m.moon-orbit/period-to-angular-velocity-in-degree 27.321661)
+                                   :anomaly-angular-velocity (m.moon-orbit/period-to-angular-velocity-in-degree 27.554549886)
+                                   :perigee-angular-velocity (m.moon-orbit/period-to-angular-velocity-in-degree 3233)
+                                   :nodical-angular-velocity (m.moon-orbit/period-to-angular-velocity-in-degree 27.21222082)
+                                   :nodical-month 27.21222082
+
+                                   :orbit/type :moon-orbit
+                                   :orbit/color "white"
+                                   :orbit/show? true
+                                   :orbit/period 27.321661}
+    #_#:circle-orbit {:start-position [-0.7592958587703179 -0.20624249999135819 -1.0108881392377498]
                                      :radius 1.281
                                      :axis [-0.34885989419537267 0.9342903258325582 0.07347354134438353]
                                      :axis-precession-center (seq ecliptic-axis)

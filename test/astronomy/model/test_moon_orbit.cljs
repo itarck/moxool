@@ -44,10 +44,15 @@ earth-position2
 
 (gmath/to-degree (v3/angle-to (mo/cal-position-vector moon-sample1 6605.06324287037)
                               (m.ellipse-orbit/cal-position-vector earth-sample 6605.06324287037)))
+;; => 0.3252276844942859
+
+
 ;; => 1.2584784914030833
 
 (gmath/to-degree (v3/angle-to (mo/cal-position-vector moon-sample1 6782.349353981482)
                               (m.ellipse-orbit/cal-position-vector earth-sample 6782.349353981482)))
+;; => 13.410982219077065
+
 ;; => 13.410982219077093
 
 

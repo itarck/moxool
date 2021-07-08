@@ -85,6 +85,15 @@ epoch-days-base1
                 :orbit/show? false
                 :orbit/period 27.321661})
 
+(defn cal-semi-focal-length [moon-orbit]
+  (let [{:moon-orbit/keys [semi-major-axis eccentricity]} moon-orbit]
+    (* semi-major-axis eccentricity)))
+
+(defn cal-semi-minor-axis [moon-orbit]
+  (let [a (:moon-orbit/semi-major-axis moon-orbit)
+        c (cal-semi-focal-length moon-orbit)]
+    (Math/sqrt (- (* a a) (* c c)))))
+
 (defn cal-current-longitude-of-the-ascending-node [moon-orbit epoch-days]
   (let [{:moon-orbit/keys [longitude-of-the-ascending-node-j2000 axis-precession-velocity]} moon-orbit]
     (+ longitude-of-the-ascending-node-j2000
@@ -131,7 +140,7 @@ epoch-days-base1
   (let [{:moon-orbit/keys [nodical-month nodical-angular-velocity eccentricity]} moon-orbit
         argument-of-periapsis (cal-current-argument-of-periapsis moon-orbit epoch-days)
         mean-anomaly-before-periapsis (cal-mean-anomaly eccentricity (- argument-of-periapsis))
-        rem-epoch-days (rem (- epoch-days 6605.36324287037) nodical-month)
+        rem-epoch-days (rem (- epoch-days 6605.26324287037) nodical-month)
         mean-anomaly (+ (* nodical-angular-velocity rem-epoch-days) mean-anomaly-before-periapsis)]
     mean-anomaly))
 
@@ -139,7 +148,7 @@ epoch-days-base1
   (let [{:moon-orbit/keys [semi-major-axis eccentricity]} moon-orbit
         current-mean-anomaly (cal-current-mean-anomaly moon-orbit epoch-days)
         current-true-anomaly (cal-true-anomaly eccentricity current-mean-anomaly)
-        radius (cal-radius semi-major-axis eccentricity current-true-anomaly)
+        radius (cal-radius semi-major-axis eccentricity (gmath/to-radians current-true-anomaly))
         position (v3/from-spherical-coords radius (/ Math/PI 2) (gmath/to-radians current-true-anomaly))]
     position))
 
@@ -152,7 +161,7 @@ epoch-days-base1
         q2 (q/from-axis-angle (v3/vector3 0 0 1) (gmath/to-radians inclination))
         q3 (q/from-axis-angle (v3/vector3 0 1 0) (gmath/to-radians current-longitude-of-the-ascending-node))
         q4 (q/from-axis-angle (v3/vector3 0 0 1) (gmath/to-radians ecliptic-angle))]
-    (-> (v3/from-seq p)
+    (-> p
         (v3/apply-quaternion q1)
         (v3/apply-quaternion q2)
         (v3/apply-quaternion q3)
@@ -238,9 +247,12 @@ epoch-days-base1
 
   ;; => 1.4409385671118609
 
-  (cal-position-vector moon-sample1 6782.349353981482)
-  ;; => #object[Vector3 [-0.7403339458794351 -0.3573542922560516 1.051992652460534]]
+  (gmath/to-degree (v3/angle-to
+                    (cal-position-vector moon-sample1 0)
+                    (cal-position-vector moon-sample1 1)))
 
-  
+  (cal-semi-minor-axis moon-sample1)
+
+  (- 1.352270908 (cal-semi-focal-length moon-sample1))
 ;;   
   )
