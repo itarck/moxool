@@ -85,7 +85,7 @@ ecliptic-axis
        (* epoch-days axis-precession-velocity))
       axis)))
 
-(defn cal-position-1 [orbit days]
+#_(defn cal-position-1 [orbit days]
   (let [{:circle-orbit/keys [start-position axis angular-velocity]} orbit
         position-angle (* angular-velocity days)
         position (v3/apply-axis-angle
