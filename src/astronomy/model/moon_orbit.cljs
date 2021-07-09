@@ -72,6 +72,10 @@ epoch-days-base1
                 :argument-of-periapsis-j2000 93.02187830704196
                 :mean-anomaly 0
 
+                :longitude-of-the-ascending-node-j20110615 -96.47355839952931
+                :argument-of-periapsis-j20110615 282.31
+                :mean-anomaly-j20110615 72.8853077934439
+
                 :angular-velocity (period-to-angular-velocity-in-degree 27.321661)
                 :anomaly-angular-velocity (period-to-angular-velocity-in-degree 27.554549886)
                 :perigee-angular-velocity-eme2000 (period-to-angular-velocity-in-degree 3233)
