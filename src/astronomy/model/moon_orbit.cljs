@@ -162,3 +162,12 @@ ecliptic-axis
         (v3/apply-quaternion q4))))
 
 
+(defn cal-orbit-points-vectors [moon-orbit days]
+  (for [day days]
+    (cal-position-vector moon-orbit day)))
+
+
+(comment 
+  (cal-orbit-points-vectors moon-sample1 360)
+  
+  )

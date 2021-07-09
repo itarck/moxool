@@ -7,6 +7,7 @@
    [shu.three.vector3 :as v3]
    [methodology.view.gltf :as v.gltf]
    [astronomy.model.ellipse-orbit :as m.ellipse-orbit]
+   [astronomy.model.moon-orbit :as m.moon-orbit]
    [astronomy.model.circle-orbit :as m.circle-orbit]
    [astronomy.model.astro-scene :as m.astro-scene]
    [methodology.lib.geometry :as v.geo]))
@@ -44,16 +45,24 @@
      ]))
 
 
-(defn CelestialOrbitView [{:keys [orbit]} env]
+
+(defn CelestialOrbitView [{:keys [orbit clock]} {:keys [conn] :as env}]
   (cond
+    (= (:orbit/type orbit) :moon-orbit)
+    (let [clock @(p/pull conn '[*] (:db/id clock))
+          days (range (+ -30 (:clock/time-in-days clock)) (+ 30 (:clock/time-in-days clock)) 0.1)]
+      [v.geo/LineComponent {:points (m.moon-orbit/cal-orbit-points-vectors orbit days)
+                            :color (:orbit/color orbit)}])
+    
+
     (= (:orbit/type orbit) :ellipse-orbit)
     [v.geo/LineComponent {:points (m.ellipse-orbit/cal-orbit-points-vectors orbit (* 10 360))
                           :color (:orbit/color orbit)}]
 
     :else
     [v.geo/CircleComponent {:center [0 0 0]
-                            :radius (:circle-orbit/radius orbit) 
-                            :axis (:circle-orbit/axis orbit) 
+                            :radius (:circle-orbit/radius orbit)
+                            :axis (:circle-orbit/axis orbit)
                             :color (:orbit/color orbit)
                             :circle-points (* 360 20)}]))
 
@@ -91,7 +100,8 @@
          (when (:spin/show-helper? spin)
            [:gridHelper {:args [(* 4 scaled-radius) 10 "gray gray"]}])])]
 
-     (when (:orbit/show? orbit) [CelestialOrbitView {:orbit orbit} env])
+     (when (:orbit/show? orbit) [CelestialOrbitView {:orbit orbit
+                                                     :clock (:celestial/clock satellite)} env])
      (when (:orbit/show? orbit) [CelestialPositionLineView {:celestial satellite} env])
      
      ]))
