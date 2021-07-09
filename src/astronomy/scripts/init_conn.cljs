@@ -21,7 +21,7 @@
    [astronomy.model.star :as m.star]
    [astronomy.model.spin :as m.spin]
    [astronomy.model.user.clock-tool :as m.clock-tool]
-   [astronomy.model.moon-orbit :as m.moon-orbit]))
+   [astronomy.model.moon-orbit :as m.moon-orbit :refer [period-to-angular-velocity-in-degree lunar-axis-j2000]]))
 
 
 (def ecliptic-angle 23.439291111)
@@ -243,25 +243,27 @@ ecliptic-axis
     :color "green"
     :planet [:planet/name "earth"]
     :celestial/radius 0.00579
-    :celestial/orbit #:moon-orbit {:axis (seq m.moon-orbit/lunar-axis-j2000)
+    :celestial/orbit #:moon-orbit {:axis (seq lunar-axis-j2000)
                                    :axis-precession-center (seq ecliptic-axis)
-                                   :axis-precession-velocity (m.moon-orbit/period-to-angular-velocity-in-degree -6798)
+                                   :axis-precession-velocity (period-to-angular-velocity-in-degree -6798)
 
-                                   :semi-major-axis 1.282219005
+                                   :epoch-days-j20110615 4183.343103981481
+
+                                   :semi-major-axis 1.352270908
                                    :eccentricity 0.0549
                                    :inclination 5.145
-                                   :longitude-of-axis-j2000 35.062704829851896
-                                   :longitude-of-the-ascending-node-j2000 125.062704829851896
-                                   :argument-of-periapsis-j2000 93.02187830704196
-                                   :mean-anomaly 0
 
-                                   :angular-velocity (m.moon-orbit/period-to-angular-velocity-in-degree 27.321661)
-                                   :anomaly-angular-velocity (m.moon-orbit/period-to-angular-velocity-in-degree 27.554549886)
-                                   :perigee-angular-velocity-eme2000 (m.moon-orbit/period-to-angular-velocity-in-degree 3233)
-                                   :perigee-angular-velocity-emo2000 (m.moon-orbit/period-to-angular-velocity-in-degree 2191)
-                                   :nodical-angular-velocity (m.moon-orbit/period-to-angular-velocity-in-degree 27.21222082)
-                                   :nodical-month 27.21222082
+                                   :longitude-of-the-ascending-node-j20110615 -96.47355839952931
+                                   :argument-of-periapsis-j20110615 282.31
+                                   :mean-anomaly-j20110615 73.9
+
+                                   :angular-velocity (period-to-angular-velocity-in-degree 27.321661)
+                                   :anomaly-angular-velocity (period-to-angular-velocity-in-degree 27.554549886)
+                                   :perigee-angular-velocity-eme2000 (period-to-angular-velocity-in-degree 3233)
+                                   :perigee-angular-velocity-emo2000 (period-to-angular-velocity-in-degree 2191)
+                                   :nodical-angular-velocity (period-to-angular-velocity-in-degree 27.21222082)
                                    :anomaly-month 27.554549886
+                                   :nodical-month 27.21222082
 
                                    :orbit/type :moon-orbit
                                    :orbit/color "white"
