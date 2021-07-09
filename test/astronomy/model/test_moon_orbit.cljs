@@ -225,3 +225,18 @@ epoch-days-6
      (map lunar-date-string-to-epoch-days)
      (map #(lunar-ellipse-diff earth-sample moon-sample1 %))
      average)
+
+
+(lunar-ellipse-diff earth-sample moon-sample1 epoch-days-6)
+
+
+;; => 73 2.6165756997595255
+;; => 73.5 2.3370887792445973
+;; => 73.7 2.2844828703999265
+;; => 73.8 2.270814327229077
+;; => 73.9 2.265880072303244
+;; => 74 2.2700056442075622
+;; => 75 2.841172767938135
+;; => 76 4.254818445334801
+
+
