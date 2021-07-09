@@ -46,7 +46,6 @@ ecliptic-axis
 epoch-days-base1
 ;; => 3834.5007428703702
 
-
 (def longitude-of-axis-base1 192)
 (def longitude-of-the-ascending-node 160)
 
@@ -87,7 +86,6 @@ epoch-days-base1
                 :orbit/period 27.321661})
 
 
-
 (defn cal-semi-focal-length [moon-orbit]
   (let [{:moon-orbit/keys [semi-major-axis eccentricity]} moon-orbit]
     (* semi-major-axis eccentricity)))
@@ -107,10 +105,16 @@ epoch-days-base1
     (+ argument-of-periapsis-j2000
        (* perigee-angular-velocity-eme2000 epoch-days))))
 
-(defn cal-current-argument-of-periapsis [moon-orbit epoch-days]
-  (let [{:moon-orbit/keys [argument-of-periapsis-j2000 perigee-angular-velocity-eme2000]} moon-orbit]
-    (+ argument-of-periapsis-j2000
-       (* perigee-angular-velocity-eme2000 epoch-days))))
+(defn cal-current-argument-of-periapsis-emo-from-eme [moon-orbit epoch-days]
+  (let [current-longitude-of-periapsis-eme (cal-current-longitude-of-periapsis-eme moon-orbit epoch-days)
+        current-longitude-of-the-ascending-node (cal-current-longitude-of-the-ascending-node moon-orbit epoch-days)
+        current-argument-of-periapsis (- current-longitude-of-periapsis-eme current-longitude-of-the-ascending-node)]
+    current-argument-of-periapsis))
+
+(defn cal-current-argument-of-periapsis-emo [moon-orbit epoch-days]
+  (let [{:moon-orbit/keys [perigee-angular-velocity-emo2000]} moon-orbit]
+    (+ 282.31
+       (* perigee-angular-velocity-emo2000 (- epoch-days 4183.343103981481)))))
 
 (defn cal-true-anomaly [eccentricity mean-anomaly]
   ;; https://en.wikipedia.org/wiki/Mean_anomaly
@@ -144,7 +148,7 @@ epoch-days-base1
 
 (defn cal-current-mean-anomaly [moon-orbit epoch-days]
   (let [{:moon-orbit/keys [anomaly-month angular-velocity]} moon-orbit
-        rem-epoch-days (rem (+ epoch-days 9.49) anomaly-month)
+        rem-epoch-days (rem (+ epoch-days 10.48) anomaly-month)
         mean-anomaly (* angular-velocity rem-epoch-days)]
     mean-anomaly))
 
@@ -159,9 +163,9 @@ epoch-days-base1
 (defn cal-position-vector [moon-orbit epoch-days]
   (let [p (cal-position-to-perigee moon-orbit epoch-days)
         {:moon-orbit/keys [inclination]} moon-orbit
-        current-longitude-of-periapsis-eme (cal-current-longitude-of-periapsis-eme moon-orbit epoch-days)
         current-longitude-of-the-ascending-node (cal-current-longitude-of-the-ascending-node moon-orbit epoch-days)
-        current-argument-of-periapsis (- current-longitude-of-periapsis-eme current-longitude-of-the-ascending-node)
+        ;; current-argument-of-periapsis (cal-current-argument-of-periapsis-emo-from-eme moon-orbit epoch-days)
+        current-argument-of-periapsis (cal-current-argument-of-periapsis-emo moon-orbit epoch-days)
         q1 (q/from-axis-angle (v3/vector3 0 1 0) (gmath/to-radians current-argument-of-periapsis))
         q2 (q/from-axis-angle (v3/vector3 0 0 1) (gmath/to-radians inclination))
         q3 (q/from-axis-angle (v3/vector3 0 1 0) (gmath/to-radians current-longitude-of-the-ascending-node))
