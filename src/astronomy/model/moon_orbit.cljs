@@ -136,26 +136,8 @@ epoch-days-base1
     (* a (/ (- 1 (Math/pow e 2))
             (+ 1 (* e (Math/cos f)))))))
 
-;; 6605.36324287037
-
-(def epoch-days-0 (dt/to-epoch-days (t/date-time 2018 7 27 22 20)))
-
-(defn cal-rem-epoch-days [moon-orbit epoch-days]
-  (let [{:moon-orbit/keys [nodical-month]} moon-orbit
-        rem-epoch-days (rem (- epoch-days 6796.037408835926) nodical-month)]
-    rem-epoch-days))
 
 (defn cal-current-mean-anomaly [moon-orbit epoch-days]
-  (let [{:moon-orbit/keys [nodical-angular-velocity eccentricity]} moon-orbit
-        current-longitude-of-periapsis (cal-current-argument-of-periapsis moon-orbit epoch-days)
-        current-longitude-of-the-ascending-node (cal-current-longitude-of-the-ascending-node moon-orbit epoch-days)
-        argument-of-periapsis (- current-longitude-of-periapsis current-longitude-of-the-ascending-node)
-        mean-anomaly-before-periapsis (cal-mean-anomaly eccentricity (- argument-of-periapsis))
-        rem-epoch-days (cal-rem-epoch-days moon-orbit epoch-days)
-        mean-anomaly (+ (* nodical-angular-velocity rem-epoch-days) mean-anomaly-before-periapsis)]
-    mean-anomaly))
-
-(defn cal-current-mean-anomaly2 [moon-orbit epoch-days]
   (let [{:moon-orbit/keys [anomaly-month angular-velocity]} moon-orbit
         rem-epoch-days (rem (+ epoch-days 9.49) anomaly-month)
         mean-anomaly (* angular-velocity rem-epoch-days)]
@@ -163,7 +145,7 @@ epoch-days-base1
 
 (defn cal-position-to-perigee [moon-orbit epoch-days]
   (let [{:moon-orbit/keys [semi-major-axis eccentricity]} moon-orbit
-        current-mean-anomaly (cal-current-mean-anomaly2 moon-orbit epoch-days)
+        current-mean-anomaly (cal-current-mean-anomaly moon-orbit epoch-days)
         current-true-anomaly (cal-true-anomaly eccentricity current-mean-anomaly)
         radius (cal-radius semi-major-axis eccentricity (gmath/to-radians current-true-anomaly))
         position (v3/from-spherical-coords radius (/ Math/PI 2) (gmath/to-radians current-true-anomaly))]
