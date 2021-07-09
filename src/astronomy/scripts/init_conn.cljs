@@ -260,11 +260,13 @@ ecliptic-axis
                                    :perigee-angular-velocity (m.moon-orbit/period-to-angular-velocity-in-degree 3233)
                                    :nodical-angular-velocity (m.moon-orbit/period-to-angular-velocity-in-degree 27.21222082)
                                    :nodical-month 27.21222082
+                                   :anomaly-month 27.554549886
 
                                    :orbit/type :moon-orbit
                                    :orbit/color "white"
                                    :orbit/show? true
                                    :orbit/period 27.321661}
+    
     #_#:circle-orbit {:start-position [-0.7592958587703179 -0.20624249999135819 -1.0108881392377498]
                                      :radius 1.281
                                      :axis [-0.34885989419537267 0.9342903258325582 0.07347354134438353]

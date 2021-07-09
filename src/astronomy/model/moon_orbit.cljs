@@ -65,7 +65,7 @@ epoch-days-base1
                 :axis (seq lunar-axis-j2000)
                 :axis-precession-center (seq ecliptic-axis)
                 :axis-precession-velocity (period-to-angular-velocity-in-degree -6798)
-                
+
                 :semi-major-axis 1.352270908
                 :eccentricity 0.0549
                 :inclination 5.145
@@ -78,12 +78,14 @@ epoch-days-base1
                 :anomaly-angular-velocity (period-to-angular-velocity-in-degree 27.554549886)
                 :perigee-angular-velocity (period-to-angular-velocity-in-degree 3233)
                 :nodical-angular-velocity (period-to-angular-velocity-in-degree 27.21222082)
+                :anomaly-month 27.554549886
                 :nodical-month 27.21222082
 
                 :orbit/type :moon-orbit
                 :orbit/color "white"
                 :orbit/show? false
                 :orbit/period 27.321661})
+
 
 (defn cal-semi-focal-length [moon-orbit]
   (let [{:moon-orbit/keys [semi-major-axis eccentricity]} moon-orbit]
@@ -134,19 +136,34 @@ epoch-days-base1
     (* a (/ (- 1 (Math/pow e 2))
             (+ 1 (* e (Math/cos f)))))))
 
-;; 6605.06324287037
+;; 6605.36324287037
+
+(def epoch-days-0 (dt/to-epoch-days (t/date-time 2018 7 27 22 20)))
+
+(defn cal-rem-epoch-days [moon-orbit epoch-days]
+  (let [{:moon-orbit/keys [nodical-month]} moon-orbit
+        rem-epoch-days (rem (- epoch-days 6796.037408835926) nodical-month)]
+    rem-epoch-days))
 
 (defn cal-current-mean-anomaly [moon-orbit epoch-days]
-  (let [{:moon-orbit/keys [nodical-month nodical-angular-velocity eccentricity]} moon-orbit
-        argument-of-periapsis (cal-current-argument-of-periapsis moon-orbit epoch-days)
+  (let [{:moon-orbit/keys [nodical-angular-velocity eccentricity]} moon-orbit
+        current-longitude-of-periapsis (cal-current-argument-of-periapsis moon-orbit epoch-days)
+        current-longitude-of-the-ascending-node (cal-current-longitude-of-the-ascending-node moon-orbit epoch-days)
+        argument-of-periapsis (- current-longitude-of-periapsis current-longitude-of-the-ascending-node)
         mean-anomaly-before-periapsis (cal-mean-anomaly eccentricity (- argument-of-periapsis))
-        rem-epoch-days (rem (- epoch-days 6605.26324287037) nodical-month)
+        rem-epoch-days (cal-rem-epoch-days moon-orbit epoch-days)
         mean-anomaly (+ (* nodical-angular-velocity rem-epoch-days) mean-anomaly-before-periapsis)]
+    mean-anomaly))
+
+(defn cal-current-mean-anomaly2 [moon-orbit epoch-days]
+  (let [{:moon-orbit/keys [anomaly-month angular-velocity]} moon-orbit
+        rem-epoch-days (rem (+ epoch-days 9.49) anomaly-month)
+        mean-anomaly (* angular-velocity rem-epoch-days)]
     mean-anomaly))
 
 (defn cal-position-to-perigee [moon-orbit epoch-days]
   (let [{:moon-orbit/keys [semi-major-axis eccentricity]} moon-orbit
-        current-mean-anomaly (cal-current-mean-anomaly moon-orbit epoch-days)
+        current-mean-anomaly (cal-current-mean-anomaly2 moon-orbit epoch-days)
         current-true-anomaly (cal-true-anomaly eccentricity current-mean-anomaly)
         radius (cal-radius semi-major-axis eccentricity (gmath/to-radians current-true-anomaly))
         position (v3/from-spherical-coords radius (/ Math/PI 2) (gmath/to-radians current-true-anomaly))]
@@ -155,8 +172,9 @@ epoch-days-base1
 (defn cal-position-vector [moon-orbit epoch-days]
   (let [p (cal-position-to-perigee moon-orbit epoch-days)
         {:moon-orbit/keys [inclination]} moon-orbit
-        current-argument-of-periapsis (cal-current-argument-of-periapsis moon-orbit epoch-days)
+        current-longitude-of-periapsis (cal-current-argument-of-periapsis moon-orbit epoch-days)
         current-longitude-of-the-ascending-node (cal-current-longitude-of-the-ascending-node moon-orbit epoch-days)
+        current-argument-of-periapsis (- current-longitude-of-periapsis current-longitude-of-the-ascending-node)
         q1 (q/from-axis-angle (v3/vector3 0 1 0) (gmath/to-radians current-argument-of-periapsis))
         q2 (q/from-axis-angle (v3/vector3 0 0 1) (gmath/to-radians inclination))
         q3 (q/from-axis-angle (v3/vector3 0 1 0) (gmath/to-radians current-longitude-of-the-ascending-node))
@@ -168,91 +186,3 @@ epoch-days-base1
         (v3/apply-quaternion q4))))
 
 
-
-
-(comment
-
-  (cal-true-anomaly 0.05 60)
-  ;; => 65.11547069811513
-
-  (cal-mean-anomaly 0.05 65.11547069811513)
-
-  (->> 270
-       (cal-true-anomaly 0.05)
-       (cal-mean-anomaly 0.05))
-
-  (cal-true-anomaly 0.05 -34)
-
-  (cal-current-mean-anomaly moon-sample1 0)
-  ;; => -86.72904389606774
-
-  (cal-current-mean-anomaly moon-sample1 10)
-  ;; => 42.804762722173905
-
-  (cal-current-mean-anomaly moon-sample1 27.554549886)
-  ;; => -85.33771985733777
-
-  (cal-position-vector-in-ecliptic moon-sample1 0)
-
-  (cal-position-to-perigee moon-sample1 0)
-  ;; => #object[Vector3 [1.245628563988985 8.104834180301754e-17 0.44763717296738736]]
-
-  (cal-position-vector-in-ecliptic  moon-sample1 0)
-  ;; => #object[Vector3 [-1.255666252973624 0.0341980278238082 0.41725569389001477]]
-
-  (cal-position-to-perigee moon-sample1 0)
-
-  (cal-position-vector-in-ecliptic  moon-sample1 27)
-  ;; => #object[Vector3 [0.12120023112279271 0.0905804462333292 -1.288895267639845]]
-
-  (cal-current-argument-of-periapsis moon-sample1 0)
-  ;; => 93.02187830704196
-
-  (cal-current-mean-anomaly moon-sample1 0)
-  ;; => -86.72904389606774
-
-  (cal-position-to-perigee moon-sample1 0)
-  ;; => #object[Vector3 [1.245628563988985 8.104834180301754e-17 0.44763717296738736]]
-
-  (cal-position-vector-in-ecliptic moon-sample1 0)
-  ;; => #object[Vector3 [-0.0000022921049878784693 -2.0637960188152398e-7 1.3236198691626684]]
-
-  (cal-position-vector-in-ecliptic moon-sample1 27.21)
-  ;; => #object[Vector3 [-0.10600635841168168 -0.009544741698236374 1.367484076467795]]
-
-  (cal-position-vector-in-ecliptic moon-sample1 27.211)
-  ;; => #object[Vector3 [-0.10577202675146812 -0.009523642632086292 1.3684322925101848]]
-
-  (cal-position-vector-in-ecliptic moon-sample1 27.21222082)
-  ;; => #object[Vector3 [0.0000010421547702193205 9.383491942622746e-8 1.3655331103736912]]
-
-  (cal-position-vector-in-ecliptic moon-sample1 27.22)
-  ;; => #object[Vector3 [1.1295959283635242 0.00021461843047747124 -0.7539674244664454]]
-
-
-  (gmath/to-degree
-   (v3/angle-to
-    (cal-position-vector-in-ecliptic moon-sample1 0)
-    (cal-position-vector-in-ecliptic moon-sample1 27.21222082)))
-  ;; => 1.626981437296651
-
-  ;; => 1.4409278829363494
-
-  
-  (gmath/to-degree
-   (v3/angle-to
-    (cal-position-vector-in-ecliptic moon-sample1 0)
-    (cal-position-vector-in-ecliptic moon-sample1 27.21222)))
-  ;; => 1.6269928061828551
-
-  ;; => 1.4409385671118609
-
-  (gmath/to-degree (v3/angle-to
-                    (cal-position-vector moon-sample1 0)
-                    (cal-position-vector moon-sample1 1)))
-
-  (cal-semi-minor-axis moon-sample1)
-
-  (- 1.352270908 (cal-semi-focal-length moon-sample1))
-;;   
-  )
