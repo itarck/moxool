@@ -130,6 +130,17 @@ epoch-days-1
 (gmath/to-degree (v3/angle-to earth-position-5 moon-position-5))
 
 
+;; 月食 2011年6月15日 	20:13 升点月食
+
+(def epoch-days-6 (dt/to-epoch-days (t/date-time 2011 6 15 20 13)))
+
+(def earth-position-6 (m.ellipse-orbit/cal-position-vector earth-sample epoch-days-6))
+
+(def moon-position-6 (mo/cal-position-vector moon-sample1 epoch-days-6))
+
+(lunar-ellipse-diff earth-sample moon-sample1 epoch-days-6)
+
+
 (comment
   (lunar-ellipse-diff earth-sample moon-sample1 epoch-days-1)
   (lunar-ellipse-diff earth-sample moon-sample1 epoch-days-2)
@@ -164,7 +175,7 @@ epoch-days-1
 (->> lunar-dts
      (map lunar-date-string-to-epoch-days)
      (map #(lunar-ellipse-diff earth-sample moon-sample1 %))
-     )
+     average)
 
 (->> sun-dts
      (map sun-date-string-to-epoch-days)

@@ -257,7 +257,8 @@ ecliptic-axis
 
                                    :angular-velocity (m.moon-orbit/period-to-angular-velocity-in-degree 27.321661)
                                    :anomaly-angular-velocity (m.moon-orbit/period-to-angular-velocity-in-degree 27.554549886)
-                                   :perigee-angular-velocity (m.moon-orbit/period-to-angular-velocity-in-degree 3233)
+                                   :perigee-angular-velocity-eme2000 (m.moon-orbit/period-to-angular-velocity-in-degree 3233)
+                                   :perigee-angular-velocity-emo2000 (m.moon-orbit/period-to-angular-velocity-in-degree 2191)
                                    :nodical-angular-velocity (m.moon-orbit/period-to-angular-velocity-in-degree 27.21222082)
                                    :nodical-month 27.21222082
                                    :anomaly-month 27.554549886
