@@ -138,13 +138,32 @@ ecliptic-axis
         mean-anomaly (+ mean-anomaly-j20110615 (* anomaly-angular-velocity rem-epoch-days))]
     mean-anomaly))
 
-(defn cal-position-to-perigee [moon-orbit epoch-days]
+(defn cal-position-to-perigee-by-mean-anomaly [moon-orbit current-mean-anomaly]
   (let [{:moon-orbit/keys [semi-major-axis eccentricity]} moon-orbit
-        current-mean-anomaly (cal-current-mean-anomaly moon-orbit epoch-days)
         current-true-anomaly (cal-true-anomaly eccentricity current-mean-anomaly)
         radius (cal-radius semi-major-axis eccentricity (gmath/to-radians current-true-anomaly))
         position (v3/from-spherical-coords radius (/ Math/PI 2) (gmath/to-radians current-true-anomaly))]
     position))
+
+(defn cal-position-to-perigee [moon-orbit epoch-days]
+  (let [current-mean-anomaly (cal-current-mean-anomaly moon-orbit epoch-days)
+        position (cal-position-to-perigee-by-mean-anomaly moon-orbit current-mean-anomaly)]
+    position))
+
+(defn cal-perigee-vector [moon-orbit epoch-days]
+  (let [p (cal-position-to-perigee-by-mean-anomaly moon-orbit 0)
+        {:moon-orbit/keys [inclination]} moon-orbit
+        current-longitude-of-the-ascending-node (cal-current-longitude-of-the-ascending-node moon-orbit epoch-days)
+        current-argument-of-periapsis (cal-current-argument-of-periapsis-emo moon-orbit epoch-days)
+        q1 (q/from-axis-angle (v3/vector3 0 1 0) (gmath/to-radians current-argument-of-periapsis))
+        q2 (q/from-axis-angle (v3/vector3 0 0 1) (gmath/to-radians inclination))
+        q3 (q/from-axis-angle (v3/vector3 0 1 0) (gmath/to-radians current-longitude-of-the-ascending-node))
+        q4 (q/from-axis-angle (v3/vector3 0 0 1) (gmath/to-radians ecliptic-angle))]
+    (-> p
+        (v3/apply-quaternion q1)
+        (v3/apply-quaternion q2)
+        (v3/apply-quaternion q3)
+        (v3/apply-quaternion q4))))
 
 (defn cal-position-vector [moon-orbit epoch-days]
   (let [p (cal-position-to-perigee moon-orbit epoch-days)
