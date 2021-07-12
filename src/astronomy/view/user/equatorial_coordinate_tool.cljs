@@ -36,6 +36,22 @@
 
 (def lunar-axis [-0.34885989419537267 0.9342903258325582 0.07347354134438353])
 
+
+(defn EclipticSceneView [{:keys [earth]} env]
+  [:<>
+   [v.geo/CircleComponent {:center [0 0 0]
+                           :radius 500
+                           :axis ecliptic-axis
+                           :color "orange"}]
+   (let [points (v.celestial-sphere/gen-latitude-points 500 0 24)]
+     [:mesh {:quaternion ecliptic-quaternion}
+      [v.geo/PointsComponent {:points points
+                              :size 60000
+                              :color "red"}]])
+   [v.geo/LineComponent {:points [(v3/from-seq [0 0 0])
+                                  (v3/multiply-scalar (v3/from-seq (:object/position earth)) -1)]
+                         :color "orange"}]])
+
 (defn EquatorialCoordinateSceneView
   [props {:keys [conn] :as env}]
   (let [ect @(p/pull conn '[*] (get-in props [:object :db/id]))
@@ -78,16 +94,7 @@
                                            :latitude -23.4
                                            :color "red"}]])
       (when show-ecliptic?
-        [:<>
-         [v.geo/CircleComponent {:center [0 0 0]
-                                 :radius 500
-                                 :axis ecliptic-axis
-                                 :color "orange"}]
-         (let [points (v.celestial-sphere/gen-latitude-points 500 0 24)]
-           [:mesh {:quaternion ecliptic-quaternion}
-            [v.geo/PointsComponent {:points points
-                                    :size 60000
-                                    :color "red"}]])])
+        [EclipticSceneView {:earth earth} env])
 
       (when show-lunar-orbit?
         [v.satellite/CelestialOrbitView {:orbit (:celestial/orbit moon)
