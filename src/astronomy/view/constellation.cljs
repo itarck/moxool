@@ -22,31 +22,32 @@
          pt)))))
 
 
-(defn StarLineView [star-line]
+(defn StarLineView [star-line color]
   (let [lineGeometry (three/BufferGeometry.)]
     (j/call lineGeometry :setFromPoints (gen-star-points star-line))
     [:line {:geometry lineGeometry}
        [:lineBasicMaterial {:args {:linewidth 1
-                                   :color "#003300"
+                                   :color color
                                    :linecap "butt"
                                    :linejoin "butt"}}]]))
 
 
 (defn ConstellationView [props {:keys [conn] :as env}]
   (let [constel-entity (m.constel/sub-constellation conn (get-in props [:object :db/id]))
-        {:constellation/keys [show-lines? show-name? chinese-name right-ascension declination star-lines]} constel-entity]
+        {:constellation/keys [show-lines? show-name? chinese-name right-ascension declination star-lines]} constel-entity
+        constellation-color (-> constel-entity :constellation/family :constellation-family/color)]
     [:<>
      (when show-name?
        [:> Html {:position (vec (m.constel/cal-celestial-sphere-position right-ascension declination))
                  :zIndexRange [0 0]
-                 :style {:color "green"
+                 :style {:color constellation-color
                          :font-size "14px"}}
         [:p chinese-name]])
      (when show-lines?
        [:<>
         (for [star-line star-lines]
           ^{:key (str (:db/id constel-entity) (rand))}
-          [StarLineView star-line])])]))
+          [StarLineView star-line constellation-color])])]))
 
 
 (defn ConstellationsView [{:keys [has-day-light?] :as props} {:keys [conn] :as env}]

@@ -209,7 +209,7 @@ ecliptic-axis
                                      :orbit/type :ellipse-orbit
                                      :orbit/period 365.256363004
                                      :orbit/color "green"
-                                     :orbit/show? true}
+                                     :orbit/show? false}
     #_#:circle-orbit {:star [:star/name "sun"]
                       :radius 498.6596333
                       :start-position [0 0 -498.6596333]
@@ -268,7 +268,7 @@ ecliptic-axis
 
                                    :orbit/type :moon-orbit
                                    :orbit/color "white"
-                                   :orbit/show? true
+                                   :orbit/show? false
                                    :orbit/period 27.321661}
     
     #_#:circle-orbit {:start-position [-0.7592958587703179 -0.20624249999135819 -1.0108881392377498]
@@ -1015,6 +1015,15 @@ ecliptic-axis
                           :entity/type :horizontal-coordinate})
 
 
+(def constellation-families 
+  [#:constellation-family {:chinese-name "黄道", :color "orange"}
+   #:constellation-family {:chinese-name "英仙", :color "red"}
+   #:constellation-family {:chinese-name "武仙", :color "green"}
+   #:constellation-family {:chinese-name "大熊", :color "CornflowerBlue"}
+   #:constellation-family {:chinese-name "猎户", :color "white"}
+   #:constellation-family {:chinese-name "幻之水", :color "Aqua"}
+   #:constellation-family {:chinese-name "拜耳", :color "yellow"}
+   #:constellation-family {:chinese-name "拉卡伊", :color "HotPink"}])
 
 ;; * 银心：在天球赤道座标系统的座标是：
 ;; 赤经 17h45m40.04s，赤纬 -29º 00' 28.1"（J2000 分点）。25000光年
@@ -1302,6 +1311,7 @@ galaxy-quaternion
                       ;;  eris haumea halley
                        galaxy coordinate-1 atmosphere
                        horizontal-coordinate-1 horizontal-coordinate-2 horizontal-coordinate-3])
+    (d/transact! conn constellation-families)
     (d/transact! conn [spaceship-camera-control person1 universe-tool-1 clock-tool1 info-tool
                        coordinate-tool-1 ppt-tool horizontal-coordinate-tool-1 goto-tool-1
                        equatorial-coordinate-tool-1 constellation-tool-1 atmosphere-tool-1 eagle-eye-tool])
@@ -1375,6 +1385,7 @@ galaxy-quaternion
 (defn async-run! []
   (let [ch (chan)
         conn (init-conn!)]
+    (println "async-run init-conn !!!!")
     (go
       (let [dataset (<! (async-prepare!))]
         (load-dataset! conn dataset))

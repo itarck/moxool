@@ -21,7 +21,8 @@
    #:constellation {:abbreviation "Cmi" :entity/type :constellation :star-HR-lines [[2943 2845]]}
    #:constellation {:abbreviation "Cvn" :entity/type :constellation :star-HR-lines [[4915 4785]]}
    #:constellation {:abbreviation "Cae" :entity/type :constellation :star-HR-lines [[1443 1502 1503]]}
-   #:constellation {:abbreviation "Cam" :entity/type :constellation :star-HR-lines [[3318 3340 4231 4674 4174 3318] [1040 1035 1155 1148 1542 1603 1568]]}
+   #:constellation {:abbreviation "Cha" :entity/type :constellation :star-HR-lines [[3318 3340 4231 4674 4174 3318]]}
+   #:constellation {:abbreviation "Cam" :entity/type :constellation :star-HR-lines [[1542 2209 2527] [1040 1035 1155 1148 1542 1603 1568]]}
    #:constellation {:abbreviation "Cap" :entity/type :constellation :star-HR-lines [[7754 7776 7936 7980 8204 8278 8322 8278 8167 8075 7776]]}
    #:constellation {:abbreviation "Car" :entity/type :constellation :star-HR-lines [[2326 2554 3117 3307 3699 4050 4140 4199 4037 3685 3890]]}
    #:constellation {:abbreviation "Cas" :entity/type :constellation :star-HR-lines [[542  403  264  168   21]]}
@@ -121,6 +122,7 @@
                                     (+ DEd (/ DEm 60.0))
                                     (- DEd (/ DEm 60.0)))
                      :group group
+                     :family [:constellation-family/chinese-name group]
                      :quadrant quadrant
                      :area area}))
 

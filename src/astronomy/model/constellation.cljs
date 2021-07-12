@@ -18,10 +18,17 @@
                    :declination 37.43183333333333
                    :area 722.278})
 
+(def constellation-family-sample
+  #:constellation-family {:chinese-name "英仙"
+                          :color "red"}
+  )
+
 ;; schema
 
-(def schema #:constellation{:abbreviation {:db/unique :db.unique/identity}
-                            :chinese-name {:db/unique :db.unique/identity}})
+(def schema {:constellation/abbreviation {:db/unique :db.unique/identity}
+             :constellation/chinese-name {:db/unique :db.unique/identity}
+             :constellation/family {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
+             :constellation-family/chinese-name {:db/unique :db.unique/identity}})
 
 
 ;; model
@@ -68,7 +75,8 @@
      (mapv (fn [id] @(p/pull conn '[*] id)) ids))))
 
 (defn sub-constellation [conn constel-id]
-  (let [constel @(p/pull conn '[*] constel-id)
+  (let [constel @(p/pull conn '[*
+                                {:constellation/family [*]}] constel-id)
         star-lines (:constellation/star-lines constel)
         pulled-star-lines (for [star-line star-lines]
                             (for [star-id star-line]

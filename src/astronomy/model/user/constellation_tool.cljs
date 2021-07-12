@@ -9,7 +9,7 @@
    {:value :one-by-name
     :name "按星座名字"}
    {:value :by-group
-    :name "按星座群"}])
+    :name "按星座家族"}])
 
 
 (defn sub-candinates-by-query-type [conn query-type]
