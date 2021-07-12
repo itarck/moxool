@@ -61,7 +61,8 @@
     (->
      (+ theta Math/PI)
      (gmath/standard-angle-in-radians)
-     (gmath/to-degree))))
+     (gmath/to-degree)
+     (- 102))))
 
 
 (defn cal-local-time [standard-time-in-days longitude]

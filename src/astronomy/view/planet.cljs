@@ -81,6 +81,7 @@
                  :onClick (fn [e]
                             (let [pt (j/get-in e [:intersections 0 :point])
                                   point (seq (j/call pt :toArray))]
+                              (println "click-point: " point)
                               (go (>! service-chan #:event {:action :user/object-clicked
                                                             :detail {:click-point point
                                                                      :alt-key (j/get-in e [:altKey])

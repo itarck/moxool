@@ -72,7 +72,7 @@ ecliptic-axis
 
 (def clock
   #:clock {:name "default"
-           :time-in-days 0.5})
+           :time-in-days 0})
 
 
 (def coordinate-1
@@ -228,6 +228,7 @@ ecliptic-axis
     :celestial/gltf #:gltf {:url "models/16-solar/Earth_1_12756.glb"
                             ;; :url "models/16-solar/EarthClouds_1_12756.glb"
                             :scale [0.002 0.002 0.002]
+                            :rotation [0 (gmath/to-radians 102) 0]
                             :shadow? true}
     :celestial/clock [:clock/name "default"]
     :object/scene [:scene/name "solar"]

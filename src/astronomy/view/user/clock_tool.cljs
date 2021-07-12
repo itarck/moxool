@@ -46,7 +46,8 @@
               ($ mt/Typography {:variant "subtitle2"}
                  (let [longitude (m.clock/cal-longitude (:spaceship-camera-control/position camera-control))
                        local-time (m.clock/cal-local-time time-in-days longitude)]
-                   (m.clock/format-time-in-days local-time))))]
+                   (m.clock/utc-format-string local-time)
+                   #_(m.clock/format-time-in-days local-time))))]
 
 
           ($ mt/Grid {:item true :xs 12}
