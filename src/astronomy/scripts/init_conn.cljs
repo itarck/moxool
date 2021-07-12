@@ -1145,7 +1145,7 @@ galaxy-quaternion
 
 (def ppt-tool
   #:ppt-tool {:query-type :ppt-by-name
-              :query-args ["14.天球坐标系"]
+              :query-args ["15.星座"]
               :ppts [#:ppt{:pages [#:ppt-page{:image-url "/slides/1.universe-distance/Slide1.jpeg"}
                                    #:ppt-page{:image-url "/slides/1.universe-distance/Slide2.jpeg"}
                                    #:ppt-page{:image-url "/slides/1.universe-distance/Slide3.jpeg"}
@@ -1219,6 +1219,14 @@ galaxy-quaternion
                                     #:ppt-page{:image-url "/slides/14.equatorial/Slide2.jpeg"}
                                     #:ppt-page{:image-url "/slides/14.equatorial/Slide3.jpeg"}]
                             :chinese-name "14.天球坐标系"
+                            :current-page 0}
+                     #:ppt {:pages [#:ppt-page{:image-url "/slides/15.constellation/Slide1.jpeg"}
+                                    #:ppt-page{:image-url "/slides/15.constellation/Slide2.jpeg"}
+                                    #:ppt-page{:image-url "/slides/15.constellation/Slide3.jpeg"}
+                                    #:ppt-page{:image-url "/slides/15.constellation/Slide4.jpeg"}
+                                    #:ppt-page{:image-url "/slides/15.constellation/Slide5.jpeg"}
+                                    #:ppt-page{:image-url "/slides/15.constellation/Slide6.jpeg"}]
+                            :chinese-name "15.星座"
                             :current-page 0}]
               :tool/name "ppt tool"
               :tool/chinese-name "脚本"

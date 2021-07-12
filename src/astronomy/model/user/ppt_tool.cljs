@@ -26,9 +26,9 @@
 ;; subs
 
 (defn sub-all-ppt-names [conn]
-  @(p/q '[:find [?chinese-name ...]
-          :where [?id :ppt/chinese-name ?chinese-name]]
-        conn))
+  (sort @(p/q '[:find [?chinese-name ...]
+                :where [?id :ppt/chinese-name ?chinese-name]]
+              conn)))
 
 
 ;; models
