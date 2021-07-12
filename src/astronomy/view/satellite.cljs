@@ -46,7 +46,7 @@
 
 
 
-(defn CelestialOrbitView [{:keys [orbit clock]} {:keys [conn] :as env}]
+(defn CelestialOrbitView [{:keys [orbit celestial clock]} {:keys [conn] :as env}]
   (cond
     (= (:orbit/type orbit) :moon-orbit)
     (let [clock @(p/pull conn '[*] (:db/id clock))
@@ -55,9 +55,10 @@
       [:<>
        [v.geo/LineComponent {:points (m.moon-orbit/cal-orbit-points-vectors orbit days)
                              :color (:orbit/color orbit)}]
+       [CelestialPositionLineView {:celestial celestial} env]
        [v.geo/LineComponent {:points [(v3/from-seq [0 0 0])
                                       (m.moon-orbit/cal-perigee-vector orbit epoch-day)]
-                             :color "yellow"}]])
+                             :color "#444"}]])
 
 
     (= (:orbit/type orbit) :ellipse-orbit)
@@ -105,9 +106,10 @@
          (when (:spin/show-helper? spin)
            [:gridHelper {:args [(* 4 scaled-radius) 10 "gray gray"]}])])]
 
-     (when (:orbit/show? orbit) [CelestialOrbitView {:orbit orbit
+     (when (:orbit/show? orbit) [CelestialOrbitView {:celestial satellite
+                                                     :orbit orbit
                                                      :clock (:celestial/clock satellite)} env])
-     (when (:orbit/show? orbit) [CelestialPositionLineView {:celestial satellite} env])
+     #_(when (:orbit/show? orbit) [CelestialPositionLineView {:celestial satellite} env])
      
      ]))
 

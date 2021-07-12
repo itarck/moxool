@@ -8,8 +8,9 @@
    [shu.three.vector3 :as v3]
    [shu.three.quaternion :as q]
    [methodology.lib.geometry :as v.geo]
+   [astronomy.model.spin :as m.spin]
    [astronomy.view.celestial-sphere-helper :as v.celestial-sphere]
-   [astronomy.model.spin :as m.spin]))
+   [astronomy.view.satellite :as v.satellite]))
 
 (def ecliptic-angle 23.439291111)
 
@@ -42,6 +43,7 @@
                                            show-latitude-0? show-longitude-0? show-ecliptic?
                                            show-lunar-orbit?]} ect
         earth @(p/pull conn '[*] [:planet/name "earth"])
+        moon @(p/pull conn '[*] [:satellite/name "moon"])
         clock @(p/pull conn '[*] (-> (:celestial/clock earth) :db/id))
         axial-q (m.spin/cal-axial-quaternion (:celestial/spin earth) (:clock/time-in-days clock))]
     [:mesh {:position (:object/position earth)
@@ -88,12 +90,9 @@
                                     :color "red"}]])])
 
       (when show-lunar-orbit?
-        [v.geo/CircleComponent {:center [0 0 0]
-                                :radius 1.281
-                                :axis lunar-axis
-                                :color "white"}])
-
-
+        [v.satellite/CelestialOrbitView {:orbit (:celestial/orbit moon)
+                                         :celestial moon
+                                         :clock clock} env])
 
       ;; 
       ]]))
