@@ -62,47 +62,49 @@
         moon @(p/pull conn '[*] [:satellite/name "moon"])
         clock @(p/pull conn '[*] (-> (:celestial/clock earth) :db/id))
         axial-q (m.spin/cal-axial-quaternion (:celestial/spin earth) (:clock/time-in-days clock))]
-    [:mesh {:position (:object/position earth)
-            :quaternion axial-q}
-     [:<>
-      [v.celestial-sphere/CelestialSphereHelperView {:radius radius
-                                                     :longitude-interval 30
-                                                     :show-latitude? show-latitude?
-                                                     :show-longitude? show-longitude?
-                                                     :longitude-color-map {:default "#770000"}
-                                                     :latitude-color-map {:default "#770000"}}]
+    [:<>
+     [:mesh {:position (:object/position earth)
+             :quaternion axial-q}
+      [:<>
+       [v.celestial-sphere/CelestialSphereHelperView {:radius radius
+                                                      :longitude-interval 30
+                                                      :show-latitude? show-latitude?
+                                                      :show-longitude? show-longitude?
+                                                      :longitude-color-map {:default "#770000"}
+                                                      :latitude-color-map {:default "#770000"}}]
 
-      (when show-latitude-0?
-        [:<>
-         [v.celestial-sphere/LatitudeView {:radius radius
-                                           :latitude 0
-                                           :color "red"}]
-         [v.celestial-sphere/LongitudeMarksView {:radius radius
-                                                 :color "red"}]])
-      (when show-longitude-0?
-        [:<>
-         [v.celestial-sphere/LongitudeView {:radius radius
-                                            :longitude 0
+       (when show-latitude-0?
+         [:<>
+          [v.celestial-sphere/LatitudeView {:radius radius
+                                            :latitude 0
+                                            :color "red"}]
+          [v.celestial-sphere/LongitudeMarksView {:radius radius
+                                                  :color "red"}]])
+       (when show-longitude-0?
+         [:<>
+          [v.celestial-sphere/LongitudeView {:radius radius
+                                             :longitude 0
+                                             :color "red"}]])
+
+       (when show-regression-line?
+         [:<>
+          [v.celestial-sphere/LatitudeView {:radius radius
+                                            :latitude 23.4
+                                            :color "red"}]
+          [v.celestial-sphere/LatitudeView {:radius radius
+                                            :latitude -23.4
                                             :color "red"}]])
+       (when show-ecliptic?
+         [EclipticSceneView {:earth earth} env])
 
-      (when show-regression-line?
-        [:<>
-         [v.celestial-sphere/LatitudeView {:radius radius
-                                           :latitude 23.4
-                                           :color "red"}]
-         [v.celestial-sphere/LatitudeView {:radius radius
-                                           :latitude -23.4
-                                           :color "red"}]])
-      (when show-ecliptic?
-        [EclipticSceneView {:earth earth} env])
-
-      (when show-lunar-orbit?
-        [v.satellite/CelestialOrbitView {:orbit (:celestial/orbit moon)
-                                         :celestial moon
-                                         :clock clock} env])
+       (when show-lunar-orbit?
+         [v.satellite/CelestialOrbitView {:orbit (:celestial/orbit moon)
+                                          :celestial moon
+                                          :clock clock} env])
 
       ;; 
-      ]]))
+       ]]]
+    ))
 
 
 (defn EquatorialCoordinateToolView [props {:keys [service-chan conn]}]
