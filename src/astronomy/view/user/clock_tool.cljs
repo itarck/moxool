@@ -46,13 +46,12 @@
               ($ mt/Typography {:variant "subtitle2"}
                  (let [longitude (m.clock/cal-longitude (:spaceship-camera-control/position camera-control))
                        local-time (m.clock/cal-local-time time-in-days longitude)]
-                   (m.clock/utc-format-string local-time)
-                   #_(m.clock/format-time-in-days local-time))))]
+                   (m.clock/utc-format-string local-time))))]
 
 
           ($ mt/Grid {:item true :xs 12}
              ($ mt/Typography {:variant "subtitle2"}
-                (str "当前时间： " (m.clock/format-time-in-days time-in-days)))))
+                (str "世界时间： " (m.clock/utc-format-string time-in-days)))))
 
         #_($ mt/Grid {:item true :xs 12}
              ($ mt/Typography {:variant "subtitle2"}

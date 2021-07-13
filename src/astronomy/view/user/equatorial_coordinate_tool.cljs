@@ -4,6 +4,7 @@
    [cljs.core.async :refer [go >! <! go-loop] :as a]
    [posh.reagent :as p]
    ["@material-ui/core" :as mt]
+   ["@react-three/drei" :refer [Html]]
    [shu.goog.math :as gmath]
    [shu.three.vector3 :as v3]
    [shu.three.quaternion :as q]
@@ -28,14 +29,20 @@
                                       (Math/cos (gmath/to-radians ang))
                                       0]))))))
 
-#_(def lunar-axis
-  (let [ang (+ 23.4 5.15)]
-    [(- (Math/sin (gmath/to-radians ang)))
-     (Math/cos (gmath/to-radians ang))
-     0]))
-
 (def lunar-axis [-0.34885989419537267 0.9342903258325582 0.07347354134438353])
 
+(defn EclipticMarksView [{:keys [radius color]}]
+  [:mesh {:quaternion ecliptic-quaternion}
+   (for [i (range 36)]
+     ^{:key i}
+     [:> Html {:position (v3/from-spherical-coords
+                          radius
+                          (/ Math/PI 2)
+                          (* i (/ 1 36) 2 Math/PI))
+               :zIndexRange [0 0]
+               :style {:color color
+                       :font-size "14px"}}
+      [:p (str (* i 10) "°")]])])
 
 (defn EclipticSceneView [{:keys [earth]} env]
   [:<>
@@ -43,14 +50,16 @@
                            :radius 500
                            :axis ecliptic-axis
                            :color "orange"}]
-   (let [points (v.celestial-sphere/gen-latitude-points 500 0 24)]
+   (let [points (v.celestial-sphere/gen-latitude-points 500 0 36)]
      [:mesh {:quaternion ecliptic-quaternion}
       [v.geo/PointsComponent {:points points
-                              :size 60000
-                              :color "red"}]])
+                              :size 40000
+                              :color "orange"}]])
    [v.geo/LineComponent {:points [(v3/from-seq [0 0 0])
                                   (v3/multiply-scalar (v3/from-seq (:object/position earth)) -1)]
-                         :color "orange"}]])
+                         :color "orange"}]
+   [EclipticMarksView {:radius 500
+                       :color "orange"}]])
 
 (defn EquatorialCoordinateSceneView
   [props {:keys [conn] :as env}]

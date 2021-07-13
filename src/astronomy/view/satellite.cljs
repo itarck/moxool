@@ -51,7 +51,7 @@
     (= (:orbit/type orbit) :moon-orbit)
     (let [clock @(p/pull conn '[*] (:db/id clock))
           epoch-day (:clock/time-in-days clock)
-          days (range (+ -30 epoch-day) (+ 30 epoch-day) 0.1)]
+          days (range (+ -15 epoch-day) (+ 15 epoch-day) 0.1)]
       [:<>
        [v.geo/LineComponent {:points (m.moon-orbit/cal-orbit-points-vectors orbit days)
                              :color (:orbit/color orbit)}]
