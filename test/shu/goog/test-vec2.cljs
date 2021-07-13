@@ -2,7 +2,7 @@
   (:require
    [cljs.test :refer-macros [deftest is testing run-tests]]
    [shu.goog.vec2 :as gv2]
-   [shu.general.core :as g]))
+   [shu.arithmetic.number :as number]))
 
 
 ;; (add [this] [this b])
@@ -70,7 +70,7 @@
     (is (gv2/equals (gv2/lerp v1 zero 0.5)  (gv2/scale v1 0.5)))
     (is (gv2/equals (gv2/lerp zero v1 0.3)  (gv2/scale v1 0.3)))
     (is (= (count (gv2/random)) 2))
-    (is (g/almost-equal? (gv2/magnitude (gv2/random-unit)) 1))
+    (is (number/almost-equal? (gv2/magnitude (gv2/random-unit)) 1))
 
     (is (gv2/equals v1 ov1))
     (is (gv2/equals v2 ov2))

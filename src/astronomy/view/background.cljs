@@ -1,14 +1,10 @@
 (ns astronomy.view.background
   (:require
    [applied-science.js-interop :as j]
-   [cljs.core.async :as a :refer [go >! <!]]
    [helix.core :refer [defnc $]]
    [helix.hooks :refer [use-memo]]
-   [posh.reagent :as p]
-   [shu.goog.math :as gmath]
+   [shu.arithmetic.number :as shu.number]
    [shu.three.vector3 :as v3]
-   [shu.general.core :as g]
-   [astronomy.model.constellation :as m.constel]
    [shu.astronomy.light :as shu.light]))
 
 
@@ -22,7 +18,7 @@
                                 (let [[x y z] (v3/from-spherical-coords
                                                (* (+ 0.5 (* (rand) 0.3)) 5000000000)
                                                (* (rand) Math/PI)
-                                               (* (rand) Math/PI (g/rand-sign)))]
+                                               (* (rand) Math/PI (shu.number/rand-sign)))]
                                   (j/push! positions x)
                                   (j/push! positions y)
                                   (j/push! positions z)))
@@ -57,7 +53,7 @@
                                 (let [[x y z] (v3/from-spherical-coords
                                                (* (+ 0.5 (* (rand) 0.5)) low-distance)
                                                (* (rand) Math/PI)
-                                               (* (rand) Math/PI (g/rand-sign)))]
+                                               (* (rand) Math/PI (shu.number/rand-sign)))]
                                   (j/push! positions x)
                                   (j/push! positions y)
                                   (j/push! positions z)))
@@ -85,7 +81,7 @@
                                 (let [[x y z] (v3/from-spherical-coords
                                                (* (+ 0.5 (* (rand) 0.3)) up-distance)
                                                (* (rand) Math/PI)
-                                               (* (rand) Math/PI (g/rand-sign)))]
+                                               (* (rand) Math/PI (shu.number/rand-sign)))]
                                   (j/push! positions x)
                                   (j/push! positions y)
                                   (j/push! positions z)))

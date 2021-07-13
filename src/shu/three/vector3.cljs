@@ -1,7 +1,7 @@
 (ns shu.three.vector3
   (:require
    [applied-science.js-interop :as j]
-   [shu.general.core :as g]
+   [shu.arithmetic.sequence :as shu.seq]
    ["three" :as three]))
 
 
@@ -55,7 +55,7 @@
   IVector3
 
   (almost-equal? [v1 v2]
-    (g/almost-equal? v1 v2))
+    (shu.seq/almost-equal? (seq v1) (seq v2)))
 
   (add [v1 v2]
     (let [vc (clone' v1)]

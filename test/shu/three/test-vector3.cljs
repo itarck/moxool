@@ -1,11 +1,9 @@
 (ns shu.three.test-vector3
   (:require
    [cljs.test :refer-macros [deftest is testing run-tests]]
-   [shu.goog.math :as gm]
    [shu.three.vector3 :as v3 :refer [vector3]]
    [shu.three.quaternion :as q]
-   [shu.three.euler :as e]
-   [shu.general.core :as g]))
+   [shu.three.euler :as e]))
 
 
 (def v1 (vector3 0 2 0))
@@ -23,13 +21,13 @@
         oq1 q1]
 
     (is (=  1 (v3/length (v3/normalize v1))))
-    (is (g/almost-equal? (v3/apply-quaternion v1 q1) (v3/vector3 0 0 2)))
+    (is (v3/almost-equal? (v3/apply-quaternion v1 q1) (v3/vector3 0 0 2)))
 
-    (is (g/almost-equal?
+    (is (v3/almost-equal?
          (v3/apply-axis-angle v1 (v3/vector3 1 0 0) (/ Math/PI 2))
          (v3/vector3 0 0 2)))
 
-    (is (g/almost-equal?
+    (is (v3/almost-equal?
          (v3/apply-euler v1 e1)
          (v3/vector3 0 0 2)))
 

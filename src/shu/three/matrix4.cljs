@@ -1,8 +1,8 @@
 (ns shu.three.matrix4
   (:require
-   [shu.general.core :as g]
    [shu.three.vector3 :as v3]
    [shu.three.quaternion :as q]
+   [shu.arithmetic.number :as shu.number]
    [applied-science.js-interop :as j]
    ["three" :as three]))
 
@@ -74,10 +74,10 @@
        :else nil)))
 
   IMatrix4
-
+  
   (almost-equals [m1 m2]
-    (g/almost-equal? (vec m1) (vec m2)))
-
+    (every? (fn [n] (shu.number/almost-equal? n 0.0)) (map - (seq m1) (seq m2))))
+  
   (clone' [m]
     (j/call m :clone))
 
@@ -183,6 +183,7 @@
 
   (def m1 (matrix4))
 
+  (seq (matrix4))
 
 
   )

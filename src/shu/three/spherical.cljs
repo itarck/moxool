@@ -2,8 +2,8 @@
   (:require
    [applied-science.js-interop :as j]
    ["three" :as three]
-   [shu.three.exception :refer [not-implemented-error mutable-error gen-exception]]
-   [shu.general.core :as g]))
+   [shu.geometry.angle :as shu.angle]
+   [shu.arithmetic.number :as shu.number]))
 
 
 (defprotocol ISpherical
@@ -37,7 +37,10 @@
 
   ISpherical
   (almost-equal? [s1 s2]
-    (g/almost-equal? s1 s2))
+    (and
+     (shu.number/almost-equal? (:radius s1) (:radius s2))
+     (shu.number/almost-equal? (shu.angle/standard-angle-in-radians (:phi s1)) (shu.angle/standard-angle-in-radians (:phi s2)))
+     (shu.number/almost-equal? (shu.angle/standard-angle-in-radians (:theta s1)) (shu.angle/standard-angle-in-radians (:theta s2)))))
 
   (clone' [s1]
     (j/call s1 :clone')))
@@ -62,5 +65,8 @@
 (comment
 
   (from-cartesian-coords 0 1 0)
+
+  (almost-equal? (spherical 1 1 0) (spherical 1 (+ 1 (* Math/PI 2)) 0))
   
   )
+

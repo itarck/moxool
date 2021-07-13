@@ -1,12 +1,12 @@
 (ns shu.three.test-matrix4
   (:require
-   ["three" :as three]
    [cljs.test :refer-macros [deftest is testing run-tests]]
-   [shu.general.core :as g]
    [shu.three.euler :as e]
    [shu.three.quaternion :as q]
    [shu.three.vector3 :as v3]
-   [shu.three.matrix4 :as mat4]))
+   [shu.three.matrix4 :as mat4]
+   [shu.arithmetic.number :as number]
+   [shu.arithmetic.sequence :as shu.seq]))
 
 (def eye (mat4/identity-matrix4))
 
@@ -36,13 +36,13 @@
   (let [om1 (mat4/clone' m1)
         m (mat4/compose p1 q1 s1)
         [p2 q2 s2] (mat4/decompose m)]
-    (is (g/almost-equal? p1 p2))
-    (is (g/almost-equal? s1 s2))
-    (is (g/almost-equal? q1 q2))
+    (is (shu.seq/almost-equal? (seq p1) (seq p2)))
+    (is (shu.seq/almost-equal? (seq s1) (seq s2)))
+    (is (shu.seq/almost-equal? (seq q1) (seq q2)))
 
     (is (= 1 (mat4/determinant (mat4/extract-rotation m1))))
 
-    (is (g/almost-equal? (apply * s1) (mat4/determinant m1)))
+    (is (number/almost-equal? (apply * s1) (mat4/determinant m1)))
     (is (mat4/almost-equals (mat4/multiply (mat4/invert m1) m1) (mat4/identity-matrix4)))
     (is (= (apply * s1) (mat4/determinant (mat4/scale (mat4/identity-matrix4) s1))))
 

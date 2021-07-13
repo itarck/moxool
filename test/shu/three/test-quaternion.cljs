@@ -5,7 +5,7 @@
    [shu.three.quaternion :as tq :refer [quaternion quatn]]
    [shu.three.vector3 :as tv3]
    [shu.three.euler :as e]
-   [shu.general.core :as gc]
+   [shu.arithmetic.sequence :as shu.seq]
    [shu.three.matrix4 :as m4]))
 
 
@@ -42,9 +42,9 @@
     (is (tq/equals (tq/slerp nq1 nq4 0) nq1))
     (is (tq/equals (tq/slerp nq1 nq4 1) nq4))
 
-    (is (gc/almost-equal?
-         (tq/from-unit-vectors (tv3/vector3 1 0 0) (tv3/vector3 0 1 0))
-         (tq/from-axis-angle (tv3/vector3 0 0 1) (/ Math/PI 2))))
+    (is (shu.seq/almost-equal?
+         (seq (tq/from-unit-vectors (tv3/vector3 1 0 0) (tv3/vector3 0 1 0)))
+         (seq (tq/from-axis-angle (tv3/vector3 0 0 1) (/ Math/PI 2)))))
 
     (is (tq/almost-equals q6
                           (tq/from-rotation-matrix

@@ -2,7 +2,8 @@
   (:require
    [applied-science.js-interop :as j]
    ["three" :as three]
-   [shu.general.core :as g]))
+   [shu.arithmetic.number :as shu.number]))
+
 
 (defprotocol IMatrix3
   (almost-equals [m1 m2])
@@ -11,8 +12,7 @@
   (equals [m1 m2])
   (invert [m1] "Inverts this matrix, using the analytic method. You can not invert with a determinant of zero. If you attempt this, the method produces a zero matrix instead.")
   (multiply [m1 m2] "Sets this matrix to m1 * m2.")
-  (transpose [m1] )
-)
+  (transpose [m1]))
 
 
 (extend-type three/Matrix3
@@ -20,7 +20,7 @@
   (toString [m] (str (vec m)))
 
   ISeqable
-  (-seq [m] (apply list (:elements m)))
+  (-seq [m] (seq (:elements m)))
 
   ISeq
   (-first [m] (first (seq m)))
@@ -38,7 +38,7 @@
   IMatrix3
 
   (almost-equals [m1 m2]
-    (g/almost-equal? (vec m1) (vec m2)))
+    (every? (fn [n] (shu.number/almost-equal? n 0.0)) (map - (seq m1) (seq m2))))
 
   (clone' [m]
     (j/call m :clone))
@@ -89,7 +89,14 @@
 
 (comment
 
-  (matrix3 (range 10))
+  
+  (js->clj (j/get (matrix3) :elements))
+
+  (seq (identity-matrix3))
+
+  (seq (matrix3 (range 10)))
+
+  (almost-equals (matrix3 (range 10)) (matrix3 (range 10)))
 
   (matrix3 (reverse (range 10)))
 

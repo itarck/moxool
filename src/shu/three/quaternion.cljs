@@ -2,8 +2,7 @@
   (:require
    [applied-science.js-interop :as j]
    ["three" :as three]
-   [shu.three.exception :refer [not-implemented-error mutable-error gen-exception]]
-   [shu.general.core :as g]))
+   [shu.arithmetic.number :as shu.number]))
 
 
 (defprotocol IThreeQuanternion
@@ -53,8 +52,9 @@
        not-found)))
 
   IThreeQuanternion
+
   (almost-equals [q1 q2]
-    (g/almost-equal? q1 q2))
+    (every? (fn [n] (shu.number/almost-equal? n 0.0)) (map - (seq q1) (seq q2))))
 
   (angle-to
     [q1 q2]

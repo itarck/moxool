@@ -3,8 +3,7 @@
    [cljs.test :refer-macros [deftest is testing run-tests]]
    [shu.three.euler :as e]
    [shu.three.quaternion :as q]
-   [shu.three.vector3 :as v3]
-   [shu.general.core :as g]))
+   [shu.three.vector3 :as v3]))
 
 
 (def e1 (e/euler 1 2 3))
