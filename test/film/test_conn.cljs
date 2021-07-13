@@ -3,10 +3,8 @@
    [datascript.core :as d]
    [datascript.transit :as dt]
    [posh.reagent :as p]
-   [shu.general.time :as time]
+   [shu.calendar.timestamp :as timestamp]
    [film.model.core :refer [schema]]))
-
-
 
 
 
@@ -37,7 +35,7 @@
   #:video {:db/id -202
            :scene -101
            :name "default"
-           :start-timestamp (time/get-timestamp)
+           :start-timestamp (timestamp/current-timestamp!)
            :total-time 3000
            :initial-db-str (dt/write-transit-str scene-db)
            :tx-logs [{:relative-time 500
@@ -52,7 +50,7 @@
   #:video {:db/id -203
            :scene -101
            :name "another"
-           :start-timestamp (time/get-timestamp)
+           :start-timestamp (timestamp/current-timestamp!)
            :total-time 3000
            :initial-db-str (dt/write-transit-str scene-db)
            :tx-logs [{:relative-time 100

@@ -3,7 +3,8 @@
    [datascript.core :as d]
    [datascript.transit :as dt]
    [posh.reagent :as p]
-   [shu.general.time :as time]
+   [shu.calendar.timestamp :as shu.timestamp]
+   [shu.calendar.date-time :as shu.date-time]
    [film.model.video :as m.video]))
 
 
@@ -32,8 +33,8 @@
 (defn create-video-tx [editor initial-db-str]
   [#:video {:db/id -1
             :scene (-> editor :editor/scene :db/id)
-            :name (str "clip-" (time/get-timestring))
-            :start-timestamp (time/get-timestamp)
+            :name (str "clip-" (shu.date-time/current-date-time-string!))
+            :start-timestamp (shu.timestamp/current-timestamp!)
             :total-time 0
             :initial-db-str initial-db-str
             :tx-logs []}
@@ -57,7 +58,7 @@
         video (m.video/pull-one @system-conn (-> editor :editor/current-video :db/id))]
     (p/transact! system-conn [#:video {:db/id (:db/id video)
                                        :initial-db-transit (dt/write-transit-str @scene-conn)
-                                       :start-timestamp (time/get-timestamp)
+                                       :start-timestamp (shu.timestamp/current-timestamp!)
                                        :total-time 0
                                        :tx-logs []}])
     (d/listen! scene-conn (str "record" (:db/id video))

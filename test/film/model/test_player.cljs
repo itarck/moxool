@@ -6,7 +6,6 @@
    [cljs.pprint :refer [pprint]]
    [posh.reagent :as p]
    [methodology.lib.chest :as chest]
-   [shu.general.time :as time]
    [film.test-conn :refer [create-test-conn!]]
    [film.model.player :as m.player]))
 

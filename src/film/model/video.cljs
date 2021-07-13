@@ -2,9 +2,8 @@
   (:require
    [applied-science.js-interop :as j]
    [datascript.core :as d]
-   [datascript.transit :as dt]
-   [posh.reagent :as p]
-   [shu.general.time :as time]))
+   [shu.calendar.timestamp :as timestamp]
+   [posh.reagent :as p]))
 
 
 (def video-sample 
@@ -43,7 +42,7 @@
   (mapv (fn [datom] (vec (concat [:db/add] datom))) datoms))
 
 (defn append-tx-log [video tx-data]
-  (let [timestamp (time/get-timestamp)
+  (let [timestamp (timestamp/current-timestamp!)
         new-tx-log {:relative-time (- timestamp (:video/start-timestamp video))
                     :tx-data (parse-datoms tx-data)}]
     (-> video
@@ -51,7 +50,7 @@
         (update :video/tx-logs (fn [tx-logs] (vec (conj tx-logs new-tx-log)))))))
 
 (defn update-stop-timestamp [video]
-  (let [stop-timestamp (time/get-timestamp)
+  (let [stop-timestamp (timestamp/current-timestamp!)
         start-timestamp (:video/start-timestamp video)
         total-time (- stop-timestamp start-timestamp)]
     #:video {:db/id (:db/id video)

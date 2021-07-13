@@ -2,7 +2,7 @@
   (:require
    [datascript.core :as d]
    [posh.reagent :as p]
-   [shu.general.time :as time]
+   [shu.calendar.timestamp :as shu.timestamp]
    [film.model.editor :as m.editor]
    [film.model.player :as m.player]
    [film.model.scene :as m.scene]
@@ -35,7 +35,7 @@ schema
   #:video {:db/id -202
            :scene -101
            :name "default"
-           :start-timestamp (time/get-timestamp)
+           :start-timestamp (shu.timestamp/current-timestamp!)
            :total-time 3000
            :tx-logs [{:relative-time 500
                       :tx-data [{:slider/name "bmi"

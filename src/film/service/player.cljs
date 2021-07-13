@@ -4,7 +4,7 @@
    [posh.reagent :as p]
    [datascript.core :as d]
    [datascript.transit :as dt]
-   [shu.general.time :as time]
+   [shu.calendar.timestamp :as timestamp]
    [methodology.lib.chest :as chest]
    [film.model.player :as player]
    [film.model.video :as video]))
@@ -28,7 +28,7 @@
 (defn update-player-session!
   [player1 video1 system-conn scene-conn]
   (let [last-timestamp (get-in player1 [:player/session :current-timestamp])
-        current-timestamp (time/get-timestamp)
+        current-timestamp (timestamp/current-timestamp!)
         time1 (player/cal-current-time (:player/session player1) last-timestamp)
         time2 (player/cal-current-time (:player/session player1) current-timestamp)]
     (p/transact! scene-conn
@@ -44,7 +44,7 @@
           video1 (:player/current-video full-player)]
       (when-not (player/check-session-starting? full-player)
         (>! meta-chan #:event{:action :meta/change-to-play-mode})
-        (p/transact! system-conn (player/start-session-tx full-player (time/get-timestamp)))
+        (p/transact! system-conn (player/start-session-tx full-player (timestamp/current-timestamp!)))
         (loop []
           (<! (timeout 20))
           (let [system-db @system-conn
