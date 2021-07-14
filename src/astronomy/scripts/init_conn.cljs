@@ -1145,7 +1145,7 @@ galaxy-quaternion
 
 (def ppt-tool
   #:ppt-tool {:query-type :ppt-by-name
-              :query-args ["15.星座"]
+              :query-args ["16.食季"]
               :ppts [#:ppt{:pages [#:ppt-page{:image-url "/slides/1.universe-distance/Slide1.jpeg"}
                                    #:ppt-page{:image-url "/slides/1.universe-distance/Slide2.jpeg"}
                                    #:ppt-page{:image-url "/slides/1.universe-distance/Slide3.jpeg"}

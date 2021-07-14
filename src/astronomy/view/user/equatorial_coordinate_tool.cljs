@@ -69,11 +69,9 @@
                                            show-lunar-orbit?]} ect
         earth @(p/pull conn '[*] [:planet/name "earth"])
         moon @(p/pull conn '[*] [:satellite/name "moon"])
-        clock @(p/pull conn '[*] (-> (:celestial/clock earth) :db/id))
-        axial-q (m.spin/cal-axial-quaternion (:celestial/spin earth) (:clock/time-in-days clock))]
+        clock @(p/pull conn '[*] (-> (:celestial/clock earth) :db/id))]
     [:<>
-     [:mesh {:position (:object/position earth)
-             :quaternion axial-q}
+     [:mesh {:position (:object/position earth)}
       [:<>
        [v.celestial-sphere/CelestialSphereHelperView {:radius radius
                                                       :longitude-interval 30
