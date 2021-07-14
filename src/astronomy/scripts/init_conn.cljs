@@ -10,7 +10,8 @@
    [shu.goog.math :as gmath]
    [shu.three.vector3 :as v3]
    [shu.three.quaternion :as q]
-   [shu.astronomy.equatorial :as eq]
+   [shu.geometry.angle :as shu.angle]
+   [shu.astronomy.celestial-coordinate :as shu.cc]
    [shu.astronomy.light :as shu.light]
    [methodology.model.user.backpack :as m.backpack]
    [methodology.model.core :as mtd-model]
@@ -1030,26 +1031,22 @@ ecliptic-axis
 
 ;; * 北银极：换算成2000.0历元的坐标，北银极位于赤经12h 51m 26.282s，赤纬+27° 07′ 42.01″（2000.0历元），银经0度的位置角是122.932°.[4]
 
-(def galaxy-center [(eq/to-distance 25000)
-                    (eq/to-declination -29 00 28.1)
-                    (eq/to-right-ascension 17 45 40.04)])
+(def galaxy-center-vector (shu.cc/cal-position (shu.cc/celestial-coordinate
+                                          (shu.angle/convert-hours-to-degrees (shu.angle/gen-hours {:hour 17 :minute 45 :second 40.04}))
+                                          (shu.angle/gen-degrees {:degree -29 :minute 0 :second -28.1}))
+                                         (* shu.light/light-year-unit 25000)))
 
-(def galaxy-north [1
-                   (eq/to-declination 27 07 42.01)
-                   (eq/to-right-ascension 12 51 26.282)])
-
-(def galaxy-center-vector (apply eq/cal-position galaxy-center))
-
-(def galxy-north-vector
-  (v3/normalize (apply eq/cal-position galaxy-north)))
-
-(def galaxy-quaternion (q/from-unit-vectors (v3/vector3 0 1 0) galxy-north-vector))
+(def galaxy-north-vector
+  (shu.cc/to-unit-vector (shu.cc/celestial-coordinate
+                          (shu.angle/convert-hours-to-degrees (shu.angle/gen-hours {:hour 12 :minute 51 :second 26.282}))
+                          (shu.angle/gen-degrees {:degree 27 :minute 07 :second  42.01}))))
 
 
-galaxy-center-vector
-;; => #object[Vector3 [-668315803846.49 -382317840299.07935 -169592497823.65826]]
+(def galaxy-quaternion (q/from-unit-vectors (v3/vector3 0 1 0) galaxy-north-vector))
 
 galaxy-quaternion
+;; => #object[Quaternion [-0.5084623562343109 0 0.11607530061927626 0.8532247985606123]]
+
 
 (def galaxy
   #:galaxy
