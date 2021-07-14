@@ -4,7 +4,8 @@
    [cljs.spec.alpha :as s]
    [shu.goog.math :as gmath]
    [shu.three.spherical :as sph]
-   [shu.astronomy.date-time :as dt]))
+   [shu.calendar.date-time :as dt]
+   [shu.calendar.epoch :as epoch]))
 
 
 (def day 1)
@@ -51,7 +52,7 @@
 
 
 (defn utc-format-string [epoch-days]
-  (dt/format-string (dt/from-epoch-days epoch-days)))
+  (dt/format-string (epoch/from-epoch-days epoch-days)))
 
 
 (comment

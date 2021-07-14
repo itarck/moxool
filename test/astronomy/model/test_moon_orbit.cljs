@@ -1,7 +1,7 @@
 (ns astronomy.model.test-moon-orbit
   (:require
    [cljs-time.core :as t]
-   [shu.astronomy.date-time :as dt]
+   [shu.calendar.epoch :as epoch]
    [shu.three.vector3 :as v3]
    [shu.goog.math :as gmath]
    [cljs-time.format :as ft]
@@ -46,7 +46,7 @@
 
 ;; 研究一些月食
 ;; 2018 7 27 22 20 最大的月食
-(def epoch-days-0 (dt/to-epoch-days (t/date-time 2018 7 27 22 20)))
+(def epoch-days-0 (epoch/to-epoch-days (t/date-time 2018 7 27 22 20)))
 
 epoch-days-0
 (+ (/ 27.21222082 2) epoch-days-0)
@@ -56,7 +56,7 @@ epoch-days-0
 ;; case1 2018年1月31日 13:30 食甚
 ;; 升交点 2018年1月31日 18:12
 
-(def epoch-days-1 (dt/to-epoch-days (t/date-time 2018 1 31 13 30)))
+(def epoch-days-1 (epoch/to-epoch-days (t/date-time 2018 1 31 13 30)))
 epoch-days-1
 
 (def earth-position-1 (m.ellipse-orbit/cal-position-vector earth-sample epoch-days-1))
@@ -72,7 +72,7 @@ epoch-days-1
 
 ;; 2021年5月26日 11:19
 
-(def epoch-days-2 (dt/to-epoch-days (t/date-time 2021 5 26 11 19)))
+(def epoch-days-2 (epoch/to-epoch-days (t/date-time 2021 5 26 11 19)))
 
 (def earth-position-2 (m.ellipse-orbit/cal-position-vector earth-sample epoch-days-2))
 
@@ -89,7 +89,7 @@ epoch-days-1
 ;; 2000年1月21日	4:44
 
 
-(def epoch-days-3 (dt/to-epoch-days (t/date-time 2000 1 21 4 44)))
+(def epoch-days-3 (epoch/to-epoch-days (t/date-time 2000 1 21 4 44)))
 
 (def earth-position-3 (m.ellipse-orbit/cal-position-vector earth-sample epoch-days-3))
 
@@ -104,7 +104,7 @@ epoch-days-1
 
 ;; 2037年1月31日	14:00
 
-(def epoch-days-4 (dt/to-epoch-days (t/date-time 2037 1 31 14 00)))
+(def epoch-days-4 (epoch/to-epoch-days (t/date-time 2037 1 31 14 00)))
 
 (def earth-position-4 (m.ellipse-orbit/cal-position-vector earth-sample epoch-days-4))
 
@@ -119,7 +119,7 @@ epoch-days-1
 ;; 日食 2020年12月14日	16:14:39
 
 
-(def epoch-days-5 (dt/to-epoch-days (t/date-time  2020 12 14 16 14 39)))
+(def epoch-days-5 (epoch/to-epoch-days (t/date-time  2020 12 14 16 14 39)))
 
 (def earth-position-5 (m.ellipse-orbit/cal-position-vector earth-sample epoch-days-5))
 
@@ -132,7 +132,7 @@ epoch-days-1
 
 ;; 月食 2011年6月15日 	20:13 升点月食
 
-(def epoch-days-6 (dt/to-epoch-days (t/date-time 2011 6 15 20 13)))
+(def epoch-days-6 (epoch/to-epoch-days (t/date-time 2011 6 15 20 13)))
 
 epoch-days-6
 ;; => 4183.343103981481
@@ -202,13 +202,13 @@ epoch-days-6
   (let [lunar-formatter (ft/formatter "yyyy-MM-dd HH:mm")]
     (->> date-string
          (ft/parse lunar-formatter)
-         (dt/to-epoch-days))))
+         (epoch/to-epoch-days))))
 
 (defn sun-date-string-to-epoch-days [date-string]
   (let [lunar-formatter (ft/formatter "yyyy-MM-dd HH:mm:ss")]
     (->> date-string
          (ft/parse lunar-formatter)
-         (dt/to-epoch-days))))
+         (epoch/to-epoch-days))))
 
 (defn average [seq]
   (/ (apply + seq) (count seq)))

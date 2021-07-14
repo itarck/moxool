@@ -1,7 +1,7 @@
 (ns astronomy.model.test-ellipse-orbit
   (:require
    [cljs-time.core :as t]
-   [shu.astronomy.date-time :as dt]
+   [shu.calendar.epoch :as epoch]
    [shu.three.vector3 :as v3]
    [shu.goog.math :as gmath]
    [astronomy.model.ellipse-orbit :as m.ellipse-orbit]
@@ -62,13 +62,13 @@
 earth-sample
 
 (def date-time0 (t/date-time 2018 1 31 13 30))
-(dt/to-epoch-days date-time0)
+(epoch/to-epoch-days date-time0)
 ;; => 6605.06324287037
 
 
 (def date-time1 (t/date-time 2018 7 27 20 22))
 
-(dt/to-epoch-days date-time1)
+(epoch/to-epoch-days date-time1)
 ;; => 6782.349353981482
 
 

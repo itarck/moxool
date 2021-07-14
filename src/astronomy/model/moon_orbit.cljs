@@ -4,7 +4,7 @@
    [shu.three.vector3 :as v3]
    [shu.goog.math :as gmath]
    [cljs-time.core :as t]
-   [shu.astronomy.date-time :as dt]))
+   [shu.calendar.epoch :as epoch]))
 
 ;; 带轴进动的圆形轨道
 ;; 按照参考点 2010-7-2，黄经 192度，黄纬 84.85度。轴进动的周期是6798天，顺时针方向
@@ -45,7 +45,7 @@ ecliptic-axis
   (v3/apply-axis-angle
    (from-ecliptic-to-equatorial (cal-vector 192 84.85))
    ecliptic-axis
-   (* (dt/to-epoch-days (t/date-time 2010 7 2))
+   (* (epoch/to-epoch-days (t/date-time 2010 7 2))
       (period-to-angular-velocity 6798))))
 
 
