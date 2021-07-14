@@ -1032,15 +1032,19 @@ ecliptic-axis
 ;; * 北银极：换算成2000.0历元的坐标，北银极位于赤经12h 51m 26.282s，赤纬+27° 07′ 42.01″（2000.0历元），银经0度的位置角是122.932°.[4]
 
 (def galaxy-center-vector (shu.cc/cal-position (shu.cc/celestial-coordinate
-                                          (shu.angle/convert-hours-to-degrees (shu.angle/gen-hours {:hour 17 :minute 45 :second 40.04}))
-                                          (shu.angle/gen-degrees {:degree -29 :minute 0 :second -28.1}))
-                                         (* shu.light/light-year-unit 25000)))
+                                                (shu.angle/convert-hours-to-degrees (shu.angle/gen-hours {:hour 17 :minute 45 :second 40.04}))
+                                                (shu.angle/gen-degrees {:degree -29 :minute 0 :second -28.1})
+                                                (* shu.light/light-year-unit 25000))))
+galaxy-center-vector
+;; => #object[Vector3 [-688150222274.2922 -382317840299.07935 -43091769201.20502]]
 
 (def galaxy-north-vector
   (shu.cc/to-unit-vector (shu.cc/celestial-coordinate
                           (shu.angle/convert-hours-to-degrees (shu.angle/gen-hours {:hour 12 :minute 51 :second 26.282}))
                           (shu.angle/gen-degrees {:degree 27 :minute 07 :second  42.01}))))
 
+galaxy-north-vector
+;; => #object[Vector3 [-0.19807664997748894 0.45598511375759465 -0.8676653829473483]]
 
 (def galaxy-quaternion (q/from-unit-vectors (v3/vector3 0 1 0) galaxy-north-vector))
 

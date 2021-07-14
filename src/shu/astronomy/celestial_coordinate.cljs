@@ -11,15 +11,22 @@
 (comment
   (def sample
     #:celestial-coordinate {:longitude 30
-                            :latitude 40})
+                            :latitude 40
+                            :radius 1})
   ;; 
   )
 
 ;; 创建
 
-(defn celestial-coordinate [longitude latitude]
-  #:celestial-coordinate {:longitude longitude
-                          :latitude latitude})
+(defn celestial-coordinate
+  ([longitude latitude]
+   #:celestial-coordinate {:longitude longitude
+                           :latitude latitude
+                           :radius 1})
+  ([longitude latitude radius]
+   #:celestial-coordinate {:longitude longitude
+                           :latitude latitude
+                           :radius radius}))
 
 ;; 获取分量
 
@@ -45,23 +52,33 @@
 
 ;; 和单位向量的转化
 
-(defn to-unit-vector [celestial-coordinate]
-  (let [radius 1
-        phi (angle/to-radians (- 90 (:celestial-coordinate/latitude celestial-coordinate)))
-        theta (angle/to-radians (:celestial-coordinate/longitude celestial-coordinate))]
+(defn to-vector [celestial-coordinate]
+  (let [{:celestial-coordinate/keys [longitude latitude radius]} celestial-coordinate
+        phi (angle/to-radians (- 90 latitude))
+        theta (angle/to-radians longitude)]
     (v3/from-spherical-coords radius phi theta)))
+
+(defn to-unit-vector [celestial-coordinate]
+  (v3/normalize (to-vector celestial-coordinate)))
 
 (defn from-unit-vector [unit-vector]
   (let [[x y z] unit-vector
         [_radius phi theta] (sph/from-cartesian-coords x y z)]
     #:celestial-coordinate {:longitude (angle/to-degrees theta)
-                            :latitude (- 90 (angle/to-degrees phi))}))
+                            :latitude (- 90 (angle/to-degrees phi))
+                            :radius 1}))
+
+(defn from-vector [vector]
+  (let [[x y z] vector
+        [radius phi theta] (sph/from-cartesian-coords x y z)]
+    #:celestial-coordinate {:longitude (angle/to-degrees theta)
+                            :latitude (- 90 (angle/to-degrees phi))
+                            :radius radius}))
 
 ;; 计算位置
 
-(defn cal-position [celestial-coordinate distance]
-  (let [{:celestial-coordinate/keys [longitude latitude]} celestial-coordinate
-        radius distance
+(defn cal-position [celestial-coordinate]
+  (let [{:celestial-coordinate/keys [longitude latitude radius]} celestial-coordinate
         phi (angle/to-radians (- 90 latitude))
         theta (angle/to-radians longitude)]
     (v3/from-spherical-coords radius phi theta)))
@@ -74,7 +91,7 @@
   (from-unit-vector (to-unit-vector sample))
 
   (v3/almost-equal?
-   (v3/normalize (cal-position (celestial-coordinate 30 60) 2500))
+   (v3/normalize (cal-position (celestial-coordinate 30 60 100)))
    (to-unit-vector (celestial-coordinate 30 60)))
 
 
