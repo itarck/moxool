@@ -1146,7 +1146,7 @@ galaxy-quaternion
 
 (def ppt-tool
   #:ppt-tool {:query-type :ppt-by-name
-              :query-args ["16.食季"]
+              :query-args ["18.食季"]
               :ppts [#:ppt{:pages [#:ppt-page{:image-url "/slides/1.universe-distance/Slide1.jpeg"}
                                    #:ppt-page{:image-url "/slides/1.universe-distance/Slide2.jpeg"}
                                    #:ppt-page{:image-url "/slides/1.universe-distance/Slide3.jpeg"}
@@ -1229,11 +1229,11 @@ galaxy-quaternion
                                     #:ppt-page{:image-url "/slides/15.constellation/Slide6.jpeg"}]
                             :chinese-name "15.星座"
                             :current-page 0}
-                     #:ppt {:pages [#:ppt-page{:image-url "/slides/16.eclipse-season/Slide1.jpeg"}
-                                    #:ppt-page{:image-url "/slides/16.eclipse-season/Slide2.jpeg"}
-                                    #:ppt-page{:image-url "/slides/16.eclipse-season/Slide3.jpeg"}
-                                    #:ppt-page{:image-url "/slides/16.eclipse-season/Slide4.jpeg"}]
-                            :chinese-name "16.食季"
+                     #:ppt {:pages [#:ppt-page{:image-url "/slides/18.eclipse-season/Slide1.jpeg"}
+                                    #:ppt-page{:image-url "/slides/18.eclipse-season/Slide2.jpeg"}
+                                    #:ppt-page{:image-url "/slides/18.eclipse-season/Slide3.jpeg"}
+                                    #:ppt-page{:image-url "/slides/18.eclipse-season/Slide4.jpeg"}]
+                            :chinese-name "18.食季"
                             :current-page 0}]
               :tool/name "ppt tool"
               :tool/chinese-name "脚本"
