@@ -65,6 +65,7 @@
                         :hour (/ 1 24.0)
                         :star-day 0.99726968
                         :day 1
+                        :30day 30
                         :year 365)
         tx [{:db/id (:db/id clock-tool)
              :clock-tool/step-interval step-interval

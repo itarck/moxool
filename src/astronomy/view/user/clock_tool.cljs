@@ -19,8 +19,10 @@
                                    :minute "分"
                                    :hour "小时"
                                    :star-day "恒星日"
+                                   :30day "月"
                                    :day "日"
-                                   :year "年")
+                                   :year "年"
+                                   :100year "纪")
         gen-click-step-interval (fn [step-interval]
                                   #(go (>! service-chan #:event{:action :clock-tool/change-step-interval
                                                                 :detail {:clock-tool clock-tool
@@ -78,12 +80,15 @@
               ($ mt/Button {:onClick (gen-click-step-interval :hour)
                             :variant (if (= step-interval :hour) "contained" "outlined")}
                  "时")
-              ($ mt/Button {:onClick (gen-click-step-interval :star-day)
-                            :variant (if (= step-interval :star-day) "contained" "outlined")}
-                 "恒星日")
+              #_($ mt/Button {:onClick (gen-click-step-interval :star-day)
+                              :variant (if (= step-interval :star-day) "contained" "outlined")}
+                   "恒星日")
               ($ mt/Button {:onClick (gen-click-step-interval :day)
                             :variant (if (= step-interval :day) "contained" "outlined")}
                  "日")
+              ($ mt/Button {:onClick (gen-click-step-interval :30day)
+                            :variant (if (= step-interval :30day) "contained" "outlined")}
+                 "月")
               ($ mt/Button {:onClick (gen-click-step-interval :year)
                             :variant (if (= step-interval :year) "contained" "outlined")}
                  "年")))
