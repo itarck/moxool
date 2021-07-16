@@ -14,7 +14,7 @@
   [props {:keys [conn service-chan]} {:event/keys [detail]}]
   (let [{:keys [clock time-in-days]} detail]
     (p/transact! conn (m.clock/set-clock-time-in-days-tx (:db/id clock) time-in-days))
-    (go (>! service-chan #:event{:action :astro-scene/after-clock-updated}))))
+    (go (>! service-chan #:event{:action :astro-scene/refresh}))))
 
 
 (defmethod handle-event! :clock-tool/reset

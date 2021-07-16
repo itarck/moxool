@@ -54,7 +54,7 @@
 
 ;; tx
 
-(defn after-clock-updated-tx [db1 astro-scene]
+(defn refresh-tx [db1 astro-scene]
   (let [clock-id (get-in astro-scene [:astro-scene/clock :db/id])
         celes (m.celestial/find-all-by-clock db1 clock-id)
         tx1 (mapcat #(m.celestial/update-position-and-quaternion-tx %) celes)
