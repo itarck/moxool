@@ -15,6 +15,7 @@
    [shu.astronomy.light :as shu.light]
    [methodology.model.user.backpack :as m.backpack]
    [methodology.model.core :as mtd-model]
+   [astronomy.model.const :refer [ecliptic-axis ecliptic-quaternion]]
    [astronomy.model.ellipse-orbit :as m.ellipse-orbit]
    [astronomy.model.core :as ast-model]
    [astronomy.model.clock :as m.clock]
@@ -27,26 +28,6 @@
 (def schema (merge ast-model/schema
                    mtd-model/schema))
 
-(def ecliptic-angle 23.439291111)
-
-(def ecliptic-quaternion
-  (let [ang ecliptic-angle]
-    (vec (q/from-unit-vectors
-          (v3/vector3 0 1 0)
-          (v3/normalize (v3/from-seq [(- (Math/sin (gmath/to-radians ang)))
-                                      (Math/cos (gmath/to-radians ang))
-                                      0]))))))
-
-(def ecliptic-axis
-  (let [ang ecliptic-angle]
-    [(- (Math/sin (gmath/to-radians ang)))
-     (Math/cos (gmath/to-radians ang))
-     0]))
-
-
-(def equatorial-quaternion [0 0 0 1])
-
-ecliptic-axis
 
 (def camera
   #:camera{:name "default"
@@ -68,7 +49,7 @@ ecliptic-axis
                 :track-position [:planet/name "earth"]
                 :track-rotation [:planet/name "earth"]
                 :position [0 0 0]
-                :quaternion ecliptic-quaternion})
+                :quaternion [0 0 0 1]})
 
 (def scene
   #:astro-scene {:coordinate -10

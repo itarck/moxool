@@ -48,6 +48,9 @@ ecliptic-axis
    (* (epoch/to-epoch-days (t/date-time 2010 7 2))
       (period-to-angular-velocity 6798))))
 
+lunar-axis-j2000
+;; => #object[Vector3 [-0.34885989419537267 0.9342903258325582 0.07347354134438353]]
+
 
 (def moon-sample1
   #:moon-orbit {:axis (seq lunar-axis-j2000)

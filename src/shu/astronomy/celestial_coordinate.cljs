@@ -7,6 +7,7 @@
 
 ;; 说明
 ;; celestial-coordinate，天球坐标是一种复合结构，有两个分量，longitude 经度和 latitude 纬度都用度数表示
+;; 0经度的方向是Z轴正方向
 
 (comment
   (def sample
