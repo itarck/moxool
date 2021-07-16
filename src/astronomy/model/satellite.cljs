@@ -1,5 +1,6 @@
 (ns astronomy.model.satellite
   (:require
+   [posh.reagent :as p]
    [datascript.core :as d]))
 
 ;; 包含ns: planet
@@ -43,7 +44,15 @@
           (:object/position star))))
 
 
-;; computed view
+;; subs
+
+(defn sub-world-position [conn satellite-id]
+  (let [satellite @(p/pull conn '[:object/position :satellite/planet] satellite-id)
+        planet @(p/pull conn '[:object/position :planet/star] (-> satellite :satellite/planet :db/id))
+        star @(p/pull conn '[:object/position] (-> planet :planet/star :db/id))]
+    (mapv + (:object/position satellite)
+          (:object/position planet)
+          (:object/position star))))
 
 
 

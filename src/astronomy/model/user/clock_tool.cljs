@@ -41,10 +41,11 @@
         db1 (d/db-with db tx0)
         celes (m.celestial/find-all-by-clock db1 clock-id)
         tx1 (mapcat #(m.celestial/update-position-and-quaternion-tx %) celes)
-        db2 (d/db-with db1 tx1)
+        ;; db2 (d/db-with db1 tx1)
         ;; coordinate-ids (m.coordinate/find-ids-by-clock db1 clock-id)
         ;; tx2 (mapcat #(m.coordinate/update-coordinate-tx db2 %) coordinate-ids)
-        ref-ids (m.reference/find-ids-by-clock db1 clock-id)
-        tx2 (mapcat #(m.reference/update-reference-tx db2 %) ref-ids)]
-    (concat tx0 tx1 tx2)))
+        ;; ref-ids (m.reference/find-ids-by-clock db1 clock-id)
+        ;; tx2 (mapcat #(m.reference/update-reference-tx db2 %) ref-ids)
+        ]
+    (concat tx0 tx1)))
 

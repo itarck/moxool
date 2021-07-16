@@ -89,16 +89,16 @@
                  (:object/quaternion r-object)))))
 
 
-(defn cal-invert-matrix [coor]
-  (let [{:reference/keys [position quaternion]} coor
+(defn cal-invert-matrix [ref]
+  (let [{:reference/keys [position quaternion]} ref
         mat (m4/compose (v3/from-seq position) (q/from-seq quaternion) (v3/vector3 1 1 1))]
     (m4/invert mat)))
 
-(defn original-position [coor-1]
-  (v3/apply-matrix4 (v3/vector3 0 0 0) (cal-invert-matrix coor-1)))
+(defn original-position [ref-1]
+  (v3/apply-matrix4 (v3/vector3 0 0 0) (cal-invert-matrix ref-1)))
 
-(defn is-earth-center? [coor-1]
-  (= (get-in coor-1 [:reference/center-object :planet/name])
+(defn is-earth-center? [ref-1]
+  (= (get-in ref-1 [:reference/center-object :planet/name])
      "earth"))
 
 ;; tx 
@@ -107,3 +107,27 @@
   [[:db/add id :reference/position (cal-world-position db id)]
    [:db/add id :reference/quaternion (cal-world-quaternion db id)]])
 
+
+;; subs 
+
+(defn sub-world-position [conn id]
+  (let [ref @(p/pull conn '[* {:reference/center-object [:db/id :entity/type :object/position]}] id)
+        p-object (:reference/center-object ref)]
+    (if (= (:reference/center-type ref) :static)
+      (:reference/center-position ref)
+      (case (:entity/type p-object)
+        :star (:object/position p-object)
+        :planet (m.planet/sub-world-position conn (:db/id p-object))
+        :satellite (m.satellite/sub-world-position conn (:db/id p-object))))))
+
+(defn sub-world-quaternion [conn id]
+  (let [ref @(p/pull conn '[* {:reference/orientation-object [:db/id :entity/type :object/quaternion]}] id)]
+    (case (:reference/orientation-type ref)
+      :static (:reference/orientation-quaternion ref)
+      :dynamic (-> ref :reference/orientation-object :object/quaternion))))
+
+(defn sub-invert-matrix [conn id]
+  (let [position (sub-world-position conn id)
+        quaternion (sub-world-quaternion conn id)
+        mat (m4/compose (v3/from-seq position) (q/from-seq quaternion) (v3/vector3 1 1 1))]
+    (m4/invert mat)))

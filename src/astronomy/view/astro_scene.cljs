@@ -21,7 +21,7 @@
         objects (m.scene/sub-objects conn (:db/id astro-scene))
         spaceship-camera-control @(p/pull conn '[*] (get-in props [:spaceship-camera-control :db/id]))
         coor-1 @(p/pull conn '[*] (get-in astro-scene [:astro-scene/coordinate :db/id]))
-        reference-1 @(p/pull conn '[*] (get-in astro-scene [:astro-scene/reference :db/id]))
+        ;; reference-1 @(p/pull conn '[*] (get-in astro-scene [:astro-scene/reference :db/id]))
         has-day-light? (m.astro-scene/has-day-light? coor-1 spaceship-camera-control atmosphere 0.5)
         has-atmosphere? (m.astro-scene/has-day-light? coor-1 spaceship-camera-control atmosphere 0.55)]
     ;; (println "scene view mounted ?? ")
@@ -30,7 +30,8 @@
       [v.atmosphere/AtmosphereView {:has-atmosphere? has-atmosphere?} env]
 
       [:group {:matrixAutoUpdate false
-               :matrix (m.reference/cal-invert-matrix reference-1)
+               :matrix (m.reference/sub-invert-matrix conn (get-in astro-scene [:astro-scene/reference :db/id]))
+              ;;  :matrix (m.reference/cal-invert-matrix reference-1)
               ;;  :matrix (m.coordinate/cal-invert-matrix coor-1)
                }
 

@@ -59,6 +59,15 @@
           (:object/position star))))
 
 
+;; sub
+
+(defn sub-world-position [conn planet-id]
+  (let [planet @(p/pull conn '[:object/position :planet/star] planet-id)
+        star @(p/pull conn '[:object/position] (-> planet :planet/star :db/id))]
+    (mapv + (:object/position planet)
+          (:object/position star))))
+
+
 (comment
   
   (def ecliptic-axis
