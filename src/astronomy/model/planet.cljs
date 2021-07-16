@@ -53,6 +53,12 @@
     (seq (v3/apply-quaternion v1 q1))))
 
 
+(defn cal-world-position [db planet]
+  (let [star (d/pull db '[*] (-> planet :planet/star :db/id))]
+    (mapv + (:object/position planet)
+          (:object/position star))))
+
+
 (comment
   
   (def ecliptic-axis

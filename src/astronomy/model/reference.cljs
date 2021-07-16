@@ -4,7 +4,9 @@
    [posh.reagent :as p]
    [shu.three.quaternion :as q]
    [shu.three.vector3 :as v3]
-   [shu.three.matrix4 :as m4]))
+   [shu.three.matrix4 :as m4]
+   [astronomy.model.planet :as m.planet]
+   [astronomy.model.satellite :as m.satellite]))
 
 ;; 一个参考系有几个因素
 ;; 1. 坐标系中心：中心也分为静止，还是跟随某个天体旋转
@@ -76,16 +78,8 @@
       (:reference/center-position ref)
       (case (:entity/type p-object)
         :star (:object/position p-object)
-        :planet (let [planet p-object
-                      star (d/pull db '[*] (-> planet :planet/star :db/id))]
-                  (mapv + (:object/position planet)
-                        (:object/position star)))
-        :satellite (let [satellite p-object
-                         planet (d/pull db '[*] (-> satellite :satellite/planet :db/id))
-                         star (d/pull db '[*] (-> planet :planet/star :db/id))]
-                     (mapv + (:object/position satellite)
-                           (:object/position planet)
-                           (:object/position star)))))))
+        :planet (m.planet/cal-world-position db p-object)
+        :satellite (m.satellite/cal-world-position db p-object)))))
 
 (defn cal-world-quaternion [db id]
   (let [ref (d/pull db '[* {:reference/orientation-object [:db/id :entity/type]}] id)]

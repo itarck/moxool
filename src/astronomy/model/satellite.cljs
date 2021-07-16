@@ -35,6 +35,12 @@
     :entity/type :satellite})
 
 
+(defn cal-world-position [db satellite]
+  (let [planet (d/pull db '[*] (-> satellite :satellite/planet :db/id))
+        star (d/pull db '[*] (-> planet :planet/star :db/id))]
+    (mapv + (:object/position satellite)
+          (:object/position planet)
+          (:object/position star))))
 
 
 ;; computed view
