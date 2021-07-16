@@ -3,6 +3,7 @@
    [datascript.core :as d]
    [posh.reagent :as p]
    [shu.three.vector3 :as v3]
+   [shu.geometry.angle :as shu.angle]
    [astronomy.model.coordinate :as m.coordinate]))
 
 
@@ -42,7 +43,7 @@
     [?coor-id :coordinate/track-position ?cele-id]])
 
 
-(defn has-day-light?
+#_(defn has-day-light?
   ([coordinate camera-control atmosphere]
    (has-day-light? coordinate camera-control atmosphere 0.55))
   ([coordinate camera-control atmosphere angle-limit]
@@ -55,6 +56,17 @@
                         (< angle (* angle-limit Math/PI)))]
      has-day-light)))
 
+(defn has-day-light?
+  ([sun-position camera-control atmosphere]
+   (has-day-light? sun-position camera-control atmosphere 0.55))
+  ([sun-position camera-control atmosphere angle-limit]
+   (let [{:spaceship-camera-control/keys [up]} camera-control
+         angle (v3/angle-to (v3/from-seq up) sun-position)
+         has-day-light (and
+                        (:atmosphere/show? atmosphere)
+                        (= :surface-control (:spaceship-camera-control/mode camera-control))
+                        (< angle (* angle-limit Math/PI)))]
+     has-day-light)))
 
 ;; tx
 

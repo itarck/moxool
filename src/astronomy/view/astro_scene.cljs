@@ -20,17 +20,21 @@
         {:scene/keys [scale]} astro-scene
         objects (m.scene/sub-objects conn (:db/id astro-scene))
         spaceship-camera-control @(p/pull conn '[*] (get-in props [:spaceship-camera-control :db/id]))
-        coor-1 @(p/pull conn '[*] (get-in astro-scene [:astro-scene/coordinate :db/id]))
+        ;; coor-1 @(p/pull conn '[*] (get-in astro-scene [:astro-scene/coordinate :db/id]))
         ;; reference-1 @(p/pull conn '[*] (get-in astro-scene [:astro-scene/reference :db/id]))
-        has-day-light? (m.astro-scene/has-day-light? coor-1 spaceship-camera-control atmosphere 0.5)
-        has-atmosphere? (m.astro-scene/has-day-light? coor-1 spaceship-camera-control atmosphere 0.55)]
+        ref-invert-matrix (m.reference/sub-invert-matrix conn (get-in astro-scene [:astro-scene/reference :db/id]))
+        sun-position (v3/apply-matrix4 (v3/vector3 0 0 0) ref-invert-matrix)
+        has-day-light? (m.astro-scene/has-day-light? sun-position spaceship-camera-control atmosphere 0.5)
+        has-atmosphere? (m.astro-scene/has-day-light? sun-position spaceship-camera-control atmosphere 0.55)]
     ;; (println "scene view mounted ?? ")
     [:<>
      [:mesh {:scale [scale scale scale]}
-      [v.atmosphere/AtmosphereView {:has-atmosphere? has-atmosphere?} env]
+      [v.atmosphere/AtmosphereView {:has-atmosphere? has-atmosphere?
+                                    :sun-position sun-position
+                                    :up (:spaceship-camera-control/up spaceship-camera-control)} env]
 
       [:group {:matrixAutoUpdate false
-               :matrix (m.reference/sub-invert-matrix conn (get-in astro-scene [:astro-scene/reference :db/id]))
+               :matrix ref-invert-matrix
               ;;  :matrix (m.reference/cal-invert-matrix reference-1)
               ;;  :matrix (m.coordinate/cal-invert-matrix coor-1)
                }

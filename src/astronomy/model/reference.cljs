@@ -131,3 +131,7 @@
         quaternion (sub-world-quaternion conn id)
         mat (m4/compose (v3/from-seq position) (q/from-seq quaternion) (v3/vector3 1 1 1))]
     (m4/invert mat)))
+
+
+(defn cal-position-in-reference [ref-invert-matrix position]
+  (v3/apply-matrix4 position ref-invert-matrix))

@@ -62,8 +62,7 @@
    :galaxy v.galaxy/GalaxyView
    :horizontal-coordinate v.horizon/HorizontalCoordinateSceneView
    :equatorial-coordinate-tool v.ect/EquatorialCoordinateSceneView
-   :constellation v.constel/ConstellationView 
-   :atmosphere v.atmosphere/AtmosphereView})
+   :constellation v.constel/ConstellationView})
 
 
 (defn create-system! [props]

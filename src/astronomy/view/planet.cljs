@@ -7,7 +7,6 @@
    [astronomy.model.ellipse-orbit :as m.ellipse-orbit]
    [methodology.lib.geometry :as v.geo]
    [methodology.view.gltf :as v.gltf]
-   [astronomy.view.celestial-sphere-helper :refer [CelestialSphereHelperView]]
    [astronomy.view.satellite :as v.satellite]))
 
 
