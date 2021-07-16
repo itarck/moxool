@@ -65,21 +65,26 @@
 
 ;; model
 
+(def query-reference-names
+  '[:find [?name ...]
+    :where [?id :reference/name ?name]])
+
 (defn find-ids-by-clock [db clock-id]
   (d/q '[:find [?id ...]
          :in $ ?clock-id
          :where [?id :reference/clock ?clock-id]]
        db clock-id))
 
+
 (defn cal-world-position [db id]
-  (let [ref (d/pull db '[* {:reference/center-object [:db/id :entity/type]}] id)
-        p-object (d/pull db '[*] (-> ref :reference/center-object :db/id))]
-    (if (= (:reference/center-type ref) :static)
-      (:reference/center-position ref)
-      (case (:entity/type p-object)
-        :star (:object/position p-object)
-        :planet (m.planet/cal-world-position db p-object)
-        :satellite (m.satellite/cal-world-position db p-object)))))
+  (let [ref (d/pull db '[* {:reference/center-object [:db/id :entity/type]}] id)]
+    (case (:reference/center-type ref)
+      :static (:reference/center-position ref)
+      :dynamic (let [p-object (d/pull db '[*] (-> ref :reference/center-object :db/id))]
+                 (case (:entity/type p-object)
+                   :star (:object/position p-object)
+                   :planet (m.planet/cal-world-position db p-object)
+                   :satellite (m.satellite/cal-world-position db p-object))))))
 
 (defn cal-world-quaternion [db id]
   (let [ref (d/pull db '[* {:reference/orientation-object [:db/id :entity/type]}] id)]

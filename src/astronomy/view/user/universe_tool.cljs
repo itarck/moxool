@@ -6,15 +6,17 @@
    [helix.core :refer [$]]
    ["@material-ui/core" :as mt]
    [astronomy.model.user.universe-tool :as m.universe-tool]
-   [astronomy.model.astro-scene :as m.astro-scene]))
+   [astronomy.model.astro-scene :as m.astro-scene]
+   [astronomy.model.reference :as m.reference]))
 
 
 
 (defn UniverseToolView [props {:keys [service-chan conn]}]
   (let [universe-tool @(p/pull conn '[*] (get-in props [:tool :db/id]))
         astro-scene-id (-> universe-tool :universe-tool/astro-scene :db/id)
-        astro-scene (m.astro-scene/sub-scene-with-objects conn astro-scene-id)
-        objects (:object/_scene astro-scene)]
+        astro-scene @(p/pull conn '[*] astro-scene-id)
+        reference @(p/pull conn '[*] (get-in astro-scene [:astro-scene/reference :db/id]))
+        reference-names @(p/q m.reference/query-reference-names conn)]
     [:div {:class "astronomy-righthand"}
      [:div {:class "astronomy-righthand-tool"}
       [:div.p-2
@@ -29,22 +31,16 @@
 
         [:> mt/Grid {:item true :xs 12}
          [:> mt/Typography {:variant "subtitle1"}
-          "是否加载"]
-         (for [object objects]
-           ^{:key (:db/id object)}
-           [:div
-            (str (:entity/chinese-name object) "：    ")
-            [:span "否"]
-            [:> mt/Switch
-             {:color "default"
-              :size "small"
-              :checked (or (:object/show? object) false)
-              :onChange (fn [event]
-                          (let [show? (j/get-in event [:target :checked])]
-                            (go (>! service-chan #:event {:action :universe-tool/load-object
-                                                          :detail {:object-id (:db/id object)
-                                                                   :show? show?}}))))}]
-            [:span "是"]])]
+          "参考系"]
+         [:> mt/Select {:value (:reference/name reference)
+                        :onChange (fn [e]
+                                    (let [new-value (j/get-in e [:target :value])]
+                                      (go (>! service-chan
+                                              #:event {:action :astro-scene/change-reference
+                                                       :detail {:reference-name new-value}}))))}
+          (for [name reference-names]
+            ^{:key name}
+            [:> mt/MenuItem {:value name} name])]]
 
         #_(let [celestial-scale (:astro-scene/celestial-scale astro-scene)]
             [:> mt/Grid {:item true :xs 12}

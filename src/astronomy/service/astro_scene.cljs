@@ -14,6 +14,12 @@
         tx (m.astro-scene/after-clock-updated-tx @conn astro-scene)]
     (p/transact! conn tx)))
 
+(defmethod handle-event! :astro-scene/change-reference
+  [props {:keys [conn]} {:event/keys [detail]}]
+  (let [astro-scene-id (get-in props [:astro-scene :db/id])
+        {:keys [reference-name]} detail]
+    (p/transact! conn [[:db/add astro-scene-id :astro-scene/reference [:reference/name reference-name]]])))
+
 
 (defn init-service! [props {:keys [process-chan] :as env}]
     (println "astro-scene started")

@@ -64,7 +64,7 @@
 
 (def reference-3
   #:reference {:db/id -103
-               :name "赤道天球坐标系-地球中心"
+               :name "地球坐标系"
                :clock [:clock/name "default"]
                :center-type :dynamic
                :center-object {:db/id [:planet/name "earth"]}
@@ -1303,7 +1303,7 @@ galaxy-quaternion
                       ;;  saturn 
                       ;;  titan uranus neptune triton pluto charon 
                       ;;  eris haumea halley
-                       galaxy reference-3 atmosphere
+                       galaxy reference-1 reference-2 reference-3 atmosphere
                        horizontal-coordinate-1 horizontal-coordinate-2 horizontal-coordinate-3])
     (d/transact! conn constellation-families)
     (d/transact! conn [spaceship-camera-control person1 universe-tool-1 clock-tool1 info-tool
@@ -1319,9 +1319,9 @@ galaxy-quaternion
       (d/transact! conn (m.backpack/put-in-cell-tx bp 4 {:db/id [:tool/name "horizontal-coordinate-tool-1"]}))
       (d/transact! conn (m.backpack/put-in-cell-tx bp 5 {:db/id [:tool/name "equatorial-coordinate-tool"]}))
       (d/transact! conn (m.backpack/put-in-cell-tx bp 6 {:db/id [:tool/name "constellation-tool"]}))
-      ;; (d/transact! conn (m.backpack/put-in-cell-tx bp 8 {:db/id [:tool/name "universe tool"]}))
-      (d/transact! conn (m.backpack/put-in-cell-tx bp 7 {:db/id [:tool/name "atmosphere-tool"]}))
-      (d/transact! conn (m.backpack/put-in-cell-tx bp 8 {:db/id [:tool/name "eagle-eye-tool"]}))
+      (d/transact! conn (m.backpack/put-in-cell-tx bp 7 {:db/id [:tool/name "universe tool"]}))
+      (d/transact! conn (m.backpack/put-in-cell-tx bp 8 {:db/id [:tool/name "atmosphere-tool"]}))
+      (d/transact! conn (m.backpack/put-in-cell-tx bp 9 {:db/id [:tool/name "eagle-eye-tool"]}))
       ;; (d/transact! conn (m.backpack/put-in-cell-tx bp 8 {:db/id [:tool/name "info tool 1"]}))
       )
 
