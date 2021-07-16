@@ -2,14 +2,11 @@
   (:require
    [datascript.core :as d]
    [posh.reagent :as p]
-   [shu.three.vector3 :as v3]
-   [shu.geometry.angle :as shu.angle]
-   [astronomy.model.coordinate :as m.coordinate]))
+   [shu.three.vector3 :as v3]))
 
 
 (def sample
-  #:astro-scene {:astro-scene/coordinate {:db/id 100}
-                 :astro-scene/clock [:clock/name "default"]
+  #:astro-scene {:astro-scene/clock [:clock/name "default"]
                  :astro-scene/camera [:camera/name "default"]
                  :scene/name "astronomy"
                  :scene/chinese-name "天文学场景"
@@ -17,8 +14,7 @@
 
 
 (def schema
-  #:astro-scene{:coordinate {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
-                :reference {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
+  #:astro-scene{:reference {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
                 :clock {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
                 :camera {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}})
 
@@ -41,20 +37,6 @@
     :where
     [?scene-id :astro-scene/coordinate ?coor-id]
     [?coor-id :coordinate/track-position ?cele-id]])
-
-
-#_(defn has-day-light?
-  ([coordinate camera-control atmosphere]
-   (has-day-light? coordinate camera-control atmosphere 0.55))
-  ([coordinate camera-control atmosphere angle-limit]
-   (let [sun-position (m.coordinate/original-position coordinate)
-         {:spaceship-camera-control/keys [up]} camera-control
-         angle (v3/angle-to (v3/from-seq up) sun-position)
-         has-day-light (and
-                        (:atmosphere/show? atmosphere)
-                        (= :surface-control (:spaceship-camera-control/mode camera-control))
-                        (< angle (* angle-limit Math/PI)))]
-     has-day-light)))
 
 (defn has-day-light?
   ([sun-position camera-control atmosphere]

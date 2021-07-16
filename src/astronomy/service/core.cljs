@@ -9,7 +9,6 @@
    [astronomy.service.clock-tool :as s.clock-tool]
    [astronomy.service.info-tool :as s.info-tool]
    [astronomy.service.spaceship-camera-control :as s.spaceship]
-   [astronomy.service.coordinate-tool :as s.coordinate-tool]
    [astronomy.service.ppt-tool :as s.ppt-tool]
    [astronomy.service.horizontal-coordinate-tool :as s.hct]
    [astronomy.service.goto-celestial-tool :as s.goto-tool]
@@ -38,9 +37,6 @@
    {:listen [:spaceship-camera-control]
     :process-name "spaceship-camera-control"
     :service-fn s.spaceship/init-service!}
-   {:listen [:coordinate-tool]
-    :process-name "coordinate-tool"
-    :service-fn s.coordinate-tool/init-service!}
    {:listen [:ppt-tool]
     :process-name "ppt-tool"
     :service-fn s.ppt-tool/init-service!}

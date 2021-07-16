@@ -7,7 +7,6 @@
    [astronomy.model.celestial :as m.celestial]
    [astronomy.model.circle-orbit :as m.circle-orbit]
    [astronomy.model.clock :as m.clock]
-   [astronomy.model.coordinate :as m.coordinate]
    [astronomy.model.galaxy :as m.galaxy]
    [astronomy.model.planet :as m.planet]
    [astronomy.model.satellite :as m.satellite]
@@ -35,7 +34,6 @@
    m.celestial/schema
    m.circle-orbit/schema
    m.clock/schema
-   m.coordinate/schema
    m.galaxy/schema
    m.planet/schema
    m.satellite/schema

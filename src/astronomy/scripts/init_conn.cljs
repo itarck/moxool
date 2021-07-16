@@ -42,15 +42,6 @@
            :time-in-days 0})
 
 
-(def coordinate-1
-  #:coordinate {:db/id -10
-                :name "default"
-                :clock [:clock/name "default"]
-                :track-position [:planet/name "earth"]
-                :track-rotation [:planet/name "earth"]
-                :position [0 0 0]
-                :quaternion [0 0 0 1]})
-
 (def reference-1
   #:reference {:db/id -101
                :name "赤道天球坐标系-太阳中心"
@@ -81,8 +72,7 @@
                :orientation-object {:db/id [:planet/name "earth"]}})
 
 (def scene
-  #:astro-scene {:coordinate -10
-                 :reference -103
+  #:astro-scene {:reference -103
                  :camera [:camera/name "default"]
                  :clock [:clock/name "default"]
                  :celestial-scale 1
@@ -94,7 +84,6 @@
 (def atmosphere
   #:atmosphere {:name "default"
                 :show? true
-                :coordinate [:coordinate/name "default"]
                 :entity/type :atmosphere})
 
 (def sun
@@ -1125,13 +1114,6 @@ galaxy-quaternion
     :tool/icon "/image/moxool/spaceship.jpg"
     :entity/type :spaceship-camera-control})
 
-(def coordinate-tool-1
-  #:coordinate-tool {:coordinate [:coordinate/name "default"]
-                     :tool/name "coordinate tool 1"
-                     :tool/chinese-name "坐标系设置"
-                     :tool/icon "/image/moxool/celestial-coordinate.jpg"
-                     :entity/type :coordinate-tool})
-
 
 (def ppt-0-3
   #:ppt {:pages [#:ppt-page{:image-url "/slides/0.3.tidal-locking/Slide1.jpeg"}
@@ -1320,11 +1302,11 @@ galaxy-quaternion
                       ;;  saturn 
                       ;;  titan uranus neptune triton pluto charon 
                       ;;  eris haumea halley
-                       galaxy coordinate-1 reference-3 atmosphere
+                       galaxy reference-3 atmosphere
                        horizontal-coordinate-1 horizontal-coordinate-2 horizontal-coordinate-3])
     (d/transact! conn constellation-families)
     (d/transact! conn [spaceship-camera-control person1 universe-tool-1 clock-tool1 info-tool
-                       coordinate-tool-1 ppt-tool horizontal-coordinate-tool-1 goto-tool-1
+                       ppt-tool horizontal-coordinate-tool-1 goto-tool-1
                        equatorial-coordinate-tool-1 constellation-tool-1 atmosphere-tool-1 eagle-eye-tool])
 
     (let [person (d/pull @conn '[*] [:person/name "dr who"])
@@ -1335,11 +1317,10 @@ galaxy-quaternion
       (d/transact! conn (m.backpack/put-in-cell-tx bp 3 {:db/id [:tool/name "spaceship camera tool"]}))
       (d/transact! conn (m.backpack/put-in-cell-tx bp 4 {:db/id [:tool/name "horizontal-coordinate-tool-1"]}))
       (d/transact! conn (m.backpack/put-in-cell-tx bp 5 {:db/id [:tool/name "equatorial-coordinate-tool"]}))
-      (d/transact! conn (m.backpack/put-in-cell-tx bp 6 {:db/id [:tool/name "coordinate tool 1"]}))
-      (d/transact! conn (m.backpack/put-in-cell-tx bp 7 {:db/id [:tool/name "constellation-tool"]}))
+      (d/transact! conn (m.backpack/put-in-cell-tx bp 6 {:db/id [:tool/name "constellation-tool"]}))
       ;; (d/transact! conn (m.backpack/put-in-cell-tx bp 8 {:db/id [:tool/name "universe tool"]}))
-      (d/transact! conn (m.backpack/put-in-cell-tx bp 8 {:db/id [:tool/name "atmosphere-tool"]}))
-      (d/transact! conn (m.backpack/put-in-cell-tx bp 9 {:db/id [:tool/name "eagle-eye-tool"]}))
+      (d/transact! conn (m.backpack/put-in-cell-tx bp 7 {:db/id [:tool/name "atmosphere-tool"]}))
+      (d/transact! conn (m.backpack/put-in-cell-tx bp 8 {:db/id [:tool/name "eagle-eye-tool"]}))
       ;; (d/transact! conn (m.backpack/put-in-cell-tx bp 8 {:db/id [:tool/name "info tool 1"]}))
       )
 

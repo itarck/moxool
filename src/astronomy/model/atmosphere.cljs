@@ -1,19 +1,15 @@
 (ns astronomy.model.atmosphere
   (:require
-   [posh.reagent :as p]
-   [shu.three.vector3 :as v3]
-   [astronomy.model.coordinate :as m.coordinate]))
+   [posh.reagent :as p]))
 
 
-(def schema {:atmosphere/name {:db/unique :db.unique/identity}
-             :atmosphere/coordinate {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}})
+(def schema {:atmosphere/name {:db/unique :db.unique/identity}})
 
 
 (comment
   (def sample-1
     #:atmosphere {:name "default"
                   :show? true
-                  :coordinate [:coordinate/name "default"]
                   :object/scene [:scene/name "solar"]
                   :entity/type :atmosphere})
 ;;   
@@ -29,8 +25,4 @@
 
 (defn sub-unique-one [conn]
   @(p/pull conn whole-selector unique-id))
-
-
-(defn sun-position-vector [atmosphere]
-  (m.coordinate/original-position (:atmosphere/coordinate atmosphere)))
 

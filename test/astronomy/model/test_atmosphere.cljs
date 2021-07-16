@@ -13,5 +13,3 @@
 
 (def atmo1 (m.atm/sub-unique-one conn))
 
-
-(m.atm/sun-position-vector atmo1)

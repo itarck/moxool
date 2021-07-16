@@ -5,7 +5,6 @@
    [methodology.model.scene :as m.scene]
    [shu.three.vector3 :as v3]
    [astronomy.model.astro-scene :as m.astro-scene]
-   [astronomy.model.coordinate :as m.coordinate]
    [astronomy.model.reference :as m.reference]
    [astronomy.view.background :as v.background]
    [astronomy.view.constellation :as v.constel]
