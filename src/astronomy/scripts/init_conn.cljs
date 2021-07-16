@@ -22,17 +22,12 @@
    [astronomy.model.star :as m.star]
    [astronomy.model.spin :as m.spin]
    [astronomy.model.user.clock-tool :as m.clock-tool]
-   [astronomy.model.moon-orbit :as m.moon-orbit :refer [period-to-angular-velocity-in-degree lunar-axis-j2000]]))
-
-
-(def ecliptic-angle 23.439291111)
-
-(defn period-to-angular-velocity [period]
-  (/ (* 2 Math/PI) period))
+   [astronomy.model.moon-orbit :as m.moon-orbit :refer [lunar-axis-j2000]]))
 
 (def schema (merge ast-model/schema
                    mtd-model/schema))
 
+(def ecliptic-angle 23.439291111)
 
 (def ecliptic-quaternion
   (let [ang ecliptic-angle]
@@ -44,16 +39,6 @@
 
 (def ecliptic-axis
   (let [ang ecliptic-angle]
-    [(- (Math/sin (gmath/to-radians ang)))
-     (Math/cos (gmath/to-radians ang))
-     0]))
-
-ecliptic-quaternion
-;; => [0 0 0.2036417511401775 0.9790454724845838]
-
-
-(def lunar-axis
-  (let [ang (+ ecliptic-angle 5.15)]
     [(- (Math/sin (gmath/to-radians ang)))
      (Math/cos (gmath/to-radians ang))
      0]))
@@ -109,7 +94,7 @@ ecliptic-axis
          :celestial/radius-string "109.1 地球半径"
          :celestial/spin #:spin {:axis (m.spin/cal-spin-axis 286.13 63.87)
                                  :period 25.05
-                                 :angular-velocity (period-to-angular-velocity 25.05)}
+                                 :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 25.05)}
          :celestial/gltf #:gltf {:url "models/16-solar/Sun_1_1391000.glb"
                                  :scale [0.002 0.002 0.002]
                                  :shadow? false}
@@ -142,7 +127,7 @@ ecliptic-axis
                                       :orbit/show? false}
     :celestial/spin #:spin {:axis (m.spin/cal-spin-axis 281.01 61.45)
                             :period 58.646
-                            :angular-velocity (period-to-angular-velocity 58.646)}
+                            :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 58.646)}
     :celestial/gltf #:gltf {:url "models/16-solar/Mercury_1_4878.glb"
                             :scale [0.002 0.002 0.002]}
     :celestial/clock [:clock/name "default"]
@@ -179,10 +164,10 @@ ecliptic-axis
                       :start-position (m.planet/random-position 350 ecliptic-axis)
                       :axis ecliptic-axis
                       :period 224.7
-                      :angular-velocity (period-to-angular-velocity 224.7)}
+                      :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 224.7)}
     :celestial/spin #:spin {:axis (m.spin/cal-spin-axis 92.76	-67.16)
                             :period 243.0185
-                            :angular-velocity (period-to-angular-velocity 243.0185)}
+                            :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 243.0185)}
     :celestial/gltf #:gltf {:url "models/16-solar/Venus_1_12103.glb"
                             :scale [0.002 0.002 0.002]}
     :celestial/clock [:clock/name "default"]
@@ -215,7 +200,7 @@ ecliptic-axis
                       :radius 498.6596333
                       :start-position [0 0 -498.6596333]
                       :axis ecliptic-axis
-                      :angular-velocity (period-to-angular-velocity 365.2564)
+                      :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 365.2564)
 
                       :orbit/type :circle-orbit
                       :orbit/period 365.2564
@@ -223,9 +208,9 @@ ecliptic-axis
                       :orbit/show? false}
     :celestial/spin #:spin {:axis [0 1 0]
                             :axis-center [-0.3971478906347807 0.9177546256839811 -7.295488395810108E-17]
-                            :axis-anglar-velocity (period-to-angular-velocity (* 365.25 -25722))
+                            :axis-anglar-velocity (shu.angle/period-to-angular-velocity-in-radians (* 365.25 -25722))
                             :period 0.99726968
-                            :angular-velocity (period-to-angular-velocity 0.99726968)}
+                            :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 0.99726968)}
     :celestial/gltf #:gltf {:url "models/16-solar/Earth_1_12756.glb"
                             ;; :url "models/16-solar/EarthClouds_1_12756.glb"
                             :scale [0.002 0.002 0.002]
@@ -247,7 +232,7 @@ ecliptic-axis
     :celestial/radius 0.00579
     :celestial/orbit #:moon-orbit {:axis (seq lunar-axis-j2000)
                                    :axis-precession-center (seq ecliptic-axis)
-                                   :axis-precession-velocity (period-to-angular-velocity-in-degree -6798)
+                                   :axis-precession-velocity (shu.angle/period-to-angular-velocity-in-degrees -6798)
 
                                    :epoch-days-j20110615 4183.343103981481
 
@@ -259,11 +244,11 @@ ecliptic-axis
                                    :argument-of-periapsis-j20110615 282.31
                                    :mean-anomaly-j20110615 73.9
 
-                                   :angular-velocity (period-to-angular-velocity-in-degree 27.321661)
-                                   :anomaly-angular-velocity (period-to-angular-velocity-in-degree 27.554549886)
-                                   :perigee-angular-velocity-eme2000 (period-to-angular-velocity-in-degree 3233)
-                                   :perigee-angular-velocity-emo2000 (period-to-angular-velocity-in-degree 2191)
-                                   :nodical-angular-velocity (period-to-angular-velocity-in-degree 27.21222082)
+                                   :angular-velocity (shu.angle/period-to-angular-velocity-in-degrees 27.321661)
+                                   :anomaly-angular-velocity (shu.angle/period-to-angular-velocity-in-degrees 27.554549886)
+                                   :perigee-angular-velocity-eme2000 (shu.angle/period-to-angular-velocity-in-degrees 3233)
+                                   :perigee-angular-velocity-emo2000 (shu.angle/period-to-angular-velocity-in-degrees 2191)
+                                   :nodical-angular-velocity (shu.angle/period-to-angular-velocity-in-degrees 27.21222082)
                                    :anomaly-month 27.554549886
                                    :nodical-month 27.21222082
 
@@ -276,9 +261,9 @@ ecliptic-axis
                                      :radius 1.281
                                      :axis [-0.34885989419537267 0.9342903258325582 0.07347354134438353]
                                      :axis-precession-center (seq ecliptic-axis)
-                                     :axis-precession-velocity (period-to-angular-velocity -6798)
-                                     :angular-velocity (period-to-angular-velocity 27.321661)
-                                     :draconitic-angular-velocity (period-to-angular-velocity 27.212220815)
+                                     :axis-precession-velocity (shu.angle/period-to-angular-velocity-in-radians -6798)
+                                     :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 27.321661)
+                                     :draconitic-angular-velocity (shu.angle/period-to-angular-velocity-in-radians 27.212220815)
 
                                      :orbit/type :circle-orbit
                                      :orbit/color "white"
@@ -286,8 +271,8 @@ ecliptic-axis
                                      :orbit/period 27.321661}
     #_#:circle-orbit {:start-position [0 0 -1.281]
                       :radius 1.281
-                      :axis lunar-axis
-                      :angular-velocity (period-to-angular-velocity 27.321661)
+                      :axis m.circle-orbit/lunar-axis
+                      :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 27.321661)
 
                       :orbit/type :circle-orbit
                       :orbit/color "white"
@@ -296,7 +281,7 @@ ecliptic-axis
 
     :celestial/spin #:spin {:axis (m.spin/cal-spin-axis 266.86	65.64)
                             :period 27.321661
-                            :angular-velocity (period-to-angular-velocity 27.321661)}
+                            :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 27.321661)}
     :celestial/gltf #:gltf {:url "models/16-solar/Moon_1_3474.glb"
                             :scale [0.002 0.002 0.002]
                             :rotation [0 (/ Math/PI 2) 0]
@@ -340,10 +325,10 @@ ecliptic-axis
                     :start-position (m.planet/random-position 760.3147908 ecliptic-axis)
                     :axis ecliptic-axis
                     :period 686.93
-                    :angular-velocity (period-to-angular-velocity 686.93)}
+                    :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 686.93)}
     :celestial/spin #:spin {:axis (m.spin/cal-spin-axis 317.68	52.89)
                             :period 1.026
-                            :angular-velocity (period-to-angular-velocity 1.026)}
+                            :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 1.026)}
     :celestial/gltf #:gltf {:url "models/16-solar/Mars_1_6792.glb"
                             :scale [0.002 0.002 0.002]}
     :celestial/clock [:clock/name "default"]
@@ -363,7 +348,7 @@ ecliptic-axis
     :celestial/orbit #:circle-orbit {:start-position (m.planet/random-position 0.031267 mars-spin-axis)
                                      :radius 0.031267
                                      :axis mars-spin-axis
-                                     :angular-velocity (period-to-angular-velocity 0.319)
+                                     :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 0.319)
                                      
                                      :orbit/type :circle-orbit
                                      :orbit/color "gray"
@@ -371,7 +356,7 @@ ecliptic-axis
                                      :orbit/period 0.319}
     :celestial/spin #:spin {:axis mars-spin-axis
                             :period 0.319
-                            :angular-velocity (period-to-angular-velocity 0.319)}
+                            :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 0.319)}
     :celestial/gltf #:gltf {:url "models/16-solar/Phobos_1_1000.glb"
                             :scale [0.07 0.07 0.07]
                             :shadow? false}
@@ -393,7 +378,7 @@ ecliptic-axis
     :celestial/orbit #:circle-orbit {:start-position (m.planet/random-position 0.078200 mars-spin-axis)
                                      :radius 0.078200
                                      :axis mars-spin-axis
-                                     :angular-velocity (period-to-angular-velocity 1.262)
+                                     :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 1.262)
 
                                      :orbit/type :circle-orbit
                                      :orbit/show? false
@@ -401,7 +386,7 @@ ecliptic-axis
                                      :orbit/period 1.262}
     :celestial/spin #:spin {:axis mars-spin-axis
                             :period 1.262
-                            :angular-velocity (period-to-angular-velocity 1.262)}
+                            :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 1.262)}
     :celestial/gltf #:gltf {:url "models/16-solar/Deimos_1_1000.glb"
                             :scale [0.15 0.15 0.15]
                             :shadow? false}
@@ -446,10 +431,10 @@ ecliptic-axis
                       :start-position (m.planet/random-position 1380.955354 ceres-orbit-axis)
                       :axis ceres-orbit-axis
                       :period 1681.63
-                      :angular-velocity (period-to-angular-velocity 1681.63)}
+                      :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 1681.63)}
     :celestial/spin #:spin {:axis ceres-spin-axis
                             :period 0.3781
-                            :angular-velocity (period-to-angular-velocity 0.3781)}
+                            :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 0.3781)}
     :celestial/gltf #:gltf {:url "models/16-solar/Ceres_1_1000.glb"
                             :scale [0.002 0.002 0.002]}
     :celestial/clock [:clock/name "default"]
@@ -516,10 +501,10 @@ ecliptic-axis
                     :start-position (m.planet/random-position 2596.503011 ecliptic-axis)
                     :axis ecliptic-axis
                     :period (* 11.856 365)
-                    :angular-velocity (period-to-angular-velocity (* 11.856 365))}
+                    :angular-velocity (shu.angle/period-to-angular-velocity-in-radians (* 11.856 365))}
     :celestial/spin #:spin {:axis jupiter-spin-axis
                             :period 0.413
-                            :angular-velocity (period-to-angular-velocity 0.413)}
+                            :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 0.413)}
     :celestial/gltf #:gltf {:url "models/16-solar/Jupiter_1_142984.glb"
                             :scale [0.002 0.002 0.002]
                             :shadow? false}
@@ -540,7 +525,7 @@ ecliptic-axis
     :celestial/orbit #:circle-orbit {:start-position (m.planet/random-position 1.405666667 jupiter-spin-axis)
                                      :radius 1.405666667
                                      :axis jupiter-spin-axis
-                                     :angular-velocity (period-to-angular-velocity 1.769137786)
+                                     :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 1.769137786)
 
                                      :orbit/type :circle-orbit
                                      :orbit/period 1.769137786
@@ -548,7 +533,7 @@ ecliptic-axis
                                      :orbit/show? false}
     :celestial/spin #:spin {:axis jupiter-spin-axis
                             :period 1.769137786
-                            :angular-velocity (period-to-angular-velocity 1.769137786)}
+                            :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 1.769137786)}
     :celestial/gltf #:gltf {:url "models/16-solar/Io_1_3643.glb"
                             :scale [0.002 0.002 0.002]
                             :shadow? false}
@@ -569,7 +554,7 @@ ecliptic-axis
     :celestial/orbit #:circle-orbit {:start-position (m.planet/random-position 2.236780 jupiter-spin-axis)
                                      :radius 2.236780
                                      :axis jupiter-spin-axis
-                                     :angular-velocity (period-to-angular-velocity 3.551181041)
+                                     :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 3.551181041)
 
                                      :orbit/type :circle-orbit
                                      :orbit/period 3.551181041
@@ -577,7 +562,7 @@ ecliptic-axis
                                      :orbit/show? false}
     :celestial/spin #:spin {:axis jupiter-spin-axis
                             :period 3.551181041
-                            :angular-velocity (period-to-angular-velocity 3.551181041)}
+                            :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 3.551181041)}
     :celestial/gltf #:gltf {:url "models/16-solar/Europa_1_3138.glb"
                             :scale [0.002 0.002 0.002]
                             :shadow? false}
@@ -598,7 +583,7 @@ ecliptic-axis
     :celestial/orbit #:circle-orbit {:start-position (m.planet/random-position 3.568040 jupiter-spin-axis)
                                      :radius 3.568040
                                      :axis jupiter-spin-axis
-                                     :angular-velocity (period-to-angular-velocity 7.15455296)
+                                     :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 7.15455296)
 
                                      :orbit/type :circle-orbit
                                      :orbit/color "gray"
@@ -606,7 +591,7 @@ ecliptic-axis
                                      :orbit/show? false}
     :celestial/spin #:spin {:axis jupiter-spin-axis
                             :period 7.15455296
-                            :angular-velocity (period-to-angular-velocity 7.15455296)}
+                            :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 7.15455296)}
     :celestial/gltf #:gltf {:url "models/16-solar/Ganymede_1_5268.glb"
                             :scale [0.002 0.002 0.002]}
     :celestial/clock [:clock/name "default"]
@@ -626,7 +611,7 @@ ecliptic-axis
     :celestial/orbit #:circle-orbit {:start-position (m.planet/random-position 6.275697 jupiter-spin-axis)
                                      :radius 6.275697
                                      :axis jupiter-spin-axis
-                                     :angular-velocity (period-to-angular-velocity 16.6890184)
+                                     :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 16.6890184)
                                      
                                      :orbit/type :circle-orbit
                                      :orbit/color "gray"
@@ -634,7 +619,7 @@ ecliptic-axis
                                      :orbit/period 16.6890184}
     :celestial/spin #:spin {:axis jupiter-spin-axis
                             :period 16.6890184
-                            :angular-velocity (period-to-angular-velocity 16.6890184)}
+                            :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 16.6890184)}
     :celestial/gltf #:gltf {:url "models/16-solar/Callisto_1_4821.glb"
                             :scale [0.002 0.002 0.002]}
     :celestial/clock [:clock/name "default"]
@@ -657,7 +642,7 @@ ecliptic-axis
     :celestial/orbit #:circle-orbit {:star [:star/name "sun"]
                                      :start-position (m.planet/random-position 4750 ecliptic-axis)
                                      :axis ecliptic-axis
-                                     :angular-velocity (period-to-angular-velocity (* 29.448 365))
+                                     :angular-velocity (shu.angle/period-to-angular-velocity-in-radians (* 29.448 365))
                                      :radius 4750
 
                                      :orbit/type :circle-orbit
@@ -666,7 +651,7 @@ ecliptic-axis
                                      :orbit/show? false}
     :celestial/spin #:spin {:axis saturn-spin-axis
                             :period 0.444
-                            :angular-velocity (period-to-angular-velocity 0.444)}
+                            :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 0.444)}
     :celestial/gltf #:gltf {:url "models/16-solar/Saturn_1_120536.glb"
                             :scale [0.002 0.002 0.002]
                             :shadow? false}
@@ -688,7 +673,7 @@ ecliptic-axis
     :celestial/orbit #:circle-orbit {:start-position (m.planet/random-position 4.072900 saturn-spin-axis)
                                      :radius 4.072900
                                      :axis saturn-spin-axis
-                                     :angular-velocity (period-to-angular-velocity 15.945)
+                                     :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 15.945)
 
                                      :orbit/type :circle-orbit
                                      :orbit/period 15.945
@@ -696,7 +681,7 @@ ecliptic-axis
                                      :orbit/show? false}
     :celestial/spin #:spin {:axis saturn-spin-axis
                             :period 15.945
-                            :angular-velocity (period-to-angular-velocity 15.945)}
+                            :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 15.945)}
     :celestial/gltf #:gltf {:url "models/16-solar/Titan_1_5150.glb"
                             :scale [0.002 0.002 0.002]
                             :shadow? false}
@@ -718,7 +703,7 @@ ecliptic-axis
                                      :start-position (m.planet/random-position 9569.907333 ecliptic-axis)
                                      :radius 9569.907333
                                      :axis ecliptic-axis
-                                     :angular-velocity (period-to-angular-velocity (* 84.02 365))
+                                     :angular-velocity (shu.angle/period-to-angular-velocity-in-radians (* 84.02 365))
 
                                      :orbit/type :circle-orbit
                                      :orbit/period (* 84.02 365)
@@ -726,7 +711,7 @@ ecliptic-axis
                                      :orbit/show? false}
     :celestial/spin #:spin {:axis (m.spin/cal-spin-axis 257.311 -15.175)
                             :period 0.718
-                            :angular-velocity (period-to-angular-velocity 0.718)}
+                            :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 0.718)}
     :celestial/gltf #:gltf {:url "models/16-solar/Uranus_1_51118.glb"
                             :scale [0.002 0.002 0.002]}
     :celestial/clock [:clock/name "default"]
@@ -751,7 +736,7 @@ ecliptic-axis
                                      :radius 14994.17633
                                      :start-position (m.planet/random-position 14994.17633 ecliptic-axis)
                                      :axis ecliptic-axis
-                                     :angular-velocity (period-to-angular-velocity (* 164.79 365))
+                                     :angular-velocity (shu.angle/period-to-angular-velocity-in-radians (* 164.79 365))
 
                                      :orbit/type :circle-orbit
                                      :orbit/period (* 164.79 365)
@@ -759,7 +744,7 @@ ecliptic-axis
                                      :orbit/show? false}
     :celestial/spin #:spin {:axis neptune-spin-axis
                             :period 0.67125
-                            :angular-velocity (period-to-angular-velocity 0.67125)}
+                            :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 0.67125)}
     :celestial/gltf #:gltf {:url "models/16-solar/Neptune_1_49528.glb"
                             :scale [0.002 0.002 0.002]}
     :celestial/clock [:clock/name "default"]
@@ -785,7 +770,7 @@ ecliptic-axis
     :celestial/orbit #:circle-orbit {:start-position (m.planet/random-position 1.182530 triton-orbit-axis)
                                      :radius 1.182530
                                      :axis triton-orbit-axis
-                                     :angular-velocity (period-to-angular-velocity 5.876854)
+                                     :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 5.876854)
 
                                      :orbit/type :circle-orbit
                                      :orbit/period 5.876854
@@ -793,7 +778,7 @@ ecliptic-axis
                                      :orbit/show? false}
     :celestial/spin #:spin {:axis triton-orbit-axis
                             :period 5.876854
-                            :angular-velocity (period-to-angular-velocity 5.876854)}
+                            :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 5.876854)}
     :celestial/gltf #:gltf {:url "models/16-solar/Triton_1_2707.glb"
                             :scale [0.002 0.002 0.002]}
     :celestial/clock [:clock/name "default"]
@@ -833,10 +818,10 @@ ecliptic-axis
                     :start-position (m.planet/random-position 19687.93333 ecliptic-axis)
                     :axis ecliptic-axis
                     :period (* 247.92 365)
-                    :angular-velocity (period-to-angular-velocity (* 247.92 365))}
+                    :angular-velocity (shu.angle/period-to-angular-velocity-in-radians (* 247.92 365))}
     :celestial/spin #:spin {:axis pluto-spin-axis
                             :period 6.387230
-                            :angular-velocity (period-to-angular-velocity 6.387230)}
+                            :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 6.387230)}
     :celestial/gltf #:gltf {:url "models/16-solar/Pluto_1_2374.glb"
                             :scale [0.002 0.002 0.002]}
     :celestial/clock [:clock/name "default"]
@@ -857,7 +842,7 @@ ecliptic-axis
     :celestial/orbit #:circle-orbit {:start-position (m.planet/random-position 0.065237 pluto-spin-axis)
                                      :radius 0.065237
                                      :axis pluto-spin-axis
-                                     :angular-velocity (period-to-angular-velocity 6.387230)
+                                     :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 6.387230)
 
                                      :orbit/type :circle-orbit
                                      :orbit/period 6.387230
@@ -865,7 +850,7 @@ ecliptic-axis
                                      :orbit/show? false}
     :celestial/spin #:spin {:axis pluto-spin-axis
                             :period 6.387230
-                            :angular-velocity (period-to-angular-velocity 6.387230)}
+                            :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 6.387230)}
     :celestial/gltf #:gltf {:url "models/16-solar/Charon_1_2.glb"
                             :scale [0.002 0.002 0.002]
                             :shadow? false}
@@ -926,7 +911,7 @@ ecliptic-axis
                                       :orbit/show? false}
     :celestial/spin #:spin {:axis (m.spin/cal-spin-axis 282.6	-13)
                             :period 0.163139208
-                            :angular-velocity (period-to-angular-velocity 0.163139208)}
+                            :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 0.163139208)}
     :celestial/gltf #:gltf {:url "models/16-solar/Haumea_1_1000.glb"
                             :scale [0.002 0.002 0.002]}
     :celestial/clock [:clock/name "default"]
@@ -957,7 +942,7 @@ ecliptic-axis
                                       :orbit/radius 8899.251333}
     ;; :celestial/spin #:spin {:axis pluto-spin-axis
     ;;                         :period 6.387230
-    ;;                         :angular-velocity (period-to-angular-velocity 6.387230)}
+    ;;                         :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 6.387230)}
     :celestial/gltf #:gltf {:url "models/16-solar/Bennu_1_1.glb"
                             :scale [0.002 0.002 0.002]}
     :celestial/clock [:clock/name "default"]

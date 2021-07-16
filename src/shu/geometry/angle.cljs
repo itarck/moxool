@@ -3,8 +3,8 @@
    [goog.math :as gmath]))
 
 ;; 角度有三种表示， 度数、弧度、小时，其中度数和小时还可以parse到minutes和seconds
-;; #:angle{:degree 300}
 
+;; 1. 角度制 一个圆周是360度
 
 (defn standard-angle-in-degrees
   ";; standardAngle (angle) → number
@@ -35,6 +35,10 @@
      :minute minute
      :second second}))
 
+(defn period-to-angular-velocity-in-degrees [period]
+  (/ 360 period))
+
+
 ;; 2 弧度制
 
 (defn standard-angle-in-radians
@@ -49,6 +53,9 @@
   (gmath/toRadians angle-in-degree))
 
 (def convert-degrees-to-radians to-radians)
+
+(defn period-to-angular-velocity-in-radians [period]
+  (/ (* 2 Math/PI) period))
 
 ;; 3. 天文学的经度使用的小时制，一个圆周是24小时
 
@@ -77,14 +84,6 @@
 
 
 (comment 
-  
-  (gen-degrees (parse-degrees 34553.3466793))
-
-  (convert-hours-to-degrees (convert-degrees-to-hours 34.2394623))
-
-  (int -5.2)
-  (rem -5.4 1)
-
 
   ;; 
   )

@@ -34,13 +34,16 @@
 ecliptic-axis
 ;; => #object[Vector3 [-0.3977771559301344 0.9174820620699532 0]]
 
+(def lunar-axis
+  (let [ang (+ ecliptic-angle 5.15)]
+    [(- (Math/sin (gmath/to-radians ang)))
+     (Math/cos (gmath/to-radians ang))
+     0]))
 
 (defn period-to-angular-velocity [period]
   (/ (* 2 Math/PI) period))
 
 (def date-time-1 (t/date-time 2010 7 2))
-
-(def lunar-axis-in-date-time-1 (from-ecliptic-to-equatorial (cal-vector 192 84.85)))
 
 (def lunar-axis
   (v3/apply-axis-angle

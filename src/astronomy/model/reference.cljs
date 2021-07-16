@@ -18,6 +18,8 @@
 
 (comment
 
+  
+
   (def ref-1
     #:reference {:name "黄道天球参考系-太阳中心"
                  :center {:type :static
@@ -49,6 +51,14 @@
                           :track-position [:planet/name "earth"]}
                  :orientation  {:type :dynamic
                                 :track-rotation [:planet/name "earth"]}})
+  
+  #:reference {:name "黄道天球参考系-太阳中心"
+               :clock [:clock/name "default"]
+               :center-type :static
+               :center-position [0 0 0]
+               :orientation-type :static
+               :orientation-quaternion [0 0 0 1]}
+  
 ;; 
   )
 
