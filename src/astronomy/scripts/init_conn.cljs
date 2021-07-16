@@ -51,8 +51,29 @@
                 :position [0 0 0]
                 :quaternion [0 0 0 1]})
 
+(def reference-1
+  #:reference {:db/id -101
+               :name "赤道天球坐标系-太阳中心"
+               :clock [:clock/name "default"]
+               :center-type :static
+               :center-position [0 0 0]
+               :orientation-type :static
+               :orientation-quaternion [0 0 0 1]
+               :position [0 0 0]
+               :quaternion [0 0 0 1]})
+
+(def reference-2
+  #:reference {:db/id -102
+               :name "赤道天球坐标系-地球中心"
+               :clock [:clock/name "default"]
+               :center-type :dynamic
+               :center-object {:db/id [:planet/name "earth"]}
+               :orientation-type :static
+               :orientation-quaternion [0 0 0 1]})
+
 (def scene
   #:astro-scene {:coordinate -10
+                 :reference -102
                  :camera [:camera/name "default"]
                  :clock [:clock/name "default"]
                  :celestial-scale 1
@@ -1290,7 +1311,7 @@ galaxy-quaternion
                       ;;  saturn 
                       ;;  titan uranus neptune triton pluto charon 
                       ;;  eris haumea halley
-                       galaxy coordinate-1 atmosphere
+                       galaxy coordinate-1 reference-2 atmosphere
                        horizontal-coordinate-1 horizontal-coordinate-2 horizontal-coordinate-3])
     (d/transact! conn constellation-families)
     (d/transact! conn [spaceship-camera-control person1 universe-tool-1 clock-tool1 info-tool

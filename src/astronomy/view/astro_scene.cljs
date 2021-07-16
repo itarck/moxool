@@ -6,6 +6,7 @@
    [shu.three.vector3 :as v3]
    [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.model.coordinate :as m.coordinate]
+   [astronomy.model.reference :as m.reference]
    [astronomy.view.background :as v.background]
    [astronomy.view.constellation :as v.constel]
    [astronomy.view.star :as v.star]
@@ -20,6 +21,7 @@
         objects (m.scene/sub-objects conn (:db/id astro-scene))
         spaceship-camera-control @(p/pull conn '[*] (get-in props [:spaceship-camera-control :db/id]))
         coor-1 @(p/pull conn '[*] (get-in astro-scene [:astro-scene/coordinate :db/id]))
+        reference-1 @(p/pull conn '[*] (get-in astro-scene [:astro-scene/reference :db/id]))
         has-day-light? (m.astro-scene/has-day-light? coor-1 spaceship-camera-control atmosphere 0.5)
         has-atmosphere? (m.astro-scene/has-day-light? coor-1 spaceship-camera-control atmosphere 0.55)]
     ;; (println "scene view mounted ?? ")
@@ -28,7 +30,9 @@
       [v.atmosphere/AtmosphereView {:has-atmosphere? has-atmosphere?} env]
 
       [:group {:matrixAutoUpdate false
-               :matrix (m.coordinate/cal-invert-matrix coor-1)}
+               :matrix (m.reference/cal-invert-matrix reference-1)
+              ;;  :matrix (m.coordinate/cal-invert-matrix coor-1)
+               }
 
        [v.constel/ConstellationsView {:has-day-light? has-day-light?} env]
 

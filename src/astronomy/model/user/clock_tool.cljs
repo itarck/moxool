@@ -4,7 +4,8 @@
    [posh.reagent :as p]
    [astronomy.model.clock :as m.clock]
    [astronomy.model.celestial :as m.celestial]
-   [astronomy.model.coordinate :as m.coordinate]))
+   [astronomy.model.coordinate :as m.coordinate]
+   [astronomy.model.reference :as m.reference]))
 
 
 
@@ -41,7 +42,9 @@
         celes (m.celestial/find-all-by-clock db1 clock-id)
         tx1 (mapcat #(m.celestial/update-position-and-quaternion-tx %) celes)
         db2 (d/db-with db1 tx1)
-        coordinate-ids (m.coordinate/find-ids-by-clock db1 clock-id)
-        tx2 (mapcat #(m.coordinate/update-coordinate-tx db2 %) coordinate-ids)]
+        ;; coordinate-ids (m.coordinate/find-ids-by-clock db1 clock-id)
+        ;; tx2 (mapcat #(m.coordinate/update-coordinate-tx db2 %) coordinate-ids)
+        ref-ids (m.reference/find-ids-by-clock db1 clock-id)
+        tx2 (mapcat #(m.reference/update-reference-tx db2 %) ref-ids)]
     (concat tx0 tx1 tx2)))
 

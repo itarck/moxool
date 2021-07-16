@@ -17,6 +17,7 @@
 
 (def schema
   #:astro-scene{:coordinate {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
+                :reference {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
                 :clock {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
                 :camera {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}})
 
