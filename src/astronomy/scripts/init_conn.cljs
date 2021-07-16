@@ -15,6 +15,7 @@
    [shu.astronomy.light :as shu.light]
    [methodology.model.user.backpack :as m.backpack]
    [methodology.model.core :as mtd-model]
+   [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.model.const :refer [ecliptic-axis ecliptic-quaternion]]
    [astronomy.model.ellipse-orbit :as m.ellipse-orbit]
    [astronomy.model.core :as ast-model]
@@ -22,7 +23,6 @@
    [astronomy.model.planet :as m.planet]
    [astronomy.model.star :as m.star]
    [astronomy.model.spin :as m.spin]
-   [astronomy.model.user.clock-tool :as m.clock-tool]
    [astronomy.model.moon-orbit :as m.moon-orbit :refer [lunar-axis-j2000]]))
 
 (def schema (merge ast-model/schema
@@ -1284,8 +1284,9 @@ galaxy-quaternion
 (defn kick-start! [conn]
   (let [clock-id [:clock/name "default"]
         time-in-days 0
-        tx (m.clock-tool/update-by-clock-time-tx @conn clock-id time-in-days)]
-    (p/transact! conn tx)))
+        astro-scene (d/pull @conn '[*] [:scene/name "solar"])]
+    (p/transact! conn (m.clock/set-clock-time-in-days-tx clock-id time-in-days))
+    (p/transact! conn (m.astro-scene/after-clock-updated-tx @conn astro-scene))))
 
 
 (defn init-conn! []

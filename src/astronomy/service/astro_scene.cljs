@@ -8,6 +8,11 @@
 
 (defmulti handle-event! (fn [props env event] (:event/action event)))
 
+(defmethod handle-event! :astro-scene/after-clock-updated
+  [props {:keys [conn]} {:event/keys [detail]}]
+  (let [astro-scene @(p/pull conn '[*] (get-in props [:astro-scene :db/id]))
+        tx (m.astro-scene/after-clock-updated-tx @conn astro-scene)]
+    (p/transact! conn tx)))
 
 
 (defn init-service! [props {:keys [process-chan] :as env}]

@@ -2,7 +2,9 @@
   (:require
    [datascript.core :as d]
    [posh.reagent :as p]
-   [shu.three.vector3 :as v3]))
+   [shu.three.vector3 :as v3]
+   [astronomy.model.celestial :as m.celestial]
+   [astronomy.model.reference :as m.reference]))
 
 
 (def sample
@@ -51,4 +53,13 @@
      has-day-light)))
 
 ;; tx
+
+(defn after-clock-updated-tx [db1 astro-scene]
+  (let [clock-id (get-in astro-scene [:astro-scene/clock :db/id])
+        celes (m.celestial/find-all-by-clock db1 clock-id)
+        tx1 (mapcat #(m.celestial/update-position-and-quaternion-tx %) celes)
+        db2 (d/db-with db1 tx1)
+        ref-id (get-in astro-scene [:astro-scene/reference :db/id])
+        tx2 (m.reference/update-reference-tx db2 ref-id)]
+    (concat tx1 tx2)))
 
