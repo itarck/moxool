@@ -15,12 +15,6 @@
 (def schema {})
 
 
-(defn cal-vector [longitude latitude]
-  (v3/from-spherical-coords
-   1
-   (gmath/to-radians (- 90.0 latitude))
-   (gmath/to-radians longitude)))
-
 (defn from-ecliptic-to-equatorial [vector-in-ecliptic]
   (v3/apply-axis-angle vector-in-ecliptic (v3/vector3 0 0 1) (gmath/to-radians ecliptic-angle)))
 

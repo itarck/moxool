@@ -4,7 +4,10 @@
    [shu.three.vector3 :as v3]
    [shu.goog.math :as gmath]
    [cljs-time.core :as t]
-   [shu.calendar.epoch :as epoch]))
+   [shu.geometry.angle :as shu.angle]
+   [shu.calendar.epoch :as epoch]
+   [shu.astronomy.celestial-coordinate :as shu.cc]
+   [astronomy.model.const :refer [ecliptic-angle ecliptic-axis]]))
 
 ;; 带轴进动的圆形轨道
 ;; 按照参考点 2010-7-2，黄经 192度，黄纬 84.85度。轴进动的周期是6798天，顺时针方向
@@ -14,13 +17,6 @@
 
 (def schema {})
 
-(def ecliptic-angle 23.439291111)
-
-(defn cal-vector [longitude latitude]
-  (v3/from-spherical-coords
-   1
-   (gmath/to-radians (- 90.0 latitude))
-   (gmath/to-radians longitude)))
 
 (defn from-ecliptic-to-equatorial [vector-in-ecliptic]
   (v3/apply-axis-angle vector-in-ecliptic (v3/vector3 0 0 1) (gmath/to-radians ecliptic-angle)))
@@ -28,25 +24,16 @@
 (defn from-equatorial-to-ecliptic [vector-in-equatorial]
   (v3/apply-axis-angle vector-in-equatorial (v3/vector3 0 0 1) (gmath/to-radians ecliptic-angle)))
 
-(def ecliptic-axis
-  (from-ecliptic-to-equatorial (v3/vector3 0 1 0)))
-
-ecliptic-axis
-;; => #object[Vector3 [-0.3977771559301344 0.9174820620699532 0]]
-
-(defn period-to-angular-velocity [period]
-  (/ (* 2 Math/PI) period))
-
-(defn period-to-angular-velocity-in-degree [period]
-  (/ 360 period))
-
 
 (def lunar-axis-j2000
   (v3/apply-axis-angle
-   (from-ecliptic-to-equatorial (cal-vector 192 84.85))
+   (->
+    (shu.cc/celestial-coordinate 192 84.85)
+    (shu.cc/to-unit-vector)
+    (from-ecliptic-to-equatorial))
    ecliptic-axis
    (* (epoch/to-epoch-days (t/date-time 2010 7 2))
-      (period-to-angular-velocity 6798))))
+      (shu.angle/period-to-angular-velocity-in-radians 6798))))
 
 lunar-axis-j2000
 ;; => #object[Vector3 [-0.34885989419537267 0.9342903258325582 0.07347354134438353]]
@@ -55,7 +42,7 @@ lunar-axis-j2000
 (def moon-sample1
   #:moon-orbit {:axis (seq lunar-axis-j2000)
                 :axis-precession-center (seq ecliptic-axis)
-                :axis-precession-velocity (period-to-angular-velocity-in-degree -6798)
+                :axis-precession-velocity (shu.angle/period-to-angular-velocity-in-degrees -6798)
 
                 :epoch-days-j20110615 4183.343103981481
 
@@ -67,11 +54,11 @@ lunar-axis-j2000
                 :argument-of-periapsis-j20110615 282.31
                 :mean-anomaly-j20110615 73.9
 
-                :angular-velocity (period-to-angular-velocity-in-degree 27.321661)
-                :anomaly-angular-velocity (period-to-angular-velocity-in-degree 27.554549886)
-                :perigee-angular-velocity-eme2000 (period-to-angular-velocity-in-degree 3233)
-                :perigee-angular-velocity-emo2000 (period-to-angular-velocity-in-degree 2191)
-                :nodical-angular-velocity (period-to-angular-velocity-in-degree 27.21222082)
+                :angular-velocity (shu.angle/period-to-angular-velocity-in-degrees 27.321661)
+                :anomaly-angular-velocity (shu.angle/period-to-angular-velocity-in-degrees 27.554549886)
+                :perigee-angular-velocity-eme2000 (shu.angle/period-to-angular-velocity-in-degrees 3233)
+                :perigee-angular-velocity-emo2000 (shu.angle/period-to-angular-velocity-in-degrees 2191)
+                :nodical-angular-velocity (shu.angle/period-to-angular-velocity-in-degrees 27.21222082)
                 :anomaly-month 27.554549886
                 :nodical-month 27.21222082
 
