@@ -1,19 +1,24 @@
 (ns astronomy.model.test-satellite
   (:require
-   [shu.three.matrix4 :as m4]
-   [astronomy.test-conn :refer [create-poshed-conn!]]
+   [cljs.test :refer-macros [deftest is testing run-tests]]
+   [posh.reagent :as p]
+   [shu.three.vector3 :as v3]
+   [astronomy.scripts.test-conn :refer [create-test-conn!]]
    [astronomy.model.satellite :as m.satellite]))
 
 
-(def test-conn (create-poshed-conn!))
+(def conn (create-test-conn!))
 
 
-(def moon-id [:satellite/name "moon"])
-
-(def satellite-2 (m.satellite/pull-satellite-fully @test-conn moon-id))
-
-satellite-2
-
-(m.satellite/cal-world-position satellite-2)
+(def wide-moon
+  @(p/pull conn m.satellite/wide-selector 
+           [:satellite/name "moon"]))
 
 
+(deftest test-wide-moon 
+  (is (get-in wide-moon [:celestial/clock :clock/time-in-days]) )
+  (is (= (get-in wide-moon [:satellite/planet :planet/star :star/name]) "sun"))
+  (is (> (v3/length (v3/from-seq (m.satellite/cal-world-position2 wide-moon))) 400)))
+
+
+(run-tests)

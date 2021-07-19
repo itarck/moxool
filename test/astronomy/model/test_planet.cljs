@@ -1,12 +1,10 @@
 (ns astronomy.model.test-planet
   (:require
-   [shu.three.matrix4 :as m4]
-   [astronomy.test-conn :refer [create-poshed-conn!]]
-   [astronomy.model.planet :as m.planet]
-   [astronomy.model.celestial :as m.celestial]))
+   [cljs.test :refer-macros [deftest is testing run-tests]]
+   [astronomy.scripts.test-conn :refer [create-test-conn!]]
+   [posh.reagent :as p]
+   [astronomy.model.planet :as m.planet]))
 
-
-(def test-conn (create-poshed-conn!))
 
 (def planet-1
   #:planet {:name "earth"
@@ -29,26 +27,18 @@
             :entity/type :planet})
 
 
-(def planet-fully
-  (m.planet/pull-planet-fully @test-conn
-                              [:planet/name "earth"]))
+(def conn (create-test-conn!))
 
 
-(m.planet/cal-local-position planet-1 0.25)
-;; => #object[Vector3 [-1.924600834835104 -0.962300417417552 -499.99536986809505]]
+(def earth
+  @(p/pull conn '[* {:planet/star [*]}]
+           [:planet/name "earth"]))
 
+(:celestial/orbit earth)
 
-(m.planet/cal-local-quaternion planet-1 0.5)
-;; => #object[Quaternion [0 -3.9163938347251765e-15 0 1]]
+(deftest test-planet
+  (is (= (get-in earth [:planet/star :star/name])
+         "sun")))
 
+(run-tests)
 
-(m.planet/cal-local-matrix planet-1 0.25)
-;; => #object[Matrix4 
-;;           2.220446049250313e-16, 0, 1, -1.924600834835104
-;;           0, 1, 0, -0.962300417417552
-;;           -1, 0, 2.220446049250313e-16, -499.99536986809505
-;;           0, 0, 0, 1]
-
-
-
-(m.planet/cal-world-position planet-fully)

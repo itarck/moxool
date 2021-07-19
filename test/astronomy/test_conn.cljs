@@ -5,9 +5,20 @@
    [datascript.core :as d]
    [datascript.transit :as dt]
    [posh.reagent :as p]
+   [methodology.model.core :as mtd-model]
+   [astronomy.model.core :as ast-model]
    [astronomy.app.scene-free :as scene-free]
    [astronomy.model.constellation :as m.constel]))
 
+
+(def schema (merge ast-model/schema
+                   mtd-model/schema))
+
+
+(defn create-empty-conn! []
+  (let [conn (d/create-conn schema)]
+    (p/posh! conn)
+    conn))
 
 
 (defn create-poshed-conn! []

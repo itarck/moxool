@@ -1,4 +1,4 @@
-(ns astronomy.scripts.init-conn
+(ns astronomy.scripts.test-conn
   (:require
    [cljs.reader :refer [read-string]]
    [cljs.core.async :refer [go >! <! chan]]
@@ -1289,7 +1289,7 @@ galaxy-quaternion
     (p/transact! conn (m.astro-scene/refresh-tx @conn astro-scene))))
 
 
-(defn init-conn! []
+(defn create-test-conn! []
   (let [conn (d/create-conn schema)]
     (d/transact! conn [camera clock scene
                        sun
@@ -1326,68 +1326,14 @@ galaxy-quaternion
       )
 
     (kick-start! conn)
+    (p/posh! conn)
     conn))
 
 
-(defn async-prepare! []
-  (let [ch (chan)
-        local-ref (atom {})]
-    (go
-      (let [response (<! (http/get "/edn/stars.edn"))]
-        (swap! local-ref assoc :stars (read-string (:body response))))
-      (let [response (<! (http/get "/edn/constellation1.edn"))
-            constel1 (read-string (:body response))]
-        (swap! local-ref assoc :constellations1 constel1))
-      (let [response (<! (http/get "/edn/constellation2.edn"))]
-        (swap! local-ref assoc :constellations2 (read-string (:body response))))
-      (>! ch @local-ref))
-    ch))
+(comment 
+  
+  (def conn-1 (create-test-conn!))
+  
+  conn-1
 
-
-(defn load-stars! [conn stars]
-  (let [tx (mapv m.star/parse-raw-bsc-data stars)]
-    (d/transact! conn tx)))
-
-(defn parse-star-line [conn HR-line]
-  (mapv (fn [HR] (:db/id (d/pull @conn '[:db/id] [:star/HR HR]))) HR-line))
-
-(defn parse-constellation [conn constellation]
-  (let [star-lines (vec
-                    (for [line (:constellation/star-HR-lines constellation)]
-                      (parse-star-line conn line)))
-        abbreviation (:constellation/abbreviation constellation)]
-    #:constellation {:abbreviation abbreviation
-                     :star-lines star-lines
-                    ;;  :object/scene (:object/scene constellation)
-                     }))
-
-(defn load-constellations1! [conn constellations]
-  (let [tx (mapv (fn [constel] (parse-constellation conn constel)) constellations)]
-    (d/transact! conn tx)))
-
-(defn load-constellations2! [conn constellations]
-  (d/transact! conn constellations))
-
-(defn load-dataset! [conn dataset]
-  (let [{:keys [stars constellations1 constellations2]} dataset]
-    (load-stars! conn stars)
-    (load-constellations1! conn constellations1)
-    (load-constellations2! conn constellations2)))
-
-
-(defn async-run! []
-  (let [ch (chan)
-        conn (init-conn!)]
-    (println "async-run init-conn !!!!")
-    (go
-      (let [dataset (<! (async-prepare!))]
-        (load-dataset! conn dataset))
-      (let [db-name "free-mode.edn"
-            response (<! (http/post "/api/db/save" {:edn-params {:db-name db-name
-                                                                 :db-value (dt/write-transit-str @conn)}}))]
-        (println (:body response)))
-      (>! ch @conn))
-    ch))
-
-
-(async-run!)
+  )

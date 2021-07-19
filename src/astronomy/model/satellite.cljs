@@ -36,10 +36,23 @@
     :entity/type :satellite})
 
 
+;; selector
+
+(def wide-selector '[* {:satellite/planet [* {:planet/star [*]}]
+                        :celestial/clock [*]}])
+
+
 (defn cal-world-position [db satellite]
   (let [planet (d/pull db '[*] (-> satellite :satellite/planet :db/id))
         star (d/pull db '[*] (-> planet :planet/star :db/id))]
     (mapv + (:object/position satellite)
+          (:object/position planet)
+          (:object/position star))))
+
+(defn cal-world-position2 [wide-satellite]
+  (let [planet (get-in wide-satellite [:satellite/planet])
+        star (get-in planet [:planet/star])]
+    (mapv + (:object/position wide-satellite)
           (:object/position planet)
           (:object/position star))))
 
