@@ -17,6 +17,7 @@
    [astronomy.model.horizontal-coordinate :as m.horizon]
    [astronomy.model.coordinate :as m.coordinate]
    [astronomy.model.astronomical-coordinate :as m.astronomical-coordinate]
+   [astronomy.model.terrestrial-coordinate :as m.terrestrial-coordinate]
 
    [astronomy.model.user.universe-tool :as m.universe-tool]
    [astronomy.model.user.clock-tool :as m.clock-tool]
@@ -45,6 +46,7 @@
    m.horizon/schema
    m.coordinate/schema 
    m.astronomical-coordinate/schema
+   m.terrestrial-coordinate/schema
 
    m.universe-tool/schema
    m.clock-tool/schema

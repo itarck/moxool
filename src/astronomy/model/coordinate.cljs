@@ -1,7 +1,8 @@
 (ns astronomy.model.coordinate
   (:require 
    [posh.reagent :as p]
-   [astronomy.model.astronomical-coordinate :as m.astronomical-coordinate]))
+   [astronomy.model.astronomical-coordinate :as m.astronomical-coordinate]
+   [astronomy.model.terrestrial-coordinate :as m.terrestrial-coordinate]))
 
 
 (def schema {:coordinate/name {:db/unique :db.unique/identity}})
@@ -26,4 +27,5 @@
 
 (defn update-position-and-quaternion-tx [db coordinate]
   (case (:coordinate/type coordinate)
-    :astronomical-coordinate (m.astronomical-coordinate/update-position-tx db coordinate)))
+    :astronomical-coordinate (m.astronomical-coordinate/update-position-tx db coordinate)
+    :terrestrial-coordinate (m.terrestrial-coordinate/update-position-and-quaternion-tx db coordinate)))
