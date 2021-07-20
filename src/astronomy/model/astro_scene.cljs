@@ -63,7 +63,8 @@
         db2 (d/db-with db1 tx1)
         ;; ref-id (get-in astro-scene [:astro-scene/reference :db/id])
         ;; tx2 (m.reference/update-reference-tx db2 ref-id)
-        coor (d/pull db2 '[*] (get-in astro-scene [:astro-scene/coordinate :db/id]))
-        tx2 (m.coordinate/update-position-and-quaternion-tx db2 coor)]
+        coor-ids (m.coordinate/find-all-ids db2)
+        tx2 (mapcat (fn [id] (m.coordinate/update-position-and-quaternion-tx db2 id)) coor-ids)]
+    (println "scene refresh-tx " tx2)
     (concat tx1 tx2)))
 

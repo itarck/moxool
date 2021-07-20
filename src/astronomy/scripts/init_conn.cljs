@@ -1004,10 +1004,13 @@
 
 (def astronomical-coordinate-1
   #:astronomical-coordinate {:db/id -1001
+                             :entity/type :coordinate
                              :object/position [0 0 0]
                              :object/quaternion [0 0 0 1]
+                             :object/scene [:scene/name "solar"]
                              :coordinate/name "赤道天球坐标系"
                              :coordinate/type :astronomical-coordinate
+                             :coordinate/radius 10000
                              :astronomical-coordinate/center-candidates [{:db/id [:planet/name "earth"]}
                                                                          {:db/id [:planet/name "sun"]}]
                              :astronomical-coordinate/center-object [:planet/name "earth"]
@@ -1019,19 +1022,23 @@
                              :object/quaternion (seq m.const/ecliptic-quaternion)
                              :coordinate/name "黄道天球坐标系"
                              :coordinate/type :astronomical-coordinate
+                             :coordinate/radius 10000
                              :astronomical-coordinate/center-candidates [{:db/id [:planet/name "earth"]}
                                                                          {:db/id [:planet/name "sun"]}]
                              :astronomical-coordinate/center-object [:planet/name "earth"]
-                             :astronomical-coordinate/quaternion [0 0 0 1]})
+                             :astronomical-coordinate/quaternion (seq m.const/ecliptic-quaternion)})
 
 (def terrestrial-coordinate-1
   #:terrestrial-coordinate {:db/id -1003
-                           :object/position [0 0 0]
-                           :object/quaternion [0 0 0 1]
-                           :coordinate/name "地球坐标系"
-                           :coordinate/type :terrestrial-coordinate
+                            :entity/type :terrestrial-coordinate
+                            :object/position [0 0 0]
+                            :object/quaternion [0 0 0 1]
+                            :object/scene [:scene/name "solar"]
+                            :coordinate/name "地球坐标系"
+                            :coordinate/type :terrestrial-coordinate
+                            :coordinate/radius 0.025
 
-                           :terrestrial-coordinate/center-object [:planet/name "earth"]})
+                            :terrestrial-coordinate/center-object [:planet/name "earth"]})
 
 (def constellation-families 
   [#:constellation-family {:chinese-name "黄道", :color "orange"}
@@ -1421,6 +1428,8 @@ galaxy-quaternion
         (println (:body response)))
       (>! ch @conn))
     ch))
+;; => nil
+
 
 
 (async-run!)

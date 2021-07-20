@@ -1004,6 +1004,7 @@
 
 (def astronomical-coordinate-1
   #:astronomical-coordinate {:db/id -1001
+                             :entity/type :astronomical-coordinate
                              :object/position [0 0 0]
                              :object/quaternion [0 0 0 1]
                              :coordinate/name "赤道天球坐标系"
@@ -1015,6 +1016,7 @@
 
 (def astronomical-coordinate-2
   #:astronomical-coordinate {:db/id -1002
+                             :entity/type :astronomical-coordinate
                              :object/position [0 0 0]
                              :object/quaternion (seq m.const/ecliptic-quaternion)
                              :coordinate/name "黄道天球坐标系"
@@ -1024,13 +1026,14 @@
                              :astronomical-coordinate/center-object [:planet/name "earth"]
                              :astronomical-coordinate/quaternion [0 0 0 1]})
 
-(def terrestial-coordinate-1
-  #:terrestial-coordinate {:object/position [0 0 0]
-                           :object/quaternion [0 0 0 1]
-                           :coordinate/name "地球坐标系"
-                           :coordinate/type :terrestial-coordinate
+(def terrestrial-coordinate-1
+  #:terrestrial-coordinate {:entity/type :terrestrial-coordinate
+                            :object/position [0 0 0]
+                            :object/quaternion [0 0 0 1]
+                            :coordinate/name "地球坐标系"
+                            :coordinate/type :terrestrial-coordinate
 
-                           :terrestial-coordinate/center-object [:planet/name "earth"]})
+                            :terrestrial-coordinate/center-object [:planet/name "earth"]})
 
 (def constellation-families 
   [#:constellation-family {:chinese-name "黄道", :color "orange"}
@@ -1336,7 +1339,7 @@ galaxy-quaternion
                       ;;  eris haumea halley
                        galaxy reference-1 reference-2 reference-3 atmosphere
                        horizontal-coordinate-1 horizontal-coordinate-2 horizontal-coordinate-3
-                       astronomical-coordinate-1 astronomical-coordinate-2 terrestial-coordinate-1])
+                       astronomical-coordinate-1 astronomical-coordinate-2 terrestrial-coordinate-1])
     (d/transact! conn constellation-families)
     (d/transact! conn [spaceship-camera-control person1 universe-tool-1 clock-tool1 info-tool
                        ppt-tool horizontal-coordinate-tool-1 goto-tool-1

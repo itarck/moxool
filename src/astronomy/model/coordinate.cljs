@@ -1,5 +1,6 @@
 (ns astronomy.model.coordinate
   (:require 
+   [datascript.core :as d]
    [posh.reagent :as p]
    [astronomy.model.astronomical-coordinate :as m.astronomical-coordinate]
    [astronomy.model.terrestrial-coordinate :as m.terrestrial-coordinate]))
@@ -16,6 +17,13 @@
   
   )
 
+;; find 
+
+(defn find-all-ids [db]
+  (d/q '[:find [?id ...]
+         :where [?id :coordinate/name _]]
+        db))
+
 ;; sub
 
 (defn sub-all-coordinate-names [conn]
@@ -25,7 +33,8 @@
 
 ;; tx
 
-(defn update-position-and-quaternion-tx [db coordinate]
-  (case (:coordinate/type coordinate)
-    :astronomical-coordinate (m.astronomical-coordinate/update-position-tx db coordinate)
-    :terrestrial-coordinate (m.terrestrial-coordinate/update-position-and-quaternion-tx db coordinate)))
+(defn update-position-and-quaternion-tx [db coordinate-id]
+  (let [coordinate (d/pull db '[*] coordinate-id)]
+    (case (:coordinate/type coordinate)
+      :astronomical-coordinate (m.astronomical-coordinate/update-position-and-quaternion-tx db coordinate-id)
+      :terrestrial-coordinate (m.terrestrial-coordinate/update-position-and-quaternion-tx db coordinate-id))))

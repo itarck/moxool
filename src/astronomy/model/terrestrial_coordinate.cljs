@@ -2,7 +2,9 @@
   (:require
    [cljs.spec.alpha :as s]
    [datascript.core :as d]
-   [astronomy.model.const :as m.const]))
+   [astronomy.model.const :as m.const]
+   [astronomy.model.planet :as m.planet]
+   [astronomy.model.satellite :as m.satellite]))
 
 
 ;; * 地球坐标系：Terrestrial Coordinate
@@ -24,19 +26,23 @@
 (comment
   (def sample
     #:terrestrial-coordinate {:object/position [0 0 0]
-                             :object/quaternion [0 0 0 1]
-                             :coordinate/name "地球坐标系"
-                             :coordinate/type :terrestrial-coordinate
+                              :object/quaternion [0 0 0 1]
+                              :coordinate/name "地球坐标系"
+                              :coordinate/type :terrestrial-coordinate
 
-                             :terrestrial-coordinate/center-object [:planet/name "earth"]}))
+                              :terrestrial-coordinate/center-object [:planet/name "earth"]}))
 
 
 ;; tx
 
-(defn update-position-and-quaternion-tx [db terrestrial-coordinate]
-  {:pre [(s/assert :astronomy/terrestrial-coordinate terrestrial-coordinate)]}
-  (let [pulled-one (d/pull db '[* {:terrestrial-coordinate/center-object [*]}] (:db/id terrestrial-coordinate))]
+(defn update-position-and-quaternion-tx [db id]
+  (let [pulled-one (d/pull db '[* {:terrestrial-coordinate/center-object [*]}] id)
+        center-object (:terrestrial-coordinate/center-object pulled-one)
+        position (case (:entity/type center-object)
+                   :star (:object/position center-object)
+                   :planet (m.planet/cal-world-position db center-object)
+                   :satellite (m.satellite/cal-world-position db center-object))]
     [{:db/id (:db/id pulled-one)
-      :object/position (get-in pulled-one [:terrestrial-coordinate/center-object :object/position])
-      :object/quaternion (get-in pulled-one [:terrestrial-coordinate/center-object :object/quaternion])}]))
+      :object/position position
+      :object/quaternion (get-in center-object [:object/quaternion])}]))
 

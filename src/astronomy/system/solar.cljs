@@ -11,6 +11,8 @@
    [astronomy.view.galaxy :as v.galaxy]
    [astronomy.view.constellation :as v.constel]
    [astronomy.view.horizontal-coordinate :as v.horizon]
+   [astronomy.view.terrestrial-coordinate :as v.terrestrial-coordinate]
+   [astronomy.view.coordinate :as v.coordinate]
    
    [astronomy.view.user.universe-tool :as v.universe-tool]
    [astronomy.view.user.clock-tool :as v.clock-tool]
@@ -56,6 +58,8 @@
 (def object-libray 
   {:star v.star/StarView
    :galaxy v.galaxy/GalaxyView
+   :terrestrial-coordinate v.terrestrial-coordinate/TerrestrialCoordinateView
+   :coordinate v.coordinate/CoordinateView
    :horizontal-coordinate v.horizon/HorizontalCoordinateSceneView
    :equatorial-coordinate-tool v.ect/EquatorialCoordinateSceneView
    :constellation v.constel/ConstellationView})

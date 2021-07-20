@@ -2,7 +2,10 @@
   (:require
    [cljs.spec.alpha :as s]
    [datascript.core :as d]
-   [astronomy.model.const :as m.const]))
+   [astronomy.model.const :as m.const]
+   [astronomy.model.planet :as m.planet]
+   [astronomy.model.satellite :as m.satellite]))
+
 
 ;; 天球坐标系
 ;; * 天球坐标系：Astronomical coordinate
@@ -53,9 +56,13 @@
 
 ;; tx
 
-(defn update-position-tx [db astronomical-coordinate]
-  {:pre [(s/assert :astronomy/astronomical-coordinate astronomical-coordinate)]}
-  (let [pulled-one (d/pull db '[* {:astronomical-coordinate/center-object [:object/position]}] (:db/id astronomical-coordinate))]
+(defn update-position-and-quaternion-tx [db id]
+  (let [pulled-one (d/pull db '[* {:astronomical-coordinate/center-object [*]}] id)
+        center-object (:astronomical-coordinate/center-object pulled-one)
+        position (case (:entity/type center-object)
+                   :star (:object/position center-object)
+                   :planet (m.planet/cal-world-position db center-object)
+                   :satellite (m.satellite/cal-world-position db center-object))]
     [{:db/id (:db/id pulled-one)
-      :object/position (get-in pulled-one [:astronomical-coordinate/center-object :object/position])}]))
-
+      :object/position position
+      :object/quaternion (get-in pulled-one [:astronomical-coordinate/quaternion])}]))

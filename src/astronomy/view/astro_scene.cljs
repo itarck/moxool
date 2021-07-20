@@ -28,7 +28,7 @@
         sun-position (v3/apply-matrix4 (v3/vector3 0 0 0) invert-matrix)
         has-day-light? (m.astro-scene/has-day-light? sun-position spaceship-camera-control atmosphere 0.5)
         has-atmosphere? (m.astro-scene/has-day-light? sun-position spaceship-camera-control atmosphere 0.55)]
-    ;; (println "scene view mounted ?? " ref-invert-matrix)
+    ;; (println "astro scene view mounted ?? " invert-matrix)
     [:<>
      [:mesh {:scale [scale scale scale]}
       [v.atmosphere/AtmosphereView {:has-atmosphere? has-atmosphere?
