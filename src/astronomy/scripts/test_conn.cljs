@@ -15,6 +15,7 @@
    [shu.astronomy.light :as shu.light]
    [methodology.model.user.backpack :as m.backpack]
    [methodology.model.core :as mtd-model]
+   [astronomy.model.const :as m.const]
    [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.model.const :refer [ecliptic-axis ecliptic-quaternion]]
    [astronomy.model.ellipse-orbit :as m.ellipse-orbit]
@@ -73,6 +74,7 @@
 
 (def scene
   #:astro-scene {:reference -103
+                 :coordinate -1001
                  :camera [:camera/name "default"]
                  :clock [:clock/name "default"]
                  :celestial-scale 1
@@ -1000,10 +1002,22 @@
                           :object/scene [:scene/name "solar"]
                           :entity/type :horizontal-coordinate})
 
-(def astroonomy-coordinate-1
-  #:astronomical-coordinate {:object/position [0 0 0]
+(def astronomical-coordinate-1
+  #:astronomical-coordinate {:db/id -1001
+                             :object/position [0 0 0]
                              :object/quaternion [0 0 0 1]
                              :coordinate/name "赤道天球坐标系"
+                             :coordinate/type :astronomical-coordinate
+                             :astronomical-coordinate/center-candidates [{:db/id [:planet/name "earth"]}
+                                                                         {:db/id [:planet/name "sun"]}]
+                             :astronomical-coordinate/center-object [:planet/name "earth"]
+                             :astronomical-coordinate/quaternion [0 0 0 1]})
+
+(def astronomical-coordinate-2
+  #:astronomical-coordinate {:db/id -1002
+                             :object/position [0 0 0]
+                             :object/quaternion (seq m.const/ecliptic-quaternion)
+                             :coordinate/name "黄道天球坐标系"
                              :coordinate/type :astronomical-coordinate
                              :astronomical-coordinate/center-candidates [{:db/id [:planet/name "earth"]}
                                                                          {:db/id [:planet/name "sun"]}]
@@ -1314,7 +1328,7 @@ galaxy-quaternion
                       ;;  eris haumea halley
                        galaxy reference-1 reference-2 reference-3 atmosphere
                        horizontal-coordinate-1 horizontal-coordinate-2 horizontal-coordinate-3
-                       astroonomy-coordinate-1])
+                       astronomical-coordinate-1 astronomical-coordinate-2])
     (d/transact! conn constellation-families)
     (d/transact! conn [spaceship-camera-control person1 universe-tool-1 clock-tool1 info-tool
                        ppt-tool horizontal-coordinate-tool-1 goto-tool-1
