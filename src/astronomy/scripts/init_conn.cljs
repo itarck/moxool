@@ -1394,7 +1394,7 @@ galaxy-quaternion
     (go
       (let [dataset (<! (async-prepare!))]
         (load-dataset! conn dataset))
-      (let [db-name "free-mode.edn"
+      (let [db-name "/temp/free-mode.edn"
             response (<! (http/post "/api/db/save" {:edn-params {:db-name db-name
                                                                  :db-value (dt/write-transit-str @conn)}}))]
         (println (:body response)))

@@ -9,7 +9,7 @@
    [ring.middleware.defaults :refer [wrap-defaults site-defaults api-defaults]]))
 
 
-(def resource-folder "/Users/tizac/room/moxool/public/")
+(def resource-folder "/Users/tizac/room/moxool/public")
 
 ;; handlers
 
@@ -25,7 +25,7 @@
 (defn load-db-handler [request]
   (let [params (:body-params request)
         {:keys [db-name]} params
-        filename (when db-name (str resource-folder "db/" db-name))
+        filename (when db-name (str resource-folder db-name))
         db-value (when (and filename (.exists (io/as-file filename)))
                    (slurp filename))]
     {:status 200
@@ -36,7 +36,7 @@
 (defn save-db-handler [request]
   (let [params (:params request)
         {:keys [db-name db-value]} params
-        filename (str resource-folder "db/" db-name)]
+        filename (str resource-folder db-name)]
     (when db-value
       (spit filename db-value))
     {:status 200
@@ -46,7 +46,7 @@
 (defn upload-mp3-handler [request]
   (let [filename (get-in request [:params :filename])
         tempfile (get-in request [:params :file :tempfile])
-        localfilename (str resource-folder "mp3/" filename)]
+        localfilename (str resource-folder "/mp3/" filename)]
     (io/copy tempfile (io/file localfilename)))
   {:status 200
    :body {:status "ok"}})
