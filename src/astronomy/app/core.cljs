@@ -22,7 +22,7 @@
                               #:app {:name "astronomy"
                                      :db-url "/db/10-sphere-v2.edn"}))
 
-(defonce free-app-instance (scene-free/create-app! #:app{:scene-db-url "/edn/free-mode.edn"}))
+(defonce free-app-instance (scene-free/create-app! #:app{:scene-db-url "/db/free-mode.edn"}))
 
 
 (defn update! []

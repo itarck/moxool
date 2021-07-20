@@ -6,11 +6,13 @@
    [shu.three.vector3 :as v3]
    [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.model.reference :as m.reference]
+   [astronomy.model.object :as m.object]
+   [astronomy.model.atmosphere :as m.atmosphere]
    [astronomy.view.background :as v.background]
    [astronomy.view.constellation :as v.constel]
    [astronomy.view.star :as v.star]
-   [astronomy.model.atmosphere :as m.atmosphere]
-   [astronomy.view.atmosphere :as v.atmosphere]))
+   [astronomy.view.atmosphere :as v.atmosphere]
+   ))
 
 
 (defn AstroSceneView [props {:keys [conn object-libray] :as env}]
@@ -19,9 +21,11 @@
         {:scene/keys [scale]} astro-scene
         objects (m.scene/sub-objects conn (:db/id astro-scene))
         spaceship-camera-control @(p/pull conn '[*] (get-in props [:spaceship-camera-control :db/id]))
-        reference-1 @(p/pull conn '[*] (get-in astro-scene [:astro-scene/reference :db/id]))
-        ref-invert-matrix (m.reference/cal-invert-matrix reference-1)
-        sun-position (v3/apply-matrix4 (v3/vector3 0 0 0) ref-invert-matrix)
+        ;; reference-1 @(p/pull conn '[*] (get-in astro-scene [:astro-scene/reference :db/id]))
+        ;; ref-invert-matrix (m.reference/cal-invert-matrix reference-1)
+        coor @(p/pull conn '[*] (get-in astro-scene [:astro-scene/coordinate :db/id]))
+        invert-matrix (m.object/cal-invert-matrix coor)
+        sun-position (v3/apply-matrix4 (v3/vector3 0 0 0) invert-matrix)
         has-day-light? (m.astro-scene/has-day-light? sun-position spaceship-camera-control atmosphere 0.5)
         has-atmosphere? (m.astro-scene/has-day-light? sun-position spaceship-camera-control atmosphere 0.55)]
     ;; (println "scene view mounted ?? " ref-invert-matrix)
@@ -32,7 +36,7 @@
                                     :up (:spaceship-camera-control/up spaceship-camera-control)} env]
 
       [:group {:matrixAutoUpdate false
-               :matrix ref-invert-matrix}
+               :matrix invert-matrix}
 
        [v.constel/ConstellationsView {:has-day-light? has-day-light?} env]
 

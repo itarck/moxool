@@ -15,6 +15,8 @@
    [astronomy.model.constellation :as m.constellation]
    [astronomy.model.atmosphere :as m.atmosphere]
    [astronomy.model.horizontal-coordinate :as m.horizon]
+   [astronomy.model.coordinate :as m.coordinate]
+   [astronomy.model.astronomical-coordinate :as m.astronomical-coordinate]
 
    [astronomy.model.user.universe-tool :as m.universe-tool]
    [astronomy.model.user.clock-tool :as m.clock-tool]
@@ -41,6 +43,8 @@
    m.constellation/schema
    m.atmosphere/schema
    m.horizon/schema
+   m.coordinate/schema 
+   m.astronomical-coordinate/schema
 
    m.universe-tool/schema
    m.clock-tool/schema

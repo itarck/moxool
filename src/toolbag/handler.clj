@@ -25,7 +25,7 @@
 (defn load-db-handler [request]
   (let [params (:body-params request)
         {:keys [db-name]} params
-        filename (when db-name (str resource-folder "edn/" db-name))
+        filename (when db-name (str resource-folder "db/" db-name))
         db-value (when (and filename (.exists (io/as-file filename)))
                    (slurp filename))]
     {:status 200
@@ -36,7 +36,7 @@
 (defn save-db-handler [request]
   (let [params (:params request)
         {:keys [db-name db-value]} params
-        filename (str resource-folder "edn/" db-name)]
+        filename (str resource-folder "db/" db-name)]
     (when db-value
       (spit filename db-value))
     {:status 200
