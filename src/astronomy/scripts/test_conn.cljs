@@ -1035,6 +1035,18 @@
 
                             :terrestrial-coordinate/center-object [:planet/name "earth"]})
 
+(def horizon-coordinate-1
+  #:horizon-coordinate{:db/id -1004
+                       :entity/type :horizon-coordinate
+                       :center-object [:planet/name "earth"]
+                       :center-radius 0.02
+                       :longitude 0
+                       :latitude 30
+                       :coordinate/name "地平坐标系"
+                       :coordinate/type :horizon-coordinate
+
+                       :object/scene [:scene/name "solar"]})
+
 (def constellation-families 
   [#:constellation-family {:chinese-name "黄道", :color "orange"}
    #:constellation-family {:chinese-name "英仙", :color "red"}
@@ -1339,7 +1351,8 @@ galaxy-quaternion
                       ;;  eris haumea halley
                        galaxy reference-1 reference-2 reference-3 atmosphere
                        horizontal-coordinate-1 horizontal-coordinate-2 horizontal-coordinate-3
-                       astronomical-coordinate-1 astronomical-coordinate-2 terrestrial-coordinate-1])
+                       astronomical-coordinate-1 astronomical-coordinate-2 terrestrial-coordinate-1
+                       horizon-coordinate-1])
     (d/transact! conn constellation-families)
     (d/transact! conn [spaceship-camera-control person1 universe-tool-1 clock-tool1 info-tool
                        ppt-tool horizontal-coordinate-tool-1 goto-tool-1

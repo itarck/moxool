@@ -65,6 +65,5 @@
         ;; tx2 (m.reference/update-reference-tx db2 ref-id)
         coor-ids (m.coordinate/find-all-ids db2)
         tx2 (mapcat (fn [id] (m.coordinate/update-position-and-quaternion-tx db2 id)) coor-ids)]
-    (println "scene refresh-tx " tx2)
     (concat tx1 tx2)))
 

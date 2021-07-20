@@ -3,7 +3,8 @@
    [datascript.core :as d]
    [posh.reagent :as p]
    [astronomy.model.astronomical-coordinate :as m.astronomical-coordinate]
-   [astronomy.model.terrestrial-coordinate :as m.terrestrial-coordinate]))
+   [astronomy.model.terrestrial-coordinate :as m.terrestrial-coordinate]
+   [astronomy.model.horizon-coordinate :as m.horizon-coordinate]))
 
 
 (def schema {:coordinate/name {:db/unique :db.unique/identity}})
@@ -37,4 +38,5 @@
   (let [coordinate (d/pull db '[*] coordinate-id)]
     (case (:coordinate/type coordinate)
       :astronomical-coordinate (m.astronomical-coordinate/update-position-and-quaternion-tx db coordinate-id)
-      :terrestrial-coordinate (m.terrestrial-coordinate/update-position-and-quaternion-tx db coordinate-id))))
+      :terrestrial-coordinate (m.terrestrial-coordinate/update-position-and-quaternion-tx db coordinate-id)
+      :horizon-coordinate (m.horizon-coordinate/update-position-and-quaternion-tx db coordinate-id))))
