@@ -12,7 +12,6 @@
   #:tool{:query-one-type :by-name
          :query-one-candinates []
          :query-one-args []
-         :query-one-result nil
 
          :query-many-type :by-group
          :query-many-candinates []

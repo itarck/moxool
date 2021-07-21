@@ -38,12 +38,11 @@
             [:> mt/MenuItem {:value name} name])]]
 
         [:> mt/Grid {:item true :xs 6}
-         [:> mt/Typography {:variant "subtitle2"} "操作"]]
+         [:> mt/Typography {:variant "subtitle2"} "设为系统参考系"]]
         [:> mt/Grid {:item true :xs 6}
          [:> mt/ButtonGroup {:size "small"}
-          [:> mt/Button {:onClick #(go (>! service-chan #:event{:action :horizon-coordinate/landing-at-target
-                                                                :detail {:tool tool
-                                                                         :show? true}}))} "前往"]]]
+          [:> mt/Button {:onClick #(go (>! service-chan #:event{:action :horizon-coordinate/set-scene-reference
+                                                                :detail {:horizon-coordinate horizon-coordinate}}))} "设置"]]]
 
         [:> mt/Grid {:item true :xs 6}
          [:> mt/Typography {:variant "subtitle2"} "显示经度"]]

@@ -2,6 +2,7 @@
   (:require
    [posh.reagent :as p]
    [datascript.core :as d]
+   [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.model.horizon-coordinate :as m.horizon]
    [cljs.core.async :refer [go-loop go >! <! timeout] :as a]))
 
@@ -37,6 +38,12 @@
   [props {:keys [conn]} {:event/keys [detail]}]
   (let [{:keys [horizon-coordinate radius]} detail]
     (p/transact! conn (m.horizon/change-radius-tx horizon-coordinate radius))))
+
+(defmethod handle-event! :horizon-coordinate/set-scene-reference
+  [props {:keys [conn]} {:event/keys [detail]}]
+  (let [{:keys [horizon-coordinate]} detail
+        astro-scene (get-in props [:astro-scene])]
+    (p/transact! conn (m.astro-scene/set-scene-coordinate-tx astro-scene horizon-coordinate))))
 
 #_(defmethod handle-event! :horizon-coordinate/change-query-args
   [props {:keys [conn]} {:event/keys [detail]}]

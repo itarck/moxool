@@ -1044,7 +1044,7 @@
   #:horizon-coordinate{:db/id -1004
                        :entity/type :horizon-coordinate
                        :center-object [:planet/name "earth"]
-                       :center-radius 0.0211
+                       :center-radius 0.021
                        :radius 0.002
                        :longitude 0
                        :latitude 0
