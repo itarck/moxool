@@ -28,8 +28,8 @@
         [:polarGridHelper {:args [radius 4 10 60 "green" "green"]}])
 
       [v.celestial-sphere/CelestialSphereHelperView {:radius radius
-                                                     :show-latitude? true
-                                                     :show-longitude? true
+                                                     :show-latitude? show-latitude?
+                                                     :show-longitude? show-longitude?
                                                      :longitude-interval 90
                                                      :longitude-color-map {:default "#060"
                                                                            -180 "#0b0"}

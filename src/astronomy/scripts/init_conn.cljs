@@ -1048,7 +1048,7 @@
                        :radius 0.002
                        :longitude 0
                        :latitude 0
-                       :show-latitude? true
+                       :show-latitude? false
                        :show-longitude? true
                        :coordinate/name "地平坐标系"
                        :coordinate/type :horizon-coordinate

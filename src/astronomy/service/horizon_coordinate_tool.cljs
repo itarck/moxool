@@ -2,8 +2,7 @@
   (:require
    [posh.reagent :as p]
    [datascript.core :as d]
-   [astronomy.model.horizontal-coordinate :as m.horizon]
-   [astronomy.model.user.horizon-coordinate-tool :as m.horizon-tool]
+   [astronomy.model.horizon-coordinate :as m.horizon]
    [cljs.core.async :refer [go-loop go >! <! timeout] :as a]))
 
 
@@ -16,30 +15,30 @@
 
 (defmethod handle-event! :horizon-coordinate/change-show-longitude
   [props {:keys [conn]} {:event/keys [detail]}]
-  (let [{:keys [tool show?]} detail]
-    (p/transact! conn (m.horizon/change-show-longitude-tx (:tool/target tool) show?))))
+  (let [{:keys [horizon-coordinate show?]} detail]
+    (p/transact! conn (m.horizon/set-longitude-tx horizon-coordinate show?))))
 
 (defmethod handle-event! :horizon-coordinate/change-show-latitude
   [props {:keys [conn]} {:event/keys [detail]}]
-  (let [{:keys [tool show?]} detail]
-    (p/transact! conn (m.horizon/change-show-latitude-tx (:tool/target tool) show?))))
+  (let [{:keys [horizon-coordinate show?]} detail]
+    (p/transact! conn (m.horizon/set-latitude-tx horizon-coordinate show?))))
 
-(defmethod handle-event! :horizon-coordinate/change-show-compass
+#_(defmethod handle-event! :horizon-coordinate/change-show-compass
   [props {:keys [conn]} {:event/keys [detail]}]
   (let [{:keys [tool show?]} detail]
     (p/transact! conn (m.horizon/change-show-compass-tx (:tool/target tool) show?))))
 
-(defmethod handle-event! :horizon-coordinate/change-show-horizontal-plane
+#_(defmethod handle-event! :horizon-coordinate/change-show-horizontal-plane
   [props {:keys [conn]} {:event/keys [detail]}]
   (let [{:keys [tool show?]} detail]
     (p/transact! conn (m.horizon/change-show-horizontal-plane-tx (:tool/target tool) show?))))
 
-(defmethod handle-event! :horizon-coordinate/change-radius
+#_(defmethod handle-event! :horizon-coordinate/change-radius
   [props {:keys [conn]} {:event/keys [detail]}]
   (let [{:keys [tool radius]} detail]
     (p/transact! conn (m.horizon/change-radius-tx (:tool/target tool) radius))))
 
-(defmethod handle-event! :horizon-coordinate/change-query-args
+#_(defmethod handle-event! :horizon-coordinate/change-query-args
   [props {:keys [conn]} {:event/keys [detail]}]
   (let [{:keys [tool query-args]} detail
         chinese-name (first query-args)]

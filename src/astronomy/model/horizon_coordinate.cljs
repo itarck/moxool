@@ -63,11 +63,11 @@
 
 (defn set-latitude-tx [hc-nw latitude]
   [{:db/id (:db/id hc-nw)
-    :horizon-coordinate/latitude latitude}])
+    :horizon-coordinate/show-latitude? latitude}])
 
 (defn set-longitude-tx [hc-nw longitude]
   [{:db/id (:db/id hc-nw)
-    :horizon-coordinate/longitude longitude}])
+    :horizon-coordinate/show-longitude? longitude}])
 
 (defn update-position-and-quaternion-tx [db id]
   (let [hc (d/pull db '[* {:horizon-coordinate/center-object [*]}] id)
