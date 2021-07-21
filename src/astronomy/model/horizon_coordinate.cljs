@@ -27,6 +27,19 @@
                          :object/scene [:scene/name "solar"]
                          :entity/type :horizon-coordinate})
 
+  (def horizon-coordinate-1
+    #:horizon-coordinate{:db/id -1004
+                         :entity/type :horizon-coordinate
+                         :center-object [:planet/name "earth"]
+                         :center-radius 0.0211
+                         :radius 0.002
+                         :longitude 0
+                         :latitude 0
+                         :coordinate/name "地平坐标系"
+                         :coordinate/type :horizon-coordinate
+                         :object/scene [:scene/name "solar"]})
+  
+
 ;;   
   )
 
@@ -46,8 +59,15 @@
         q2 (q/from-axis-angle (v3/vector3 0 1 0) (:theta sp))]
     (q/multiply q1 q2)))
 
-
 ;; tx
+
+(defn set-latitude-tx [hc-nw latitude]
+  [{:db/id (:db/id hc-nw)
+    :horizon-coordinate/latitude latitude}])
+
+(defn set-longitude-tx [hc-nw longitude]
+  [{:db/id (:db/id hc-nw)
+    :horizon-coordinate/longitude longitude}])
 
 (defn update-position-and-quaternion-tx [db id]
   (let [hc (d/pull db '[* {:horizon-coordinate/center-object [*]}] id)
@@ -69,6 +89,14 @@
       :coordinate/center-quaternion center-quaternion
       :object/position (seq p3)
       :object/quaternion (seq q3)}]))
+
+
+;; sub views
+
+(defn sub-ids-by-query [conn query-type query-args]
+  
+  )
+
 
 
 (comment

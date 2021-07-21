@@ -56,6 +56,10 @@
 
 ;; tx
 
+(defn set-scene-coordinate-tx [scene-sm coordinate-sm]
+  [{:db/id (:db/id scene-sm)
+    :astro-scene/coordinate (:db/id coordinate-sm)}])
+
 (defn refresh-tx [db1 astro-scene]
   (let [clock-id (get-in astro-scene [:astro-scene/clock :db/id])
         celes (m.celestial/find-all-by-clock db1 clock-id)
