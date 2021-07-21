@@ -74,7 +74,7 @@
 
 (def scene
   #:astro-scene {:reference -103
-                 :coordinate -1004
+                 :coordinate -1003
                  :camera [:camera/name "default"]
                  :clock [:clock/name "default"]
                  :celestial-scale 1
@@ -1045,8 +1045,9 @@
                        :entity/type :horizon-coordinate
                        :center-object [:planet/name "earth"]
                        :center-radius 0.02
+                       :radius 0.002
                        :longitude 0
-                       :latitude 30
+                       :latitude 0
                        :coordinate/name "地平坐标系"
                        :coordinate/type :horizon-coordinate
 
@@ -1442,8 +1443,6 @@ galaxy-quaternion
         (println (:body response)))
       (>! ch @conn))
     ch))
-;; => nil
-
 
 
 (async-run!)

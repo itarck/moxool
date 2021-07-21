@@ -59,8 +59,10 @@
         local-position (cal-local-position hc)
         local-quaternion (cal-local-quaternion hc)]
     [{:db/id (:db/id hc)
+      :coordinate/center-position center-position
+      :coordinate/center-quaternion center-quaternion
       :object/position (seq (v3/add (v3/from-seq center-position) local-position))
-      :object/quaternion (seq (q/multiply local-quaternion (q/from-seq center-quaternion)))}]))
+      :object/quaternion (seq (q/multiply  (q/from-seq center-quaternion) local-quaternion))}]))
 
 
 (comment
