@@ -58,12 +58,12 @@
                           :satellite (m.satellite/cal-world-position db center-object))
         center-quaternion (get-in center-object [:object/quaternion])
         s1 (v3/vector3 1 1 1)
-        m1 (mat4/compose (v3/from-seq center-position) (q/from-seq center-quaternion) s1)
+        center-matrix (mat4/compose (v3/from-seq center-position) (q/from-seq center-quaternion) s1)
         local-position (cal-local-position hc)
         local-quaternion (cal-local-quaternion hc)
-        m2 (mat4/compose local-position local-quaternion s1)
-        m3 (mat4/multiply m1 m2)
-        [p3 q3 s3] (mat4/decompose m3)]
+        local-matrix (mat4/compose local-position local-quaternion s1)
+        world-matrix (mat4/multiply center-matrix local-matrix)
+        [p3 q3 s3] (mat4/decompose world-matrix)]
     [{:db/id (:db/id hc)
       :coordinate/center-position center-position
       :coordinate/center-quaternion center-quaternion

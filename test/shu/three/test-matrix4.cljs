@@ -84,10 +84,17 @@
         m2 (mat4/compose p2 q2 s1)
         m3 (mat4/multiply m2 m1)
         p3 (v3/add p1 p2)
-        q3 (q/multiply q2 q1)]
-    
-    (println (mat4/decompose m3))
-    (println p3 q3))
+        q3 (q/multiply q2 q1)
+        p4 (v3/vector3 1 0 0)]
+
+
+    (println (-> p4
+                 (v3/apply-matrix4 m1)
+                 (v3/apply-matrix4 m2)))
+
+    (println (-> p4
+                 (v3/apply-matrix4 m3)))
+    )
   
 ;;   
   )

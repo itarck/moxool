@@ -67,12 +67,16 @@
 
   (def q2 (tq/from-axis-angle (v3/vector3 0 0 1) (/ Math/PI 2)))
 
- (->
-  (v3/vector3 0 0 1)
-  (v3/apply-quaternion q1)
-  (v3/apply-quaternion q2))
-  
-(-> (v3/vector3 0 0 1)
-    (v3/apply-quaternion (tq/multiply q2 q1)))
+  (->
+   (v3/vector3 0 0 1)
+   (v3/apply-quaternion q1)
+   (v3/apply-quaternion q2))
 
+  (-> (v3/vector3 0 0 1)
+      (v3/apply-quaternion (tq/multiply q2 q1)))
+
+  (-> (v3/vector3 0 0 1)
+      (v3/apply-quaternion (tq/multiply q1 q2)))
+  
+  ;; 
   )

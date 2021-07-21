@@ -1044,7 +1044,7 @@
   #:horizon-coordinate{:db/id -1004
                        :entity/type :horizon-coordinate
                        :center-object [:planet/name "earth"]
-                       :center-radius 0.02
+                       :center-radius 0.0211
                        :radius 0.002
                        :longitude 0
                        :latitude 0
@@ -1305,7 +1305,7 @@ galaxy-quaternion
                          :entity/type :goto-celestial-tool})
 
 
-(def constellation-tool-1 
+(def constellation-tool-1
   #:constellation-tool{:query-type :all
                        :query-args []
 
