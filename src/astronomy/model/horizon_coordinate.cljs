@@ -69,6 +69,20 @@
   [{:db/id (:db/id hc-nw)
     :horizon-coordinate/show-longitude? longitude}])
 
+(defn change-show-compass-tx [hc show?]
+  [{:db/id (:db/id hc)
+    :horizon-coordinate/show-compass? show?}])
+
+(defn change-show-horizontal-plane-tx [hc show?]
+  [{:db/id (:db/id hc)
+    :horizon-coordinate/show-horizontal-plane? show?}])
+
+(defn change-radius-tx [hc radius]
+  [{:db/id (:db/id hc)
+    :horizon-coordinate/radius radius}])
+
+
+
 (defn update-position-and-quaternion-tx [db id]
   (let [hc (d/pull db '[* {:horizon-coordinate/center-object [*]}] id)
         center-object (:horizon-coordinate/center-object hc)

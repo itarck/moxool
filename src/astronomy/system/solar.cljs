@@ -26,6 +26,7 @@
    [astronomy.view.user.constellation-tool :as v.constellation-tool]
    [astronomy.view.user.atmosphere-tool :as v.atmosphere-tool]
    [astronomy.view.user.eagle-eye-tool :as v.eagle-eye]
+   [astronomy.view.user.horizon-coordinate-tool :as v.horizon-coordinate-tool]
    ))
 
 
@@ -53,7 +54,8 @@
    :equatorial-coordinate-tool v.ect/EquatorialCoordinateToolView
    :constellation-tool v.constellation-tool/ConstellationToolView
    :atmosphere-tool v.atmosphere-tool/AtmosphereToolView
-   :eagle-eye-tool v.eagle-eye/EagleEyeToolView})
+   :eagle-eye-tool v.eagle-eye/EagleEyeToolView
+   :horizon-coordinate-tool v.horizon-coordinate-tool/HorizonCoordinateToolView})
 
 
 (def object-libray 

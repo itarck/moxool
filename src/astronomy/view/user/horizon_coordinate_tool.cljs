@@ -4,17 +4,15 @@
    [helix.core :refer [$]]
    [cljs.core.async :refer [go >! <! go-loop] :as a]
    [posh.reagent :as p]
-   ["@material-ui/core" :as mt]
-   [astronomy.model.horizon-coordinate :as m.horizon]))
+   ["@material-ui/core" :as mt]))
 
 
 
-(defn HorizontalCoordinateToolView [props {:keys [service-chan conn]}]
+(defn HorizonCoordinateToolView [props {:keys [service-chan conn]}]
   (let [tool @(p/pull conn '[*] (get-in props [:tool :db/id]))
-        horizontal-coordinate @(p/pull conn '[*] (get-in tool [:tool/target :db/id]))
-        {:horizontal-coordinate/keys [radius show-latitude? show-longitude? show-horizontal-plane? show-compass?]} horizontal-coordinate
-        chinese-names (concat ["未选择"] (m.horizon/sub-chinese-names conn))]
-    (println "HorizontalCoordinateToolView: " tool)
+        horizon-coordinate @(p/pull conn '[*] (get-in tool [:tool/query-one-result]))
+        {:horizon-coordinate/keys [radius show-latitude? show-longitude? show-horizontal-plane? show-compass?]} horizon-coordinate]
+    ;; (println "HorizonCoordinateToolView: " tool)
     [:div {:class "astronomy-righthand"}
      [:div {:class "astronomy-righthand-tool"}
       [:div.p-2
@@ -26,13 +24,13 @@
          (:tool/chinese-name tool)]]
 
        [:> mt/Grid {:container true :spacing 1}
-        [:> mt/Grid {:item true :xs 12}
+        #_[:> mt/Grid {:item true :xs 12}
          [:> mt/Select {:value (or (first (:tool/query-args tool))
                                    "未选择")
                         :onChange (fn [e]
                                     (let [new-value (j/get-in e [:target :value])]
                                       (go (>! service-chan
-                                              #:event {:action :horizontal-coordinate-tool/change-query-args
+                                              #:event {:action :horizon-coordinate/change-query-args
                                                        :detail {:tool tool
                                                                 :query-args [new-value]}}))))}
           (for [name chinese-names]
@@ -43,7 +41,7 @@
          [:> mt/Typography {:variant "subtitle2"} "操作"]]
         [:> mt/Grid {:item true :xs 6}
          [:> mt/ButtonGroup {:size "small"}
-          [:> mt/Button {:onClick #(go (>! service-chan #:event{:action :horizontal-coordinate-tool/landing-at-target
+          [:> mt/Button {:onClick #(go (>! service-chan #:event{:action :horizon-coordinate/landing-at-target
                                                                 :detail {:tool tool
                                                                          :show? true}}))} "前往"]]]
 
@@ -56,8 +54,8 @@
                         :checked (or show-longitude? false)
                         :onChange (fn [event]
                                     (let [show? (j/get-in event [:target :checked])]
-                                      (go (>! service-chan #:event {:action :horizontal-coordinate-tool/change-show-longitude
-                                                                    :detail {:tool tool
+                                      (go (>! service-chan #:event {:action :horizon-coordinate/change-show-longitude
+                                                                    :detail {:horizon-coordinate horizon-coordinate
                                                                              :show? show?}}))))}]
          [:span "是"]]
 
@@ -70,8 +68,8 @@
                         :checked (or show-latitude? false)
                         :onChange (fn [event]
                                     (let [show? (j/get-in event [:target :checked])]
-                                      (go (>! service-chan #:event {:action :horizontal-coordinate-tool/change-show-latitude
-                                                                    :detail {:tool tool
+                                      (go (>! service-chan #:event {:action :horizon-coordinate/change-show-latitude
+                                                                    :detail {:horizon-coordinate horizon-coordinate
                                                                              :show? show?}}))))}]
          [:span "是"]]
 
@@ -84,8 +82,8 @@
                         :checked (or show-compass? false)
                         :onChange (fn [event]
                                     (let [show? (j/get-in event [:target :checked])]
-                                      (go (>! service-chan #:event {:action :horizontal-coordinate-tool/change-show-compass
-                                                                    :detail {:tool tool
+                                      (go (>! service-chan #:event {:action :horizon-coordinate/change-show-compass
+                                                                    :detail {:horizon-coordinate horizon-coordinate
                                                                              :show? show?}}))))}]
          [:span "是"]]
 
@@ -98,8 +96,8 @@
                         :checked (or show-horizontal-plane? false)
                         :onChange (fn [event]
                                     (let [show? (j/get-in event [:target :checked])]
-                                      (go (>! service-chan #:event {:action :horizontal-coordinate-tool/change-show-horizontal-plane
-                                                                    :detail {:tool tool
+                                      (go (>! service-chan #:event {:action :horizon-coordinate/change-show-horizontal-plane
+                                                                    :detail {:horizon-coordinate horizon-coordinate
                                                                              :show? show?}}))))}]
          [:span "是"]]
 
@@ -111,8 +109,8 @@
                               :width "100px"})
              :value radius
              :onChange (fn [e value]
-                         (go (>! service-chan #:event {:action :horizontal-coordinate-tool/change-radius
-                                                       :detail {:tool tool
+                         (go (>! service-chan #:event {:action :horizon-coordinate/change-radius
+                                                       :detail {:horizon-coordinate horizon-coordinate
                                                                 :radius value}})))
              :step 0.0001 :min 0.0001 :max 0.005 :marks true
              :getAriaValueText identity

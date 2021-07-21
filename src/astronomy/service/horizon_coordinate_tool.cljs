@@ -23,20 +23,20 @@
   (let [{:keys [horizon-coordinate show?]} detail]
     (p/transact! conn (m.horizon/set-latitude-tx horizon-coordinate show?))))
 
-#_(defmethod handle-event! :horizon-coordinate/change-show-compass
+(defmethod handle-event! :horizon-coordinate/change-show-compass
   [props {:keys [conn]} {:event/keys [detail]}]
-  (let [{:keys [tool show?]} detail]
-    (p/transact! conn (m.horizon/change-show-compass-tx (:tool/target tool) show?))))
+  (let [{:keys [horizon-coordinate show?]} detail]
+    (p/transact! conn (m.horizon/change-show-compass-tx horizon-coordinate show?))))
 
-#_(defmethod handle-event! :horizon-coordinate/change-show-horizontal-plane
+(defmethod handle-event! :horizon-coordinate/change-show-horizontal-plane
   [props {:keys [conn]} {:event/keys [detail]}]
-  (let [{:keys [tool show?]} detail]
-    (p/transact! conn (m.horizon/change-show-horizontal-plane-tx (:tool/target tool) show?))))
+  (let [{:keys [horizon-coordinate show?]} detail]
+    (p/transact! conn (m.horizon/change-show-horizontal-plane-tx horizon-coordinate show?))))
 
-#_(defmethod handle-event! :horizon-coordinate/change-radius
+(defmethod handle-event! :horizon-coordinate/change-radius
   [props {:keys [conn]} {:event/keys [detail]}]
-  (let [{:keys [tool radius]} detail]
-    (p/transact! conn (m.horizon/change-radius-tx (:tool/target tool) radius))))
+  (let [{:keys [horizon-coordinate radius]} detail]
+    (p/transact! conn (m.horizon/change-radius-tx horizon-coordinate radius))))
 
 #_(defmethod handle-event! :horizon-coordinate/change-query-args
   [props {:keys [conn]} {:event/keys [detail]}]

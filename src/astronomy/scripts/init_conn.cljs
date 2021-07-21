@@ -1122,7 +1122,7 @@ galaxy-quaternion
             :backpack #:backpack {:db/id -3
                                   :name "default"
                                   :owner -1
-                                  :cell (vec (for [i (range 10)]
+                                  :cell (vec (for [i (range 12)]
                                                #:backpack-cell{:index i}))}
             :entity/type :person})
 
@@ -1333,6 +1333,19 @@ galaxy-quaternion
 
                    :entity/type :eagle-eye-tool})
 
+(def horizon-coordinate-tool
+  #:tool{:query-one-type :by-name
+         :query-one-candinates []
+         :query-one-args []
+         :query-one-result [:coordinate/name "地平坐标系"]
+
+         :tool/name "horizon-coordinate-tool"
+         :tool/chinese-name "地平坐标系工具"
+         :tool/icon "/image/pirate/earth.jpg"
+         :tool/type :horizon-coordinate-tool
+         :entity/type :horizon-coordinate-tool})
+
+
 ;; processes
 
 
@@ -1365,7 +1378,8 @@ galaxy-quaternion
     (d/transact! conn constellation-families)
     (d/transact! conn [spaceship-camera-control person1 universe-tool-1 clock-tool1 info-tool
                        ppt-tool horizontal-coordinate-tool-1 goto-tool-1
-                       equatorial-coordinate-tool-1 constellation-tool-1 atmosphere-tool-1 eagle-eye-tool])
+                       equatorial-coordinate-tool-1 constellation-tool-1 atmosphere-tool-1 eagle-eye-tool
+                       horizon-coordinate-tool])
 
     (let [person (d/pull @conn '[*] [:person/name "dr who"])
           bp (d/pull @conn '[*] (-> person :person/backpack :db/id))]
@@ -1379,6 +1393,7 @@ galaxy-quaternion
       (d/transact! conn (m.backpack/put-in-cell-tx bp 7 {:db/id [:tool/name "universe tool"]}))
       (d/transact! conn (m.backpack/put-in-cell-tx bp 8 {:db/id [:tool/name "atmosphere-tool"]}))
       (d/transact! conn (m.backpack/put-in-cell-tx bp 9 {:db/id [:tool/name "eagle-eye-tool"]}))
+      (d/transact! conn (m.backpack/put-in-cell-tx bp 10 {:db/id [:tool/name "horizon-coordinate-tool"]}))
       ;; (d/transact! conn (m.backpack/put-in-cell-tx bp 8 {:db/id [:tool/name "info tool 1"]}))
       )
 
