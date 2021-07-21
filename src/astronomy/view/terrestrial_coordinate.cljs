@@ -18,8 +18,8 @@
                                                      :longitude-interval 30
                                                      :show-latitude? true
                                                      :show-longitude? true
-                                                     :longitude-color-map {:default "#770000"}
-                                                     :latitude-color-map {:default "#770000"}}]
+                                                     :longitude-color-map {:default "blue"}
+                                                     :latitude-color-map {:default "blue"}}]
 
       (when show-latitude-0?
         [:<>
