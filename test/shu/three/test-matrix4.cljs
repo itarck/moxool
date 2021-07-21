@@ -14,6 +14,10 @@
 
 (def q1 (q/from-euler (e/euler 0 0 (/ Math/PI 8))))
 
+(def p2 (v3/vector3 3 5 3))
+
+(def q2 (q/from-axis-angle (v3/normalize (v3/vector3 1 1 1)) (/ Math/PI 4)))
+
 (def s1 (v3/vector3 2 3 5))
 (def s3 (v3/vector3 1 1 1))
 
@@ -58,3 +62,32 @@
 
 
 (run-tests)
+
+
+(comment 
+  
+(def p1 (v3/vector3 1 2 1))
+
+(def q1 (q/from-euler (e/euler 0 0 (/ Math/PI 8))))
+
+(def p2 (v3/vector3 3 5 3))
+
+(def q2 (q/from-axis-angle (v3/normalize (v3/vector 1 1 1)) (/ Math/PI 4)))
+
+
+  (let [p1 (v3/vector3 1 2 1)
+        q1 (q/from-euler (e/euler 0 0 (/ Math/PI 8)))
+        p2 (v3/vector3 3 5 3)
+        q2 (q/from-axis-angle (v3/normalize (v3/vector3 1 1 1)) (/ Math/PI 4))
+        s1 (v3/vector3 1 1 1)
+        m1 (mat4/compose p1 q1 s1)
+        m2 (mat4/compose p2 q2 s1)
+        m3 (mat4/multiply m2 m1)
+        p3 (v3/add p1 p2)
+        q3 (q/multiply q2 q1)]
+    
+    (println (mat4/decompose m3))
+    (println p3 q3))
+  
+;;   
+  )
