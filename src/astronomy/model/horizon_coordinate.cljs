@@ -5,6 +5,7 @@
    [shu.three.quaternion :as q]
    [shu.three.vector3 :as v3]
    [shu.three.spherical :as sph]
+   [shu.three.matrix4 :as mat4]
    [shu.astronomy.celestial-coordinate :as shu.cc]
    [astronomy.model.planet :as m.planet]
    [astronomy.model.satellite :as m.satellite]))
@@ -56,13 +57,18 @@
                           :planet (m.planet/cal-world-position db center-object)
                           :satellite (m.satellite/cal-world-position db center-object))
         center-quaternion (get-in center-object [:object/quaternion])
+        s1 (v3/vector3 1 1 1)
+        m1 (mat4/compose (v3/from-seq center-position) (q/from-seq center-quaternion) s1)
         local-position (cal-local-position hc)
-        local-quaternion (cal-local-quaternion hc)]
+        local-quaternion (cal-local-quaternion hc)
+        m2 (mat4/compose local-position local-quaternion s1)
+        m3 (mat4/multiply m1 m2)
+        [p3 q3 s3] (mat4/decompose m3)]
     [{:db/id (:db/id hc)
       :coordinate/center-position center-position
       :coordinate/center-quaternion center-quaternion
-      :object/position (seq (v3/add (v3/from-seq center-position) local-position))
-      :object/quaternion (seq (q/multiply  (q/from-seq center-quaternion) local-quaternion))}]))
+      :object/position (seq p3)
+      :object/quaternion (seq q3)}]))
 
 
 (comment

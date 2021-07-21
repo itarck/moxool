@@ -24,7 +24,7 @@
         local-quaternion (m.horizon-coordinate/cal-local-quaternion hc)
         center-position (:coordinate/center-position hc)
         center-quaternion (:coordinate/center-quaternion hc)]
-    (println "HorizonCoordinateView " hc)
+    ;; (println "HorizonCoordinateView " hc)
     [:mesh {:position center-position}
      [:mesh {:quaternion center-quaternion}
       [:mesh {:quaternion local-quaternion
