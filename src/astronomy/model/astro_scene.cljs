@@ -4,7 +4,6 @@
    [posh.reagent :as p]
    [shu.three.vector3 :as v3]
    [astronomy.model.celestial :as m.celestial]
-   [astronomy.model.reference :as m.reference]
    [astronomy.model.coordinate :as m.coordinate]))
 
 
@@ -17,8 +16,7 @@
 
 
 (def schema
-  #:astro-scene{:reference {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
-                :coordinate {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
+  #:astro-scene{:coordinate {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
                 :clock {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
                 :camera {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}})
 
@@ -65,8 +63,6 @@
         celes (m.celestial/find-all-by-clock db1 clock-id)
         tx1 (mapcat #(m.celestial/update-position-and-quaternion-tx %) celes)
         db2 (d/db-with db1 tx1)
-        ;; ref-id (get-in astro-scene [:astro-scene/reference :db/id])
-        ;; tx2 (m.reference/update-reference-tx db2 ref-id)
         coor-ids (m.coordinate/find-all-ids db2)
         tx2 (mapcat (fn [id] (m.coordinate/update-position-and-quaternion-tx db2 id)) coor-ids)]
     (concat tx1 tx2)))

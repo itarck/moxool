@@ -14,13 +14,6 @@
         tx (m.astro-scene/refresh-tx @conn astro-scene)]
     (p/transact! conn tx)))
 
-(defmethod handle-event! :astro-scene/change-reference
-  [props {:keys [conn service-chan]} {:event/keys [detail]}]
-  (let [astro-scene-id (get-in props [:astro-scene :db/id])
-        {:keys [reference-name]} detail]
-    (p/transact! conn [[:db/add astro-scene-id :astro-scene/reference [:reference/name reference-name]]])
-    (go (>! service-chan #:event{:action :astro-scene/refresh}))))
-
 (defmethod handle-event! :astro-scene/change-coordinate
   [props {:keys [conn service-chan]} {:event/keys [detail]}]
   (let [astro-scene-id (get-in props [:astro-scene :db/id])

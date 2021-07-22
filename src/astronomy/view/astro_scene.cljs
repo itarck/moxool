@@ -5,7 +5,6 @@
    [methodology.model.scene :as m.scene]
    [shu.three.vector3 :as v3]
    [astronomy.model.astro-scene :as m.astro-scene]
-   [astronomy.model.reference :as m.reference]
    [astronomy.model.object :as m.object]
    [astronomy.model.atmosphere :as m.atmosphere]
    [astronomy.view.background :as v.background]
@@ -21,8 +20,6 @@
         {:scene/keys [scale]} astro-scene
         objects (m.scene/sub-objects conn (:db/id astro-scene))
         spaceship-camera-control @(p/pull conn '[*] (get-in props [:spaceship-camera-control :db/id]))
-        ;; reference-1 @(p/pull conn '[*] (get-in astro-scene [:astro-scene/reference :db/id]))
-        ;; ref-invert-matrix (m.reference/cal-invert-matrix reference-1)
         coor @(p/pull conn '[*] (get-in astro-scene [:astro-scene/coordinate :db/id]))
         invert-matrix (m.object/cal-invert-matrix coor)
         sun-position (v3/apply-matrix4 (v3/vector3 0 0 0) invert-matrix)

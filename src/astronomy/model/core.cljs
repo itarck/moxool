@@ -3,7 +3,6 @@
    [datascript.core :as d]
    [methodology.model.core :as mtd-model]
    [astronomy.model.astro-scene :as m.astro-scene]
-   [astronomy.model.reference :as m.reference]
    [astronomy.model.celestial :as m.celestial]
    [astronomy.model.circle-orbit :as m.circle-orbit]
    [astronomy.model.clock :as m.clock]
@@ -32,7 +31,6 @@
 (def schema
   (merge
    m.astro-scene/schema
-   m.reference/schema
    m.celestial/schema
    m.circle-orbit/schema
    m.clock/schema

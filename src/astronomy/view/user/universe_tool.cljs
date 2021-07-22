@@ -5,9 +5,6 @@
    [posh.reagent :as p]
    [helix.core :refer [$]]
    ["@material-ui/core" :as mt]
-   [astronomy.model.user.universe-tool :as m.universe-tool]
-   [astronomy.model.astro-scene :as m.astro-scene]
-   [astronomy.model.reference :as m.reference]
    [astronomy.model.coordinate :as m.coordinate]))
 
 
@@ -16,8 +13,6 @@
   (let [universe-tool @(p/pull conn '[*] (get-in props [:tool :db/id]))
         astro-scene-id (-> universe-tool :universe-tool/astro-scene :db/id)
         astro-scene @(p/pull conn '[*] astro-scene-id)
-        ;; reference @(p/pull conn '[*] (get-in astro-scene [:astro-scene/reference :db/id]))
-        ;; reference-names @(p/q m.reference/query-reference-names conn)
         coordinate-names (m.coordinate/sub-all-coordinate-names conn)
         coordinate @(p/pull conn '[*] (get-in astro-scene [:astro-scene/coordinate :db/id]))]
     [:div {:class "astronomy-righthand"}
