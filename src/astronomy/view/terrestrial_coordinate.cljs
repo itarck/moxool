@@ -26,7 +26,7 @@
          [v.celestial-sphere/LatitudeView {:radius radius
                                            :latitude 0
                                            :color "blue"}]
-         [v.celestial-sphere/LongitudeMarksView {:radius radius
+         #_[v.celestial-sphere/LongitudeMarksView {:radius radius
                                                  :color "blue"}]])
       (when show-longitude-0?
         [:<>
