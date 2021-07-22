@@ -950,7 +950,7 @@
                              :object/scene [:scene/name "solar"]
                              :coordinate/name "黄道天球坐标系"
                              :coordinate/type :astronomical-coordinate
-                             :astronomical-coordinate/show-latitude? true
+                             :astronomical-coordinate/show-latitude? false
                              :astronomical-coordinate/show-longitude? false
                              :astronomical-coordinate/radius 10000
                              :astronomical-coordinate/center-candidates [{:db/id [:planet/name "earth"]}
@@ -1278,7 +1278,7 @@ galaxy-quaternion
 
                                   :tool/name "astronomical-coordinate-tool"
                                   :tool/chinese-name "天球坐标系工具"
-                                  :tool/icon "/image/moxool/equatorial-coordinate.jpg"
+                                  :tool/icon "/image/moxool/astronomical-coordinate.jpg"
                                   :tool/type :astronomical-coordinate-tool
                                   :entity/type :astronomical-coordinate-tool})
 
