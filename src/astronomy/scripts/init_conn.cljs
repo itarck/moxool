@@ -1053,8 +1053,9 @@
                        :radius 0.002
                        :longitude -46.89168209025404
                        :latitude 30.009012722341744
-                       :show-latitude? false
+                       :show-latitude? true
                        :show-longitude? true
+                       :show-horizontal-plane? true
                        :coordinate/name "地平坐标系"
                        :coordinate/type :horizon-coordinate
 
