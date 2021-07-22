@@ -14,10 +14,10 @@
     [:mesh {:position (:object/position tc)
             :quaternion (:object/quaternion tc)}
      [:<>
-      [v.celestial-sphere/CelestialSphereHelperView {:radius 0.03
+      [v.celestial-sphere/CelestialSphereHelperView {:radius radius
                                                      :longitude-interval 30
-                                                     :show-latitude? true
-                                                     :show-longitude? true
+                                                     :show-latitude? show-latitude?
+                                                     :show-longitude? show-longitude?
                                                      :longitude-color-map {:default "DeepSkyBlue"}
                                                      :latitude-color-map {:default "DeepSkyBlue"}}]
 
@@ -25,14 +25,14 @@
         [:<>
          [v.celestial-sphere/LatitudeView {:radius radius
                                            :latitude 0
-                                           :color "red"}]
+                                           :color "blue"}]
          [v.celestial-sphere/LongitudeMarksView {:radius radius
-                                                 :color "red"}]])
+                                                 :color "blue"}]])
       (when show-longitude-0?
         [:<>
          [v.celestial-sphere/LongitudeView {:radius radius
                                             :longitude 0
-                                            :color "red"}]])
+                                            :color "blue"}]])
 
       (when show-regression-line?
         [:<>
