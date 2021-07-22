@@ -41,7 +41,7 @@
                 astronomical-coordinate @(p/pull conn '[*] astronomical-coordinate-id)
                 {:astronomical-coordinate/keys [show-latitude? show-longitude? show-latitude-0? show-regression-line?
                                                 show-longitude-0? show-ecliptic? show-lunar-orbit?]} astronomical-coordinate]
-            (println "AstronomicalCoordinateToolView: " astronomical-coordinate-id astronomical-coordinate)
+            ;; (println "AstronomicalCoordinateToolView: " astronomical-coordinate-id astronomical-coordinate)
             [:<>
              [:> mt/Grid {:item true :xs 6}
               [:> mt/Typography {:variant "subtitle2"} "设为系统参考系"]]
