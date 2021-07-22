@@ -18,10 +18,9 @@
 ;; find
 (defn get-query-args-candidates [db query-type]
   (case query-type
-    :one-by-name (m.horizon-coordinate/query-horizon-coordinate-names db)))
+    :one-by-name (m.horizon-coordinate/find-horizon-coordinate-names db)))
 
 (defn cal-query-result [db query-type query-args]
-  (println "cal-query-result" query-type query-args)
   (case query-type
     :one-by-name (let [one (m.horizon-coordinate/pull-one-by-name db (first query-args))]
                    [(:db/id one)])))

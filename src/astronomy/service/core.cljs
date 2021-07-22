@@ -15,7 +15,8 @@
    [astronomy.service.equatorial-coordinate-tool :as s.ect]
    [astronomy.service.contellation-tool :as s.constellation-tool]
    [astronomy.service.atmosphere-tool :as s.atmosphere-tool]
-   [astronomy.service.horizon-coordinate-tool :as s.horizon-coordinate]))
+   [astronomy.service.horizon-coordinate-tool :as s.horizon-coordinate]
+   [astronomy.service.astronomical-coordinate-tool :as s.astronomical-coordinate-tool]))
 
 
 (def processes
@@ -59,6 +60,9 @@
    {:listen [:horizon-coordinate]
     :process-name "horizon-coordinate"
     :service-fn s.horizon-coordinate/init-service!}
+   {:listen [:astronomical-coordinate-tool]
+    :process-name ":astronomical-coordinate-tool"
+    :service-fn s.astronomical-coordinate-tool/init-service!}
 
 
    {:listen []

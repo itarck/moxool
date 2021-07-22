@@ -1024,11 +1024,15 @@
 
 (def astronomical-coordinate-2
   #:astronomical-coordinate {:db/id -1002
+                             :entity/type :astronomical-coordinate
                              :object/position [0 0 0]
                              :object/quaternion (seq m.const/ecliptic-quaternion)
+                             :object/scene [:scene/name "solar"]
                              :coordinate/name "黄道天球坐标系"
                              :coordinate/type :astronomical-coordinate
-                             :coordinate/radius 10000
+                             :astronomical-coordinate/show-latitude? true
+                             :astronomical-coordinate/show-longitude? false
+                             :astronomical-coordinate/radius 10000
                              :astronomical-coordinate/center-candidates [{:db/id [:planet/name "earth"]}
                                                                          {:db/id [:planet/name "sun"]}]
                              :astronomical-coordinate/center-object [:planet/name "earth"]
@@ -1066,6 +1070,21 @@
 
                        :object/scene [:scene/name "solar"]})
 
+
+(def horizon-coordinate-2
+  #:horizon-coordinate{:entity/type :horizon-coordinate
+                       :center-object [:planet/name "earth"]
+                       :center-radius 0.021024
+                       :radius 0.002
+                       :longitude 0
+                       :latitude 30.009012722341744
+                       :show-latitude? true
+                       :show-longitude? true
+                       :show-horizontal-plane? true
+                       :coordinate/name "地平坐标系2"
+                       :coordinate/type :horizon-coordinate
+
+                       :object/scene [:scene/name "solar"]})
 
 (def constellation-families 
   [#:constellation-family {:chinese-name "黄道", :color "orange"}
@@ -1356,6 +1375,17 @@ galaxy-quaternion
                              :tool/type :horizon-coordinate-tool
                              :entity/type :horizon-coordinate-tool})
 
+(def astronomical-coordinate-tool
+  #:astronomical-coordinate-tool {:query-type :one-by-name
+                                  :query-args-candidates []
+                                  :query-args []
+                                  :query-result []
+
+                                  :tool/name "astronomical-coordinate-tool"
+                                  :tool/chinese-name "天球坐标系工具"
+                                  :tool/icon "/image/moxool/equatorial-coordinate.jpg"
+                                  :tool/type :astronomical-coordinate-tool
+                                  :entity/type :astronomical-coordinate-tool})
 
 ;; processes
 
@@ -1385,12 +1415,12 @@ galaxy-quaternion
                        galaxy reference-1 reference-2 reference-3 atmosphere
                        horizontal-coordinate-1 horizontal-coordinate-2 horizontal-coordinate-3
                        astronomical-coordinate-1 astronomical-coordinate-2 terrestrial-coordinate-1
-                       horizon-coordinate-1])
+                       horizon-coordinate-1 horizon-coordinate-2])
     (d/transact! conn constellation-families)
     (d/transact! conn [spaceship-camera-control person1 universe-tool-1 clock-tool1 info-tool
                        ppt-tool horizontal-coordinate-tool-1 goto-tool-1
                        equatorial-coordinate-tool-1 constellation-tool-1 atmosphere-tool-1 eagle-eye-tool
-                       horizon-coordinate-tool])
+                       horizon-coordinate-tool astronomical-coordinate-tool])
 
     (let [person (d/pull @conn '[*] [:person/name "dr who"])
           bp (d/pull @conn '[*] (-> person :person/backpack :db/id))]
@@ -1405,6 +1435,7 @@ galaxy-quaternion
       (d/transact! conn (m.backpack/put-in-cell-tx bp 8 {:db/id [:tool/name "atmosphere-tool"]}))
       (d/transact! conn (m.backpack/put-in-cell-tx bp 9 {:db/id [:tool/name "eagle-eye-tool"]}))
       (d/transact! conn (m.backpack/put-in-cell-tx bp 10 {:db/id [:tool/name "horizon-coordinate-tool"]}))
+      (d/transact! conn (m.backpack/put-in-cell-tx bp 11 {:db/id [:tool/name "astronomical-coordinate-tool"]}))
       ;; (d/transact! conn (m.backpack/put-in-cell-tx bp 8 {:db/id [:tool/name "info tool 1"]}))
       )
 

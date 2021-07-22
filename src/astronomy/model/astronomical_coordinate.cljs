@@ -2,6 +2,7 @@
   (:require
    [cljs.spec.alpha :as s]
    [datascript.core :as d]
+   [posh.reagent :as p]
    [astronomy.model.const :as m.const]
    [astronomy.model.planet :as m.planet]
    [astronomy.model.satellite :as m.satellite]))
@@ -51,10 +52,44 @@
 
 ;; transform
 
+(def query-coordinate-names
+  '[:find [?name ...]
+    :where
+    [?id :coordinate/name ?name]
+    [?id :entity/type :astronomical-coordinate]])
+
+(defn find-coordinate-names [db]
+  (d/q query-coordinate-names db))
+
+(defn pull-one-by-name [db name]
+  (d/pull db '[*] [:coordinate/name name]))
 
 ;; sub
 
+(defn sub-coordinate-names [conn]
+  @(p/q query-coordinate-names conn))
+
 ;; tx
+
+(defn set-latitude-tx [hc-nw latitude]
+  [{:db/id (:db/id hc-nw)
+    :astronomical-coordinate/show-latitude? latitude}])
+
+(defn set-longitude-tx [hc-nw longitude]
+  [{:db/id (:db/id hc-nw)
+    :astronomical-coordinate/show-longitude? longitude}])
+
+(defn change-show-compass-tx [hc show?]
+  [{:db/id (:db/id hc)
+    :astronomical-coordinate/show-compass? show?}])
+
+(defn change-show-horizontal-plane-tx [hc show?]
+  [{:db/id (:db/id hc)
+    :astronomical-coordinate/show-horizontal-plane? show?}])
+
+(defn change-radius-tx [hc radius]
+  [{:db/id (:db/id hc)
+    :astronomical-coordinate/radius radius}])
 
 (defn update-position-and-quaternion-tx [db id]
   (let [pulled-one (d/pull db '[* {:astronomical-coordinate/center-object [*]}] id)
