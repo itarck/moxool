@@ -11,8 +11,8 @@
 
 (defnc CompassComponent [props]
   (let [texture2 (useTexture "/image/moxool/compass.jpg")]
-    ($ Cylinder {:args #js [0.000006 0.000006 0.0000005 50]
-                 :position #js [0 -0.000001 0]}
+    ($ Cylinder {:args #js [0.0000006 0.0000006 0.0000002 50]
+                 :position #js [0 -0.0000002 0]}
        ($ :meshBasicMaterial {:map texture2 :attach "material"}))))
 
 

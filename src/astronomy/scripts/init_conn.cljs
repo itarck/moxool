@@ -1049,10 +1049,10 @@
   #:horizon-coordinate{:db/id -1004
                        :entity/type :horizon-coordinate
                        :center-object [:planet/name "earth"]
-                       :center-radius 0.021
+                       :center-radius 0.021024
                        :radius 0.002
-                       :longitude 0
-                       :latitude 0
+                       :longitude -46.89168209025404
+                       :latitude 30.009012722341744
                        :show-latitude? false
                        :show-longitude? true
                        :coordinate/name "地平坐标系"

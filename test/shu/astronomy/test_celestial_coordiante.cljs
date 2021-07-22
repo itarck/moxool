@@ -26,3 +26,14 @@
 
 
 (run-tests)
+
+
+(comment 
+  
+  (let [v (v3/from-seq [-132.90985728030398 105.1462852927232 124.41104137711413])]
+    (cc/from-vector v) )
+  ;; => #:celestial-coordinate{:longitude -46.89168209025404, :latitude 30.009012722341744, :radius 210.2352936346976}
+
+  
+  ;; 
+  )
