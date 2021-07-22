@@ -10,7 +10,6 @@
    [astronomy.service.info-tool :as s.info-tool]
    [astronomy.service.spaceship-camera-control :as s.spaceship]
    [astronomy.service.ppt-tool :as s.ppt-tool]
-   [astronomy.service.horizontal-coordinate-tool :as s.hct]
    [astronomy.service.goto-celestial-tool :as s.goto-tool]
    [astronomy.service.equatorial-coordinate-tool :as s.ect]
    [astronomy.service.contellation-tool :as s.constellation-tool]
@@ -42,9 +41,6 @@
    {:listen [:ppt-tool]
     :process-name "ppt-tool"
     :service-fn s.ppt-tool/init-service!}
-   {:listen [:horizontal-coordinate-tool]
-    :process-name "horizontal-coordinate-tool"
-    :service-fn s.hct/init-service!}
    {:listen [:equatorial-coordinate-tool]
     :process-name "equatorial-coordinate-tool"
     :service-fn s.ect/init-service!}

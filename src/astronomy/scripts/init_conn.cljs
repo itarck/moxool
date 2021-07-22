@@ -24,8 +24,7 @@
    [astronomy.model.planet :as m.planet]
    [astronomy.model.star :as m.star]
    [astronomy.model.spin :as m.spin]
-   [astronomy.model.moon-orbit :as m.moon-orbit :refer [lunar-axis-j2000]]
-   [astronomy.model.user.horizon-coordinate-tool :as m.horizon-coordinate-tool]))
+   [astronomy.model.moon-orbit :as m.moon-orbit :refer [lunar-axis-j2000]]))
 
 (def schema (merge ast-model/schema
                    mtd-model/schema))
@@ -956,53 +955,6 @@
     :entity/type :planet}
   )
 
-(def horizontal-coordinate-1
-  #:horizontal-coordinate{:name "default"
-                          :chinese-name "默认"
-                          :position [-0.009008207147170837 0.010816331246425266 -0.015625579486578216]
-                          :radius 0.001
-                          :longitude-interval 90
-                          :latitude-interval 10
-                          :show-latitude? false
-                          :show-longitude? false
-                          :show-horizontal-plane? false
-                          :show-compass? false
-
-                          :object/scene [:scene/name "solar"]
-                          :entity/type :horizontal-coordinate})
-
-
-(def horizontal-coordinate-2
-  #:horizontal-coordinate{:name "Alexandria"
-                          :chinese-name "亚历山大港"
-                          :position [-0.009008207147170837 0.010816331246425266 -0.015625579486578216]
-                          :radius 0.001
-                          :longitude-interval 90
-                          :latitude-interval 10
-                          :show-latitude? false
-                          :show-longitude?  false
-                          :show-horizontal-plane? false
-                          :show-compass? false
-
-                          :object/scene [:scene/name "solar"]
-                          :entity/type :horizontal-coordinate})
-
-(def horizontal-coordinate-3
-  #:horizontal-coordinate{:name "Aswan"
-                          :chinese-name "阿斯旺"
-                          ;; :position [-0.010444387301182155 0.008494526124969702 -0.016143011510370495]
-                          :position [-0.010466612292815682 0.008441806766644699 -0.016155622677143835]
-                          :radius 0.001
-                          :longitude-interval 90
-                          :latitude-interval 10
-                          :show-latitude? false
-                          :show-longitude?  false
-                          :show-horizontal-plane? false
-                          :show-compass? false
-
-                          :object/scene [:scene/name "solar"]
-                          :entity/type :horizontal-coordinate})
-
 (def astronomical-coordinate-1
   #:astronomical-coordinate {:db/id -1001
                              :entity/type :astronomical-coordinate
@@ -1304,13 +1256,6 @@ galaxy-quaternion
               :entity/type :ppt-tool})
 
 
-(def horizontal-coordinate-tool-1
-  #:horizontal-coordinate-tool{:tool/target {:db/id [:horizontal-coordinate/name "default"]}
-                               :tool/name "horizontal-coordinate-tool-1"
-                               :tool/chinese-name "地平坐标系工具"
-                               :tool/icon "/image/moxool/horizon-coordinate.jpg"
-                               :entity/type :horizontal-coordinate-tool})
-
 (def equatorial-coordinate-tool-1
   #:equatorial-coordinate-tool{:radius (* 1 shu.light/light-year-unit)
                                :show-latitude? false
@@ -1413,12 +1358,11 @@ galaxy-quaternion
                       ;;  titan uranus neptune triton pluto charon 
                       ;;  eris haumea halley
                        galaxy reference-1 reference-2 reference-3 atmosphere
-                       horizontal-coordinate-1 horizontal-coordinate-2 horizontal-coordinate-3
                        astronomical-coordinate-1 astronomical-coordinate-2 terrestrial-coordinate-1
                        horizon-coordinate-1 horizon-coordinate-2])
     (d/transact! conn constellation-families)
     (d/transact! conn [spaceship-camera-control person1 universe-tool-1 clock-tool1 info-tool
-                       ppt-tool horizontal-coordinate-tool-1 goto-tool-1
+                       ppt-tool goto-tool-1
                        equatorial-coordinate-tool-1 constellation-tool-1 atmosphere-tool-1 eagle-eye-tool
                        horizon-coordinate-tool astronomical-coordinate-tool])
 
@@ -1428,7 +1372,6 @@ galaxy-quaternion
       (d/transact! conn (m.backpack/put-in-cell-tx bp 1 {:db/id [:tool/name "clock control 1"]}))
       (d/transact! conn (m.backpack/put-in-cell-tx bp 2 {:db/id [:tool/name "goto celestial tool"]}))
       (d/transact! conn (m.backpack/put-in-cell-tx bp 3 {:db/id [:tool/name "spaceship camera tool"]}))
-      (d/transact! conn (m.backpack/put-in-cell-tx bp 4 {:db/id [:tool/name "horizontal-coordinate-tool-1"]}))
       (d/transact! conn (m.backpack/put-in-cell-tx bp 5 {:db/id [:tool/name "equatorial-coordinate-tool"]}))
       (d/transact! conn (m.backpack/put-in-cell-tx bp 6 {:db/id [:tool/name "constellation-tool"]}))
       (d/transact! conn (m.backpack/put-in-cell-tx bp 7 {:db/id [:tool/name "universe tool"]}))

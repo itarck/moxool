@@ -14,7 +14,6 @@
    [astronomy.model.star :as m.star]
    [astronomy.model.constellation :as m.constellation]
    [astronomy.model.atmosphere :as m.atmosphere]
-   [astronomy.model.horizontal-coordinate :as m.horizon]
    [astronomy.model.coordinate :as m.coordinate]
    [astronomy.model.astronomical-coordinate :as m.astronomical-coordinate]
    [astronomy.model.terrestrial-coordinate :as m.terrestrial-coordinate]
@@ -44,7 +43,6 @@
    m.star/schema
    m.constellation/schema
    m.atmosphere/schema
-   m.horizon/schema
    m.coordinate/schema 
    m.astronomical-coordinate/schema
    m.terrestrial-coordinate/schema
