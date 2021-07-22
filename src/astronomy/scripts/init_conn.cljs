@@ -6,7 +6,6 @@
    [datascript.core :as d]
    [datascript.transit :as dt]
    [posh.reagent :as p]
-   [goog.string :as gstring]
    [shu.goog.math :as gmath]
    [shu.three.vector3 :as v3]
    [shu.three.quaternion :as q]
@@ -1256,24 +1255,6 @@ galaxy-quaternion
               :entity/type :ppt-tool})
 
 
-(def equatorial-coordinate-tool-1
-  #:equatorial-coordinate-tool{:radius (* 1 shu.light/light-year-unit)
-                               :show-latitude? false
-                               :show-longitude? false
-                               :show-regression-line false
-                               :show-latitude-0? false
-                               :show-longitude-0? false
-                               :show-ecliptic? false
-                               :show-lunar-orbit? false
-
-                               :object/scene [:scene/name "solar"]
-
-                               :tool/name "equatorial-coordinate-tool"
-                               :tool/chinese-name "赤道坐标系工具"
-                               :tool/icon "/image/moxool/equatorial-coordinate.jpg"
-                               :entity/type :equatorial-coordinate-tool})
-
-
 (def goto-tool-1
   #:goto-celestial-tool {:tool/name "goto celestial tool"
                          :tool/chinese-name "到达星球"
@@ -1362,8 +1343,7 @@ galaxy-quaternion
                        horizon-coordinate-1 horizon-coordinate-2])
     (d/transact! conn constellation-families)
     (d/transact! conn [spaceship-camera-control person1 universe-tool-1 clock-tool1 info-tool
-                       ppt-tool goto-tool-1
-                       equatorial-coordinate-tool-1 constellation-tool-1 atmosphere-tool-1 eagle-eye-tool
+                       ppt-tool goto-tool-1 constellation-tool-1 atmosphere-tool-1 eagle-eye-tool
                        horizon-coordinate-tool astronomical-coordinate-tool])
 
     (let [person (d/pull @conn '[*] [:person/name "dr who"])
@@ -1372,7 +1352,6 @@ galaxy-quaternion
       (d/transact! conn (m.backpack/put-in-cell-tx bp 1 {:db/id [:tool/name "clock control 1"]}))
       (d/transact! conn (m.backpack/put-in-cell-tx bp 2 {:db/id [:tool/name "goto celestial tool"]}))
       (d/transact! conn (m.backpack/put-in-cell-tx bp 3 {:db/id [:tool/name "spaceship camera tool"]}))
-      (d/transact! conn (m.backpack/put-in-cell-tx bp 5 {:db/id [:tool/name "equatorial-coordinate-tool"]}))
       (d/transact! conn (m.backpack/put-in-cell-tx bp 6 {:db/id [:tool/name "constellation-tool"]}))
       (d/transact! conn (m.backpack/put-in-cell-tx bp 7 {:db/id [:tool/name "universe tool"]}))
       (d/transact! conn (m.backpack/put-in-cell-tx bp 8 {:db/id [:tool/name "atmosphere-tool"]}))

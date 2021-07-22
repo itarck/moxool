@@ -20,7 +20,6 @@
    [astronomy.view.user.info-tool :as v.info-tool]
    [astronomy.view.user.ppt-tool :as v.ppt-tool]
    [astronomy.view.user.goto-celestial-tool :as v.goto]
-   [astronomy.view.user.equatorial-coordinate-tool :as v.ect]
    [astronomy.view.user.constellation-tool :as v.constellation-tool]
    [astronomy.view.user.atmosphere-tool :as v.atmosphere-tool]
    [astronomy.view.user.eagle-eye-tool :as v.eagle-eye]
@@ -49,7 +48,6 @@
    :spaceship-camera-control v.spaceship/SpaceshipCameraToolView
    :ppt-tool v.ppt-tool/PPTToolView
    :goto-celestial-tool v.goto/GotoCelestialToolView
-   :equatorial-coordinate-tool v.ect/EquatorialCoordinateToolView
    :constellation-tool v.constellation-tool/ConstellationToolView
    :atmosphere-tool v.atmosphere-tool/AtmosphereToolView
    :eagle-eye-tool v.eagle-eye/EagleEyeToolView
@@ -63,7 +61,6 @@
    :terrestrial-coordinate v.terrestrial-coordinate/TerrestrialCoordinateView
    :astronomical-coordinate v.astronomical-coordinate/AstronomicalCoordinateView
    :horizon-coordinate v.horizon-coordinate/HorizonCoordinateView
-   :equatorial-coordinate-tool v.ect/EquatorialCoordinateSceneView
    :constellation v.constel/ConstellationView})
 
 
