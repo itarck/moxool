@@ -24,7 +24,8 @@
    [astronomy.model.planet :as m.planet]
    [astronomy.model.star :as m.star]
    [astronomy.model.spin :as m.spin]
-   [astronomy.model.moon-orbit :as m.moon-orbit :refer [lunar-axis-j2000]]))
+   [astronomy.model.moon-orbit :as m.moon-orbit :refer [lunar-axis-j2000]]
+   [astronomy.model.user.horizon-coordinate-tool :as m.horizon-coordinate-tool]))
 
 (def schema (merge ast-model/schema
                    mtd-model/schema))
@@ -1334,16 +1335,16 @@ galaxy-quaternion
                    :entity/type :eagle-eye-tool})
 
 (def horizon-coordinate-tool
-  #:tool{:query-one-type :by-name
-         :query-one-candinates []
-         :query-one-args []
-         :query-one-result [:coordinate/name "地平坐标系"]
+  #:horizon-coordinate-tool {:query-type :one-by-name
+                             :query-args-candidates []
+                             :query-args []
+                             :query-result []
 
-         :tool/name "horizon-coordinate-tool"
-         :tool/chinese-name "地平坐标系工具"
-         :tool/icon "/image/pirate/earth.jpg"
-         :tool/type :horizon-coordinate-tool
-         :entity/type :horizon-coordinate-tool})
+                             :tool/name "horizon-coordinate-tool"
+                             :tool/chinese-name "地平坐标系工具"
+                             :tool/icon "/image/moxool/horizon-coordinate.jpg"
+                             :tool/type :horizon-coordinate-tool
+                             :entity/type :horizon-coordinate-tool})
 
 
 ;; processes

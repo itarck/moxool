@@ -4,6 +4,7 @@
    [datascript.core :as d]
    [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.model.horizon-coordinate :as m.horizon]
+   [astronomy.model.user.horizon-coordinate-tool :as m.horizon-coordinate-tool]
    [cljs.core.async :refer [go-loop go >! <! timeout] :as a]))
 
 
@@ -45,15 +46,11 @@
         astro-scene (get-in props [:astro-scene])]
     (p/transact! conn (m.astro-scene/set-scene-coordinate-tx astro-scene horizon-coordinate))))
 
-#_(defmethod handle-event! :horizon-coordinate/change-query-args
+(defmethod handle-event! :horizon-coordinate/change-query-args
   [props {:keys [conn]} {:event/keys [detail]}]
   (let [{:keys [tool query-args]} detail
-        chinese-name (first query-args)]
-    (p/transact! conn (m.horizon-tool/change-query-args-tx tool query-args))
-    (when-not (= chinese-name "未选择")
-      (let [tx (m.horizon-tool/change-target-tx tool {:db/id [:horizontal-coordinate/chinese-name chinese-name]})]
-        ;; (println :horizon-coordinate/change-query-args tx)
-        (p/transact! conn tx)))))
+        tx (m.horizon-coordinate-tool/update-query-args-tx @conn tool query-args)]
+    (p/transact! conn tx)))
 
 
 (defn init-service! [props {:keys [process-chan] :as env}]

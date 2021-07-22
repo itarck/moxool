@@ -38,7 +38,7 @@
                          :coordinate/name "地平坐标系"
                          :coordinate/type :horizon-coordinate
                          :object/scene [:scene/name "solar"]})
-  
+
 
 ;;   
   )
@@ -58,6 +58,21 @@
         q1 (q/from-axis-angle phi-axis (:phi sp))
         q2 (q/from-axis-angle (v3/vector3 0 1 0) (:theta sp))]
     (q/multiply q1 q2)))
+
+;; query and pull
+
+(def query-horizon-coordinate-names
+  '[:find [?name ...]
+    :where
+    [?id :coordinate/name ?name]
+    [?id :entity/type :horizon-coordinate]]
+  )
+
+(defn find-horizon-coordinate-names [db]
+  (d/q query-horizon-coordinate-names db))
+
+(defn pull-one-by-name [db name]
+  (d/pull db '[*] [:coordinate/name name]))
 
 ;; tx
 
@@ -80,8 +95,6 @@
 (defn change-radius-tx [hc radius]
   [{:db/id (:db/id hc)
     :horizon-coordinate/radius radius}])
-
-
 
 (defn update-position-and-quaternion-tx [db id]
   (let [hc (d/pull db '[* {:horizon-coordinate/center-object [*]}] id)
@@ -107,18 +120,14 @@
 
 ;; sub views
 
-(defn sub-ids-by-query [conn query-type query-args]
-  
-  )
-
-
+(defn sub-horizon-coordinate-names [conn]
+  @(p/q query-horizon-coordinate-names conn))
 
 (comment
-  
+
   (cal-local-position sample)
   ;; => #object[Vector3 [0 0.5000000000000001 0.8660254037844386]]
 
   (cal-local-quaternion sample)
   ;; => #object[Quaternion [0.49999999999999994 0 0 0.8660254037844387]]
-
   )
