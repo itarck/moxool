@@ -38,10 +38,10 @@
         [:<>
          [v.celestial-sphere/LatitudeView {:radius radius
                                            :latitude 23.4
-                                           :color "red"}]
+                                           :color "blue"}]
          [v.celestial-sphere/LatitudeView {:radius radius
                                            :latitude -23.4
-                                           :color "red"}]])
+                                           :color "blue"}]])
 
 
       ;; 

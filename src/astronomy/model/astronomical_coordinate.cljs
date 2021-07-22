@@ -71,25 +71,13 @@
 
 ;; tx
 
-(defn set-latitude-tx [hc-nw latitude]
+(defn change-show-latitude-tx [hc-nw show]
   [{:db/id (:db/id hc-nw)
-    :astronomical-coordinate/show-latitude? latitude}])
+    :astronomical-coordinate/show-latitude? show}])
 
-(defn set-longitude-tx [hc-nw longitude]
+(defn change-show-longitude-tx [hc-nw show]
   [{:db/id (:db/id hc-nw)
-    :astronomical-coordinate/show-longitude? longitude}])
-
-(defn change-show-compass-tx [hc show?]
-  [{:db/id (:db/id hc)
-    :astronomical-coordinate/show-compass? show?}])
-
-(defn change-show-horizontal-plane-tx [hc show?]
-  [{:db/id (:db/id hc)
-    :astronomical-coordinate/show-horizontal-plane? show?}])
-
-(defn change-radius-tx [hc radius]
-  [{:db/id (:db/id hc)
-    :astronomical-coordinate/radius radius}])
+    :astronomical-coordinate/show-longitude? show}])
 
 (defn update-position-and-quaternion-tx [db id]
   (let [pulled-one (d/pull db '[* {:astronomical-coordinate/center-object [*]}] id)

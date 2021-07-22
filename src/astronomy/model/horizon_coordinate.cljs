@@ -76,13 +76,13 @@
 
 ;; tx
 
-(defn set-latitude-tx [hc-nw latitude]
+(defn change-show-latitude-tx [hc-nw show]
   [{:db/id (:db/id hc-nw)
-    :horizon-coordinate/show-latitude? latitude}])
+    :horizon-coordinate/show-latitude? show}])
 
-(defn set-longitude-tx [hc-nw longitude]
+(defn change-show-longitude-tx [hc-nw show]
   [{:db/id (:db/id hc-nw)
-    :horizon-coordinate/show-longitude? longitude}])
+    :horizon-coordinate/show-longitude? show}])
 
 (defn change-show-compass-tx [hc show?]
   [{:db/id (:db/id hc)

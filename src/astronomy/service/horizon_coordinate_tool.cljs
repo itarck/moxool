@@ -18,12 +18,12 @@
 (defmethod handle-event! :horizon-coordinate/change-show-longitude
   [props {:keys [conn]} {:event/keys [detail]}]
   (let [{:keys [horizon-coordinate show?]} detail]
-    (p/transact! conn (m.horizon/set-longitude-tx horizon-coordinate show?))))
+    (p/transact! conn (m.horizon/change-show-longitude-tx horizon-coordinate show?))))
 
 (defmethod handle-event! :horizon-coordinate/change-show-latitude
   [props {:keys [conn]} {:event/keys [detail]}]
   (let [{:keys [horizon-coordinate show?]} detail]
-    (p/transact! conn (m.horizon/set-latitude-tx horizon-coordinate show?))))
+    (p/transact! conn (m.horizon/change-show-latitude-tx horizon-coordinate show?))))
 
 (defmethod handle-event! :horizon-coordinate/change-show-compass
   [props {:keys [conn]} {:event/keys [detail]}]

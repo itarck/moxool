@@ -1282,6 +1282,18 @@ galaxy-quaternion
                                   :tool/type :astronomical-coordinate-tool
                                   :entity/type :astronomical-coordinate-tool})
 
+(def terrestrial-coordinate-tool-1
+  #:terrestrial-coordinate-tool {:query-type :one-by-name
+                                 :query-args-candidates []
+                                 :query-args []
+                                 :query-result []
+
+                                 :tool/name "terrestrial-coordinate-tool"
+                                 :tool/chinese-name "地球坐标系工具"
+                                 :tool/icon "/image/moxool/terrestrial-coordinate.jpg"
+                                 :tool/type :terrestrial-coordinate-tool
+                                 :entity/type :terrestrial-coordinate-tool})
+
 ;; processes
 
 
@@ -1313,7 +1325,7 @@ galaxy-quaternion
     (d/transact! conn constellation-families)
     (d/transact! conn [spaceship-camera-control person1 universe-tool-1 clock-tool1 info-tool
                        ppt-tool goto-tool-1 constellation-tool-1 atmosphere-tool-1 eagle-eye-tool
-                       horizon-coordinate-tool astronomical-coordinate-tool])
+                       horizon-coordinate-tool astronomical-coordinate-tool terrestrial-coordinate-tool-1])
 
     (let [person (d/pull @conn '[*] [:person/name "dr who"])
           bp (d/pull @conn '[*] (-> person :person/backpack :db/id))]
@@ -1321,11 +1333,12 @@ galaxy-quaternion
       (d/transact! conn (m.backpack/put-in-cell-tx bp 1 {:db/id [:tool/name "clock control 1"]}))
       (d/transact! conn (m.backpack/put-in-cell-tx bp 2 {:db/id [:tool/name "goto celestial tool"]}))
       (d/transact! conn (m.backpack/put-in-cell-tx bp 3 {:db/id [:tool/name "spaceship camera tool"]}))
+      (d/transact! conn (m.backpack/put-in-cell-tx bp 4 {:db/id [:tool/name "horizon-coordinate-tool"]}))
+      (d/transact! conn (m.backpack/put-in-cell-tx bp 5 {:db/id [:tool/name "terrestrial-coordinate-tool"]}))
       (d/transact! conn (m.backpack/put-in-cell-tx bp 6 {:db/id [:tool/name "constellation-tool"]}))
       (d/transact! conn (m.backpack/put-in-cell-tx bp 7 {:db/id [:tool/name "universe tool"]}))
       (d/transact! conn (m.backpack/put-in-cell-tx bp 8 {:db/id [:tool/name "atmosphere-tool"]}))
       (d/transact! conn (m.backpack/put-in-cell-tx bp 9 {:db/id [:tool/name "eagle-eye-tool"]}))
-      (d/transact! conn (m.backpack/put-in-cell-tx bp 10 {:db/id [:tool/name "horizon-coordinate-tool"]}))
       (d/transact! conn (m.backpack/put-in-cell-tx bp 11 {:db/id [:tool/name "astronomical-coordinate-tool"]}))
       ;; (d/transact! conn (m.backpack/put-in-cell-tx bp 8 {:db/id [:tool/name "info tool 1"]}))
       )

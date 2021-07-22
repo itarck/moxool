@@ -18,12 +18,12 @@
 (defmethod handle-event! :astronomical-coordinate-tool/change-show-longitude
   [props {:keys [conn]} {:event/keys [detail]}]
   (let [{:keys [astronomical-coordinate show?]} detail]
-    (p/transact! conn (m.astronomical-coordinate/set-longitude-tx astronomical-coordinate show?))))
+    (p/transact! conn (m.astronomical-coordinate/change-show-longitude-tx astronomical-coordinate show?))))
 
 (defmethod handle-event! :astronomical-coordinate-tool/change-show-latitude
   [props {:keys [conn]} {:event/keys [detail]}]
   (let [{:keys [astronomical-coordinate show?]} detail]
-    (p/transact! conn (m.astronomical-coordinate/set-latitude-tx astronomical-coordinate show?))))
+    (p/transact! conn (m.astronomical-coordinate/change-show-latitude-tx astronomical-coordinate show?))))
 
 (defmethod handle-event! :astronomical-coordinate-tool/set-scene-reference
   [props {:keys [conn]} {:event/keys [detail]}]

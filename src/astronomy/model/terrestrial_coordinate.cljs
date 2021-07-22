@@ -2,6 +2,7 @@
   (:require
    [cljs.spec.alpha :as s]
    [datascript.core :as d]
+   [posh.reagent :as p]
    [astronomy.model.const :as m.const]
    [astronomy.model.planet :as m.planet]
    [astronomy.model.satellite :as m.satellite]))
@@ -32,8 +33,35 @@
 
                               :terrestrial-coordinate/center-object [:planet/name "earth"]}))
 
+;; transform
+
+(def query-coordinate-names
+  '[:find [?name ...]
+    :where
+    [?id :coordinate/name ?name]
+    [?id :entity/type :terrestrial-coordinate]])
+
+(defn find-coordinate-names [db]
+  (d/q query-coordinate-names db))
+
+(defn pull-one-by-name [db name]
+  (d/pull db '[*] [:coordinate/name name]))
+
+;; sub
+
+(defn sub-coordinate-names [conn]
+  @(p/q query-coordinate-names conn))
+
 
 ;; tx
+
+(defn change-show-latitude-tx [hc-nw show]
+  [{:db/id (:db/id hc-nw)
+    :terrestrial-coordinate/show-latitude? show}])
+
+(defn change-show-longitude-tx [hc-nw show]
+  [{:db/id (:db/id hc-nw)
+    :terrestrial-coordinate/show-longitude? show}])
 
 (defn update-position-and-quaternion-tx [db id]
   (let [pulled-one (d/pull db '[* {:terrestrial-coordinate/center-object [*]}] id)
