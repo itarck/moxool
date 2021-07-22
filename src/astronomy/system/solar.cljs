@@ -12,7 +12,7 @@
    [astronomy.view.constellation :as v.constel]
    [astronomy.view.horizontal-coordinate :as v.horizon]
    [astronomy.view.terrestrial-coordinate :as v.terrestrial-coordinate]
-   [astronomy.view.coordinate :as v.coordinate]
+   [astronomy.view.astronomical-coordinate :as v.astronomical-coordinate]
    [astronomy.view.horizon-coordinate :as v.horizon-coordinate]
    
    [astronomy.view.user.universe-tool :as v.universe-tool]
@@ -62,7 +62,7 @@
   {:star v.star/StarView
    :galaxy v.galaxy/GalaxyView
    :terrestrial-coordinate v.terrestrial-coordinate/TerrestrialCoordinateView
-   :coordinate v.coordinate/CoordinateView
+   :astronomical-coordinate v.astronomical-coordinate/AstronomicalCoordinateView
    :horizon-coordinate v.horizon-coordinate/HorizonCoordinateView
    :horizontal-coordinate v.horizon/HorizontalCoordinateSceneView
    :equatorial-coordinate-tool v.ect/EquatorialCoordinateSceneView

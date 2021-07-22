@@ -1005,13 +1005,18 @@
 
 (def astronomical-coordinate-1
   #:astronomical-coordinate {:db/id -1001
-                             :entity/type :coordinate
+                             :entity/type :astronomical-coordinate
                              :object/position [0 0 0]
                              :object/quaternion [0 0 0 1]
                              :object/scene [:scene/name "solar"]
                              :coordinate/name "赤道天球坐标系"
                              :coordinate/type :astronomical-coordinate
-                             :coordinate/radius 10000
+
+                             :astronomical-coordinate/radius 10000
+                             :astronomical-coordinate/show-latitude? true
+                             :astronomical-coordinate/show-longitude? true
+                             :astronomical-coordinate/show-ecliptic? true
+                             :astronomical-coordinate/show-lunar-orbit? true
                              :astronomical-coordinate/center-candidates [{:db/id [:planet/name "earth"]}
                                                                          {:db/id [:planet/name "sun"]}]
                              :astronomical-coordinate/center-object [:planet/name "earth"]
