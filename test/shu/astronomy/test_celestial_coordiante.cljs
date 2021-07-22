@@ -30,8 +30,12 @@
 
 (comment 
   
-  (let [v (v3/from-seq [-132.90985728030398 105.1462852927232 124.41104137711413])]
+  (let [v (v3/from-seq '(54.659866380199894 163.49055161809267 119.63234325255185))]
     (cc/from-vector v) )
+  ;; => #:celestial-coordinate{:longitude 24.55560088562043, :latitude 51.18336724365963, :radius 209.830310044059}
+
+  ;; => #:celestial-coordinate{:longitude -119.49298021035723, :latitude 51.14121936716526, :radius 209.82759182933466}
+
   ;; => #:celestial-coordinate{:longitude -46.89168209025404, :latitude 30.009012722341744, :radius 210.2352936346976}
 
   

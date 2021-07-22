@@ -3,7 +3,9 @@
    [cljs.spec.alpha :as s]
    [datascript.core :as d]
    [posh.reagent :as p]
-   [astronomy.model.const :as m.const]
+   [shu.three.quaternion :as q]
+   [shu.three.vector3 :as v3]
+   [shu.geometry.angle :as shu.angle]
    [astronomy.model.planet :as m.planet]
    [astronomy.model.satellite :as m.satellite]))
 
@@ -25,12 +27,21 @@
           :opt []))
 
 (comment
-  (def sample
-    #:terrestrial-coordinate {:object/position [0 0 0]
+  (def terrestrial-coordinate-1
+    #:terrestrial-coordinate {:db/id -1003
+                              :entity/type :terrestrial-coordinate
+                              :object/position [0 0 0]
                               :object/quaternion [0 0 0 1]
+                              :object/scene [:scene/name "solar"]
                               :coordinate/name "地球坐标系"
                               :coordinate/type :terrestrial-coordinate
 
+                              :terrestrial-coordinate/longitude-0-offset -119.49298021035723
+                              :terrestrial-coordinate/radius 0.0215
+                              :terrestrial-coordinate/show-latitude? true
+                              :terrestrial-coordinate/show-longitude? true
+                              :terrestrial-coordinate/show-latitude-0? true
+                              :terrestrial-coordinate/show-longitude-0? true
                               :terrestrial-coordinate/center-object [:planet/name "earth"]}))
 
 ;; transform
@@ -46,6 +57,10 @@
 
 (defn pull-one-by-name [db name]
   (d/pull db '[*] [:coordinate/name name]))
+
+(defn cal-local-quaternion [terrestrial-coordinate]
+  (let [{:terrestrial-coordinate/keys [longitude-0-offset]} terrestrial-coordinate]
+    (q/from-axis-angle (v3/vector3 0 1 0) (shu.angle/to-radians longitude-0-offset))))
 
 ;; sub
 
@@ -69,8 +84,10 @@
         position (case (:entity/type center-object)
                    :star (:object/position center-object)
                    :planet (m.planet/cal-world-position db center-object)
-                   :satellite (m.satellite/cal-world-position db center-object))]
+                   :satellite (m.satellite/cal-world-position db center-object))
+        center-quaternion (q/from-seq (get-in center-object [:object/quaternion]))
+        local-quaternion (cal-local-quaternion pulled-one)]
     [{:db/id (:db/id pulled-one)
       :object/position position
-      :object/quaternion (get-in center-object [:object/quaternion])}]))
+      :object/quaternion (seq (q/multiply center-quaternion local-quaternion))}]))
 

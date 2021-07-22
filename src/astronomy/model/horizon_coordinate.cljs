@@ -47,8 +47,8 @@
 ;; transform 
 
 (defn cal-local-position [hc]
-  (let [{:horizon-coordinate/keys [longitude latitude center-radius]} hc
-        cc (shu.cc/celestial-coordinate longitude latitude center-radius)]
+  (let [{:horizon-coordinate/keys [longitude latitude center-radius longitude-0-offset]} hc
+        cc (shu.cc/celestial-coordinate (+ longitude-0-offset longitude) latitude center-radius)]
     (shu.cc/cal-position cc)))
 
 

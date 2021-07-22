@@ -966,7 +966,8 @@
                             :object/scene [:scene/name "solar"]
                             :coordinate/name "地球坐标系"
                             :coordinate/type :terrestrial-coordinate
-
+                            
+                            :terrestrial-coordinate/longitude-0-offset -77.444
                             :terrestrial-coordinate/radius 0.0215
                             :terrestrial-coordinate/show-latitude? true
                             :terrestrial-coordinate/show-longitude? true
@@ -980,7 +981,8 @@
                        :center-object [:planet/name "earth"]
                        :center-radius 0.021024
                        :radius 0.002
-                       :longitude -46.89168209025404
+                       :longitude-0-offset -77.444
+                       :longitude 31.239444444
                        :latitude 30.009012722341744
                        :show-latitude? true
                        :show-longitude? true
@@ -996,8 +998,9 @@
                        :center-object [:planet/name "earth"]
                        :center-radius 0.021024
                        :radius 0.002
+                       :longitude-0-offset -77.444
                        :longitude 0
-                       :latitude 30.009012722341744
+                       :latitude 51.5
                        :show-latitude? true
                        :show-longitude? true
                        :show-horizontal-plane? true
