@@ -1038,7 +1038,7 @@
                             :coordinate/name "地球坐标系"
                             :coordinate/type :terrestrial-coordinate
 
-                            :terrestrial-coordinate/radius 0.025
+                            :terrestrial-coordinate/radius 0.0215
                             :terrestrial-coordinate/show-latitude? true
                             :terrestrial-coordinate/show-longitude? true
                             :terrestrial-coordinate/show-latitude-0? true
