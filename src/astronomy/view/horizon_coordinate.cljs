@@ -4,9 +4,7 @@
    [helix.core :refer [defnc $] :as h]
    ["react" :as react :refer [Suspense]]
    ["@react-three/drei" :refer [Cylinder useTexture]]
-   [astronomy.model.horizon-coordinate :as m.horizon-coordinate]
-
-   [astronomy.view.celestial-sphere-helper :as v.celestial-sphere]))
+   [astronomy.component.celestial-sphere :as c.celestial-sphere]))
 
 
 (defnc CompassComponent [props]
@@ -27,13 +25,13 @@
       (when show-horizontal-plane?
         [:polarGridHelper {:args [radius 4 10 60 "green" "green"]}])
 
-      [v.celestial-sphere/CelestialSphereHelperView {:radius radius
-                                                     :show-latitude? show-latitude?
-                                                     :show-longitude? show-longitude?
-                                                     :longitude-interval 90
-                                                     :longitude-color-map {:default "#060"
-                                                                           -180 "#0b0"}
-                                                     :latitude-color-map {:default "#060"}}]
+      [:> c.celestial-sphere/CelestialSphereComponent {:radius radius
+                                                       :show-latitude? show-latitude?
+                                                       :show-longitude? show-longitude?
+                                                       :longitude-interval 90
+                                                       :longitude-color-map {:default "#060"
+                                                                             -180 "#0b0"}
+                                                       :latitude-color-map {:default "#060"}}]
       (when show-compass?
         ($ Suspense {:fallback nil}
            ($ CompassComponent)))]]))

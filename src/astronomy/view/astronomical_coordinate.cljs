@@ -8,7 +8,7 @@
    [astronomy.model.const :as m.const]
    [methodology.lib.geometry :as v.geo]
    [astronomy.view.satellite :as v.satellite]
-   [astronomy.view.celestial-sphere-helper :as v.celestial-sphere]))
+   [astronomy.component.celestial-sphere :as c.celestial-sphere]))
 
 
 (defn EclipticMarksView [{:keys [radius color]}]
@@ -31,7 +31,7 @@
                            :radius 500
                            :axis m.const/ecliptic-axis
                            :color "orange"}]
-   (let [points (v.celestial-sphere/gen-latitude-points 500 0 36)]
+   (let [points (c.celestial-sphere/gen-latitude-points 500 0 36)]
      [:mesh {:quaternion m.const/ecliptic-quaternion}
       [v.geo/PointsComponent {:points points
                               :size 40000
@@ -54,34 +54,34 @@
     [:mesh {:position (:object/position tc)
             :quaternion (:object/quaternion tc)}
      [:<>
-      [v.celestial-sphere/CelestialSphereHelperView {:radius 1000
-                                                     :longitude-interval 30
-                                                     :show-latitude? show-latitude?
-                                                     :show-longitude? show-longitude?
-                                                     :longitude-color-map {:default "#770000"}
-                                                     :latitude-color-map {:default "#770000"}}]
+      [:> c.celestial-sphere/CelestialSphereComponent {:radius radius
+                                    :longitude-interval 30
+                                    :show-latitude? show-latitude?
+                                    :show-longitude? show-longitude?
+                                    :longitude-color-map {:default "#770000"}
+                                    :latitude-color-map {:default "#770000"}}]
 
       (when show-latitude-0?
         [:<>
-         [v.celestial-sphere/LatitudeView {:radius radius
-                                           :latitude 0
-                                           :color "red"}]
-         [v.celestial-sphere/LongitudeMarksView {:radius radius
-                                                 :color "red"}]])
+         [:> c.celestial-sphere/LatitudeComponent {:radius radius
+                                                   :latitude 0
+                                                   :color "red"}]
+         [:> c.celestial-sphere/LongitudeMarksComponent {:radius radius
+                                                         :color "red"}]])
       (when show-longitude-0?
         [:<>
-         [v.celestial-sphere/LongitudeView {:radius radius
-                                            :longitude 0
-                                            :color "red"}]])
+         [:> c.celestial-sphere/LongitudeComponent {:radius radius
+                                                    :longitude 0
+                                                    :color "red"}]])
 
       (when show-regression-line?
         [:<>
-         [v.celestial-sphere/LatitudeView {:radius radius
-                                           :latitude 23.4
-                                           :color "red"}]
-         [v.celestial-sphere/LatitudeView {:radius radius
-                                           :latitude -23.4
-                                           :color "red"}]])
+         [:> c.celestial-sphere/LatitudeComponent {:radius radius
+                                                   :latitude 23.4
+                                                   :color "red"}]
+         [:> c.celestial-sphere/LatitudeComponent {:radius radius
+                                                   :latitude -23.4
+                                                   :color "red"}]])
 
       (when show-ecliptic?
         [EclipticSceneView {:earth earth} env])

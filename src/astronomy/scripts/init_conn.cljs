@@ -935,6 +935,7 @@
                              :astronomical-coordinate/radius 10000
                              :astronomical-coordinate/show-latitude? true
                              :astronomical-coordinate/show-longitude? true
+                             :astronomical-coordinate/show-latitude-0? false
                              :astronomical-coordinate/show-ecliptic? true
                              :astronomical-coordinate/show-lunar-orbit? true
                              :astronomical-coordinate/center-candidates [{:db/id [:planet/name "earth"]}
