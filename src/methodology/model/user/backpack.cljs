@@ -40,7 +40,10 @@
 (defn deactive-cell-tx [backpack]
   [[:db.fn/retractAttribute (:db/id backpack) :backpack/active-cell]])
 
-
+(defn put-in-backpack-tx [backpack tools]
+  (apply concat
+         (for [i (range (count tools))]
+           (put-in-cell-tx backpack i (get tools i)))))
 
 ;; subscribe 
 

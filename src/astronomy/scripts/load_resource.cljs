@@ -13,5 +13,14 @@
    (read-resource "edn/constellation1.edn")
    (read-string)))
 
+(def constellation2
+  (->
+   (read-resource "edn/constellation2.edn")
+   (read-string)))
 
-constellation1
+(defn load-constellations2! [file-name]
+  (let [constellations (->> (read-resource file-name)
+                            (read-string))]
+    constellations))
+
+constellation2
