@@ -3,6 +3,7 @@
    [cljs.core.async :as async :refer [go >! <! chan go-loop]]
    [methodology.service.camera :as s.camera]
    [methodology.service.mouse :as s.mouse]
+   [astronomy.service.effect :as s.effect]
    [astronomy.service.user :as s.user]
    [astronomy.service.astro-scene :as s.astro-scene]
    [astronomy.service.universe-tool :as s.universe-tool]
@@ -53,9 +54,12 @@
    {:listen [:horizon-coordinate]
     :process-name "horizon-coordinate"
     :service-fn s.horizon-coordinate/init-service!}
-   {:listen [:astronomical-coordinate-tool]
+   #_{:listen [:astronomical-coordinate-tool]
     :process-name ":astronomical-coordinate-tool"
     :service-fn s.astronomical-coordinate-tool/init-service!}
+   {:listen [:astronomical-coordinate-tool]
+    :process-name ":astronomical-coordinate-tool"
+    :parse-event-fn s.astronomical-coordinate-tool/parse-event}
    {:listen [:terrestrial-coordinate-tool]
     :process-name ":terrestrial-coordinate-tool"
     :service-fn s.terrestrial-coordinate-tool/init-service!}
@@ -69,6 +73,19 @@
     :service-fn s.mouse/init-service!}])
 
 
+
+(defn init-service! [props {:keys [process-chan parse-event-fn conn] :as env}]
+  (go-loop []
+    (let [event (<! process-chan)]
+      (try
+        (let [{:event/keys [action detail]} event
+              effect (parse-event-fn action detail props @conn)]
+          (s.effect/handle-effect! effect env))
+        (catch js/Error e
+          (js/console.log e))))
+    (recur)))
+
+
 (defn init-service-center! [props env]
   ;; (println "!!!!! init service-center......")
   (let [{:keys [service-chan]} env
@@ -76,13 +93,21 @@
                               (keyword (namespace (:event/action event))))
         process-publication (async/pub service-chan process-dispatch-fn)]
 
-    (doseq [{:keys [service-fn process-name listen]} processes]
+    (doseq [{:keys [service-fn parse-event-fn process-name listen]} processes]
       (let [process-chan (chan)]
         (doseq [l listen]
           (async/sub process-publication l process-chan))
-        (service-fn props (-> env
-                              (assoc :process-chan process-chan)
-                              (assoc :process-name process-name)))))
+        (when service-fn
+          (service-fn props (-> env
+                                (assoc :process-chan process-chan)
+                                (assoc :process-name process-name))))
+        (when parse-event-fn 
+          (init-service! props (-> env
+                                   (assoc :process-chan process-chan)
+                                   (assoc :process-name process-name)
+                                   (assoc :parse-event-fn parse-event-fn)))
+          )
+        ))
 
     ;; (kick-start! env)
 
