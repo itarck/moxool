@@ -2,17 +2,11 @@
   (:require
    [cljs.spec.alpha :as s]
    [datascript.core :as d]
-   [datascript.transit :as dt]
-   [posh.reagent :as p]
    [shu.three.matrix4 :as m4]
-   [methodology.model.core :as mtd-model]
-   [astronomy.model.core :as ast-model]
+   [astronomy.conn.core :refer [create-empty-conn!]]
    [astronomy.data.basic :as d.basic]
    [astronomy.data.celestial :as d.celestial]
    [astronomy.model.celestial :as m.celestial]))
-
-(def schema (merge ast-model/schema
-                   mtd-model/schema))
 
 
 (def clock-1
@@ -80,7 +74,7 @@
 
 
 (def test-conn
-  (let [conn (d/create-conn schema)]
+  (let [conn (create-empty-conn!)]
     (d/transact! conn d.basic/dataset1)
     (d/transact! conn d.celestial/dataset1)
     (d/transact! conn d.celestial/dataset2)
