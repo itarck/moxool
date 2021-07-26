@@ -7,8 +7,8 @@
    [methodology.lib.chest :as chest]
    [astronomy.app.scene-free :as scene-free]
    [astronomy.app.scene-in-editor :as scene-in-editor]
-   [astronomy.app.scene-in-player :as scene-in-player]
-   ))
+   [astronomy.app.scene-in-player :as scene-in-player])
+  (:require-macros [methodology.lib.resource]))
 
 
 
