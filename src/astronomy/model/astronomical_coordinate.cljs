@@ -16,6 +16,8 @@
 ;;    * z方向：春分点
 
 
+;; schema
+
 (def schema 
   {:astronomical-coordinate/center-object {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}})
 
@@ -52,14 +54,16 @@
 
 ;; transform
 
+
+;; query
+
 (def query-coordinate-names
   '[:find [?name ...]
     :where
     [?id :coordinate/name ?name]
     [?id :entity/type :astronomical-coordinate]])
 
-(defn find-coordinate-names [db]
-  (d/q query-coordinate-names db))
+;; find
 
 (defn pull-one-by-name [db name]
   (d/pull db '[*] [:coordinate/name name]))
@@ -70,14 +74,6 @@
   @(p/q query-coordinate-names conn))
 
 ;; tx
-
-(defn change-show-latitude-tx [hc-nw show]
-  [{:db/id (:db/id hc-nw)
-    :astronomical-coordinate/show-latitude? show}])
-
-(defn change-show-longitude-tx [hc-nw show]
-  [{:db/id (:db/id hc-nw)
-    :astronomical-coordinate/show-longitude? show}])
 
 (defn update-position-and-quaternion-tx [db id]
   (let [pulled-one (d/pull db '[* {:astronomical-coordinate/center-object [*]}] id)

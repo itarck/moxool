@@ -16,9 +16,6 @@
                                   :entity/type :astronomical-coordinate-tool})
 
 ;; find
-(defn get-query-args-candidates [db query-type]
-  (case query-type
-    :one-by-name (m.astronomical-coordinate/find-coordinate-names db)))
 
 (defn cal-query-result [db query-type query-args]
   (case query-type

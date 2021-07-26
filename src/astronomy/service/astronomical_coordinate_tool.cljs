@@ -14,13 +14,17 @@
 
 (defmethod parse-event :astronomical-coordinate-tool/change-show-longitude
   [_ detail props db]
-  (let [{:keys [astronomical-coordinate show?]} detail]
-    (create-effect :tx (m.astronomical-coordinate/change-show-longitude-tx astronomical-coordinate show?))))
+  (let [{:keys [astronomical-coordinate show?]} detail
+        tx [{:db/id (:db/id astronomical-coordinate)
+             :astronomical-coordinate/show-longitude? show?}]]
+    (create-effect :tx tx)))
 
 (defmethod parse-event :astronomical-coordinate-tool/change-show-latitude
   [_ detail props db]
-  (let [{:keys [astronomical-coordinate show?]} detail]
-    (create-effect :tx (m.astronomical-coordinate/change-show-latitude-tx astronomical-coordinate show?))))
+  (let [{:keys [astronomical-coordinate show?]} detail
+        tx [{:db/id (:db/id astronomical-coordinate)
+             :astronomical-coordinate/show-latitude? show?}]]
+    (create-effect :tx tx)))
 
 (defmethod parse-event :astronomical-coordinate-tool/set-scene-reference
   [_ detail props db]
