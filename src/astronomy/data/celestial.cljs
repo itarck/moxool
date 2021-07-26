@@ -2,12 +2,11 @@
   (:require
    [shu.goog.math :as gmath]
    [shu.geometry.angle :as shu.angle]
-   [astronomy.model.const :as m.const :refer [ecliptic-axis]]
+   [astronomy.model.const :as m.const :refer [ecliptic-axis ecliptic-quaternion]]
    [astronomy.model.ellipse-orbit :as m.ellipse-orbit]
    [astronomy.model.planet :as m.planet]
    [astronomy.model.spin :as m.spin]
-   [astronomy.model.moon-orbit :as m.moon-orbit :refer [lunar-axis-j2000]])
-  )
+   [astronomy.model.moon-orbit :as m.moon-orbit :refer [lunar-axis-j2000]]))
 
 
 (def sun
@@ -24,7 +23,7 @@
                                  :shadow? false}
          :celestial/clock [:clock/name "default"]
          :object/position [0 0 0]
-         :object/quaternion m.const/ecliptic-quaternion
+         :object/quaternion (vec ecliptic-quaternion)
          :object/scene [:scene/name "solar"]
          :object/show? true
          :entity/chinese-name "太阳"
@@ -155,7 +154,7 @@
     :planet [:planet/name "earth"]
     :celestial/radius 0.00579
     :celestial/orbit #:moon-orbit {:axis (seq lunar-axis-j2000)
-                                   :axis-precession-center (seq m.const/ecliptic-axis)
+                                   :axis-precession-center (vec ecliptic-axis)
                                    :axis-precession-velocity (shu.angle/period-to-angular-velocity-in-degrees -6798)
 
                                    :epoch-days-j20110615 4183.343103981481
@@ -564,8 +563,8 @@
     :celestial/radius 0.200893333
     :celestial/radius-string "9.45 地球半径"
     :celestial/orbit #:circle-orbit {:star [:star/name "sun"]
-                                     :start-position (m.planet/random-position 4750 m.const/ecliptic-axis)
-                                     :axis m.const/ecliptic-axis
+                                     :start-position (m.planet/random-position 4750 ecliptic-axis)
+                                     :axis (vec ecliptic-axis)
                                      :angular-velocity (shu.angle/period-to-angular-velocity-in-radians (* 29.448 365))
                                      :radius 4750
 
@@ -626,7 +625,7 @@
     :celestial/orbit #:circle-orbit {:star [:star/name "sun"]
                                      :start-position (m.planet/random-position 9569.907333 m.const/ecliptic-axis)
                                      :radius 9569.907333
-                                     :axis m.const/ecliptic-axis
+                                     :axis (vec ecliptic-axis)
                                      :angular-velocity (shu.angle/period-to-angular-velocity-in-radians (* 84.02 365))
 
                                      :orbit/type :circle-orbit
@@ -659,7 +658,7 @@
     :celestial/orbit #:circle-orbit {:star [:star/name "sun"]
                                      :radius 14994.17633
                                      :start-position (m.planet/random-position 14994.17633 ecliptic-axis)
-                                     :axis ecliptic-axis
+                                     :axis (vec ecliptic-axis)
                                      :angular-velocity (shu.angle/period-to-angular-velocity-in-radians (* 164.79 365))
 
                                      :orbit/type :circle-orbit

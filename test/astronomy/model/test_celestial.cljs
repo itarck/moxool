@@ -2,10 +2,18 @@
   (:require
    [cljs.spec.alpha :as s]
    [datascript.core :as d]
+   [datascript.transit :as dt]
    [posh.reagent :as p]
    [shu.three.matrix4 :as m4]
-   [astronomy.test-conn :refer [create-poshed-conn! create-test-conn!]]
+   [methodology.model.core :as mtd-model]
+   [astronomy.model.core :as ast-model]
+   [astronomy.data.basic :as d.basic]
+   [astronomy.data.celestial :as d.celestial]
    [astronomy.model.celestial :as m.celestial]))
+
+(def schema (merge ast-model/schema
+                   mtd-model/schema))
+
 
 (def clock-1
   #:clock {:name "default"
@@ -71,14 +79,17 @@
   ;; => #object[Quaternion [0 -1.2246467991473532e-16 0 1]]
 
 
-(def test-conn (create-poshed-conn!))
+(def test-conn
+  (let [conn (d/create-conn schema)]
+    (d/transact! conn d.basic/dataset1)
+    (d/transact! conn d.celestial/dataset1)
+    (d/transact! conn d.celestial/dataset2)
+    (d/transact! conn d.celestial/dataset3)
+    conn))
 
 
-(m.celestial/find-celestials-by-clock test-conn {:db/id [:clock/name "default"]})
-;; => [{:object/scene #:db{:id 1}, :celestial/clock #:db{:id 2}, :planet/chinese-name "地球", :entity/type :planet, :planet/name "earth", :celestial/gltf #:db{:id 5}, :planet/star #:db{:id 3}, :object/position [100 0 0], :planet/radius 2, :db/id 4, :celestial/spin {:db/id 6, :spin/axis [0 1 0], :spin/period 1}, :planet/color "blue", :celestial/orbit {:db/id 7, :circle-orbit/axis [-1 2 0], :circle-orbit/period 365, :circle-orbit/star [:star/name "sun"], :circle-orbit/start-position [100 0 0]}} {:object/scene #:db{:id 1}, :celestial/clock #:db{:id 2}, :satellite/planet #:db{:id 4}, :satellite/radius 1, :satellite/chinese-name "月球", :entity/type :satellite, :celestial/gltf #:db{:id 9}, :object/position [0 0 30], :satellite/name "moon", :db/id 8, :celestial/spin {:db/id 10, :spin/axis [0 1 0], :spin/period 1}, :satellite/color "gray", :celestial/orbit {:db/id 11, :circle-orbit/axis [1 2 0], :circle-orbit/period 30, :circle-orbit/start-position [0 0 30]}}]
-
-(m.celestial/update-position-and-quaternion-tx celestial-1 clock-1)
-;; => [[:db/add nil :celestial/position [-8.606678077917342 17.213356155834685 -499.7777588136744]] [:db/add nil :celestial/quaternion [0 0.10452846326765346 0 0.9945218953682733]]]
+(m.celestial/update-position-and-quaternion-tx celestial-1)
+;; => [[:db/add 120 :object/position [0 0 100]] [:db/add 120 :object/quaternion [0.4082482904638631 0 -0.4082482904638631 0.8164965809277261]]]
 
 
 (m.celestial/cal-position celestial-1 180)
@@ -125,17 +136,5 @@
 
 (comment
 
-  (def conn (create-test-conn!))
-
-  (def db @conn)
-
-  (d/q '[:find ?id ?chinese-name
-         :where [?id :celestial/chinese-name ?chinese-name]]
-       db)
-  
-  @(p/q '[:find ?id ?chinese-name
-          :where [?id :celestial/chinese-name ?chinese-name]]
-        conn)
-  
   ;; 
   )

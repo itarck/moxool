@@ -5,6 +5,7 @@
    [datascript.core :as d]
    [datascript.transit :as dt]
    [posh.reagent :as p]
+   [methodology.lib.client :as client]
    [methodology.model.user.backpack :as m.backpack]
    [methodology.model.core :as mtd-model]
    [astronomy.model.astro-scene :as m.astro-scene]
@@ -17,7 +18,8 @@
    [astronomy.data.coordinate :as d.coordinate]
    [astronomy.data.tool :as d.tool]
    [astronomy.data.stars :as d.stars]
-   [astronomy.data.constellation :as d.constel]))
+   [astronomy.data.constellation :as d.constel]
+   ))
 
 
 (def schema (merge ast-model/schema
@@ -56,7 +58,7 @@
   (let [conn (d/create-conn schema)]
     (d/transact! conn d.basic/dataset1)
     (d/transact! conn d.celestial/dataset1)
-    (d/transact! conn d.celestial/dataset2)
+    ;; (d/transact! conn d.celestial/dataset2)
     (d/transact! conn d.celestial/dataset3)
     (d/transact! conn d.galaxy/dataset1)
     (d/transact! conn d.coordinate/dataset1)
@@ -81,6 +83,11 @@
         (println (:body response)))
       (>! ch @conn))
     ch))
+
+(defn async-run2! []
+  (let [conn (init-conn!)]
+    (println "async-run init-conn !!!!")
+    (client/save-db-file @conn "/temp/free-mode.edn")))
 
 
 (comment
