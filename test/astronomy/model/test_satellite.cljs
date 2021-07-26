@@ -3,12 +3,11 @@
    [cljs.test :refer-macros [deftest is testing run-tests]]
    [posh.reagent :as p]
    [shu.three.vector3 :as v3]
-   [astronomy.scripts.test-conn :refer [create-test-conn!]]
+   [astronomy.scripts.test-conn :as test-conn]
    [astronomy.model.satellite :as m.satellite]))
 
 
-(def conn (create-test-conn!))
-
+(def conn (test-conn/init-conn!))
 
 (def wide-moon
   @(p/pull conn m.satellite/wide-selector 

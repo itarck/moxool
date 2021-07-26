@@ -1,15 +1,22 @@
 (ns astronomy.model.test-horizon-coordinate
   (:require
    [cljs.test :refer-macros [deftest is testing run-tests]]
-   [astronomy.scripts.test-conn :refer [create-test-conn!]]
+   
+   [astronomy.conn.core :refer [create-basic-conn!]]
    [posh.reagent :as p]
+   [astronomy.data.celestial :as d.celestial]
+   [astronomy.data.coordinate :as d.coordinate]
    [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.model.object :as m.object]
    [astronomy.model.clock :as m.clock]
    [astronomy.model.horizon-coordinate :as m.horizon-coordinate]))
 
 
-(def conn (create-test-conn!))
+(def conn 
+  (let [conn (create-basic-conn!)]
+    (p/transact! conn d.celestial/dataset1)
+    (p/transact! conn d.coordinate/dataset1)
+    conn))
 
 
 (def horizon-coor

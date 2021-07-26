@@ -1,7 +1,7 @@
 (ns astronomy.model.test-terrestrial-coordinate
   (:require
    [cljs.test :refer-macros [deftest is testing run-tests]]
-   [astronomy.scripts.test-conn :refer [create-test-conn!]]
+   [astronomy.scripts.test-conn :as test-conn]
    [posh.reagent :as p]
    [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.model.object :as m.object]
@@ -9,7 +9,7 @@
    [astronomy.model.terrestrial-coordinate :as m.terrestrial-coordinate]))
 
 
-(def conn (create-test-conn!))
+(def conn (test-conn/init-conn!))
 
 
 (def terr-coor

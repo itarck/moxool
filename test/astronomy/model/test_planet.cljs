@@ -1,7 +1,8 @@
 (ns astronomy.model.test-planet
   (:require
    [cljs.test :refer-macros [deftest is testing run-tests]]
-   [astronomy.scripts.test-conn :refer [create-test-conn!]]
+   [astronomy.conn.core :refer [create-basic-conn!]]
+   [astronomy.data.celestial :as d.celestial]
    [posh.reagent :as p]
    [astronomy.model.planet :as m.planet]))
 
@@ -26,8 +27,10 @@
             :object/position [100 0 0]
             :entity/type :planet})
 
-
-(def conn (create-test-conn!))
+(def conn
+  (let [conn (create-basic-conn!)]
+    (p/transact! conn d.celestial/dataset1)
+    conn))
 
 
 (def earth
