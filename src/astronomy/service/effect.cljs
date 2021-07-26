@@ -19,3 +19,8 @@
       :event (go (>! service-chan detail))
       :log (println "logging: " detail))))
 
+
+(defn wrap-handle-event! [handle-event]
+  (fn [props env event]
+    (let [effect (handle-event props env event)]
+      (handle-effect! effect env))))
