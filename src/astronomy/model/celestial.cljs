@@ -11,7 +11,6 @@
    [astronomy.model.spin :as m.spin]))
 
 
-
 ;; schema
 
 (def schema

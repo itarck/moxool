@@ -1,5 +1,6 @@
 (ns methodology.model.entity
   (:require
+   [cljs.spec.alpha :as s]
    [datascript.core :as d]
    [posh.reagent :as p]))
 
@@ -12,5 +13,14 @@
 
 (def schema {:entity/name {:db/unique :db.unique/identity}})
 
+;; spec
+
+(s/def :methodology/entity
+  (s/keys :req [:db/id]))
 
 ;; model 
+
+
+(comment
+  (s/valid? :methodology/entity {:db/id 4} )
+  )

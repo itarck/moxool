@@ -1,31 +1,19 @@
 (ns astronomy.scripts.init-conn2
   (:require
-   [cljs.core.async :refer [go >! <! chan]]
-   [cljs-http.client :as http]
    [datascript.core :as d]
-   [datascript.transit :as dt]
    [posh.reagent :as p]
    [methodology.lib.client :as client]
    [methodology.model.user.backpack :as m.backpack]
-   [methodology.model.core :as mtd-model]
+   [astronomy.conn.core :refer [create-empty-conn!]]
    [astronomy.model.astro-scene :as m.astro-scene]
-   [astronomy.model.core :as ast-model]
    [astronomy.model.clock :as m.clock]
-
    [astronomy.data.basic :as d.basic]
    [astronomy.data.celestial :as d.celestial]
    [astronomy.data.galaxy :as d.galaxy]
    [astronomy.data.coordinate :as d.coordinate]
    [astronomy.data.tool :as d.tool]
    [astronomy.data.stars :as d.stars]
-   [astronomy.data.constellation :as d.constel]
-   ))
-
-
-(def schema (merge ast-model/schema
-                   mtd-model/schema))
-
-
+   [astronomy.data.constellation :as d.constel]))
 
 ;; processes
 
@@ -55,7 +43,7 @@
 
 
 (defn init-conn! []
-  (let [conn (d/create-conn schema)]
+  (let [conn (create-empty-conn!)]
     (d/transact! conn d.basic/dataset1)
     (d/transact! conn d.celestial/dataset1)
     ;; (d/transact! conn d.celestial/dataset2)
@@ -72,18 +60,6 @@
     (kick-start! conn)
     conn))
 
-(defn async-run! []
-  (let [ch (chan)
-        conn (init-conn!)]
-    (println "async-run init-conn !!!!")
-    (go
-      (let [db-name "/temp/free-mode.edn"
-            response (<! (http/post "/api/db/save" {:edn-params {:db-name db-name
-                                                                 :db-value (dt/write-transit-str @conn)}}))]
-        (println (:body response)))
-      (>! ch @conn))
-    ch))
-
 (defn async-run2! []
   (let [conn (init-conn!)]
     (println "async-run init-conn !!!!")
@@ -92,7 +68,7 @@
 
 (comment
 
-  (async-run!)
+  (async-run2!)
 ;;   
   )
 
