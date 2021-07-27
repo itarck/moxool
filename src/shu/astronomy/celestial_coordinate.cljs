@@ -85,16 +85,14 @@
     (v3/from-spherical-coords radius phi theta)))
 
 
+(defn distance-in-degree [cc1 cc2]
+  (let [uv1 (to-unit-vector cc1)
+        uv2 (to-unit-vector cc2)]
+    (angle/to-degrees (v3/angle-to uv1 uv2))))
+
+
+
 (comment
-
-  (right-ascension sample)
-  (declination sample)
-  (from-unit-vector (to-unit-vector sample))
-
-  (v3/almost-equal?
-   (v3/normalize (cal-position (celestial-coordinate 30 60 100)))
-   (to-unit-vector (celestial-coordinate 30 60)))
-
 
   ;; 
   )

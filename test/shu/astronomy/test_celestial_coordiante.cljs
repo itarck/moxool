@@ -7,7 +7,13 @@
 
 (def sample
   #:celestial-coordinate {:longitude 30
-                          :latitude 40})
+                          :latitude 0
+                          :radius 1})
+
+(def sample2
+  #:celestial-coordinate {:longitude 60
+                          :latitude 23
+                          :radius 1})
 
 
 (deftest test-celestial-coordinate
@@ -32,12 +38,11 @@
   
   (let [v (v3/from-seq '(54.659866380199894 163.49055161809267 119.63234325255185))]
     (cc/from-vector v) )
-  ;; => #:celestial-coordinate{:longitude 24.55560088562043, :latitude 51.18336724365963, :radius 209.830310044059}
-
-  ;; => #:celestial-coordinate{:longitude -119.49298021035723, :latitude 51.14121936716526, :radius 209.82759182933466}
-
-  ;; => #:celestial-coordinate{:longitude -46.89168209025404, :latitude 30.009012722341744, :radius 210.2352936346976}
-
   
+
+  (cc/distance-in-degree (cc/celestial-coordinate 121.21, 19.31) 
+                         (cc/celestial-coordinate 135.83, 17.09))
+  ;; => 14.060109694233343
+
   ;; 
   )
