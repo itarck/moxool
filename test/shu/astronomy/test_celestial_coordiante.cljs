@@ -40,9 +40,31 @@
     (cc/from-vector v) )
   
 
+  ;; 普通点
   (cc/distance-in-degree (cc/celestial-coordinate 121.21, 19.31) 
                          (cc/celestial-coordinate 135.83, 17.09))
   ;; => 14.060109694233343
+
+  ;; 远日点
+  (cc/distance-in-degree (cc/celestial-coordinate -93.22, -21.40)
+                         (cc/celestial-coordinate -80.42, -21.93))
+  ;; => 11.90414160286232
+
+  (cc/distance-in-degree (cc/celestial-coordinate -47.72, -21.34)
+                         (cc/celestial-coordinate -35.33, -18.58))
+  ;; => 11.964219687324125
+
+;; 近日点
+  (cc/distance-in-degree (cc/celestial-coordinate 114.00, 22.11)
+                         (cc/celestial-coordinate 129.84, 20.36))
+  ;; => 14.860861721107398
+
+  (/ 14.874936375730885 11.964219687324125)
+  ;; => 1.243285125522278
+
+  
+
+  
 
   ;; 
   )
