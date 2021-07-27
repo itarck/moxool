@@ -48,7 +48,7 @@
   [props {:keys [conn service-chan] :as env}]
   (let [ac @(p/pull conn '[*] (get-in props [:object :db/id]))
         {:astronomical-coordinate/keys [radius show-latitude? show-longitude? show-regression-line?
-                                        show-latitude-0? show-longitude-0? show-ecliptic? show-lunar-orbit?]} ac
+                                        show-latitude-0? show-longitude-0? show-ecliptic? show-lunar-orbit? current-point]} ac
         earth @(p/pull conn '[*] [:planet/name "earth"])
         moon @(p/pull conn '[*] [:satellite/name "moon"])
         clock @(p/pull conn '[*] (-> (:celestial/clock earth) :db/id))]
@@ -68,12 +68,15 @@
                                                                                                 :alt-key (j/get-in e [:altKey])
                                                                                                 :meta-key (j/get-in e [:metaKey])}}]
                                                                     (go (>! service-chan event))))
+                                                       :color "red"
+                                                       :currentPoint current-point
                                                        :longitude-interval 30
                                                        :show-latitude? show-latitude?
                                                        :show-longitude? show-longitude?
                                                        :longitude-color-map {:default "#770000"}
                                                        :latitude-color-map {:default "#770000"}}]
 
+      
       (when show-latitude-0?
         [:<>
          [:> c.celestial-sphere/LatitudeComponent {:radius radius

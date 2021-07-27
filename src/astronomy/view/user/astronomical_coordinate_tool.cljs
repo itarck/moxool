@@ -5,6 +5,7 @@
    [cljs.core.async :refer [go >! <! go-loop] :as a]
    [posh.reagent :as p]
    ["@material-ui/core" :as mt]
+   [shu.astronomy.celestial-coordinate :as shu.cc]
    [astronomy.model.user.astronomical-coordinate-tool :as m.astronomical-coordinate-tool]))
 
 
@@ -152,7 +153,8 @@
              [:> mt/Grid {:item true :xs 6}
               [:> mt/Typography {:variant "subtitle2"} "当前坐标"]]
              [:> mt/Grid {:item true :xs 6}
-              [:span (str current-point)]]
+              [:span (let [{:celestial-coordinate/keys [longitude latitude]} (shu.cc/from-vector current-point)] 
+                       (str "[" (int longitude) ", " (int latitude) "]")) ]]
              
 
             ;;  
