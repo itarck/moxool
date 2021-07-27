@@ -2,12 +2,13 @@
   (:require
    [applied-science.js-interop :as j]
    ["three" :as three]
-   ["@react-three/drei" :refer [Html]]
+   ["@react-three/drei" :refer [Html Sphere]]
    [cljs-bean.core :refer [bean ->clj ->js]]
    [reagent.core :as r]
    [helix.core :as h :refer [defnc $]]
    [shu.goog.math :as gmath]
-   [shu.three.vector3 :as v3]))
+   [shu.three.vector3 :as v3]
+   [shu.astronomy.celestial-coordinate :as shu.cc]))
 
 
 (defn gen-latitude-points
@@ -74,6 +75,31 @@
       (get color-map :default)))
 
 
+(defnc SphereComponent [props]
+  (let [{:keys [radius onClick]} props]
+    ($ Sphere {:onClick onClick
+               :args #js [radius 32 32]}
+       ($ :meshStandardMaterial {:color "red"
+                                 :side three/DoubleSide
+                                 :opacity 0
+                                 :transparent true}))))
+(defnc PointComponent [props]
+  (let [{:keys [position onClick color]} props
+        {:celestial-coordinate/keys [longitude latitude]} (shu.cc/from-vector position)]
+    (h/<>
+     ($ Html {:position position
+              :zIndexRange #js [0 0]
+              :style #js {:color (or color "black")
+                          :font-size "14px"}}
+        ($ :p {:style #js {:height "20px"
+                           :width "100px"}}
+           (str "[" (int longitude) ", " (int latitude) "]")))
+     ($ Sphere {:onClick onClick
+                :position position
+                :args #js [5 32 32]}
+        ($ :meshStandardMaterial {:color (or color "black")})))))
+
+
 (defnc CelestialSphereComponent [props]
 
   (let [default-props {:radius 100
@@ -84,9 +110,25 @@
                        :latitudeInterval 10
                        :latitudeColorMap #js {:default "#555"}}
         celes-sphere (merge default-props props)
+        {:keys [radius onClick currentPoint points color]} celes-sphere
         latitudes (range -90 90 (:latitudeInterval celes-sphere))
         longitudes (range -180 180 (:longitudeInterval celes-sphere))]
     (h/<>
+
+     ($ SphereComponent {:radius (* radius 0.9)
+                         :onClick onClick})
+
+     (when currentPoint
+       ($ PointComponent {:position currentPoint
+                          :color "gray"}))
+
+     (when points
+       (h/<>
+        (for [point points]
+          ($ PointComponent {:key (str point)
+                             :position point
+                             :color color}))))
+
      (when (:showLatitude? celes-sphere)
        (for [latitude latitudes]
          ($ LatitudeComponent {:key (str "latitude" latitude)
@@ -104,9 +146,5 @@
 
 
 
-(comment 
-  
-  
-  
-  )
+(comment)
 
