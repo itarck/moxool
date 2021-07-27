@@ -6,18 +6,12 @@
    [helix.core :refer [defnc $]]
    [posh.reagent :as p]
    [goog.string :as gstring]
+   ["@material-ui/core" :as mt]
    [astronomy.model.user.spaceship-camera-control :as m.spaceship]
    [astronomy.model.astro-scene :as m.astro-scene]
    [shu.astronomy.light :as shu.light]
-   ["three" :as three]
-   ["react" :as react :refer [useRef useEffect]]
-   ["camera-controls" :as CameraControls]
-   ["@material-ui/core" :as mt]
-   ["react-three-fiber" :refer [useFrame extend useThree]]))
+   [astronomy.component.camera-controls :as c.camera-controls]))
 
-
-
-(extend #js {:CameraControls CameraControls})
 
 
 (def spaceship-camera-control-entity
@@ -32,28 +26,6 @@
     :tool/icon "/image/pirate/cow.jpg"
     :entity/type :spaceship-camera-control})
 
-
-(defnc CameraControlsComponent [props]
-  (let [{:keys [position up target minDistance maxDistance zoom domAtom]} props
-        [px py pz] (seq position)
-        [tx ty tz] (seq target)
-        [ux uy uz] (seq up)
-        {:keys [gl camera]} (bean (useThree))
-        ref (useRef)]
-    (j/call CameraControls :install #js {:THREE three})
-    (useFrame (fn [_state delta]
-                (when (j/get ref :current)
-                  (j/call-in ref [:current :update] delta))))
-    (useEffect (fn []
-                 (swap! domAtom assoc :spaceship-camera-control (j/get ref :current))
-                 (j/call-in camera [:up :set] ux uy uz)
-                 (j/call-in ref [:current :updateCameraUp])
-                 (j/call-in ref [:current :setLookAt] px py pz tx ty tz true)
-                 (j/call-in ref [:current :zoomTo] (or zoom 1) true)))
-    ($ :cameraControls {:ref ref
-                        :args #js [camera (j/get gl :domElement)]
-                        :minDistance minDistance
-                        :maxDistance (or maxDistance js/Infinity)})))
 
 
 (def max-distance (* 10000 46500000000 shu.light/light-year-unit))
@@ -78,15 +50,17 @@
                        :zoom zoom}]
     ;; (println "!!camera control loaded: " )
     (if (= mode :orbit-control)
-      ($ CameraControlsComponent {:azimuthRotateSpeed -0.3
-                                  :polarRotateSpeed -0.3
-                                  :domAtom dom-atom
-                                  :& orbit-props})
+      ($ c.camera-controls/CameraControlsComponent
+         {:azimuthRotateSpeed -0.3
+          :polarRotateSpeed -0.3
+          :domAtom dom-atom
+          :& orbit-props})
 
-      ($ CameraControlsComponent {:azimuthRotateSpeed -0.3
-                                  :polarRotateSpeed -0.3
-                                  :domAtom dom-atom
-                                  :& surface-props}))))
+      ($ c.camera-controls/CameraControlsComponent
+         {:azimuthRotateSpeed -0.3
+          :polarRotateSpeed -0.3
+          :domAtom dom-atom
+          :& surface-props}))))
 
 
 ;; tool view

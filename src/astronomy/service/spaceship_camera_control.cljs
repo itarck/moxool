@@ -97,7 +97,7 @@
 
 
 (defmethod handle-event! :spaceship-camera-control/object-clicked
-  [props {:keys [conn dom-atom service-chan] :as env} {:event/keys [detail] :as event}]
+  [props {:keys [service-chan] :as env} {:event/keys [detail] :as event}]
   ;; (println "spaceship-camera-control/object-clicked: " detail)
   (when (:meta-key detail)
     (let [{:keys [click-point current-tool]} detail]
