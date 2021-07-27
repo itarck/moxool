@@ -1,7 +1,7 @@
 (ns astronomy.data.coordinate
   (:require
+   [shu.astronomy.light :as shu.light]
    [astronomy.model.const :as m.const]))
-
 
 
 (def astronomical-coordinate-1
@@ -13,7 +13,7 @@
                              :coordinate/name "赤道天球坐标系"
                              :coordinate/type :astronomical-coordinate
 
-                             :astronomical-coordinate/radius 10000
+                             :astronomical-coordinate/radius shu.light/light-year-unit
                              :astronomical-coordinate/show-latitude? true
                              :astronomical-coordinate/show-longitude? true
                              :astronomical-coordinate/show-latitude-0? false
@@ -34,7 +34,7 @@
                              :coordinate/type :astronomical-coordinate
                              :astronomical-coordinate/show-latitude? false
                              :astronomical-coordinate/show-longitude? false
-                             :astronomical-coordinate/radius 10000
+                             :astronomical-coordinate/radius shu.light/light-year-unit
                              :astronomical-coordinate/center-candidates [{:db/id [:planet/name "earth"]}
                                                                          {:db/id [:planet/name "sun"]}]
                              :astronomical-coordinate/center-object [:planet/name "earth"]
