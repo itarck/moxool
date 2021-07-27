@@ -85,19 +85,22 @@
                                  :transparent true}))))
 (defnc PointComponent [props]
   (let [{:keys [position onClick color]} props
-        {:celestial-coordinate/keys [longitude latitude]} (shu.cc/from-vector position)]
+        {:celestial-coordinate/keys [longitude latitude]} (shu.cc/from-vector position)
+        position-vector3 (v3/from-seq (seq position))
+        length (v3/length position-vector3)]
+    (println "PointComponent: " props)
     (h/<>
-     ($ Html {:position position
+     ($ Sphere {:onClick onClick
+                :position (->js position)
+                :args #js [(* 0.003 length) 32 32]}
+        ($ :meshStandardMaterial {:color (or color "black")}))
+     ($ Html {:position (->js position)
               :zIndexRange #js [0 0]
               :style #js {:color (or color "black")
                           :font-size "14px"}}
         ($ :p {:style #js {:height "20px"
                            :width "100px"}}
-           (str "[" (int longitude) ", " (int latitude) "]")))
-     ($ Sphere {:onClick onClick
-                :position position
-                :args #js [5 32 32]}
-        ($ :meshStandardMaterial {:color (or color "black")})))))
+           (str "[" (int longitude) ", " (int latitude) "]"))))))
 
 
 (defnc CelestialSphereComponent [props]
@@ -115,12 +118,12 @@
         longitudes (range -180 180 (:longitudeInterval celes-sphere))]
     (h/<>
 
-     ($ SphereComponent {:radius (* radius 0.9)
+     ($ SphereComponent {:radius (* radius 0.98)
                          :onClick onClick})
 
      (when currentPoint
        ($ PointComponent {:position currentPoint
-                          :color "gray"}))
+                          :color "red"}))
 
      (when points
        (h/<>

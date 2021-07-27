@@ -79,7 +79,9 @@
   (let [{:keys [astronomical-coordinate clicked-point meta-key current-tool]} detail
         current-coordinate-id (-> current-tool :astronomical-coordinate-tool/query-result first)]
     ;; (println "service :astronomical-coordinate-tool/object-clicked")
-    (when (= current-coordinate-id (:db/id astronomical-coordinate))
+    (when (and
+           (= current-coordinate-id (:db/id astronomical-coordinate))
+           meta-key)
       (create-effect :tx [{:db/id current-coordinate-id
                            :astronomical-coordinate/current-point (vec clicked-point)}]))))
 
