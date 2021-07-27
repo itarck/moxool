@@ -5,6 +5,7 @@
    ["@react-three/drei" :refer [Html]]
    [posh.reagent :as p]
    [shu.three.vector3 :as v3]
+   [shu.astronomy.celestial-coordinate :as shu.cc]
    [astronomy.model.const :as m.const]
    [methodology.lib.geometry :as v.geo]
    [astronomy.view.satellite :as v.satellite]
@@ -44,22 +45,34 @@
 
 
 (defn AstronomicalCoordinateView
-  [props {:keys [conn] :as env}]
-  (let [tc @(p/pull conn '[*] (get-in props [:object :db/id]))
+  [props {:keys [conn service-chan] :as env}]
+  (let [ac @(p/pull conn '[*] (get-in props [:object :db/id]))
         {:astronomical-coordinate/keys [radius show-latitude? show-longitude? show-regression-line?
-                                        show-latitude-0? show-longitude-0? show-ecliptic? show-lunar-orbit?]} tc
+                                        show-latitude-0? show-longitude-0? show-ecliptic? show-lunar-orbit?]} ac
         earth @(p/pull conn '[*] [:planet/name "earth"])
         moon @(p/pull conn '[*] [:satellite/name "moon"])
         clock @(p/pull conn '[*] (-> (:celestial/clock earth) :db/id))]
-    [:mesh {:position (:object/position tc)
-            :quaternion (:object/quaternion tc)}
+    [:mesh {:position (:object/position ac)
+            :quaternion (:object/quaternion ac)}
      [:<>
       [:> c.celestial-sphere/CelestialSphereComponent {:radius radius
-                                    :longitude-interval 30
-                                    :show-latitude? show-latitude?
-                                    :show-longitude? show-longitude?
-                                    :longitude-color-map {:default "#770000"}
-                                    :latitude-color-map {:default "#770000"}}]
+                                                       :onClick (fn [e]
+                                                                  (let [point-vector3 (j/get-in e [:intersections 0 :point])
+                                                                        point-vec (vec (j/call point-vector3 :toArray))
+                                                                      
+                                                                        cc (shu.cc/from-vector point-vec)
+                                                                        event #:event {:action :user/object-clicked
+                                                                                       :detail {:astronomical-coordinate ac
+                                                                                                :clicked-point point-vec
+                                                                                                :celestial-coordinate cc
+                                                                                                :alt-key (j/get-in e [:altKey])
+                                                                                                :meta-key (j/get-in e [:metaKey])}}]
+                                                                    (go (>! service-chan event))))
+                                                       :longitude-interval 30
+                                                       :show-latitude? show-latitude?
+                                                       :show-longitude? show-longitude?
+                                                       :longitude-color-map {:default "#770000"}
+                                                       :latitude-color-map {:default "#770000"}}]
 
       (when show-latitude-0?
         [:<>

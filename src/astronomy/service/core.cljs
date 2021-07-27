@@ -78,7 +78,8 @@
     (let [event (<! process-chan)]
       (try
         (let [effect (handle-event-fn props env event)]
-          (s.effect/handle-effect! effect env))
+          (when effect
+            (s.effect/handle-effect! effect env)))
         (catch js/Error e
           (js/console.log e))))
     (recur)))

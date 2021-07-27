@@ -74,4 +74,12 @@
              :astronomical-coordinate/show-lunar-orbit? show?}]]
     (create-effect :tx tx)))
 
+(defmethod handle-event :astronomical-coordinate-tool/object-clicked
+  [props {:keys [conn]} {:event/keys [detail]}]
+  (let [{:keys [astronomical-coordinate clicked-point meta-key current-tool]} detail
+        current-coordinate-id (-> current-tool :astronomical-coordinate-tool/query-result first)]
+    ;; (println "service :astronomical-coordinate-tool/object-clicked")
+    (when (= current-coordinate-id (:db/id astronomical-coordinate))
+      (create-effect :tx [{:db/id current-coordinate-id
+                           :astronomical-coordinate/current-point (vec clicked-point)}]))))
 
