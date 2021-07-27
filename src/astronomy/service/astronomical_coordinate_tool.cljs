@@ -13,43 +13,43 @@
 (defmulti handle-event (fn [props env event] (:event/action event)))
 
 (defmethod handle-event :astronomical-coordinate-tool/log
-  [props {:keys [conn]} {:event/keys [detail]}]
+  [_props _env {:event/keys [detail]}]
   #:effect {:action :log :detail detail})
 
 (defmethod handle-event :astronomical-coordinate-tool/change-show-longitude
-  [props {:keys [conn]} {:event/keys [detail]}]
+  [_props _env {:event/keys [detail]}]
   (let [{:keys [astronomical-coordinate show?]} detail
         tx [{:db/id (:db/id astronomical-coordinate)
              :astronomical-coordinate/show-longitude? show?}]]
     (create-effect :tx tx)))
 
 (defmethod handle-event :astronomical-coordinate-tool/change-show-latitude
-  [props {:keys [conn]} {:event/keys [detail]}]
+  [_props _env {:event/keys [detail]}]
   (let [{:keys [astronomical-coordinate show?]} detail
         tx [{:db/id (:db/id astronomical-coordinate)
              :astronomical-coordinate/show-latitude? show?}]]
     (create-effect :tx tx)))
 
 (defmethod handle-event :astronomical-coordinate-tool/set-scene-reference
-  [props {:keys [conn]} {:event/keys [detail]}]
+  [props _env {:event/keys [detail]}]
   (let [{:keys [astronomical-coordinate]} detail
         astro-scene (get-in props [:astro-scene])]
     (create-effect :tx (m.astro-scene/set-scene-coordinate-tx astro-scene astronomical-coordinate))))
 
 (defmethod handle-event :astronomical-coordinate-tool/change-query-args
-  [props {:keys [conn]} {:event/keys [detail]}]
+  [props {:keys [db]} {:event/keys [detail]}]
   (let [{:keys [tool query-args]} detail]
-    (create-effect :tx (m.astronomical-coordinate-tool/update-query-args-tx @conn tool query-args))))
+    (create-effect :tx (m.astronomical-coordinate-tool/update-query-args-tx db tool query-args))))
 
 (defmethod handle-event :astronomical-coordinate-tool/change-show-latitude-0
-  [props {:keys [conn]} {:event/keys [detail]}]
+  [_props _env {:event/keys [detail]}]
   (let [{:keys [astronomical-coordinate show?]} detail
         tx [{:db/id (:db/id astronomical-coordinate)
              :astronomical-coordinate/show-latitude-0? show?}]]
     (create-effect :tx tx)))
 
 (defmethod handle-event :astronomical-coordinate-tool/change-show-regression-line
-  [props {:keys [conn]} {:event/keys [detail]}]
+  [_props _env {:event/keys [detail]}]
   (let [{:keys [astronomical-coordinate show?]} detail
         tx [{:db/id (:db/id astronomical-coordinate)
              :astronomical-coordinate/show-regression-line? show?}]]
@@ -57,32 +57,32 @@
 
 
 (defmethod handle-event :astronomical-coordinate-tool/change-show-longitude-0
-  [props {:keys [conn]} {:event/keys [detail]}]
+  [_props _env {:event/keys [detail]}]
   (let [{:keys [astronomical-coordinate show?]} detail
         tx [{:db/id (:db/id astronomical-coordinate)
              :astronomical-coordinate/show-longitude-0? show?}]]
     (create-effect :tx tx)))
 
 (defmethod handle-event :astronomical-coordinate-tool/change-show-ecliptic
-  [props {:keys [conn]} {:event/keys [detail]}]
+  [_props _env {:event/keys [detail]}]
   (let [{:keys [astronomical-coordinate show?]} detail
         tx [{:db/id (:db/id astronomical-coordinate)
              :astronomical-coordinate/show-ecliptic? show?}]]
     (create-effect :tx tx)))
 
 (defmethod handle-event :astronomical-coordinate-tool/change-show-lunar-orbit
-  [props {:keys [conn]} {:event/keys [detail]}]
+  [_props _env {:event/keys [detail]}]
   (let [{:keys [astronomical-coordinate show?]} detail
         tx [{:db/id (:db/id astronomical-coordinate)
              :astronomical-coordinate/show-lunar-orbit? show?}]]
     (create-effect :tx tx)))
 
 (defmethod handle-event :astronomical-coordinate-tool/object-clicked
-  [props {:keys [conn]} {:event/keys [detail]}]
+  [props {:keys [db]} {:event/keys [detail]}]
   (let [{:keys [astronomical-coordinate clicked-point meta-key current-tool]} detail
         {:astronomical-coordinate/keys [radius]} astronomical-coordinate
         current-coordinate-id (-> current-tool :astronomical-coordinate-tool/query-result first)
-        astro-scene (d/pull @conn '[* {:astro-scene/coordinate [*]}] (get-in props [:astro-scene :db/id]))
+        astro-scene (d/pull db '[* {:astro-scene/coordinate [*]}] (get-in props [:astro-scene :db/id]))
         scene-coordinate (get-in astro-scene [:astro-scene/coordinate])
         matrix (m.object/cal-matrix scene-coordinate)
         clicked-point-in-ac (->
@@ -90,7 +90,7 @@
                              (v3/normalize)
                              (v3/multiply-scalar radius)
                              (v3/apply-matrix4  matrix))]
-    (println "service :astronomical-coordinate-tool/object-clicked" (-> detail :object))
+    ;; (println "service :astronomical-coordinate-tool/object-clicked" (-> detail :object))
     (when (and
            (= current-coordinate-id (:db/id astronomical-coordinate))
            meta-key)
