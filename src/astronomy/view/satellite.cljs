@@ -56,7 +56,7 @@
        [v.geo/LineComponent {:points (m.moon-orbit/cal-orbit-points-vectors orbit days)
                              :color (:orbit/color orbit)}]
        [CelestialPositionLineView {:celestial celestial} env]
-       #_[v.geo/LineComponent {:points [(v3/from-seq [0 0 0])
+       [v.geo/LineComponent {:points [(v3/from-seq [0 0 0])
                                       (m.moon-orbit/cal-perigee-vector orbit epoch-day)]
                              :color "#444"}]])
 

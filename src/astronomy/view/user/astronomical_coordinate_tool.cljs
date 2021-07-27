@@ -1,6 +1,7 @@
 (ns astronomy.view.user.astronomical-coordinate-tool
   (:require
    [applied-science.js-interop :as j]
+   [goog.string :as gstring]
    [helix.core :refer [$]]
    [cljs.core.async :refer [go >! <! go-loop] :as a]
    [posh.reagent :as p]
@@ -154,7 +155,8 @@
               [:> mt/Typography {:variant "subtitle2"} "当前坐标"]]
              [:> mt/Grid {:item true :xs 6}
               [:span (let [{:celestial-coordinate/keys [longitude latitude]} (shu.cc/from-vector current-point)] 
-                       (str "[" (int longitude) ", " (int latitude) "]")) ]]
+                       (str "[" (gstring/format "%.2f" longitude)
+                            ", " (gstring/format "%.2f" latitude) "]")) ]]
              
 
             ;;  
