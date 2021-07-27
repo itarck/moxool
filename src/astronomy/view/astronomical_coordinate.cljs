@@ -55,26 +55,27 @@
     [:mesh {:position (:object/position ac)
             :quaternion (:object/quaternion ac)}
      [:<>
-      [:> c.celestial-sphere/CelestialSphereComponent {:radius radius
-                                                       :onClick (fn [e]
-                                                                  (let [point-vector3 (j/get-in e [:intersections 0 :point])
-                                                                        point-vec (vec (j/call point-vector3 :toArray))
-                                                                      
-                                                                        cc (shu.cc/from-vector point-vec)
-                                                                        event #:event {:action :user/object-clicked
-                                                                                       :detail {:astronomical-coordinate ac
-                                                                                                :clicked-point point-vec
-                                                                                                :celestial-coordinate cc
-                                                                                                :alt-key (j/get-in e [:altKey])
-                                                                                                :meta-key (j/get-in e [:metaKey])}}]
-                                                                    (go (>! service-chan event))))
-                                                       :color "red"
-                                                       :currentPoint current-point
-                                                       :longitude-interval 30
-                                                       :show-latitude? show-latitude?
-                                                       :show-longitude? show-longitude?
-                                                       :longitude-color-map {:default "#770000"}
-                                                       :latitude-color-map {:default "#770000"}}]
+      [:> c.celestial-sphere/CelestialSphereComponent
+       {:radius radius
+        :onClick (fn [e]
+                   (let [point-vector3 (j/get-in e [:intersections 0 :point])
+                         point-vec (vec (j/call point-vector3 :toArray))
+
+                         cc (shu.cc/from-vector point-vec)
+                         event #:event {:action :user/object-clicked
+                                        :detail {:astronomical-coordinate ac
+                                                 :clicked-point point-vec
+                                                 :celestial-coordinate cc
+                                                 :alt-key (j/get-in e [:altKey])
+                                                 :meta-key (j/get-in e [:metaKey])}}]
+                     (go (>! service-chan event))))
+        :color "red"
+        :currentPoint current-point
+        :longitude-interval 30
+        :show-latitude? show-latitude?
+        :show-longitude? show-longitude?
+        :longitude-color-map {:default "#770000"}
+        :latitude-color-map {:default "#770000"}}]
 
       
       (when show-latitude-0?

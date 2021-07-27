@@ -1,5 +1,8 @@
 (ns astronomy.service.astronomical-coordinate-tool
   (:require
+   [datascript.core :as d]
+   [shu.three.vector3 :as v3]
+   [astronomy.model.object :as m.object]
    [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.model.user.astronomical-coordinate-tool :as m.astronomical-coordinate-tool]
    [astronomy.service.effect :as s.effect :refer [create-effect]]))
@@ -77,11 +80,15 @@
 (defmethod handle-event :astronomical-coordinate-tool/object-clicked
   [props {:keys [conn]} {:event/keys [detail]}]
   (let [{:keys [astronomical-coordinate clicked-point meta-key current-tool]} detail
-        current-coordinate-id (-> current-tool :astronomical-coordinate-tool/query-result first)]
-    ;; (println "service :astronomical-coordinate-tool/object-clicked")
+        current-coordinate-id (-> current-tool :astronomical-coordinate-tool/query-result first)
+        astro-scene (d/pull @conn '[* {:astro-scene/coordinate [*]}] (get-in props [:astro-scene :db/id]))
+        scene-coordinate (get-in astro-scene [:astro-scene/coordinate])
+        matrix (m.object/cal-matrix scene-coordinate)
+        clicked-point-in-ac (v3/apply-matrix4 (v3/from-seq clicked-point) matrix)]
+    ;; (println "service :astronomical-coordinate-tool/object-clicked" (vec clicked-point-in-ac))
     (when (and
            (= current-coordinate-id (:db/id astronomical-coordinate))
            meta-key)
       (create-effect :tx [{:db/id current-coordinate-id
-                           :astronomical-coordinate/current-point (vec clicked-point)}]))))
+                           :astronomical-coordinate/current-point (vec clicked-point-in-ac)}]))))
 

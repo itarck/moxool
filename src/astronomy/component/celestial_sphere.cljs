@@ -88,7 +88,7 @@
         {:celestial-coordinate/keys [longitude latitude]} (shu.cc/from-vector position)
         position-vector3 (v3/from-seq (seq position))
         length (v3/length position-vector3)]
-    (println "PointComponent: " props)
+    ;; (println "PointComponent: " props)
     (h/<>
      ($ Sphere {:onClick onClick
                 :position (->js position)
@@ -97,7 +97,7 @@
      ($ Html {:position (->js position)
               :zIndexRange #js [0 0]
               :style #js {:color (or color "black")
-                          :font-size "14px"}}
+                          :fontSize "14px"}}
         ($ :p {:style #js {:height "20px"
                            :width "100px"}}
            (str "[" (int longitude) ", " (int latitude) "]"))))))
