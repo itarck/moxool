@@ -9,29 +9,73 @@
    [shu.three.spherical :as sph]))
 
 
-(def sample
+;; 模型介绍：spaceship-camera-control，缩写scc
+;;   目标是控制相机在空间中自由移动和旋转，有个注意力中心target
+;;   相机控制工具，tool-object合一，而且全局唯一
+;; mode：有两种模式 static-mode、orbit-mode
+;; 
+
+
+(def scc-1
   #:spaceship-camera-control
    {:name "default"
     :mode :surface-control
-    :min-distance 10000
-    :surface-ratio 1.002
+    :min-distance 100
+    :max-distance 10000
     :position [2000 2000 2000]
     :up [0 1 0]
-    :target [0 0 0]
+    :center [0 0 0]
+    :zoom 1
     :tool/name "spaceship camera tool"
     :tool/chinese-name "相机控制"
     :tool/icon "/image/pirate/cow.jpg"
     :entity/type :spaceship-camera-control})
 
+;; schema
 
 (def schema
   #:spaceship-camera-control
    {:name {:db/unique :db.unique/identity}})
 
+;; tranform
 
-(defn surface-mode? [scc]
-  (= (:spaceship-camera-control/mode scc) :surface-control))
+(defn cal-component-props [scc mode]
+  (let [{:spaceship-camera-control/keys [up center position
+                                         min-distance max-distance zoom]} scc
+        common-props {:up up
+                      :zoom zoom
+                      :azimuthRotateSpeed -0.3
+                      :polarRotateSpeed -0.3}]
+    (case mode
+      :orbit-mode (merge common-props
+                         {:target center
+                          :position position
+                          :minDistance min-distance
+                          :maxDistance max-distance})
+      :static-mode (merge common-props
+                          {:target position
+                           :position (mapv (fn [v] (* 1.0001 v)) position)
+                           :minDistance 1e-3
+                           :maxDistance 1e-3}))))
 
+
+;; tx
+
+(defn set-mode-tx [scc mode]
+  [{:db/id (:db/id scc)
+    :spaceship-camera-control/mode mode}])
+
+(defn set-position-tx [scc position]
+  [{:db/id (:db/id scc)
+    :spaceship-camera-control/position position}])
+
+(defn set-min-distance-tx [scc min-distance]
+  [{:db/id (:db/id scc)
+    :spaceship-camera-control/min-distance min-distance}])
+
+
+
+;; others
 
 (defn cal-longitude [scc]
   (let [[px py pz] (:spaceship-camera-control/position scc)
@@ -122,17 +166,6 @@
     (j/call-in camera-object [:getWorldDirection] direction)
     direction))
 
-(defn landing! [spaceship-camera-control {:keys [conn dom-atom]}]
-  (let [camera-control-object (:spaceship-camera-control @dom-atom)
-        position (get-camera-position camera-control-object)
-        cc (locate-at-min-distance-tx spaceship-camera-control position position (v3/vector3 0 1 0))]
-    (p/transact! conn [cc])))
-
-(defn random-landing! [spaceship-camera-control {:keys [conn]}]
-  (let [v (v3/random)
-        cc (locate-at-min-distance-tx spaceship-camera-control v v (v3/vector3 0 1 0))]
-    (p/transact! conn [cc])))
-
 
 (defn fly! [spaceship-camera-control {:keys [conn dom-atom]}]
   (let [{:spaceship-camera-control/keys [min-distance]} spaceship-camera-control
@@ -191,9 +224,9 @@
                                  :surface-ratio surface-ratio}]))
 
 
-(comment 
+(comment
+
+  (cal-component-props scc-1 :orbit-mode)
   
-  (cal-longitude #:spaceship-camera-control{:position [-1 0 0]})
-
-
+  ;; 
   )

@@ -30,21 +30,6 @@
                :entity/type :info-tool})
 
 
-(def spaceship-camera-control
-  #:spaceship-camera-control
-   {:name "default"
-    :mode :orbit-control
-    :surface-ratio 1.0001
-    :min-distance 210
-    :position [2000 2000 2000]
-    :zoom 1
-    :up [0 1 0]
-    :target [0 0 0]
-    :tool/name "spaceship camera tool"
-    :tool/chinese-name "飞船控制"
-    :tool/icon "/image/moxool/spaceship.jpg"
-    :entity/type :spaceship-camera-control})
-
 
 (def ppt-0-3
   #:ppt {:pages [#:ppt-page{:image-url "/slides/0.3.tidal-locking/Slide1.jpeg"}

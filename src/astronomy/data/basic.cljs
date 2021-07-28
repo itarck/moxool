@@ -1,5 +1,11 @@
-(ns astronomy.data.basic)
+(ns astronomy.data.basic
+  (:require
+   [shu.astronomy.light :as shu.light]))
 
+;; 最基础的数据集，使用 :db/id [-1 -100]
+
+
+(def max-distance (* 10000 46500000000 shu.light/light-year-unit))
 
 (def camera
   #:camera{:name "default"
@@ -23,19 +29,19 @@
                  :entity/type :scene})
 
 (def spaceship-camera-control
-  #:spaceship-camera-control
-   {:name "default"
-    :mode :orbit-control
-    :surface-ratio 1.0001
-    :min-distance 210
-    :position [2000 2000 2000]
-    :zoom 1
-    :up [0 1 0]
-    :target [0 0 0]
-    :tool/name "spaceship camera tool"
-    :tool/chinese-name "飞船控制"
-    :tool/icon "/image/moxool/spaceship.jpg"
-    :entity/type :spaceship-camera-control})
+  #:spaceship-camera-control {:db/id -10
+                              :name "default"
+                              :mode :orbit-mode
+                              :min-distance 210
+                              :max-distance max-distance
+                              :position [2000 2000 2000]
+                              :zoom 1
+                              :up [0 1 0]
+                              :center [0 0 0]
+                              :tool/name "spaceship camera tool"
+                              :tool/chinese-name "飞船控制"
+                              :tool/icon "/image/moxool/spaceship.jpg"
+                              :entity/type :spaceship-camera-control})
 
 (def person1
   #:person {:db/id -1
