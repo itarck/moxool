@@ -35,6 +35,7 @@
                               :min-distance 210
                               :max-distance max-distance
                               :position [2000 2000 2000]
+                              :direction [-1 -1 -1]
                               :zoom 1
                               :up [0 1 0]
                               :center [0 0 0]

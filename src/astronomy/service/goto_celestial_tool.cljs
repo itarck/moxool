@@ -21,7 +21,7 @@
         celestial (d/pull @conn '[*] new-celestial-id)
         radius (* 5 (:scene/scale astro-scene) (:celestial/radius celestial))
         tx (concat (m.goto-tool/set-target-tx goto-celestial-tool new-celestial-id)
-                   (m.spaceship/reset-position-tx scc [radius radius radius]))]
+                   (m.spaceship/set-position-tx scc [radius radius radius]))]
     (p/transact! conn tx)
     (go (>! service-chan #:event{:action :coordinate-tool/set-track-position
                                  :detail {:coordinate-id coordinate-id
