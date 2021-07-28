@@ -161,13 +161,6 @@
 
                     :entity/type :atmosphere-tool})
 
-(def eagle-eye-tool
-  #:eagle-eye-tool{:tool/target [:spaceship-camera-control/name "default"]
-                   :tool/name "eagle-eye-tool"
-                   :tool/chinese-name "鹰眼"
-                   :tool/icon "/image/moxool/eagle-eye.jpg"
-
-                   :entity/type :eagle-eye-tool})
 
 (def horizon-coordinate-tool
   #:horizon-coordinate-tool {:query-type :one-by-name
@@ -207,5 +200,5 @@
 
 
 (def dataset1 [universe-tool-1 clock-tool1 info-tool
-               ppt-tool goto-tool-1 constellation-tool-1 atmosphere-tool-1 eagle-eye-tool
+               ppt-tool goto-tool-1 constellation-tool-1 atmosphere-tool-1
                horizon-coordinate-tool astronomical-coordinate-tool terrestrial-coordinate-tool-1])

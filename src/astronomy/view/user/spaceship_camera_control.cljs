@@ -22,6 +22,7 @@
 
 (defn SpaceshipCameraToolView [props {:keys [service-chan conn dom-atom]}]
   (let [tool @(p/pull conn '[*] (get-in props [:tool :db/id]))
+        {:spaceship-camera-control/keys [mode zoom]} tool
         mode-and-names [[:orbit-mode "轨道运动模式"]
                         [:static-mode "环顾模式"]]]
     [:div {:class "astronomy-righthand"}
@@ -38,7 +39,7 @@
        [:> mt/Grid {:container true :spacing 1}
         [:> mt/Grid {:item true :xs 12}
          [:> mt/Typography {:variant "subtitle1"} "当前模式："]
-         [:> mt/Select {:value (:spaceship-camera-control/mode tool)
+         [:> mt/Select {:value mode
                         :onChange (fn [e]
                                     (let [new-mode (j/get-in e [:target :value])
                                           position (c.camera-controls/get-camera-position (:spaceship-camera-control @dom-atom))
@@ -51,6 +52,30 @@
                                                                 :position (vec position)}}))))}
           (for [[mode mode-name] mode-and-names]
             ^{:key mode}
-            [:> mt/MenuItem {:value mode} mode-name])]]]]]]))
+            [:> mt/MenuItem {:value mode} mode-name])]]]
+
+
+       [:> mt/Grid {:item true :xs 6}
+        [:> mt/Typography {:variant "subtitle1"} (str "放大系数：" zoom)]]
+       [:> mt/Grid {:item true :xs 10}
+        ($ mt/Slider
+           {:style (clj->js {:color "#666"
+                             :width "200px"})
+            :value zoom
+            :onChange (fn [e value]
+                        (let [position (c.camera-controls/get-camera-position (:spaceship-camera-control @dom-atom))
+                              direction (c.camera-controls/get-camera-direction (:camera @dom-atom))]
+                          (go (>! service-chan #:event {:action :spaceship-camera-control/change-zoom
+                                                        :detail {:spaceship-camera-control tool
+                                                                 :position (vec position)
+                                                                 :direction (vec direction)
+                                                                 :zoom value}}))))
+            :step 0.2 :min 0.4 :max 4 :marks true
+            :getAriaValueText identity
+            :aria-labelledby "discrete-slider-restrict"
+            :valueLabelDisplay "auto"})]
+       
+      ;;  
+       ]]]))
 
 

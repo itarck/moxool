@@ -22,7 +22,6 @@
    [astronomy.view.user.goto-celestial-tool :as v.goto]
    [astronomy.view.user.constellation-tool :as v.constellation-tool]
    [astronomy.view.user.atmosphere-tool :as v.atmosphere-tool]
-   [astronomy.view.user.eagle-eye-tool :as v.eagle-eye]
    [astronomy.view.user.horizon-coordinate-tool :as v.horizon-coordinate-tool]
    [astronomy.view.user.astronomical-coordinate-tool :as v.astronomical-coordinate-tool]
    [astronomy.view.user.terrestrial-coordinate-tool :as v.terrestrial-coordinate-tool]
@@ -51,7 +50,6 @@
    :goto-celestial-tool v.goto/GotoCelestialToolView
    :constellation-tool v.constellation-tool/ConstellationToolView
    :atmosphere-tool v.atmosphere-tool/AtmosphereToolView
-   :eagle-eye-tool v.eagle-eye/EagleEyeToolView
    :horizon-coordinate-tool v.horizon-coordinate-tool/HorizonCoordinateToolView
    :astronomical-coordinate-tool v.astronomical-coordinate-tool/AstronomicalCoordinateToolView
    :terrestrial-coordinate-tool v.terrestrial-coordinate-tool/TerrestrialCoordinateToolView})
