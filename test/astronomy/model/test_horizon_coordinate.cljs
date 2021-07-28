@@ -7,7 +7,7 @@
    [astronomy.data.celestial :as d.celestial]
    [astronomy.data.coordinate :as d.coordinate]
    [astronomy.model.astro-scene :as m.astro-scene]
-   [astronomy.model.object :as m.object]
+   [methodology.model.object :as m.object]
    [astronomy.model.clock :as m.clock]
    [astronomy.model.horizon-coordinate :as m.horizon-coordinate]))
 

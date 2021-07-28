@@ -3,7 +3,7 @@
    [cljs.test :refer-macros [deftest is testing run-tests]]
    [astronomy.scripts.test-conn :refer [create-test-conn!]]
    [posh.reagent :as p]
-   [astronomy.model.object :as m.object]
+   [methodology.model.object :as m.object]
    [astronomy.model.astronomical-coordinate :as m.astro-coor]))
 
 

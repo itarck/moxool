@@ -4,7 +4,7 @@
    [astronomy.scripts.test-conn :as test-conn]
    [posh.reagent :as p]
    [astronomy.model.astro-scene :as m.astro-scene]
-   [astronomy.model.object :as m.object]
+   [methodology.model.object :as m.object]
    [astronomy.model.clock :as m.clock]
    [astronomy.model.terrestrial-coordinate :as m.terrestrial-coordinate]))
 

@@ -49,13 +49,6 @@
           (:object/position planet)
           (:object/position star))))
 
-(defn cal-world-position2 [wide-satellite]
-  (let [planet (get-in wide-satellite [:satellite/planet])
-        star (get-in planet [:planet/star])]
-    (mapv + (:object/position wide-satellite)
-          (:object/position planet)
-          (:object/position star))))
-
 
 ;; subs
 

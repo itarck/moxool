@@ -14,10 +14,9 @@
            [:satellite/name "moon"]))
 
 
-(deftest test-wide-moon 
-  (is (get-in wide-moon [:celestial/clock :clock/time-in-days]) )
-  (is (= (get-in wide-moon [:satellite/planet :planet/star :star/name]) "sun"))
-  (is (> (v3/length (v3/from-seq (m.satellite/cal-world-position2 wide-moon))) 400)))
+(deftest test-wide-moon
+  (is (get-in wide-moon [:celestial/clock :clock/time-in-days]))
+  (is (= (get-in wide-moon [:satellite/planet :planet/star :star/name]) "sun")))
 
 
 (run-tests)

@@ -2,7 +2,7 @@
   (:require
    [datascript.core :as d]
    [shu.three.vector3 :as v3]
-   [astronomy.model.object :as m.object]
+   [methodology.model.object :as m.object]
    [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.model.user.astronomical-coordinate-tool :as m.astronomical-coordinate-tool]
    [astronomy.service.effect :as s.effect :refer [create-effect]]))
