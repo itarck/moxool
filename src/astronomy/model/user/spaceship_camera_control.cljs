@@ -1,5 +1,6 @@
 (ns astronomy.model.user.spaceship-camera-control
   (:require
+   [cljs.spec.alpha :as s]
    [shu.three.vector3 :as v3]))
 
 
@@ -59,22 +60,27 @@
 ;; tx
 
 (defn set-mode-tx [scc mode]
+  {:pre [(s/assert :methodology/entity scc)]}
   [{:db/id (:db/id scc)
     :spaceship-camera-control/mode mode}])
 
 (defn set-position-tx [scc position]
+  {:pre [(s/assert :methodology/entity scc)]}
   [{:db/id (:db/id scc)
     :spaceship-camera-control/position position}])
 
 (defn set-min-distance-tx [scc min-distance]
+  {:pre [(s/assert :methodology/entity scc)]}
   [{:db/id (:db/id scc)
     :spaceship-camera-control/min-distance min-distance}])
 
 (defn refresh-camera-tx [scc position direction]
+  {:pre [(s/assert :methodology/entity scc)]}
   [{:db/id (:db/id scc)
     :spaceship-camera-control/position position
     :spaceship-camera-control/direction direction}])
 
 (defn set-zoom-tx [scc zoom]
+  {:pre [(s/assert :methodology/entity scc)]}
   [{:db/id (:db/id scc)
     :spaceship-camera-control/zoom zoom}])
