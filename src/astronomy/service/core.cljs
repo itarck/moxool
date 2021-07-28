@@ -3,6 +3,7 @@
    [cljs.core.async :as async :refer [go >! <! chan go-loop]]
    [methodology.service.camera :as s.camera]
    [methodology.service.mouse :as s.mouse]
+   [astronomy.service.keyboard-listener :as s.keyboard-listener]
    [astronomy.service.effect :as s.effect]
    [astronomy.service.user :as s.user]
    [astronomy.service.astro-scene :as s.astro-scene]
@@ -20,7 +21,10 @@
 
 
 (def processes
-  [{:listen [:user]
+  [{:listen []
+    :process-name "keyboard"
+    :service-fn s.keyboard-listener/init-service!}
+   {:listen [:user]
     :process-name "user"
     :service-fn s.user/init-service!}
    {:listen [:astro-scene]
