@@ -17,6 +17,11 @@
     (j/call-in camera-control-object [:getPosition] position)
     position))
 
+(defn get-camera-direction [camera-object]
+  (let [direction (v3/vector3)]
+    (j/call-in camera-object [:getWorldDirection] direction)
+    direction))
+
 
 (defnc CameraControlsComponent [props]
   (let [{:keys [position up target minDistance maxDistance zoom domAtom]} props

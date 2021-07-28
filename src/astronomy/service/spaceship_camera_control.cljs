@@ -13,18 +13,21 @@
 
 (defmethod handle-event :spaceship-camera-control/change-mode
   [props env {:event/keys [detail]}]
-  (let [{:keys [spaceship-camera-control new-mode position]} detail
+  (let [{:keys [spaceship-camera-control new-mode position direction]} detail
         tx [#:spaceship-camera-control{:db/id (:db/id spaceship-camera-control)
                                        :position position
+                                       :direction direction
                                        :mode new-mode}]]
     (create-effect :tx tx)))
 
 (defmethod handle-event :spaceship-camera-control/change-zoom
   [props env {:event/keys [detail]}]
-  (let [{:keys [spaceship-camera-control zoom position]} detail
+  (let [{:keys [spaceship-camera-control zoom position direction]} detail
         tx [#:spaceship-camera-control{:db/id (:db/id spaceship-camera-control)
                                        :position position
+                                       :direction direction
                                        :zoom zoom}]]
+    ;; (println "spaceship-camera-control/change-zoom: " detail direction)
     (create-effect :tx tx)))
 
 ;; handle-event!

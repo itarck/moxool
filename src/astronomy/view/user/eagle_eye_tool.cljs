@@ -33,10 +33,12 @@
                               :width "200px"})
              :value zoom
              :onChange (fn [e value]
-                         (let [position (c.camera-controls/get-camera-position (:spaceship-camera-control @dom-atom))]
+                         (let [position (c.camera-controls/get-camera-position (:spaceship-camera-control @dom-atom))
+                               direction (c.camera-controls/get-camera-direction (:camera @dom-atom))]
                            (go (>! service-chan #:event {:action :spaceship-camera-control/change-zoom
                                                          :detail {:spaceship-camera-control spaceship-camera-control
                                                                   :position (vec position)
+                                                                  :direction (vec direction)
                                                                   :zoom value}}))))
              :step 0.2 :min 0.4 :max 4 :marks true
              :getAriaValueText identity

@@ -44,12 +44,16 @@
          [:> mt/Select {:value (:spaceship-camera-control/mode tool)
                         :onChange (fn [e]
                                     (let [new-mode (j/get-in e [:target :value])
-                                          position (c.camera-controls/get-camera-position (:spaceship-camera-control @dom-atom))]
+                                          position (c.camera-controls/get-camera-position (:spaceship-camera-control @dom-atom))
+                                          direction (c.camera-controls/get-camera-direction (:camera @dom-atom))]
                                       (go (>! service-chan
                                               #:event {:action :spaceship-camera-control/change-mode
                                                        :detail {:spaceship-camera-control tool
                                                                 :new-mode (keyword new-mode)
+                                                                :direction (vec direction)
                                                                 :position (vec position)}}))))}
           (for [[mode mode-name] mode-and-names]
             ^{:key mode}
             [:> mt/MenuItem {:value mode} mode-name])]]]]]]))
+
+

@@ -23,6 +23,7 @@
     :min-distance 100
     :max-distance 10000
     :position [2000 2000 2000]
+    :direction [-1 -1 -1]
     :up [0 1 0]
     :center [0 0 0]
     :zoom 1
@@ -41,11 +42,13 @@
 
 (defn cal-component-props [scc mode]
   (let [{:spaceship-camera-control/keys [up center position
-                                         min-distance max-distance zoom]} scc
+                                         min-distance max-distance zoom direction]} scc
         common-props {:up up
                       :zoom zoom
                       :azimuthRotateSpeed -0.3
-                      :polarRotateSpeed -0.3}]
+                      :polarRotateSpeed -0.3}
+        position-v3 (v3/from-seq position)
+        direction-v3 (v3/from-seq direction)]
     (case mode
       :orbit-mode (merge common-props
                          {:target center
@@ -53,8 +56,8 @@
                           :minDistance min-distance
                           :maxDistance max-distance})
       :static-mode (merge common-props
-                          {:target position
-                           :position (mapv (fn [v] (* 1.0001 v)) position)
+                          {:target position 
+                           :position (vec (v3/add position-v3 (v3/multiply-scalar direction-v3 -1e-3)))
                            :minDistance 1e-3
                            :maxDistance 1e-3}))))
 

@@ -9,13 +9,12 @@
    [astronomy.app.scene-free :as scene-free]
    [astronomy.app.core :refer [free-app-instance]]
    [methodology.model.scene :as m.scene]
+   [astronomy.component.camera-controls :as c.camera-controls]
    [shu.three.vector3 :as v3]
    ["three" :as three]
    [astronomy.model.atmosphere :as m.atm]))
 
 ;; 
-
-(def test-app-instance (scene-free/create-app! {}))
 
 
 ;; test instance 
@@ -31,6 +30,8 @@
 (def dom-atom (get-in free-app-instance [:app/scene-system :system/dom-atom]))
 
 (keys @dom-atom)
+
+(c.camera-controls/get-camera-direction (:camera @dom-atom))
 
 (def mouse (j/get-in (:three-instance @dom-atom) [:mouse]))
 
