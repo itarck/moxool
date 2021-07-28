@@ -70,4 +70,11 @@
   [{:db/id (:db/id scc)
     :spaceship-camera-control/min-distance min-distance}])
 
+(defn refresh-camera-tx [scc position direction]
+  [{:db/id (:db/id scc)
+    :spaceship-camera-control/position position
+    :spaceship-camera-control/direction direction}])
 
+(defn set-zoom-tx [scc zoom]
+  [{:db/id (:db/id scc)
+    :spaceship-camera-control/zoom zoom}])

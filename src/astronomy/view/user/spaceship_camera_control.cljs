@@ -5,11 +5,8 @@
    [helix.core :refer [defnc $]]
    [posh.reagent :as p]
    ["@material-ui/core" :as mt]
-   [shu.three.vector3 :as v3]
    [astronomy.model.user.spaceship-camera-control :as m.spaceship]
    [astronomy.component.camera-controls :as c.camera-controls]))
-
-
 
 
 ;; object view
