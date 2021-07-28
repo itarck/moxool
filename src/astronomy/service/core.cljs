@@ -36,9 +36,14 @@
    {:listen [:info-tool]
     :process-name "info-tool"
     :service-fn s.info-tool/init-service!}
-   {:listen [:spaceship-camera-control]
+   #_{:listen [:spaceship-camera-control]
     :process-name "spaceship-camera-control"
     :service-fn s.spaceship/init-service!}
+   
+   {:listen [:spaceship-camera-control]
+    :process-name "spaceship-camera-control"
+    :handle-event-fn s.spaceship/handle-event}
+   
    {:listen [:ppt-tool]
     :process-name "ppt-tool"
     :service-fn s.ppt-tool/init-service!}
@@ -57,6 +62,7 @@
    #_{:listen [:astronomical-coordinate-tool]
     :process-name ":astronomical-coordinate-tool"
     :service-fn s.astronomical-coordinate-tool/init-service!}
+   
    {:listen [:astronomical-coordinate-tool]
     :process-name ":astronomical-coordinate-tool"
     :handle-event-fn s.astronomical-coordinate-tool/handle-event}

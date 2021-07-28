@@ -4,8 +4,30 @@
    [datascript.core :as d]
    [cljs.core.async :as a :refer [go >! <! chan timeout]]
    [astronomy.model.user.spaceship-camera-control :as m.spaceship]
+   [astronomy.service.effect :as s.effect :refer [create-effect]]
    [posh.reagent :as p]))
 
+
+(defmulti handle-event (fn [props env event] (:event/action event)))
+
+
+(defmethod handle-event :spaceship-camera-control/change-mode
+  [props env {:event/keys [detail]}]
+  (let [{:keys [spaceship-camera-control new-mode position]} detail
+        tx [#:spaceship-camera-control{:db/id (:db/id spaceship-camera-control)
+                                       :position position
+                                       :mode new-mode}]]
+    (create-effect :tx tx)))
+
+(defmethod handle-event :spaceship-camera-control/change-zoom
+  [props env {:event/keys [detail]}]
+  (let [{:keys [spaceship-camera-control zoom position]} detail
+        tx [#:spaceship-camera-control{:db/id (:db/id spaceship-camera-control)
+                                       :position position
+                                       :zoom zoom}]]
+    (create-effect :tx tx)))
+
+;; handle-event!
 
 (defmulti handle-event! (fn [props env event] (:event/action event)))
 
@@ -49,12 +71,12 @@
                                  :detail {:spaceship-camera-control {:db/id (:db/id scc)}}}))))
 
 (defmethod handle-event! :spaceship-camera-control/change-mode
-  [props {:keys [conn service-chan] :as env} {:event/keys [detail]}]
-  (let [{:keys [new-mode]} detail]
-    (case (str new-mode)
-      "orbit-control" (go (>! service-chan #:event {:action :spaceship-camera-control/fly}))
-      "static-control"  (m.spaceship/change-to-static-mode! env)
-      (println "not match " new-mode))))
+  [props {:keys [conn] :as env} {:event/keys [detail]}]
+  (let [{:keys [spaceship-camera-control new-mode position]} detail
+        tx [#:spaceship-camera-control{:db/id (:db/id spaceship-camera-control)
+                                       :position position
+                                       :mode new-mode}]]
+    (p/transact! conn tx)))
 
 (defmethod handle-event! :spaceship-camera-control/change-zoom
   [{:keys [spaceship-camera-control] :as props} {:keys [conn dom-atom] :as env} {:event/keys [detail]}]

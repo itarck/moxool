@@ -3,12 +3,20 @@
    [applied-science.js-interop :as j]
    [cljs-bean.core :refer [bean ->clj ->js]]
    [helix.core :refer [defnc $]]
+   [shu.three.vector3 :as v3]
    ["three" :as three]
    ["react" :as react :refer [useRef useEffect]]
    ["camera-controls" :as CameraControls]
    ["react-three-fiber" :refer [useFrame extend useThree]]))
 
 (extend #js {:CameraControls CameraControls})
+
+
+(defn get-camera-position [camera-control-object]
+  (let [position (v3/vector3)]
+    (j/call-in camera-control-object [:getPosition] position)
+    position))
+
 
 (defnc CameraControlsComponent [props]
   (let [{:keys [position up target minDistance maxDistance zoom domAtom]} props
