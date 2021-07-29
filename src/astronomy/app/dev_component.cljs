@@ -7,6 +7,7 @@
    [reagent.dom]
    [astronomy.component.camera-controls :as camera-controls]
    [astronomy.component.celestial-sphere :refer [CelestialSphereComponent LongitudeMarksComponent]]
+   ["@material-ui/core" :as mt]
    ["@react-three/drei" :refer [Box Plane OrbitControls]]
    ["react-three-fiber" :refer [Canvas useFrame extend useThree]]))
 
@@ -34,6 +35,26 @@
    :minDistance 1
    :maxDistance 10000
    :zoom 1})
+
+
+
+(defnc MyTabs [{:keys [classes]}]
+  {:wrap [((mt/withStyles (->js {:paper {:maxWidth 3000 
+                                         :minWidth 0
+                                         :width 300}
+                                 :tabs {:width 300
+                                        :minWidth 0}
+                                 :tab {:width 100
+                                       :minWidth 0}})))]}
+  ($ mt/Paper {:className (j/get classes :paper)}
+     ($ mt/Tabs {:value 1
+                 :indicatorColor "primary"
+                 :textColor "primary"
+                 :className (j/get classes :tabs)}
+        ($ mt/Tab {:label "一" :className (j/get classes :tab)})
+        ($ mt/Tab {:label "二" :className (j/get classes :tab)})
+        ($ mt/Tab {:label "三" :className (j/get classes :tab)}))))
+  
 
 
 (defn canvas-panel [db-ref domAtom]
@@ -68,7 +89,7 @@
   [:div {:style {:position "absolute"
                  :right 0
                  :top 0
-                 :width "300px"
+                 :width "400px"
                  :height "200px"}}
    [:input {:type :button
             :value "load position"
@@ -114,7 +135,11 @@
                                      :maxDistance 100000
                                      :zoom 1}]
                           (swap! db-ref assoc-in [:camera-controls] props)
-                          (println db-ref)))}]])
+                          (println db-ref)))}]
+   
+   ($ MyTabs)
+   
+   ])
 
 
 (defn demo-page []
@@ -122,9 +147,17 @@
    [canvas-panel db-ref domAtom]
    [tool-panel db-ref domAtom]])
 
+
+(defn html-page []
+  [:div {:style {:width "300px"}}
+   ($ MyTabs)])
+
+
 (defn update! []
   (reagent.dom/render
-   [demo-page] (.getElementById js/document "app")))
+   [demo-page] 
+  ;;  [html-page]
+   (.getElementById js/document "app")))
 
 (defn init! []
   (update!))

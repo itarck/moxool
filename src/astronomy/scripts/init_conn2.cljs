@@ -28,7 +28,8 @@
    {:db/id [:tool/name "terrestrial-coordinate-tool"]}
    {:db/id [:tool/name "constellation-tool"]}
    {:db/id [:tool/name "universe tool"]}
-   {:db/id [:tool/name "atmosphere-tool"]}])
+   {:db/id [:tool/name "atmosphere-tool"]}
+   {:db/id [:tool/name "crosshair-tool"]}])
 
 
 (defn kick-start! [conn]

@@ -53,10 +53,10 @@
 
                             :terrestrial-coordinate/longitude-0-offset -77.444
                             :terrestrial-coordinate/radius 0.0215
-                            :terrestrial-coordinate/show-latitude? true
-                            :terrestrial-coordinate/show-longitude? true
-                            :terrestrial-coordinate/show-latitude-0? true
-                            :terrestrial-coordinate/show-longitude-0? true
+                            :terrestrial-coordinate/show-latitude? false
+                            :terrestrial-coordinate/show-longitude? false
+                            :terrestrial-coordinate/show-latitude-0? false
+                            :terrestrial-coordinate/show-longitude-0? false
                             :terrestrial-coordinate/center-object [:planet/name "earth"]})
 
 (def horizon-coordinate-1

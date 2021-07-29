@@ -199,6 +199,15 @@
                                  :entity/type :terrestrial-coordinate-tool})
 
 
+(def crosshair-tool-1
+  #:crosshair-tool {:tool/name "crosshair-tool"
+                    :tool/chinese-name "标注点工具"
+                    :tool/icon "/image/moxool/crosshair-tool.jpg"
+                    :tool/type :crosshair-tool
+                    :entity/type :crosshair-tool})
+
+
 (def dataset1 [universe-tool-1 clock-tool1 info-tool
                ppt-tool goto-tool-1 constellation-tool-1 atmosphere-tool-1
-               horizon-coordinate-tool astronomical-coordinate-tool terrestrial-coordinate-tool-1])
+               horizon-coordinate-tool astronomical-coordinate-tool terrestrial-coordinate-tool-1
+               crosshair-tool-1])
