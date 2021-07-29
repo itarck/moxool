@@ -54,7 +54,7 @@
         earth @(p/pull conn '[*] [:planet/name "earth"])
         moon @(p/pull conn '[*] [:satellite/name "moon"])
         clock @(p/pull conn '[*] (-> (:celestial/clock earth) :db/id))]
-    (println "AstronomicalCoordinateView: " current-point)
+    ;; (println "AstronomicalCoordinateView: " current-point)
     [:mesh {:position (:object/position ac)
             :quaternion (:object/quaternion ac)}
      [:<>

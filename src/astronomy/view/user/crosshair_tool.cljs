@@ -23,9 +23,9 @@
         {:tool/keys [panels current-panel]} tool
         panel-props {:panels (vec (for [panel panels]
                                     {:name panel
-                                     :onClick #(go (>! service-chan #:event {:action :astronomical-coordinate-tool/log
+                                     :onClick #(go (>! service-chan #:event {:action :tool/change-panel
                                                                              :detail {:tool tool
-                                                                                      :tool/panel panel}}))}))
+                                                                                      :current-panel panel}}))}))
                      :current-panel current-panel} ]
     [:div {:class "astronomy-righthand"}
      [:div {:class "astronomy-righthand-tool"}

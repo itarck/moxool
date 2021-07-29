@@ -4,6 +4,7 @@
    [methodology.service.camera :as s.camera]
    [methodology.service.mouse :as s.mouse]
    [astronomy.service.keyboard-listener :as s.keyboard-listener]
+   [astronomy.service.tool :as s.tool]
    [astronomy.service.effect :as s.effect]
    [astronomy.service.user :as s.user]
    [astronomy.service.astro-scene :as s.astro-scene]
@@ -31,6 +32,10 @@
     :process-name "astro-scene"
     :service-fn s.astro-scene/init-service!}
 
+   {:listen [:tool]
+    :process-name "tool"
+    :handle-event-fn s.tool/handle-event}
+   
    {:listen [:universe-tool]
     :process-name "universe-tool"
     :service-fn s.universe-tool/init-service!}
@@ -40,10 +45,7 @@
    {:listen [:info-tool]
     :process-name "info-tool"
     :service-fn s.info-tool/init-service!}
-   #_{:listen [:spaceship-camera-control]
-    :process-name "spaceship-camera-control"
-    :service-fn s.spaceship/init-service!}
-   
+
    {:listen [:spaceship-camera-control]
     :process-name "spaceship-camera-control"
     :handle-event-fn s.spaceship/handle-event}
@@ -63,10 +65,6 @@
    {:listen [:horizon-coordinate]
     :process-name "horizon-coordinate"
     :service-fn s.horizon-coordinate/init-service!}
-   #_{:listen [:astronomical-coordinate-tool]
-    :process-name ":astronomical-coordinate-tool"
-    :service-fn s.astronomical-coordinate-tool/init-service!}
-   
    {:listen [:astronomical-coordinate-tool]
     :process-name ":astronomical-coordinate-tool"
     :handle-event-fn s.astronomical-coordinate-tool/handle-event}
