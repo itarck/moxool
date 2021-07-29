@@ -204,8 +204,10 @@
                     :tool/chinese-name "标注点工具"
                     :tool/icon "/image/moxool/crosshair-tool.jpg"
                     :tool/type :crosshair-tool
-                    :entity/type :crosshair-tool})
 
+                    :tool/panels [:create-panel :query-panel :pull-panel :delete-panel]
+                    :tool/current-panel :create-panel
+                    :entity/type :crosshair-tool})
 
 (def dataset1 [universe-tool-1 clock-tool1 info-tool
                ppt-tool goto-tool-1 constellation-tool-1 atmosphere-tool-1
