@@ -63,6 +63,24 @@
   ;; => 1.243285125522278
 
   
+  ;; 普通点，偏近日点 月球大小
+
+  (cc/distance-in-degree (cc/celestial-coordinate 105.53, 20.18)
+                         (cc/celestial-coordinate 105.69, 20.67))
+  ;; => 0.5124275933550734
+
+
+  ;; 近日点 月球大小
+
+  (cc/distance-in-degree (cc/celestial-coordinate -80.40, -22.21)
+                         (cc/celestial-coordinate -80.34, -22.65))
+  ;; => 0.44348153911584437
+
+  -80.40, -22.19
+  -80.34, -22.66
+
+  
+  
 
   
 

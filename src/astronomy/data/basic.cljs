@@ -32,7 +32,7 @@
   #:spaceship-camera-control {:db/id -10
                               :name "default"
                               :mode :orbit-mode
-                              :min-distance 210
+                              :min-distance 0
                               :max-distance max-distance
                               :position [2000 2000 2000]
                               :direction [-1 -1 -1]

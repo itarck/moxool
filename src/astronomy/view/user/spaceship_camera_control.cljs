@@ -70,7 +70,7 @@
                                                                  :position (vec position)
                                                                  :direction (vec direction)
                                                                  :zoom value}}))))
-            :step 0.2 :min 0.4 :max 4 :marks true
+            :step 0.2 :min 0.4 :max 6 :marks true
             :getAriaValueText identity
             :aria-labelledby "discrete-slider-restrict"
             :valueLabelDisplay "auto"})]

@@ -3,13 +3,15 @@
    [applied-science.js-interop :as j]
    [cljs.core.async :refer [go >! <! go-loop] :as a]
    ["@react-three/drei" :refer [Html]]
+   ["react" :as react :refer [Suspense]]
    [posh.reagent :as p]
    [shu.three.vector3 :as v3]
    [shu.astronomy.celestial-coordinate :as shu.cc]
    [astronomy.model.const :as m.const]
    [methodology.lib.geometry :as v.geo]
    [astronomy.view.satellite :as v.satellite]
-   [astronomy.component.celestial-sphere :as c.celestial-sphere]))
+   [astronomy.component.celestial-sphere :as c.celestial-sphere]
+   [astronomy.component.cross-hair :as c.cross-hair]))
 
 
 (defn EclipticMarksView [{:keys [radius color]}]
@@ -52,6 +54,7 @@
         earth @(p/pull conn '[*] [:planet/name "earth"])
         moon @(p/pull conn '[*] [:satellite/name "moon"])
         clock @(p/pull conn '[*] (-> (:celestial/clock earth) :db/id))]
+    (println "AstronomicalCoordinateView: " current-point)
     [:mesh {:position (:object/position ac)
             :quaternion (:object/quaternion ac)}
      [:<>
@@ -70,14 +73,19 @@
                                                  :meta-key (j/get-in e [:metaKey])}}]
                      (go (>! service-chan event))))
         :color "red"
-        :currentPoint current-point
+        ;; :currentPoint current-point
         :longitude-interval 30
         :show-latitude? show-latitude?
         :show-longitude? show-longitude?
         :longitude-color-map {:default "#770000"}
         :latitude-color-map {:default "#770000"}}]
 
+      (when current-point
+        [:> Suspense {:fallback nil}
+         [:> c.cross-hair/CrossHairComponent {:position current-point}]])
       
+      
+
       (when show-latitude-0?
         [:<>
          [:> c.celestial-sphere/LatitudeComponent {:radius radius
@@ -107,6 +115,6 @@
         [v.satellite/CelestialOrbitView {:orbit (:celestial/orbit moon)
                                          :celestial moon
                                          :clock clock} env])
-      
+
       ;; 
       ]]))
