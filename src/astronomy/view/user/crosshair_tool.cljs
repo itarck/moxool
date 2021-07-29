@@ -18,7 +18,19 @@
                     :entity/type :crosshair-tool})
 
 
-(defn CrosshairToolView [props {:keys [service-chan conn]}]
+(defn CrosshairCreatePanelView [props env]
+  (let [{:keys [tool]} props]
+    [:div
+     [:p "create-panel"]
+     [:span (str tool)]]))
+
+(defn CrosshairQueryPanelView [props env]
+  (let [{:keys [tool]} props]
+    [:div
+     [:p "query-panel"]
+     [:span (str tool)]]))
+
+(defn CrosshairToolView [props {:keys [service-chan conn] :as env}]
   (let [tool @(p/pull conn '[*] (get-in props [:tool :db/id]))
         {:tool/keys [panels current-panel]} tool
         panel-props {:panels (vec (for [panel panels]
@@ -26,10 +38,10 @@
                                      :onClick #(go (>! service-chan #:event {:action :tool/change-panel
                                                                              :detail {:tool tool
                                                                                       :current-panel panel}}))}))
-                     :current-panel current-panel} ]
+                     :current-panel current-panel}]
     [:div {:class "astronomy-righthand"}
      [:div {:class "astronomy-righthand-tool"}
-      
+
       [:div.p-2
        [:div
         [:img {:src (:tool/icon tool)
@@ -43,7 +55,10 @@
         [:> mt/Grid {:item true :xs 12}
          [:> c.tool/PanelsComponent panel-props]]
         [:> mt/Grid {:item true :xs 12}
-         [:span (str tool)]]]
+         (case current-panel
+           :create-panel [CrosshairCreatePanelView {:tool tool} env]
+           :query-panel [CrosshairQueryPanelView {:tool tool} env]
+           [:div])]]
 
 
     ;;    

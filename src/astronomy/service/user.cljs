@@ -25,9 +25,11 @@
 (defmethod handle-event! :user/object-clicked
   [{:keys [user]} {:keys [conn service-chan]} {:event/keys [detail]}]
   (let [person (m.person/pull2 @conn (:db/id user))
-        current-tool (:person/right-tool person)]
-    (go (>! service-chan #:event {:action (keyword (:entity/type current-tool) :object-clicked)
-                                  :detail (assoc detail :current-tool current-tool)}))))
+        current-tool (:person/right-tool person)
+        event #:event {:action (keyword (:entity/type current-tool) :object-clicked)
+                       :detail (assoc detail :current-tool current-tool)}]
+    ;; (println "in service :user/object-clicked" event)
+    (go (>! service-chan event))))
 
 
 (defn init-service! [props {:keys [process-chan meta-atom] :as env}]
