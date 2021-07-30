@@ -44,5 +44,6 @@
                  (println "use effect: " )))
     ($ :cameraControls {:ref ref
                         :args #js [camera (j/get gl :domElement)]
+                        :truckSpeed 1e-10
                         :minDistance minDistance
                         :maxDistance (or maxDistance js/Infinity)})))
