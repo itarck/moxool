@@ -17,6 +17,7 @@
    [astronomy.model.astronomical-coordinate :as m.astronomical-coordinate]
    [astronomy.model.terrestrial-coordinate :as m.terrestrial-coordinate]
    [astronomy.model.horizon-coordinate :as m.horizon-coordinate]
+   [astronomy.model.astronomical-point :as m.astronomical-point]
 
    [astronomy.model.user.universe-tool :as m.universe-tool]
    [astronomy.model.user.clock-tool :as m.clock-tool]
@@ -24,6 +25,7 @@
    [astronomy.model.user.spaceship-camera-control :as m.spaceship]
    [astronomy.model.user.goto-celestial-tool :as m.goto-tool]
    [astronomy.model.user.ppt-tool :as m.ppt-tool]
+   
    
    ))
 
@@ -45,6 +47,7 @@
    m.astronomical-coordinate/schema
    m.terrestrial-coordinate/schema
    m.horizon-coordinate/schema
+   m.astronomical-point/schema
 
    m.universe-tool/schema
    m.clock-tool/schema
