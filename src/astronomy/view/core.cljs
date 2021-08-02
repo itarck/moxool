@@ -18,7 +18,9 @@
         mode (if meta-atom (:mode @meta-atom) :read-and-write)]
     ;; (println "load root view ???")
     [:<>
-     [:> Canvas {:style {:background :black}
+     [:> Canvas {:style {:background :black
+                         :style {:height "100%"
+                                 :width "100%"}}
                  :shadowMap true}
       (when (m.astro-scene/sub-scene-name-exist? conn scene-name)
         (let [astro-scene-1 @(p/pull conn '[*] [:scene/name scene-name])

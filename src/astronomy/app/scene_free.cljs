@@ -9,6 +9,11 @@
 
 
 (defn WrappedFreeView [scene]
+  [:div {:style {:height "100%"
+                 :width "100%"}}
+   scene])
+
+(defn WrappedFreeView2 [scene]
   [:div {:style {:position :absolute
                  :height "720px"
                  :width "1280px"}}
