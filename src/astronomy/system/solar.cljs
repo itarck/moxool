@@ -47,7 +47,6 @@
    :info-tool v.info-tool/InfoToolView
    :universe-tool v.universe-tool/UniverseToolView
    :spaceship-camera-control v.spaceship/SpaceshipCameraToolView
-   :ppt-tool v.ppt-tool/PPTToolView
    :goto-celestial-tool v.goto/GotoCelestialToolView
    :constellation-tool v.constellation-tool/ConstellationToolView
    :atmosphere-tool v.atmosphere-tool/AtmosphereToolView
@@ -65,6 +64,8 @@
    :horizon-coordinate v.horizon-coordinate/HorizonCoordinateView
    :constellation v.constel/ConstellationView})
 
+(def hud-library
+  {:ppt-tool v.ppt-tool/PPTHudView})
 
 (defn create-system! [props]
   (let [db-url (or (get props :db-url) "/edn/free-mode.edn")
@@ -81,7 +82,8 @@
                                      :meta-atom (ig/ref ::meta-atom)
                                      :dom-atom (ig/ref ::dom-atom)
                                      :object-libray object-libray
-                                     :tool-library tool-library}}
+                                     :tool-library tool-library
+                                     :hud-library hud-library}}
                 ::service #:service {:service-fn init-service-center!
                                      :props {:user {:db/id [:person/name "dr who"]}
                                              :astro-scene {:db/id [:scene/name "solar"]}

@@ -31,6 +31,14 @@
                        :spaceship-camera-control camera-control}) 
        env])))
 
+(defn HUDView [props {:keys [conn hud-library] :as env}]
+  (let [tool @(p/pull conn '[:entity/type :db/id] (get-in props [:tool :db/id]))
+        view-fn (get hud-library (:entity/type tool))]
+    (when view-fn
+      [view-fn (merge props
+                      {:tool tool})
+       env])))
+
 (defn MouseView [props {:keys [meta-atom conn]}]
   (let [mode (if meta-atom (:mode @meta-atom) :read-and-write)]
     (when (= mode :read-only)
@@ -55,10 +63,19 @@
      [v.backpack/BackPackView {:user user
                                :backpack backpack} env]
      (when (:person/right-tool user)
-       [RightHandToolView {:user user
-                           :astro-scene astro-scene
-                           :tool (:person/right-tool user)
-                           :camera-control camera-control} env])
+       [:<>
+        [RightHandToolView {:user user
+                            :astro-scene astro-scene
+                            :tool (:person/right-tool user)
+                            :camera-control camera-control} env]
+        [HUDView {:user user
+                  :astro-scene astro-scene
+                  :tool (:person/right-tool user)} env]
+        ]
+       
+       
+       
+       )
 
      [MouseView props env]]))
 

@@ -8,7 +8,7 @@
 
 
 
-(defn PPTToolView [props {:keys [service-chan conn]}]
+(defn PPTHudView [props {:keys [service-chan conn]}]
   (let [ppt-tool @(p/pull conn '[*] (get-in props [:tool :db/id]))
         ppt-names (m.ppt-tool/sub-all-ppt-names conn)
         ppt-name (first (:ppt-tool/query-args ppt-tool))
