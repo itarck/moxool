@@ -199,17 +199,17 @@
                                  :entity/type :terrestrial-coordinate-tool})
 
 
-(def crosshair-tool-1
-  #:crosshair-tool {:tool/name "crosshair-tool"
-                    :tool/chinese-name "标注点工具"
-                    :tool/icon "/image/moxool/crosshair-tool.jpg"
-                    :tool/type :crosshair-tool
-
-                    :tool/panels [:create-panel :query-panel :pull-panel :delete-panel]
-                    :tool/current-panel :create-panel
-                    :entity/type :crosshair-tool})
+(def apt-tool-1
+  #:astronomical-point-tool
+   {:tool/name "astronomical-point-tool"
+    :tool/chinese-name "标注点工具"
+    :tool/icon "/image/moxool/crosshair-tool.jpg"
+    :tool/type :astronomical-point-tool
+    :tool/panels [:create-panel :query-panel :pull-panel :delete-panel]
+    :tool/current-panel :create-panel
+    :entity/type :astronomical-point-tool})
 
 (def dataset1 [universe-tool-1 clock-tool1 info-tool
                ppt-tool goto-tool-1 constellation-tool-1 atmosphere-tool-1
                horizon-coordinate-tool astronomical-coordinate-tool terrestrial-coordinate-tool-1
-               crosshair-tool-1])
+               apt-tool-1])

@@ -1,4 +1,4 @@
-(ns astronomy.service.crosshair-tool
+(ns astronomy.service.astronomical-point-tool
   (:require
    [datascript.core :as d]
    [shu.three.vector3 :as v3]
@@ -10,11 +10,11 @@
 
 (defmulti handle-event (fn [props env event] (:event/action event)))
 
-(defmethod handle-event :crosshair-tool/log
+(defmethod handle-event :astronomical-point-tool/log
   [_props _env {:event/keys [detail]}]
   (create-effect :log detail))
 
-(defmethod handle-event :crosshair-tool/object-clicked
+(defmethod handle-event :astronomical-point-tool/object-clicked
   [props {:keys [db]} {:event/keys [detail]}]
   (let [{:keys [clicked-point meta-key current-tool]} detail
         astronomical-coordinate (d/pull db '[:astronomical-coordinate/radius] [:coordinate/name "赤道天球坐标系"])
@@ -28,6 +28,6 @@
                              (v3/multiply-scalar radius)
                              (v3/apply-matrix4  matrix))
         tx [{:db/id (:db/id current-tool)
-             :crosshair-tool/current-point (vec clicked-point-in-ac)}]]
+             :astronomical-point-tool/current-point (vec clicked-point-in-ac)}]]
     (when meta-key
       (create-effect :tx tx))))

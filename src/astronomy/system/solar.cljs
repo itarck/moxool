@@ -25,7 +25,7 @@
    [astronomy.view.user.horizon-coordinate-tool :as v.horizon-coordinate-tool]
    [astronomy.view.user.astronomical-coordinate-tool :as v.astronomical-coordinate-tool]
    [astronomy.view.user.terrestrial-coordinate-tool :as v.terrestrial-coordinate-tool]
-   [astronomy.view.user.crosshair-tool :as v.crosshair-tool]
+   [astronomy.view.user.astronomical-point-tool :as v.astronomical-point-tool]
    ))
 
 
@@ -54,7 +54,7 @@
    :horizon-coordinate-tool v.horizon-coordinate-tool/HorizonCoordinateToolView
    :astronomical-coordinate-tool v.astronomical-coordinate-tool/AstronomicalCoordinateToolView
    :terrestrial-coordinate-tool v.terrestrial-coordinate-tool/TerrestrialCoordinateToolView
-   :crosshair-tool v.crosshair-tool/CrosshairToolView})
+   :astronomical-point-tool v.astronomical-point-tool/AstronomicalPointToolView})
 
 
 (def object-libray 

@@ -1,4 +1,4 @@
-(ns astronomy.view.user.crosshair-tool
+(ns astronomy.view.user.astronomical-point-tool
   (:require
    [cljs.core.async :refer [go >! <! go-loop] :as a]
    [helix.core :refer [$ defnc]]
@@ -7,30 +7,19 @@
    [astronomy.component.tool :as c.tool]))
 
 
-(def crosshair-tool-1
-  #:crosshair-tool {:tool/name "crosshair-tool"
-                    :tool/chinese-name "标注点工具"
-                    :tool/icon "/image/moxool/crosshair-tool.jpg"
-                    :tool/type :crosshair-tool
-
-                    :tool/panels [:create-panel :query-panel :pull-panel :delete-panel]
-                    :tool/current-panel :create-panel
-                    :entity/type :crosshair-tool})
-
-
-(defn CrosshairCreatePanelView [props env]
+(defn AstronomicalPointCreatePanelView [props env]
   (let [{:keys [tool]} props]
     [:div
      [:p "create-panel"]
      [:span (str tool)]]))
 
-(defn CrosshairQueryPanelView [props env]
+(defn AstronomicalPointQueryPanelView [props env]
   (let [{:keys [tool]} props]
     [:div
      [:p "query-panel"]
      [:span (str tool)]]))
 
-(defn CrosshairToolView [props {:keys [service-chan conn] :as env}]
+(defn AstronomicalPointToolView [props {:keys [service-chan conn] :as env}]
   (let [tool @(p/pull conn '[*] (get-in props [:tool :db/id]))
         {:tool/keys [panels current-panel]} tool
         panel-props {:panels (vec (for [panel panels]
@@ -56,8 +45,8 @@
          [:> c.tool/PanelsComponent panel-props]]
         [:> mt/Grid {:item true :xs 12}
          (case current-panel
-           :create-panel [CrosshairCreatePanelView {:tool tool} env]
-           :query-panel [CrosshairQueryPanelView {:tool tool} env]
+           :create-panel [AstronomicalPointCreatePanelView {:tool tool} env]
+           :query-panel [AstronomicalPointQueryPanelView {:tool tool} env]
            [:div])]]
 
 

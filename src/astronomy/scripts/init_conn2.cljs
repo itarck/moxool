@@ -29,7 +29,7 @@
    {:db/id [:tool/name "constellation-tool"]}
    {:db/id [:tool/name "universe tool"]}
    {:db/id [:tool/name "atmosphere-tool"]}
-   {:db/id [:tool/name "crosshair-tool"]}])
+   {:db/id [:tool/name "astronomical-point-tool"]}])
 
 
 (defn kick-start! [conn]

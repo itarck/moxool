@@ -19,7 +19,7 @@
    [astronomy.service.horizon-coordinate-tool :as s.horizon-coordinate]
    [astronomy.service.astronomical-coordinate-tool :as s.astronomical-coordinate-tool]
    [astronomy.service.terrestrial-coordinate-tool :as s.terrestrial-coordinate-tool]
-   [astronomy.service.crosshair-tool :as s.crosshair-tool]))
+   [astronomy.service.astronomical-point-tool :as s.astronomical-point-tool]))
 
 
 (def processes
@@ -72,9 +72,9 @@
    {:listen [:terrestrial-coordinate-tool]
     :process-name "terrestrial-coordinate-tool"
     :service-fn s.terrestrial-coordinate-tool/init-service!}
-   {:listen [:crosshair-tool]
-    :process-name "crosshair-tool"
-    :handle-event-fn s.crosshair-tool/handle-event}
+   {:listen [:astronomical-point-tool]
+    :process-name "astronomical-point-tool"
+    :handle-event-fn s.astronomical-point-tool/handle-event}
 
    {:listen []
     :process-name "camera"
