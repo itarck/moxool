@@ -19,11 +19,10 @@
 
 (defmethod handle-event :astronomical-point-tool/object-clicked
   [props {:keys [db]} {:event/keys [detail]}]
-  (let [{:keys [object meta-key current-tool]} detail]
+  (let [{:keys [astronomical-point meta-key current-tool]} detail]
     (case (:tool/current-panel current-tool)
-      :delete-panel (do
-                      (println "in service :astronomical-point-tool/object-clicked")
-                      (create-effect :tx (m.apt/delete-astronomical-point-tx object)))
+      :delete-panel (when (and meta-key astronomical-point)
+                      (create-effect :tx (m.apt/delete-astronomical-point-tx astronomical-point)))
       nil)))
 
 

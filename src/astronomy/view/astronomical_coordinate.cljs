@@ -57,7 +57,7 @@
         clock @(p/pull conn '[*] (-> (:celestial/clock earth) :db/id))
         apt-ids (m.apt/sub-all-ids-by-coordinate conn ac)
         apts (doall (mapv (fn [id] @(p/pull conn '[*] id)) apt-ids))]
-    ;; (println "AstronomicalCoordinateView: " current-point)
+    (println "AstronomicalCoordinateView: " (:db/id ac) ", " apt-ids)
     [:mesh {:position (:object/position ac)
             :quaternion (:object/quaternion ac)}
      [:<>
@@ -87,11 +87,12 @@
        (for [apt apts]
          ^{:key (:db/id apt)}
          [:> Suspense {:fallback nil}
-          [:> c.cross-hair/CrossHairComponent {:position (:astronomical-point/point apt)
-                                               :onClick (fn [e] (go (>! service-chan
-                                                                        #:event {:action :user/object-clicked
-                                                                                 :detail {:object apt
-                                                                                          :meta-key (j/get-in e [:metaKey])}})))}]])]
+          [:> c.cross-hair/CrossHairComponent
+           {:position (:astronomical-point/point apt)
+            :onClick (fn [e] (go (>! service-chan
+                                     #:event {:action :user/object-clicked
+                                              :detail {:astronomical-point apt
+                                                       :meta-key (j/get-in e [:metaKey])}})))}]])]
 
 
       (when show-latitude-0?
