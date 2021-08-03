@@ -84,10 +84,11 @@
     :service-fn s.mouse/init-service!}])
 
 
-(defn init-service! [props {:keys [process-chan handle-event-fn conn] :as env}]
+(defn init-service! [props {:keys [process-chan handle-event-fn conn dom-atom] :as env}]
   (go-loop []
     (let [event (<! process-chan)
-          handler-env {:db @conn}]
+          handler-env {:db @conn
+                       :dom @dom-atom}]
       (try
         (let [effect (handle-event-fn props handler-env event)]
           (when effect

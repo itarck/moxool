@@ -4,6 +4,7 @@
    [cljs.core.async :as async :refer [go >! <! go-loop]]
    [datascript.core :as d]
    [methodology.model.mouse :as m.mouse]
+   [astronomy.component.mouse :as c.mouse]
    [posh.reagent :as p]))
 
 
@@ -16,7 +17,17 @@
               (go (>! service-chan #:event {:action :mouse/record
                                             :detail {:mouse-position [x y]
                                                      :page-x x
-                                                     :page-y y}}))))))
+                                                     :page-y y}})))))
+  (j/call js/document
+          :addEventListener "click"
+          (fn [e]
+            (let [x (j/get e :clientX)
+                  y (j/get e :clientY)]
+              (go (>! service-chan #:event {:action :mouse/on-click
+                                            :detail {:mouse-position [x y]
+                                                     :alt-key (j/get-in e [:altKey])
+                                                     :meta-key (j/get-in e [:metaKey])
+                                                     :shift-key (j/get-in e [:shiftKey])}}))))))
 
 
 (defmulti handle-event! (fn [props env event] (:event/action event)))
@@ -34,6 +45,12 @@
           tx (m.mouse/update-mouse-position-tx (:person/mouse user) page-x page-y)]
       (p/transact! conn tx))))
 
+(defmethod handle-event! :mouse/on-click
+  [props {:keys [dom-atom service-chan]} {:event/keys [detail]}]
+  (let [normalized-position (c.mouse/get-normalized-mouse (:three-instance @dom-atom))
+        event #:event{:action :user/mouse-clicked
+                      :detail (assoc detail :mouse-normalized-position normalized-position)}]
+    (go (>! service-chan event))))
 
 ;; service
 

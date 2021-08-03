@@ -32,6 +32,16 @@
     (go (>! service-chan event))))
 
 
+(defmethod handle-event! :user/mouse-clicked
+  [{:keys [user]} {:keys [conn service-chan]} {:event/keys [detail]}]
+  (let [person (m.person/pull2 @conn (:db/id user))
+        current-tool (:person/right-tool person)
+        event #:event {:action (keyword (:entity/type current-tool) :mouse-clicked)
+                       :detail (assoc detail :current-tool current-tool)}]
+    (println "in service :user/mouse-clicked")
+    (go (>! service-chan event))))
+
+
 (defn init-service! [props {:keys [process-chan meta-atom] :as env}]
   (println "user service started")
   (go-loop []

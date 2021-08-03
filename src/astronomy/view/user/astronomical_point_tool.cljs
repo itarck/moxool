@@ -27,13 +27,9 @@
 (defn AstronomicalPointCreatePanelView [props env]
   (let [{:keys [tool]} props]
     [:<>
-     [:> c.tool/Title1Component {:title "操作"}]
-     [:> c.tool/ButtonGroupComponent
-      {:buttons [{:name "准备"
-                  :selected true
-                  :onClick println}
-                 {:name "新建"
-                  :onClick println}]}]]))
+     [:> c.tool/Title1Component {:title "当前点:"}]
+     [:> c.tool/Title1Component {:title (str (:astronomical-point-tool/current-point tool))}]]))
+
 
 (defn AstronomicalPointQueryPanelView [props env]
   (let [{:keys [tool]} props]
