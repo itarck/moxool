@@ -65,7 +65,8 @@
    :constellation v.constel/ConstellationView})
 
 (def hud-library
-  {:ppt-tool v.ppt-tool/PPTHudView})
+  {:ppt-tool v.ppt-tool/PPTHudView
+   :astronomical-point-tool v.astronomical-point-tool/AstronomicalPointHudView})
 
 (defn create-system! [props]
   (let [db-url (or (get props :db-url) "/edn/free-mode.edn")
