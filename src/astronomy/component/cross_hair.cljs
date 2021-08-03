@@ -7,10 +7,10 @@
 
 
 (defnc CrossHairComponent [props]
-  (let [{:keys [position]} props
+  (let [{:keys [position onClick]} props
         size (* 0.005 (v3/length (v3/from-seq (seq position))))
         texture1 (useTexture "/image/moxool/crosshair1.png")]
-    ($ Suspense {:fallback nil}
-       ($ Billboard {:args #js [size size]
-                     :position position}
-          ($ :meshStandardMaterial {:map texture1 :attach "material"})))))
+    ($ Billboard {:args #js [size size]
+                  :position position
+                  :onClick onClick}
+       ($ :meshStandardMaterial {:map texture1 :attach "material"}))))

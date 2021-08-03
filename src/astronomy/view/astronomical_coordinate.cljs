@@ -2,6 +2,7 @@
   (:require
    [applied-science.js-interop :as j]
    [cljs.core.async :refer [go >! <! go-loop] :as a]
+   ["react" :as react :refer [Suspense]]
    ["@react-three/drei" :refer [Html]]
    [posh.reagent :as p]
    [shu.three.vector3 :as v3]
@@ -84,7 +85,13 @@
 
       [:<>
        (for [apt apts]
-         [:> c.cross-hair/CrossHairComponent {:position (:astronomical-point/point apt)}])]
+         ^{:key (:db/id apt)}
+         [:> Suspense {:fallback nil}
+          [:> c.cross-hair/CrossHairComponent {:position (:astronomical-point/point apt)
+                                               :onClick (fn [e] (go (>! service-chan
+                                                                        #:event {:action :user/object-clicked
+                                                                                 :detail {:object apt
+                                                                                          :meta-key (j/get-in e [:metaKey])}})))}]])]
 
 
       (when show-latitude-0?

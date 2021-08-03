@@ -42,6 +42,8 @@
 
 ;; tx
 
+(defn delete-astronomical-point-tx [apt1]
+  [[:db.fn/retractEntity (:db/id apt1)]])
 
 
 ;; sub
