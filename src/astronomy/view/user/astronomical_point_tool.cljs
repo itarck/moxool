@@ -6,12 +6,30 @@
    ["@material-ui/core" :as mt]
    [astronomy.component.tool :as c.tool]))
 
+;; data
+
+(def apt-tool-1
+  #:astronomical-point-tool
+   {:tool/name "astronomical-point-tool"
+    :tool/chinese-name "标注点工具"
+    :tool/icon "/image/moxool/crosshair-tool.jpg"
+    :tool/type :astronomical-point-tool
+    :tool/panels [:create-panel :query-panel :pull-panel :delete-panel]
+    :tool/current-panel :create-panel
+    :entity/type :astronomical-point-tool})
+
+;; views
 
 (defn AstronomicalPointCreatePanelView [props env]
   (let [{:keys [tool]} props]
-    [:div
-     [:p "create-panel"]
-     [:span (str tool)]]))
+    [:<>
+     [:> c.tool/Title1Component {:title "操作"}]
+     [:> c.tool/ButtonGroupComponent
+      {:buttons [{:name "准备"
+                  :selected true
+                  :onClick println}
+                 {:name "新建"
+                  :onClick println}]}]]))
 
 (defn AstronomicalPointQueryPanelView [props env]
   (let [{:keys [tool]} props]
@@ -40,14 +58,16 @@
          (:tool/chinese-name tool)]]
 
        [:> mt/Grid {:container true :spacing 1}
+        [:> mt/Grid {:item true :xs 12}
+         [:> c.tool/PanelsComponent panel-props]]]
 
-        [:> mt/Grid {:item true :xs 12}
-         [:> c.tool/PanelsComponent panel-props]]
-        [:> mt/Grid {:item true :xs 12}
-         (case current-panel
-           :create-panel [AstronomicalPointCreatePanelView {:tool tool} env]
-           :query-panel [AstronomicalPointQueryPanelView {:tool tool} env]
-           [:div])]]
+       [:> mt/Grid {:container true :spacing 1}
+        (case current-panel
+          :create-panel [AstronomicalPointCreatePanelView {:tool tool} env]
+          :query-panel [AstronomicalPointQueryPanelView {:tool tool} env]
+          [:div])]
+       
+
 
 
     ;;    

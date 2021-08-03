@@ -21,7 +21,7 @@
 
 (defnc PanelsComponent [{:keys [classes panels currentPanel] :as props}]
   {:wrap [((mt/withStyles (->js {:root {:margin-top "4px"}
-                                 :button  {:padding "4px 10px"}})))]}
+                                 :button {:padding "4px 10px"}})))]}
   (let [bclasses (bean classes)]
     ($ mt/ButtonGroup {:size "medium"
                        :className (:root bclasses)}
@@ -30,5 +30,29 @@
            ($ mt/Button {:key name
                          :onClick onClick
                          :variant (if (= currentPanel name) "contained" "outlined")
-                         :className (:button bclasses)}
+                         :className (:button bclasses)
+                         }
               (get-panel-label name)))))))
+
+
+(defnc Title1Component [props]
+  (let [{:keys [title]} props]
+    ($ mt/Grid {:item true :xs 12}
+       ($ mt/Typography {:variant "subtitle1"} title))))
+
+
+(defnc ButtonGroupComponent
+  "props 
+   {:buttons #js {:name \"按钮1\"
+               :selected true
+               :onClick println}}"
+  [props]
+  (let [{:keys [buttons]} props]
+    ($ mt/Grid {:item true :xs 12}
+       ($ mt/ButtonGroup {:size "small"}
+          (for [button buttons]
+            (let [{:keys [name selected onClick]} (bean button)]
+              ($ mt/Button {:key name
+                            :onClick onClick
+                            :variant (if selected "contained" "outlined")}
+                 name)))))))
