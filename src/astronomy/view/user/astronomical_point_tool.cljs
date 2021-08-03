@@ -3,6 +3,7 @@
    [cljs.core.async :refer [go >! <! go-loop] :as a]
    [helix.core :refer [$ defnc]]
    [posh.reagent :as p]
+   [goog.string :as gstring]
    ["@material-ui/core" :as mt]
    [shu.three.vector3 :as v3]
    [astronomy.component.tool :as c.tool]
@@ -80,6 +81,7 @@
     (> page-y 750)))
 
 
+
 (defn AstronomicalPointHudView [{:keys [user astro-scene] :as props} {:keys [conn dom-atom]}]
   (let [tool @(p/pull conn '[:db/id :tool/current-panel] (get-in props [:tool :db/id]))]
     (when (= (:tool/current-panel tool) :create-panel)
@@ -95,10 +97,11 @@
                 scene-coordinate (m.coordinate/sub-scene-coordinate conn astro-scene)
                 system-vector (m.coordinate/to-system-vector scene-coordinate local-vector3)
                 apt-1 (m.apt/astronomical-point system-vector)
-                long-lat (m.apt/get-longitude-and-latitude apt-1)]
+                [longitude latitude] (m.apt/get-longitude-and-latitude apt-1)]
             [:div.p-2 {:style {:position :absolute
                                :top (+ page-y 5)
                                :left (+ page-x 5)
                                :color "white"
                                :background "rgba(255, 255, 255, 0.3)"}}
-             (str (seq long-lat))]))))))
+             (str "[" (gstring/format "%.2f" longitude)
+                  ", " (gstring/format "%.2f" latitude) "]")]))))))

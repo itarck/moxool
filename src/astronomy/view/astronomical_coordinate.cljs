@@ -3,7 +3,6 @@
    [applied-science.js-interop :as j]
    [cljs.core.async :refer [go >! <! go-loop] :as a]
    ["@react-three/drei" :refer [Html]]
-   ["react" :as react :refer [Suspense]]
    [posh.reagent :as p]
    [shu.three.vector3 :as v3]
    [shu.astronomy.celestial-coordinate :as shu.cc]
@@ -51,7 +50,7 @@
   [props {:keys [conn service-chan] :as env}]
   (let [ac @(p/pull conn '[*] (get-in props [:object :db/id]))
         {:astronomical-coordinate/keys [radius show-latitude? show-longitude? show-regression-line?
-                                        show-latitude-0? show-longitude-0? show-ecliptic? show-lunar-orbit? current-point]} ac
+                                        show-latitude-0? show-longitude-0? show-ecliptic? show-lunar-orbit?]} ac
         earth @(p/pull conn '[*] [:planet/name "earth"])
         moon @(p/pull conn '[*] [:satellite/name "moon"])
         clock @(p/pull conn '[*] (-> (:celestial/clock earth) :db/id))
@@ -83,14 +82,9 @@
         :longitude-color-map {:default "#770000"}
         :latitude-color-map {:default "#770000"}}]
 
-      (when current-point
-        [:> c.cross-hair/CrossHairComponent {:position current-point}])
-
       [:<>
        (for [apt apts]
-         [:> Suspense {:fallback nil}
-          [:> c.cross-hair/CrossHairComponent {:position (:astronomical-point/point apt)}]])]
-
+         [:> c.cross-hair/CrossHairComponent {:position (:astronomical-point/point apt)}])]
 
 
       (when show-latitude-0?
