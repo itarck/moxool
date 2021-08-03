@@ -48,8 +48,6 @@
         scene-coordinate (get-in astro-scene [:astro-scene/coordinate])
         system-vector (m.coordinate/to-system-vector scene-coordinate local-vector3)
         apt-1 (m.apt/astronomical-point system-vector)
-        long-lat (m.apt/get-longitude-and-latitude apt-1)
-        tx [{:db/id (:db/id current-tool)
-             :astronomical-point-tool/current-point (vec long-lat)}]]
+        long-lat (m.apt/get-longitude-and-latitude apt-1)]
     (when meta-key
-      (create-effect :tx tx))))
+      (create-effect :tx [apt-1]))))

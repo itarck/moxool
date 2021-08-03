@@ -2,6 +2,7 @@
   (:require
    [cljs.spec.alpha :as s]
    [datascript.core :as d]
+   [posh.reagent :as p]
    [shu.astronomy.celestial-coordinate :as shu.cc]))
 
 
@@ -41,3 +42,15 @@
 
 ;; tx
 
+
+
+;; sub
+
+(def query-all-ids-by-coordinate
+  '[:find [?id ...]
+    :in $ ?cid
+    :where [?id :astronomical-point/coordinate ?cid]])
+
+(defn sub-all-ids-by-coordinate [conn coordinate]
+  @(p/q query-all-ids-by-coordinate
+        conn (:db/id coordinate)))

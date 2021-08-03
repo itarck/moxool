@@ -46,9 +46,14 @@
       (is (=  apt-after
               {:db/id 62, :astronomical-point/coordinate #:db{:id 32}, :astronomical-point/name "标记点1", :astronomical-point/point [100 100 100]}))))
   
-  
-  
   )
+
+
+;; test sub
+
+(p/transact! test-conn [apt-1])
+
+(m.astro-point/sub-all-ids-by-coordinate test-conn {:db/id [:coordinate/name "赤道天球坐标系"]})
 
 
 (run-tests)

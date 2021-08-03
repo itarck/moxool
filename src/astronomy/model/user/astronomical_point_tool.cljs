@@ -8,7 +8,8 @@
 
 (def apt-tool-1
   #:astronomical-point-tool
-   {:tool/name "astronomical-point-tool"
+   {:current-point [55 35]
+    :tool/name "astronomical-point-tool"
     :tool/chinese-name "标注点工具"
     :tool/icon "/image/moxool/crosshair-tool.jpg"
     :tool/type :astronomical-point-tool

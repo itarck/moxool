@@ -8,6 +8,7 @@
    [shu.three.vector3 :as v3]
    [shu.astronomy.celestial-coordinate :as shu.cc]
    [astronomy.model.const :as m.const]
+   [astronomy.model.astronomical-point :as m.apt]
    [methodology.lib.geometry :as v.geo]
    [astronomy.view.satellite :as v.satellite]
    [astronomy.component.celestial-sphere :as c.celestial-sphere]
@@ -53,7 +54,9 @@
                                         show-latitude-0? show-longitude-0? show-ecliptic? show-lunar-orbit? current-point]} ac
         earth @(p/pull conn '[*] [:planet/name "earth"])
         moon @(p/pull conn '[*] [:satellite/name "moon"])
-        clock @(p/pull conn '[*] (-> (:celestial/clock earth) :db/id))]
+        clock @(p/pull conn '[*] (-> (:celestial/clock earth) :db/id))
+        apt-ids (m.apt/sub-all-ids-by-coordinate conn ac)
+        apts (doall (mapv (fn [id] @(p/pull conn '[*] id)) apt-ids))]
     ;; (println "AstronomicalCoordinateView: " current-point)
     [:mesh {:position (:object/position ac)
             :quaternion (:object/quaternion ac)}
@@ -83,8 +86,13 @@
       (when current-point
         [:> Suspense {:fallback nil}
          [:> c.cross-hair/CrossHairComponent {:position current-point}]])
-      
-      
+
+      [:<>
+       (for [apt apts]
+         [:> Suspense {:fallback nil}
+          [:> c.cross-hair/CrossHairComponent {:position (:astronomical-point/point apt)}]])]
+
+
 
       (when show-latitude-0?
         [:<>

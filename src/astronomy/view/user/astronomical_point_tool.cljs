@@ -24,11 +24,10 @@
 
 ;; views
 
+
 (defn AstronomicalPointCreatePanelView [props env]
   (let [{:keys [tool]} props]
-    [:<>
-     [:> c.tool/Title1Component {:title "当前点:"}]
-     [:> c.tool/Title1Component {:title (str (:astronomical-point-tool/current-point tool))}]]))
+    [:<>]))
 
 
 (defn AstronomicalPointQueryPanelView [props env]
