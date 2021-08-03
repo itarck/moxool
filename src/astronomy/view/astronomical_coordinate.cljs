@@ -84,8 +84,7 @@
         :latitude-color-map {:default "#770000"}}]
 
       (when current-point
-        [:> Suspense {:fallback nil}
-         [:> c.cross-hair/CrossHairComponent {:position current-point}]])
+        [:> c.cross-hair/CrossHairComponent {:position current-point}])
 
       [:<>
        (for [apt apts]
