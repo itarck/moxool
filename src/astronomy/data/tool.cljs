@@ -198,7 +198,6 @@
                                  :tool/type :terrestrial-coordinate-tool
                                  :entity/type :terrestrial-coordinate-tool})
 
-
 (def apt-tool-1
   #:astronomical-point-tool
    {:tool/name "astronomical-point-tool"
@@ -209,7 +208,10 @@
     :tool/current-panel :create-panel
     :entity/type :astronomical-point-tool})
 
+(def ruler-tool-1
+  {:object/scene [:scene/name "solar"], :ruler-tool/point2 #:astronomical-point{:radius 31536000, :longitude 30, :latitude 30, :coordinate #:db{:id [:coordinate/name "赤道天球坐标系"]}}, :ruler-tool/status :init, :tool/icon "/image/moxool/terrestrial-coordinate.jpg", :tool/chinese-name "天球尺", :ruler-tool/point1 #:astronomical-point{:radius 31536000, :longitude 0, :latitude 0, :coordinate #:db{:id [:coordinate/name "赤道天球坐标系"]}}, :entity/type :ruler-tool, :tool/name "ruler-tool", :tool/type :ruler-tool})
+
 (def dataset1 [universe-tool-1 clock-tool1 info-tool
                ppt-tool goto-tool-1 constellation-tool-1 atmosphere-tool-1
                horizon-coordinate-tool astronomical-coordinate-tool terrestrial-coordinate-tool-1
-               apt-tool-1])
+               apt-tool-1 ruler-tool-1])

@@ -17,7 +17,13 @@
   #:ruler-tool {:db/id -1000
                 :status :init
                 :point1 apt-1
-                :point2 apt-2})
+                :point2 apt-2
+                :object/scene [:scene/name "solar"]
+                :tool/name "ruler-tool"
+                :tool/chinese-name "天球尺"
+                :tool/icon "/image/moxool/terrestrial-coordinate.jpg"
+                :tool/type :ruler-tool
+                :entity/type :ruler-tool})
 
 
 (def schema {})

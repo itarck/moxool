@@ -25,6 +25,7 @@
    [astronomy.model.user.spaceship-camera-control :as m.spaceship]
    [astronomy.model.user.goto-celestial-tool :as m.goto-tool]
    [astronomy.model.user.ppt-tool :as m.ppt-tool]
+   [astronomy.model.user.ruler-tool :as m.ruler-tool]
    
    
    ))
@@ -54,7 +55,9 @@
    m.spaceship/schema
    m.info-tool/schema
    m.goto-tool/schema
-   m.ppt-tool/schema))
+   m.ppt-tool/schema
+   m.ruler-tool/schema
+   ))
 
 
 (def basic-db

@@ -26,6 +26,7 @@
    [astronomy.view.user.astronomical-coordinate-tool :as v.astronomical-coordinate-tool]
    [astronomy.view.user.terrestrial-coordinate-tool :as v.terrestrial-coordinate-tool]
    [astronomy.view.user.astronomical-point-tool :as v.astronomical-point-tool]
+   [astronomy.view.user.ruler-tool :as v.ruler-tool]
    ))
 
 
@@ -62,7 +63,8 @@
    :terrestrial-coordinate v.terrestrial-coordinate/TerrestrialCoordinateView
    :astronomical-coordinate v.astronomical-coordinate/AstronomicalCoordinateView
    :horizon-coordinate v.horizon-coordinate/HorizonCoordinateView
-   :constellation v.constel/ConstellationView})
+   :constellation v.constel/ConstellationView
+   :ruler-tool v.ruler-tool/RulerSceneView})
 
 (def hud-library
   {:ppt-tool v.ppt-tool/PPTHudView
