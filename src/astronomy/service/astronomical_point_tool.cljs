@@ -2,11 +2,11 @@
   (:require
    [datascript.core :as d]
    [shu.three.vector3 :as v3]
-   [methodology.model.object :as m.object]
    [methodology.model.camera :as m.camera]
-   [astronomy.component.mouse :as c.mouse]
+   [astronomy.model.const :as const]
    [astronomy.model.astronomical-point :as m.apt]
    [astronomy.model.coordinate :as m.coordinate]
+   [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.service.effect :as s.effect :refer [create-effect]]))
 
 
@@ -32,12 +32,9 @@
   (let [{:keys [meta-key current-tool mouse-direction]} detail
         camera (m.camera/pull-unique-one db)]
     (case (:tool/current-panel current-tool)
-      :create-panel (let [act-1 (d/pull db '[*] [:coordinate/name "赤道天球坐标系"])
-                          local-vector3 (v3/add (v3/multiply-scalar (v3/from-seq mouse-direction)
-                                                                    (:astronomical-coordinate/radius act-1))
+      :create-panel (let [local-vector3 (v3/add (v3/multiply-scalar (v3/from-seq mouse-direction) const/astronomical-sphere-radius)
                                                 (v3/from-seq (:camera/positon camera)))
-                          astro-scene (d/pull db '[* {:astro-scene/coordinate [*]}] (get-in props [:astro-scene :db/id]))
-                          scene-coordinate (get-in astro-scene [:astro-scene/coordinate])
+                          scene-coordinate (m.astro-scene/pull-scene-coordinate db)
                           system-vector (m.coordinate/to-system-vector scene-coordinate local-vector3)
                           apt-1 (m.apt/from-position system-vector)]
                       (when meta-key

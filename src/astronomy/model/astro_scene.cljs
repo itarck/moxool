@@ -20,6 +20,16 @@
                 :clock {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
                 :camera {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}})
 
+;; find and pull
+
+(defn pull-unique-one [db]
+  (d/pull db '[*] [:scene/name "solar"]))
+
+(defn pull-scene-coordinate [db]
+  (let [scene (pull-unique-one db)]
+    (d/pull db '[*] (get-in scene [:astro-scene/coordinate :db/id]))))
+
+;; sub
 
 (defn sub-scene-with-objects [conn id]
   @(p/pull conn '[* {:object/_scene [*]}] id))
@@ -32,6 +42,8 @@
            :where
            [?id :scene/name ?scene-name]]
          conn scene-name)))
+
+;; 
 
 (def find-center-celestial-id-query
   '[:find ?cele-id .
