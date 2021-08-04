@@ -1,11 +1,6 @@
 (ns astronomy.service.astronomical-point-tool
   (:require
-   [datascript.core :as d]
-   [shu.three.vector3 :as v3]
-   [methodology.model.camera :as m.camera]
-   [astronomy.model.const :as const]
    [astronomy.model.astronomical-point :as m.apt]
-   [astronomy.model.coordinate :as m.coordinate]
    [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.service.effect :as s.effect :refer [create-effect]]))
 
@@ -28,15 +23,13 @@
 
 
 (defmethod handle-event :astronomical-point-tool/mouse-clicked
-  [props {:keys [db]} {:event/keys [detail]}]
-  (let [{:keys [meta-key current-tool mouse-direction]} detail
-        camera (m.camera/pull-unique-one db)]
+  [{:keys [astro-scene] :as props} {:keys [db]} {:event/keys [detail]}]
+  (let [{:keys [meta-key current-tool mouse-direction]} detail]
     (case (:tool/current-panel current-tool)
-      :create-panel (let [local-vector3 (v3/add (v3/multiply-scalar (v3/from-seq mouse-direction) const/astronomical-sphere-radius)
-                                                (v3/from-seq (:camera/positon camera)))
-                          scene-coordinate (m.astro-scene/pull-scene-coordinate db)
-                          system-vector (m.coordinate/to-system-vector scene-coordinate local-vector3)
-                          apt-1 (m.apt/from-position system-vector)]
+      :create-panel (let [scene-coordinate (m.astro-scene/pull-scene-coordinate db astro-scene)
+                          camera (m.astro-scene/pull-scene-camera db astro-scene)
+                          apt-1 (m.apt/from-local-camera-view scene-coordinate
+                                                              (:camera/positon camera) mouse-direction)]
                       (when meta-key
                         (create-effect :tx [apt-1])))
       nil)))

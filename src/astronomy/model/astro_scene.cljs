@@ -22,12 +22,16 @@
 
 ;; find and pull
 
-(defn pull-unique-one [db]
-  (d/pull db '[*] [:scene/name "solar"]))
+(defn pull-one [db scene]
+  (d/pull db '[*] (:db/id scene)))
 
-(defn pull-scene-coordinate [db]
-  (let [scene (pull-unique-one db)]
-    (d/pull db '[*] (get-in scene [:astro-scene/coordinate :db/id]))))
+(defn pull-scene-coordinate [db scene]
+  (let [scene1 (pull-one db scene)]
+    (d/pull db '[*] (get-in scene1 [:astro-scene/coordinate :db/id]))))
+
+(defn pull-scene-camera [db scene]
+  (let [scene1 (pull-one db scene)]
+    (d/pull db '[*] (get-in scene1 [:astro-scene/camera :db/id]))))
 
 ;; sub
 

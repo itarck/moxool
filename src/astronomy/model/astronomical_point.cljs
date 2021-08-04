@@ -3,7 +3,9 @@
    [cljs.spec.alpha :as s]
    [datascript.core :as d]
    [posh.reagent :as p]
+   [shu.three.vector3 :as v3]
    [shu.astronomy.celestial-coordinate :as shu.cc]
+   [astronomy.model.coordinate :as m.coordinate]
    [astronomy.model.const :as const]))
 
 
@@ -50,6 +52,13 @@
   (let [{:celestial-coordinate/keys [latitude longitude]} (shu.cc/from-vector position)]
     (astronomical-point longitude latitude)))
 
+(defn from-local-camera-view
+  [local-coordinate local-position local-direction]
+  (let [local-vector3 (v3/add (v3/multiply-scalar (v3/from-seq local-direction) const/astronomical-sphere-radius)
+                              (v3/from-seq local-position))
+        system-vector (m.coordinate/to-system-vector local-coordinate local-vector3)
+        apt-1 (from-position system-vector)]
+    apt-1))
 
 ;; transform
 

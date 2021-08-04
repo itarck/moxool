@@ -14,6 +14,3 @@
 
 
 ;; 
-
-(defn pull-unique-one [db]
-  (d/pull db '[*] [:camera/name "default"]))
