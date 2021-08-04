@@ -16,6 +16,7 @@
 
 (defn AstroSceneView [props {:keys [conn object-libray] :as env}]
   (let [astro-scene @(p/pull conn '[*] (get-in props [:astro-scene :db/id]))
+        user @(p/pull conn '[*] (get-in props [:user :db/id]))
         atmosphere (m.atmosphere/sub-unique-one conn)
         {:scene/keys [scale]} astro-scene
         objects (m.scene/sub-objects conn (:db/id astro-scene))
@@ -54,7 +55,7 @@
                                                                                 :spaceship-camera-control spaceship-camera-control
                                                                                 :astro-scene astro-scene} env]
                ^{:key (:db/id object)} [object-view-fn {:object object
-                                                        :user (:user props)
+                                                        :user user
                                                         :astro-scene astro-scene} env]))))]
 
       #_[:PolarGridHelper {:args [10 4 10 360 "red" "red"]}]]]
