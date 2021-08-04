@@ -3,6 +3,7 @@
    [shu.geometry.angle :as shu.angle]
    [shu.three.vector3 :as v3]
    [shu.three.quaternion :as q]
+   [shu.astronomy.light :as shu.light]
    [shu.astronomy.celestial-coordinate :as shu.cc]))
 
 ;; 一些天文学中的常数，如果是向量，都在J2000的赤道坐标系里表示
@@ -26,3 +27,9 @@
 ;; 见moon orbit里的计算
 (def lunar-axis-j2000 
   (v3/from-seq [-0.34885989419537267 0.9342903258325582 0.07347354134438353]))
+
+
+;; 天球距离
+
+(def astronomical-sphere-radius
+  shu.light/light-year-unit)

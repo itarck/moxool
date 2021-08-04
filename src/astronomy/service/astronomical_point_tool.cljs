@@ -38,7 +38,7 @@
                           astro-scene (d/pull db '[* {:astro-scene/coordinate [*]}] (get-in props [:astro-scene :db/id]))
                           scene-coordinate (get-in astro-scene [:astro-scene/coordinate])
                           system-vector (m.coordinate/to-system-vector scene-coordinate local-vector3)
-                          apt-1 (m.apt/astronomical-point system-vector)]
+                          apt-1 (m.apt/from-position system-vector)]
                       (when meta-key
                         (create-effect :tx [apt-1])))
       nil)))

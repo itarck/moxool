@@ -96,7 +96,7 @@
                                     camera-position)
                 scene-coordinate (m.coordinate/sub-scene-coordinate conn astro-scene)
                 system-vector (m.coordinate/to-system-vector scene-coordinate local-vector3)
-                apt-1 (m.apt/astronomical-point system-vector)
+                apt-1 (m.apt/from-position system-vector)
                 [longitude latitude] (m.apt/get-longitude-and-latitude apt-1)]
             [:div.p-2 {:style {:position :absolute
                                :top (+ page-y 5)
