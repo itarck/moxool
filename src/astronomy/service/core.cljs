@@ -19,7 +19,8 @@
    [astronomy.service.horizon-coordinate-tool :as s.horizon-coordinate]
    [astronomy.service.astronomical-coordinate-tool :as s.astronomical-coordinate-tool]
    [astronomy.service.terrestrial-coordinate-tool :as s.terrestrial-coordinate-tool]
-   [astronomy.service.astronomical-point-tool :as s.astronomical-point-tool]))
+   [astronomy.service.astronomical-point-tool :as s.astronomical-point-tool]
+   [astronomy.service.ruler-tool :as s.ruler-tool]))
 
 
 (def processes
@@ -36,7 +37,7 @@
    {:listen [:tool]
     :process-name "tool"
     :handle-event-fn s.tool/handle-event}
-   
+
    {:listen [:universe-tool]
     :process-name "universe-tool"
     :service-fn s.universe-tool/init-service!}
@@ -50,7 +51,7 @@
    {:listen [:spaceship-camera-control]
     :process-name "spaceship-camera-control"
     :handle-event-fn s.spaceship/handle-event}
-   
+
    {:listen [:ppt-tool]
     :process-name "ppt-tool"
     :service-fn s.ppt-tool/init-service!}
@@ -75,6 +76,9 @@
    {:listen [:astronomical-point-tool]
     :process-name "astronomical-point-tool"
     :handle-event-fn s.astronomical-point-tool/handle-event}
+   {:listen [:ruler-tool]
+    :process-name "ruler-tool"
+    :handle-event-fn s.ruler-tool/handle-event}
 
    {:listen []
     :process-name "camera"
