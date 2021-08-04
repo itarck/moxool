@@ -51,3 +51,7 @@
     :ruler-tool/status :select2
     :ruler-tool/point2 point2}])
 
+
+(defn change-status-tx [ruler1 status]
+  [{:db/id (:db/id ruler1)
+    :ruler-tool/status status}])

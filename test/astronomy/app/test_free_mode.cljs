@@ -8,7 +8,7 @@
    [astronomy.app.core :refer [free-app-instance]]
    [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.model.clock :as m.clock]
-   [astronomy.component.mouse :as c.mouse]))
+   [astronomy.model.user.ruler-tool :as m.ruler-tool]))
 
 ;; 
 
@@ -22,22 +22,9 @@
 (def dom-atom (get-in free-app-instance [:app/scene-system :system/dom-atom]))
 
 
-(def scene @(p/pull conn '[*] [:scene/name "solar"]))
-(def clock @(p/pull conn '[*] [:clock/name "default"]))
+(def ruler-tool @(p/pull conn '[*] [:tool/name "ruler-tool"]))
 
+(:ruler-tool/status ruler-tool)
 
-(def camera (:camera @dom-atom))
-
-(c.mouse/to-world-vector3 (:three-instance @dom-atom) [0.5 0.5])
-
-(j/get camera :projectionMatrix)
-
-(def three-object (:three-instance @dom-atom))
-
-three-object
-
-(c.mouse/get-mouse-direction-vector3 three-object)
-
-(c.mouse/get-camera-object2 three-object)
-
-(c.mouse/get-normalized-mouse three-object)
+(->> (m.ruler-tool/change-status-tx ruler-tool :select1)
+     (p/transact! conn))

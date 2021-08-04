@@ -47,6 +47,10 @@
            [?id :scene/name ?scene-name]]
          conn scene-name)))
 
+(defn sub-scene-coordinate [conn scene]
+  (let [scene1 @(p/pull conn '[*] (:db/id scene))]
+    @(p/pull conn '[*] (get-in scene1 [:astro-scene/coordinate :db/id]))))
+
 ;; 
 
 (def find-center-celestial-id-query

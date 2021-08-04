@@ -29,6 +29,7 @@
           [:<>
            [v.camera/CameraView (:astro-scene/camera astro-scene-1) env]
            [v.astro-scene/AstroSceneView {:astro-scene astro-scene
+                                          :user user
                                           :spaceship-camera-control spaceship-camera-control} env]
            (when (= mode :read-and-write)
              [v.spaceship/SpaceshipCameraControlView {:spaceship-camera-control spaceship-camera-control

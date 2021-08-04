@@ -53,7 +53,9 @@
                :horizontal-coordinate  ^{:key (:db/id object)} [object-view-fn {:object object
                                                                                 :spaceship-camera-control spaceship-camera-control
                                                                                 :astro-scene astro-scene} env]
-               ^{:key (:db/id object)} [object-view-fn {:object object} env]))))]
+               ^{:key (:db/id object)} [object-view-fn {:object object
+                                                        :user (:user props)
+                                                        :astro-scene astro-scene} env]))))]
 
       #_[:PolarGridHelper {:args [10 4 10 360 "red" "red"]}]]]
     ))
