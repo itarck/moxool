@@ -60,6 +60,9 @@
         apt-1 (from-position system-vector)]
     apt-1))
 
+
+
+
 ;; transform
 
 (defn cal-position-vector3 [apt]
@@ -72,6 +75,13 @@
   (let [{:astronomical-point/keys [longitude latitude]} apt]
     [longitude latitude]))
 
+
+(defn distance-in-degree [apt1 apt2]
+  (let [cc1 (shu.cc/celestial-coordinate (:astronomical-point/longitude apt1)
+                                         (:astronomical-point/latitude apt1))
+        cc2 (shu.cc/celestial-coordinate (:astronomical-point/longitude apt2)
+                                         (:astronomical-point/latitude apt2))]
+    (shu.cc/distance-in-degree cc1 cc2)))
 
 ;; sub
 
