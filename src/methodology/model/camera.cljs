@@ -1,4 +1,6 @@
-(ns methodology.model.camera)
+(ns methodology.model.camera
+  (:require
+   [datascript.core :as d]))
 
 
 
@@ -9,3 +11,9 @@
   #:camera{:name "default"
            :position [0 0 20]
            :quaternion [0 0 0 1]})
+
+
+;; 
+
+(defn pull-unique-one [db]
+  (d/pull db '[*] [:camera/name "default"]))

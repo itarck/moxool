@@ -48,8 +48,11 @@
 (defmethod handle-event! :mouse/on-click
   [props {:keys [dom-atom service-chan]} {:event/keys [detail]}]
   (let [normalized-position (c.mouse/get-normalized-mouse (:three-instance @dom-atom))
+        mouse-direction (c.mouse/get-mouse-direction-vector3 (:three-instance @dom-atom))
         event #:event{:action :user/mouse-clicked
-                      :detail (assoc detail :mouse-normalized-position normalized-position)}]
+                      :detail (-> detail
+                                  (assoc :mouse-normalized-position normalized-position)
+                                  (assoc :mouse-direction (vec mouse-direction)))}]
     (go (>! service-chan event))))
 
 ;; service

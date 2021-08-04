@@ -7,7 +7,8 @@
    [astronomy.app.scene-free :as scene-free]
    [astronomy.app.core :refer [free-app-instance]]
    [astronomy.model.astro-scene :as m.astro-scene]
-   [astronomy.model.clock :as m.clock]))
+   [astronomy.model.clock :as m.clock]
+   [astronomy.component.mouse :as c.mouse]))
 
 ;; 
 
@@ -24,11 +25,19 @@
 (def scene @(p/pull conn '[*] [:scene/name "solar"]))
 (def clock @(p/pull conn '[*] [:clock/name "default"]))
 
-clock
 
-(->> (m.clock/set-clock-time-in-days-tx (:db/id clock) 10000)
-     (p/transact! conn))
+(def camera (:camera @dom-atom))
 
+(c.mouse/to-world-vector3 (:three-instance @dom-atom) [0.5 0.5])
 
-(->> (m.astro-scene/refresh-tx @conn scene)
-     (p/transact! conn))
+(j/get camera :projectionMatrix)
+
+(def three-object (:three-instance @dom-atom))
+
+three-object
+
+(c.mouse/get-mouse-direction-vector3 three-object)
+
+(c.mouse/get-camera-object2 three-object)
+
+(c.mouse/get-normalized-mouse three-object)
