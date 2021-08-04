@@ -38,7 +38,7 @@
                  :zIndexRange [0 0]
                  :style {:color color
                          :font-size "14px"}}
-        [:p (gstring/format "%0.2f" distance)]])]))
+        [:p (gstring/format "%0.3f" distance)]])]))
 
 
 (defn RulerSceneView
