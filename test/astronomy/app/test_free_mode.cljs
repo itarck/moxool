@@ -28,9 +28,9 @@
 (m.apt/find-all-ids @conn)
 ;; => [9271 9272 9273]
 
-(def apt-1 (d/pull @conn '[*] 9273))
+(def apt-1 (d/pull @conn '[*] 9272))
 
 
-(let [tx [[:db/add (:db/id apt-1) :astronomical-point/size 10]]]
+(let [tx [[:db/add (:db/id apt-1) :astronomical-point/size 1.01]]]
   (p/transact! conn tx))
 

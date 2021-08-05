@@ -9,7 +9,8 @@
 
 (defnc CrossHairComponent [props]
   (let [{:keys [position onClick size]} props
-        board-size (* (/ size 100) (v3/length (v3/from-seq (seq position)))) 
+        length (v3/length (v3/from-seq (seq position)))
+        board-size (* 2 Math/PI length 1.5 (/ 1 360) size) 
         texture1 (useTexture "/image/moxool/crosshair.png")]
     ($ Billboard {:args #js [board-size board-size]
                   :position position
@@ -18,3 +19,4 @@
           {:map texture1
            :side three/DoubleSide
            :attach "material"}))))
+
