@@ -1,9 +1,11 @@
 (ns astronomy.service.user
   (:require
+   [datascript.core :as d]
    [posh.reagent :as p]
    [cljs.core.async :refer [go-loop go >! <! timeout]]
    [methodology.model.user.person :as m.person]
-   [methodology.model.user.backpack :as m.backpack]))
+   [methodology.model.user.backpack :as m.backpack]
+   [astronomy.component.camera-controls :as c.camera-controls]))
 
 
 (defmulti handle-event! (fn [props env event] (:event/action event)))
@@ -42,12 +44,22 @@
     (go (>! service-chan event))))
 
 (defmethod handle-event! :user/mouse-wheeled
-  [{:keys [user]} {:keys [conn service-chan]} {:event/keys [detail]}]
+  [{:keys [user]} {:keys [conn service-chan dom-atom]} {:event/keys [detail]}]
   (let [person (m.person/pull2 @conn (:db/id user))
-        current-tool (:person/right-tool person)
-        event #:event {:action (keyword (:entity/type current-tool) :mouse-wheeled)
-                       :detail (assoc detail :current-tool current-tool)}]
-    (go (>! service-chan event))))
+        spaceship-camera-control (d/pull @conn '[*] (get-in person [:person/camera-control :db/id])) 
+        {:keys [delta]} detail
+        {:spaceship-camera-control/keys [mode zoom position]} spaceship-camera-control]
+    (when (= :static-mode mode)
+      (let [new-zoom (+ zoom (/ delta 100))]
+        (when (and (>= new-zoom 1) (<= new-zoom 5))
+          (let [direction (c.camera-controls/get-camera-direction (:camera @dom-atom))
+                event #:event {:action :spaceship-camera-control/change-zoom
+                               :detail {:spaceship-camera-control spaceship-camera-control
+                                        :position (vec position)
+                                        :direction (vec direction)
+                                        :zoom new-zoom}}]
+            (go (>! service-chan event))))))))
+
 
 (defn init-service! [props {:keys [process-chan meta-atom] :as env}]
   (println "user service started")

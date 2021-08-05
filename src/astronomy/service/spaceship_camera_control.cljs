@@ -29,17 +29,4 @@
           tx1 (m.spaceship/set-position-tx current-tool (seq click-point))]
       (create-effect :tx tx1))))
 
-(defmethod handle-event :spaceship-camera-control/mouse-wheeled
-  [_props {:keys [dom]} {:event/keys [detail] :as event}]
-  (let [{:keys [current-tool delta]} detail
-        {:spaceship-camera-control/keys [mode zoom]} current-tool]
-    (when (= :static-mode mode)
-      (let [new-zoom (+ zoom (/ delta 100))]
-        (when (and (>= new-zoom 1) (<= new-zoom 5))
-          (let [position (c.camera-controls/get-camera-position (:spaceship-camera-control dom))
-                direction (c.camera-controls/get-camera-direction (:camera dom))]
-            (create-effect :event #:event {:action :spaceship-camera-control/change-zoom
-                                           :detail {:spaceship-camera-control current-tool
-                                                    :position (vec position)
-                                                    :direction (vec direction)
-                                                    :zoom new-zoom}})))))))
+
