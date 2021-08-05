@@ -42,7 +42,7 @@
           (let [astronomical-coordinate-id (first (get-in tool [:astronomical-coordinate-tool/query-result]))
                 astronomical-coordinate @(p/pull conn '[*] astronomical-coordinate-id)
                 {:astronomical-coordinate/keys [show-latitude? show-longitude? show-latitude-0? show-regression-line?
-                                                show-longitude-0? show-ecliptic? show-lunar-orbit? current-point]} astronomical-coordinate]
+                                                show-longitude-0? show-ecliptic? show-lunar-orbit?]} astronomical-coordinate]
             ;; (println "AstronomicalCoordinateToolView: " astronomical-coordinate)
             [:<>
              [:> mt/Grid {:item true :xs 6}
@@ -151,13 +151,6 @@
                                                                                   :show? show?}}))))}]
               [:span "是"]]
 
-             [:> mt/Grid {:item true :xs 6}
-              [:> mt/Typography {:variant "subtitle2"} "当前坐标"]]
-             [:> mt/Grid {:item true :xs 6}
-              [:span (let [{:celestial-coordinate/keys [longitude latitude]} (shu.cc/from-vector current-point)] 
-                       (str "[" (gstring/format "%.2f" longitude)
-                            ", " (gstring/format "%.2f" latitude) "]")) ]]
-             
 
             ;;  
              ]))]]]]))

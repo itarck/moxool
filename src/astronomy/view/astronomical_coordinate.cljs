@@ -75,7 +75,6 @@
                                                  :meta-key (j/get-in e [:metaKey])}}]
                      (go (>! service-chan event))))
         :color "red"
-        ;; :currentPoint current-point
         :longitude-interval 30
         :show-latitude? show-latitude?
         :show-longitude? show-longitude?

@@ -77,23 +77,5 @@
              :astronomical-coordinate/show-lunar-orbit? show?}]]
     (create-effect :tx tx)))
 
-(defmethod handle-event :astronomical-coordinate-tool/object-clicked
-  [props {:keys [db]} {:event/keys [detail]}]
-  (let [{:keys [astronomical-coordinate clicked-point meta-key current-tool]} detail
-        {:astronomical-coordinate/keys [radius]} astronomical-coordinate
-        current-coordinate-id (-> current-tool :astronomical-coordinate-tool/query-result first)
-        astro-scene (d/pull db '[* {:astro-scene/coordinate [*]}] (get-in props [:astro-scene :db/id]))
-        scene-coordinate (get-in astro-scene [:astro-scene/coordinate])
-        matrix (m.object/cal-matrix scene-coordinate)
-        clicked-point-in-ac (->
-                             (v3/from-seq clicked-point)
-                             (v3/normalize)
-                             (v3/multiply-scalar radius)
-                             (v3/apply-matrix4  matrix))]
-    ;; (println "service :astronomical-coordinate-tool/object-clicked" (-> detail :object))
-    (when (and
-           (= current-coordinate-id (:db/id astronomical-coordinate))
-           meta-key)
-      (create-effect :tx [{:db/id current-coordinate-id
-                           :astronomical-coordinate/current-point (vec clicked-point-in-ac)}]))))
+
 

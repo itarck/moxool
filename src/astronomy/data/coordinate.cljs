@@ -63,15 +63,15 @@
   #:horizon-coordinate{:db/id -1004
                        :entity/type :horizon-coordinate
                        :center-object [:planet/name "earth"]
-                       :center-radius 0.021024
+                       :center-radius (* 0.021022607702247035 1.0002)
                        :radius 0.002
-                       :longitude-0-offset -77.444
-                       :longitude 31.239444444
-                       :latitude 30.009012722341744
+                       :longitude-0-offset -77.64
+                       :longitude 30.910060054274055
+                       :latitude 29.878937704799164
                        :show-latitude? true
                        :show-longitude? true
                        :show-horizontal-plane? true
-                       :coordinate/name "地平坐标系"
+                       :coordinate/name "埃及地平坐标系"
                        :coordinate/type :horizon-coordinate
 
                        :object/scene [:scene/name "solar"]})
@@ -82,9 +82,9 @@
                        :center-object [:planet/name "earth"]
                        :center-radius 0.021024
                        :radius 0.002
-                       :longitude-0-offset -77.444
+                       :longitude-0-offset -77.64
                        :longitude 0
-                       :latitude 51.5
+                       :latitude 51.25
                        :show-latitude? true
                        :show-longitude? true
                        :show-horizontal-plane? true
