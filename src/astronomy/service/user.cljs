@@ -43,6 +43,15 @@
     (println "in service :user/mouse-clicked")
     (go (>! service-chan event))))
 
+(defmethod handle-event! :user/keyboard-down
+  [{:keys [user]} {:keys [conn service-chan]} {:event/keys [detail]}]
+  (let [person (m.person/pull2 @conn (:db/id user))
+        current-tool (:person/right-tool person)
+        event #:event {:action (keyword (:entity/type current-tool) :keyboard-down)
+                       :detail (assoc detail :current-tool current-tool)}]
+    ;; (println "in service :user/keyboard-down" detail)
+    (go (>! service-chan event))))
+
 (defmethod handle-event! :user/mouse-wheeled
   [{:keys [user]} {:keys [conn service-chan dom-atom]} {:event/keys [detail]}]
   (let [person (m.person/pull2 @conn (:db/id user))
@@ -59,6 +68,7 @@
                                         :direction (vec direction)
                                         :zoom new-zoom}}]
             (go (>! service-chan event))))))))
+
 
 
 (defn init-service! [props {:keys [process-chan meta-atom] :as env}]

@@ -21,7 +21,6 @@
                       (create-effect :tx (m.apt/delete-astronomical-point-tx astronomical-point)))
       nil)))
 
-
 (defmethod handle-event :astronomical-point-tool/mouse-clicked
   [{:keys [astro-scene] :as props} {:keys [db]} {:event/keys [detail]}]
   (let [{:keys [meta-key current-tool mouse-direction]} detail]
@@ -34,3 +33,7 @@
                         (create-effect :tx [apt-1])))
       nil)))
 
+(defmethod handle-event :astronomical-point-tool/keyboard-down
+  [{:keys [astro-scene] :as props} {:keys [db]} {:event/keys [detail]}]
+  (let [{:keys [meta-key key current-tool]} detail]
+    (println "astronomical-point-tool/keyboard-down: " key)))
