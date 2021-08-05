@@ -204,7 +204,7 @@
     :tool/chinese-name "标注点工具"
     :tool/icon "/image/moxool/crosshair-tool.jpg"
     :tool/type :astronomical-point-tool
-    :tool/panels [:create-panel :query-panel :pull-panel :delete-panel]
+    :tool/panels [:create-panel :pull-panel :delete-panel]
     :tool/current-panel :create-panel
     :entity/type :astronomical-point-tool})
 
