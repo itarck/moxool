@@ -1,7 +1,8 @@
 (ns astronomy.service.astronomical-point-tool
   (:require
-   [astronomy.model.astronomical-point :as m.apt]
    [astronomy.model.astro-scene :as m.astro-scene]
+   [astronomy.model.astronomical-point :as m.apt]
+   [astronomy.model.user.astronomical-point-tool :as m.apt-tool]
    [astronomy.service.effect :as s.effect :refer [create-effect]]))
 
 
@@ -17,6 +18,7 @@
   [props {:keys [db]} {:event/keys [detail]}]
   (let [{:keys [astronomical-point meta-key current-tool]} detail]
     (case (:tool/current-panel current-tool)
+      :pull-panel (create-effect :tx (m.apt-tool/pull-point-tx current-tool astronomical-point))
       :delete-panel (when (and meta-key astronomical-point)
                       (create-effect :tx (m.apt/delete-astronomical-point-tx astronomical-point)))
       nil)))

@@ -37,6 +37,16 @@
      [:p "query-panel"]
      [:span (str tool)]]))
 
+(defn AstronomicalPointPullPanelView
+  [props {:keys [conn]}]
+  (let [{:keys [tool]} props
+        pull-id (:astronomical-point-tool/pull-id tool)
+        point @(p/pull conn '[*] pull-id)]
+    [:div
+     [:p "pull-panel"]
+     (when pull-id
+       (str point))]))
+
 (defn AstronomicalPointToolView [props {:keys [service-chan conn] :as env}]
   (let [tool @(p/pull conn '[*] (get-in props [:tool :db/id]))
         {:tool/keys [panels current-panel]} tool
@@ -65,6 +75,7 @@
         (case current-panel
           :create-panel [AstronomicalPointCreatePanelView {:tool tool} env]
           :query-panel [AstronomicalPointQueryPanelView {:tool tool} env]
+          :pull-panel [AstronomicalPointPullPanelView {:tool tool} env]
           [:div])]
 
     ;;    
