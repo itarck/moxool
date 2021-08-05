@@ -14,7 +14,7 @@
           (fn [e]
             (let [x (j/get e :clientX)
                   y (j/get e :clientY)]
-              (go (>! service-chan #:event {:action :mouse/record
+              (go (>! service-chan #:event {:action :mouse/move
                                             :detail {:mouse-position [x y]
                                                      :page-x x
                                                      :page-y y}})))))
@@ -27,6 +27,15 @@
                                             :detail {:mouse-position [x y]
                                                      :alt-key (j/get-in e [:altKey])
                                                      :meta-key (j/get-in e [:metaKey])
+                                                     :shift-key (j/get-in e [:shiftKey])}})))))
+  
+  (j/call js/document :addEventListener "wheel"
+          (fn [e]
+            (let [delta (j/get-in e [:wheelDelta])]
+              (go (>! service-chan #:event {:action :user/mouse-wheeled
+                                            :detail {:delta delta
+                                                     :alt-key (j/get-in e [:altKey])
+                                                     :meta-key (j/get-in e [:metaKey])
                                                      :shift-key (j/get-in e [:shiftKey])}}))))))
 
 
@@ -37,7 +46,7 @@
   (println detail))
 
 
-(defmethod handle-event! :mouse/record
+(defmethod handle-event! :mouse/move
   [props {:keys [conn meta-atom]} {:event/keys [detail]}]
   (when (= (:mode @meta-atom) :read-and-write)
     (let [user (d/pull @conn '[{:person/mouse [*]}] (get-in props [:user :db/id]))
@@ -54,6 +63,7 @@
                                   (assoc :mouse-normalized-position normalized-position)
                                   (assoc :mouse-direction (vec mouse-direction)))}]
     (go (>! service-chan event))))
+
 
 ;; service
 

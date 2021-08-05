@@ -4,6 +4,7 @@
    [cljs.core.async :refer [go >!]]
    [helix.core :refer [defnc $]]
    [posh.reagent :as p]
+   [goog.string :as gstring]
    ["@material-ui/core" :as mt]
    [astronomy.model.user.spaceship-camera-control :as m.spaceship]
    [astronomy.component.camera-controls :as c.camera-controls]))
@@ -56,7 +57,7 @@
 
 
        [:> mt/Grid {:item true :xs 6}
-        [:> mt/Typography {:variant "subtitle1"} (str "放大系数：" zoom)]]
+        [:> mt/Typography {:variant "subtitle1"} (str "放大系数：" (gstring/format "%0.2f" zoom))]]
        [:> mt/Grid {:item true :xs 10}
         ($ mt/Slider
            {:style (clj->js {:color "#666"

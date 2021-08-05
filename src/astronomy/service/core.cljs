@@ -88,16 +88,17 @@
     :service-fn s.mouse/init-service!}])
 
 
-(defn init-service! [props {:keys [process-chan handle-event-fn conn] :as env}]
+(defn init-service! [props {:keys [process-name process-chan handle-event-fn conn dom-atom] :as env}]
   (go-loop []
     (let [event (<! process-chan)
-          handler-env {:db @conn}]
+          handler-env {:db @conn
+                       :dom @dom-atom}]
       (try
         (let [effect (handle-event-fn props handler-env event)]
           (when effect
             (s.effect/handle-effect! effect env)))
         (catch js/Error e
-          (js/console.log e))))
+          (println process-name ": no handler found for event" (:event/action event)))))
     (recur)))
 
 
