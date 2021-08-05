@@ -39,3 +39,9 @@
   [{:keys [astro-scene] :as props} {:keys [db]} {:event/keys [detail]}]
   (let [{:keys [meta-key key current-tool]} detail]
     (println "astronomical-point-tool/keyboard-down: " key)))
+
+
+(defmethod handle-event :astronomical-point-tool/change-size
+  [{:keys [astro-scene] :as props} {:keys [db]} {:event/keys [detail]}]
+  (let [{:keys [astronomical-point size]} detail]
+    (create-effect :tx (m.apt/set-size-tx astronomical-point size))))

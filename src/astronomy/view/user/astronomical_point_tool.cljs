@@ -28,24 +28,64 @@
 
 (defn AstronomicalPointCreatePanelView [props env]
   (let [{:keys [tool]} props]
-    [:<>]))
+    [:div.p-2
+     ($ mt/Grid {:container true :spacing 1}
+        ($ mt/Grid {:item true :xs 12}
+           ($ mt/Typography {:variant "subtitle1"} "点击任意位置新建")))]))
 
 
-(defn AstronomicalPointQueryPanelView [props env]
+(defn AstronomicalPointDeletePanelView [props env]
   (let [{:keys [tool]} props]
-    [:div
-     [:p "query-panel"]
-     [:span (str tool)]]))
+    [:div.p-2
+     ($ mt/Grid {:container true :spacing 1}
+        ($ mt/Grid {:item true :xs 12}
+           ($ mt/Typography {:variant "subtitle1"} "点击天球坐标点删除")))]))
 
 (defn AstronomicalPointPullPanelView
-  [props {:keys [conn]}]
+  [props {:keys [conn service-chan]}]
   (let [{:keys [tool]} props
         pull-id (:astronomical-point-tool/pull-id tool)
         point @(p/pull conn '[*] pull-id)]
-    [:div
-     [:p "pull-panel"]
-     (when pull-id
-       (str point))]))
+    [:div.p-2
+     
+     (if point
+       (let [{:astronomical-point/keys [longitude latitude size]} point]
+         ($ mt/Grid {:container true :spacing 1}
+            ($ mt/Grid {:item true :xs 12}
+               ($ mt/Typography {:variant "subtitle1"} "当前选中点"))
+
+            ($ mt/Grid {:item true :xs 5}
+               ($ mt/Typography {:variant "subtitle2"} "id"))
+            ($ mt/Grid {:item true :xs 7}
+               ($ mt/Typography {:variant "subtitle2"}
+                  (:db/id point)))
+
+
+            ($ mt/Grid {:item true :xs 5}
+               ($ mt/Typography {:variant "subtitle2"} "经纬度"))
+            ($ mt/Grid {:item true :xs 7}
+               ($ mt/Typography {:variant "subtitle2"}
+                  (str "[" (gstring/format "%0.2f" longitude) ", " (gstring/format "%0.2f" latitude) "]")))
+
+            ($ mt/Grid {:item true :xs 5}
+               ($ mt/Typography {:variant "subtitle2"} "尺寸"))
+
+            ($ mt/Grid {:item true :xs 7}
+               ($ mt/Slider
+                  {:style (clj->js {:color "#666"})
+                   :value size
+                   :onChange (fn [e value]
+                               (go (>! service-chan #:event {:action :astronomical-point-tool/change-size
+                                                             :detail {:astronomical-point point
+                                                                      :size value}})))
+                   :step 0.01 :min 0.1 :max 2 :marks true
+                   :getAriaValueText identity
+                   :aria-labelledby "discrete-slider-restrict"
+                   :valueLabelDisplay "auto"}))))
+       
+       ($ mt/Grid {:item true :xs 12}
+          ($ mt/Typography {:variant "subtitle1"} "点击天球坐标点读取")))]))
+
 
 (defn AstronomicalPointToolView [props {:keys [service-chan conn] :as env}]
   (let [tool @(p/pull conn '[*] (get-in props [:tool :db/id]))
@@ -74,9 +114,9 @@
        [:> mt/Grid {:container true :spacing 1}
         (case current-panel
           :create-panel [AstronomicalPointCreatePanelView {:tool tool} env]
-          :query-panel [AstronomicalPointQueryPanelView {:tool tool} env]
+          :delete-panel [AstronomicalPointDeletePanelView {:tool tool} env]
           :pull-panel [AstronomicalPointPullPanelView {:tool tool} env]
-          [:div])]
+          nil)]
 
     ;;    
        ]]]))
