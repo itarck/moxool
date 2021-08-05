@@ -61,8 +61,6 @@
     apt-1))
 
 
-
-
 ;; transform
 
 (defn cal-position-vector3 [apt]
@@ -83,6 +81,13 @@
                                          (:astronomical-point/latitude apt2))]
     (shu.cc/distance-in-degree cc1 cc2)))
 
+;; find and pull
+
+(defn find-all-ids [db]
+  (d/q '[:find [?id ...]
+         :where [?id :astronomical-point/longitude _]]
+       db))
+
 ;; sub
 
 (def query-all-ids-by-coordinate
@@ -96,6 +101,17 @@
 
 
 ;; tx
+
+(defn create-astronomical-point-tx [props]
+  (let [{:keys [longitude latitude size name]} props
+        apt (-> (astronomical-point longitude latitude)
+                (#(if name (assoc % :astronomical-point/name name) %))
+                (#(if name (assoc % :astronomical-point/size size) %)))]
+    [apt]))
+
+(defn set-size-tx [apt1 size]
+  [{:db/id (:db/id apt1)
+    :astronomical-point/size size}])
 
 (defn delete-astronomical-point-tx [apt1]
   [[:db.fn/retractEntity (:db/id apt1)]])

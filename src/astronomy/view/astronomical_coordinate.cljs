@@ -2,7 +2,6 @@
   (:require
    [applied-science.js-interop :as j]
    [cljs.core.async :refer [go >! <! go-loop] :as a]
-   ["react" :as react :refer [Suspense]]
    ["@react-three/drei" :refer [Html]]
    [posh.reagent :as p]
    [shu.three.vector3 :as v3]
@@ -12,7 +11,7 @@
    [methodology.lib.geometry :as v.geo]
    [astronomy.view.satellite :as v.satellite]
    [astronomy.component.celestial-sphere :as c.celestial-sphere]
-   [astronomy.component.cross-hair :as c.cross-hair]))
+   [astronomy.view.astronomical-point :as v.apt]))
 
 
 (defn EclipticMarksView [{:keys [radius color]}]
@@ -86,13 +85,7 @@
       [:<>
        (for [apt apts]
          ^{:key (:db/id apt)}
-         [:> Suspense {:fallback nil}
-          [:> c.cross-hair/CrossHairComponent
-           {:position (vec (m.apt/cal-position-vector3 apt))
-            :onClick (fn [e] (go (>! service-chan
-                                     #:event {:action :user/object-clicked
-                                              :detail {:astronomical-point apt
-                                                       :meta-key (j/get-in e [:metaKey])}})))}]])]
+         [v.apt/AstronimicalPointSceneView {:astronomical-point apt} env])]
 
 
       (when show-latitude-0?

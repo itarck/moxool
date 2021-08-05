@@ -8,6 +8,7 @@
    [astronomy.app.core :refer [free-app-instance]]
    [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.model.clock :as m.clock]
+   [astronomy.model.astronomical-point :as m.apt]
    [astronomy.model.user.ruler-tool :as m.ruler-tool]))
 
 ;; 
@@ -24,7 +25,12 @@
 
 (def ruler-tool @(p/pull conn '[*] [:tool/name "ruler-tool"]))
 
-(:ruler-tool/status ruler-tool)
+(m.apt/find-all-ids @conn)
+;; => [9271 9272 9273]
 
-(->> (m.ruler-tool/change-status-tx ruler-tool :select1)
-     (p/transact! conn))
+(def apt-1 (d/pull @conn '[*] 9273))
+
+
+(let [tx [[:db/add (:db/id apt-1) :astronomical-point/size 10]]]
+  (p/transact! conn tx))
+

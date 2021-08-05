@@ -8,10 +8,10 @@
 
 
 (defnc CrossHairComponent [props]
-  (let [{:keys [position onClick]} props
-        size (* 0.015 (v3/length (v3/from-seq (seq position))))
+  (let [{:keys [position onClick size]} props
+        board-size (* (/ size 100) (v3/length (v3/from-seq (seq position)))) 
         texture1 (useTexture "/image/moxool/crosshair.png")]
-    ($ Billboard {:args #js [size size]
+    ($ Billboard {:args #js [board-size board-size]
                   :position position
                   :onClick onClick}
        ($ :meshStandardMaterial
