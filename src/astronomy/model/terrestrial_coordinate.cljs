@@ -28,21 +28,42 @@
 
 (comment
   (def terrestrial-coordinate-1
-    #:terrestrial-coordinate {:db/id -1003
-                              :entity/type :terrestrial-coordinate
-                              :object/position [0 0 0]
-                              :object/quaternion [0 0 0 1]
-                              :object/scene [:scene/name "solar"]
-                              :coordinate/name "地球坐标系"
-                              :coordinate/type :terrestrial-coordinate
+    #:terrestrial-coordinate
+     {:db/id -1003
+      :entity/type :terrestrial-coordinate
+      :object/position [0 0 0]
+      :object/quaternion [0 0 0 1]
+      :object/scene [:scene/name "solar"]
+      :coordinate/name "地球坐标系"
+      :coordinate/type :terrestrial-coordinate
 
-                              :terrestrial-coordinate/longitude-0-offset -119.49298021035723
-                              :terrestrial-coordinate/radius 0.0215
-                              :terrestrial-coordinate/show-latitude? true
-                              :terrestrial-coordinate/show-longitude? true
-                              :terrestrial-coordinate/show-latitude-0? true
-                              :terrestrial-coordinate/show-longitude-0? true
-                              :terrestrial-coordinate/center-object [:planet/name "earth"]}))
+      :terrestrial-coordinate/longitude-0-offset -119.49298021035723
+      :terrestrial-coordinate/radius 0.0215
+      :terrestrial-coordinate/show-latitude? true
+      :terrestrial-coordinate/show-longitude? true
+      :terrestrial-coordinate/show-latitude-0? true
+      :terrestrial-coordinate/show-longitude-0? true
+      :terrestrial-coordinate/center-object [:planet/name "earth"]})
+
+
+  (def terrestrial-coordinate-2
+    (merge {:db/id -1003
+            :entity/type :terrestrial-coordinate
+            :object/position [0 0 0]
+            :object/quaternion [0 0 0 1]
+            :object/scene [:scene/name "solar"]}
+           #:coordinate
+            {:name "地球坐标系"
+             :type :terrestrial-coordinate}
+           #:terrestrial-coordinate
+            {:longitude-0-offset -119.49298021035723
+             :radius 0.0215
+             :show-latitude? true
+             :show-longitude? true
+             :show-latitude-0? true
+             :show-longitude-0? true
+             :center-object [:planet/name "earth"]})))
+
 
 ;; transform
 
