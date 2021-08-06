@@ -29,6 +29,14 @@
    :astronomical-point/coordinate {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}})
 
 
+(s/def :astronomical-point/radius float?)
+(s/def :astronomical-point/longitude float?)
+(s/def :astronomical-point/latitude float?)
+(s/def :astronomy/astronomical-point
+  (s/keys :req [:astronomical-point/radius :astronomical-point/longitude :astronomical-point/latitude]
+          :opt [:astronomical-point/name]))
+
+
 ;; create 
 
 (defn astronomical-point
@@ -37,12 +45,14 @@
    #:astronomical-point {:radius const/astronomical-sphere-radius
                          :longitude longitude
                          :latitude latitude
+                         :size 1
                          :coordinate {:db/id [:coordinate/name "赤道天球坐标系"]}})
   ([longitude latitude name]
    #:astronomical-point {:radius const/astronomical-sphere-radius
                          :longitude longitude
                          :latitude latitude
                          :name name
+                         :size 1
                          :coordinate {:db/id [:coordinate/name "赤道天球坐标系"]}}))
 
 
@@ -64,17 +74,21 @@
 ;; transform
 
 (defn cal-position-vector3 [apt]
+  {:pre [(s/valid? :astronomy/astronomical-point apt)]}
   (let [{:astronomical-point/keys [radius longitude latitude]} apt
         cc (shu.cc/celestial-coordinate longitude latitude radius)]
     (shu.cc/cal-position cc)))
 
 
 (defn get-longitude-and-latitude [apt]
+  {:pre [(s/valid? :astronomy/astronomical-point apt)]}
   (let [{:astronomical-point/keys [longitude latitude]} apt]
     [longitude latitude]))
 
 
 (defn distance-in-degree [apt1 apt2]
+  {:pre [(s/valid? :astronomy/astronomical-point apt1)
+         (s/valid? :astronomy/astronomical-point apt1)]}
   (let [cc1 (shu.cc/celestial-coordinate (:astronomical-point/longitude apt1)
                                          (:astronomical-point/latitude apt1))
         cc2 (shu.cc/celestial-coordinate (:astronomical-point/longitude apt2)
@@ -85,6 +99,7 @@
 
 (defn find-all-ids [db]
   (d/q '[:find [?id ...]
+         :in $
          :where [?id :astronomical-point/longitude _]]
        db))
 
@@ -110,9 +125,15 @@
     [apt]))
 
 (defn set-size-tx [apt1 size]
+  {:pre [(s/valid? :methodology/entity apt1)]}
   [{:db/id (:db/id apt1)
     :astronomical-point/size size}])
 
 (defn delete-astronomical-point-tx [apt1]
   [[:db.fn/retractEntity (:db/id apt1)]])
 
+
+
+(comment 
+  (s/valid? :astronomy/astronomical-point (astronomical-point 30 40))
+  )
