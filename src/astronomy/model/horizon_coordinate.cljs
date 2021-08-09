@@ -2,6 +2,7 @@
   (:require
    [datascript.core :as d]
    [posh.reagent :as p]
+   [shu.geometry.angle :as angle]
    [shu.three.quaternion :as q]
    [shu.three.vector3 :as v3]
    [shu.three.spherical :as sph]
@@ -16,9 +17,20 @@
                            :chinese-name {:db/unique :db.unique/identity}})
 
 
+(defn horizon-coordinate? [coordinate]
+  (= (:coordinate/type coordinate) :horizon-coordinate))
+
+
 (defn cal-local-time [hc epoch-time]
   (let [{:horizon-coordinate/keys [longitude]} hc]
     (+ epoch-time (/ longitude 360))))
+
+
+(defn sun-elevation-angle
+  [sun-position]
+   (let [phi (angle/to-degrees (v3/angle-to (v3/from-seq [0 1 0]) (v3/from-seq sun-position)))]
+     (- 90 phi)))
+
 
 
 (comment

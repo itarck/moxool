@@ -6,6 +6,16 @@
 (def schema {:atmosphere/name {:db/unique :db.unique/identity}})
 
 
+(defn has-day-light? [atmosphere sun-elevation-angle]
+  (and
+   (:atmosphere/show? atmosphere)
+   (>= sun-elevation-angle 0)))
+
+(defn show-atmosphere? [atmosphere sun-elevation-angle]
+  (and
+   (:atmosphere/show? atmosphere)
+   (>= sun-elevation-angle -10)))
+
 
 (comment
   (def sample-1

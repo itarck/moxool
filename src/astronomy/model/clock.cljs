@@ -33,20 +33,6 @@
 (s/valid? :astronomy/clock sample)
 
 
-(defn cal-longitude [position]
-  (let [[px py pz] position
-        [r phi theta] (vec (sph/from-cartesian-coords px py pz))]
-    (->
-     (+ theta Math/PI)
-     (gmath/standard-angle-in-radians)
-     (gmath/to-degree)
-     (- 102))))
-
-
-(defn cal-local-time [standard-time-in-days longitude]
-  (+ standard-time-in-days (/ longitude 360.0)))
-
-
 (defn set-clock-time-in-days-tx [clock-id time-in-days]
   [[:db/add clock-id :clock/time-in-days time-in-days]])
 
@@ -54,10 +40,3 @@
 (defn utc-format-string [epoch-days]
   (dt/format-string (epoch/from-epoch-days epoch-days)))
 
-
-(comment
-  
-  (gstring/format "%2.0f" 2)
-
-  ;; 
-  )

@@ -22,8 +22,8 @@
         coor @(p/pull conn '[*] (get-in astro-scene [:astro-scene/coordinate :db/id]))
         invert-matrix (m.object/cal-invert-matrix coor)
         sun-position (m.coordinate/from-system-vector coor [0 0 0])
-        has-day-light? (m.astro-scene/has-day-light? coor sun-position spaceship-camera-control atmosphere 0.5)
-        has-atmosphere? (m.astro-scene/has-day-light? coor sun-position spaceship-camera-control atmosphere 0.55)]
+        has-day-light? (m.astro-scene/has-day-light? coor atmosphere)
+        has-atmosphere? (m.astro-scene/has-atmosphere? coor atmosphere)]
     ;; (println "astro scene view mounted ?? " invert-matrix)
     [:<>
      [:mesh {:scale [scale scale scale]}

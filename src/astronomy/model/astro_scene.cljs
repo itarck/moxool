@@ -4,7 +4,8 @@
    [posh.reagent :as p]
    [shu.three.vector3 :as v3]
    [astronomy.model.celestial :as m.celestial]
-   [astronomy.model.coordinate :as m.coordinate]))
+   [astronomy.model.coordinate :as m.coordinate]
+   [astronomy.model.horizon-coordinate :as m.hc]))
 
 
 (def sample
@@ -61,16 +62,21 @@
     [?coor-id :coordinate/track-position ?cele-id]])
 
 (defn has-day-light?
-  ([coordinate sun-position camera-control atmosphere]
-   (has-day-light? coordinate sun-position camera-control atmosphere 0.55))
-  ([coordinate sun-position camera-control atmosphere angle-limit]
-   (let [{:spaceship-camera-control/keys [up]} camera-control
-         angle (v3/angle-to (v3/from-seq up) (v3/from-seq sun-position))
+  [coordinate atmosphere]
+   (let [sun-position (m.coordinate/from-system-vector coordinate [0 0 0])
          has-day-light (and
                         (= (:coordinate/type coordinate) :horizon-coordinate)
                         (:atmosphere/show? atmosphere)
-                        (< angle (* angle-limit Math/PI)))]
-     has-day-light)))
+                        (>= (m.hc/sun-elevation-angle sun-position) 0))]
+     has-day-light))
+
+(defn has-atmosphere?
+  [coordinate atmosphere]
+  (let [sun-position (m.coordinate/from-system-vector coordinate [0 0 0])]
+    (and
+     (= (:coordinate/type coordinate) :horizon-coordinate)
+     (:atmosphere/show? atmosphere)
+     (>= (m.hc/sun-elevation-angle sun-position) -10))))
 
 ;; tx
 
