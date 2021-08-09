@@ -1,17 +1,15 @@
 (ns astronomy.view.astro-scene
   (:require
    [posh.reagent :as p]
-   [helix.core :refer [$]]
    [methodology.model.scene :as m.scene]
-   [shu.three.vector3 :as v3]
-   [astronomy.model.astro-scene :as m.astro-scene]
    [methodology.model.object :as m.object]
+   [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.model.atmosphere :as m.atmosphere]
+   [astronomy.model.coordinate :as m.coordinate]
    [astronomy.view.background :as v.background]
    [astronomy.view.constellation :as v.constel]
    [astronomy.view.star :as v.star]
-   [astronomy.view.atmosphere :as v.atmosphere]
-   ))
+   [astronomy.view.atmosphere :as v.atmosphere]))
 
 
 (defn AstroSceneView [props {:keys [conn object-libray] :as env}]
@@ -23,9 +21,9 @@
         spaceship-camera-control @(p/pull conn '[*] (get-in props [:spaceship-camera-control :db/id]))
         coor @(p/pull conn '[*] (get-in astro-scene [:astro-scene/coordinate :db/id]))
         invert-matrix (m.object/cal-invert-matrix coor)
-        sun-position (v3/apply-matrix4 (v3/vector3 0 0 0) invert-matrix)
-        has-day-light? (m.astro-scene/has-day-light? sun-position spaceship-camera-control atmosphere 0.5)
-        has-atmosphere? (m.astro-scene/has-day-light? sun-position spaceship-camera-control atmosphere 0.55)]
+        sun-position (m.coordinate/from-system-vector coor [0 0 0])
+        has-day-light? (m.astro-scene/has-day-light? coor sun-position spaceship-camera-control atmosphere 0.5)
+        has-atmosphere? (m.astro-scene/has-day-light? coor sun-position spaceship-camera-control atmosphere 0.55)]
     ;; (println "astro scene view mounted ?? " invert-matrix)
     [:<>
      [:mesh {:scale [scale scale scale]}

@@ -61,14 +61,14 @@
     [?coor-id :coordinate/track-position ?cele-id]])
 
 (defn has-day-light?
-  ([sun-position camera-control atmosphere]
-   (has-day-light? sun-position camera-control atmosphere 0.55))
-  ([sun-position camera-control atmosphere angle-limit]
+  ([coordinate sun-position camera-control atmosphere]
+   (has-day-light? coordinate sun-position camera-control atmosphere 0.55))
+  ([coordinate sun-position camera-control atmosphere angle-limit]
    (let [{:spaceship-camera-control/keys [up]} camera-control
-         angle (v3/angle-to (v3/from-seq up) sun-position)
+         angle (v3/angle-to (v3/from-seq up) (v3/from-seq sun-position))
          has-day-light (and
+                        (= (:coordinate/type coordinate) :horizon-coordinate)
                         (:atmosphere/show? atmosphere)
-                        (= :surface-control (:spaceship-camera-control/mode camera-control))
                         (< angle (* angle-limit Math/PI)))]
      has-day-light)))
 
