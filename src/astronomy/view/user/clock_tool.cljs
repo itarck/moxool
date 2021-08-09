@@ -6,13 +6,15 @@
    [helix.core :refer [$]]
    [posh.reagent :as p]
    ["@material-ui/core" :as mt]
-   [astronomy.model.clock :as m.clock]))
+   [astronomy.model.astro-scene :as m.astro-scene]
+   [astronomy.model.clock :as m.clock]
+   [astronomy.model.horizon-coordinate :as m.hc]))
 
 
 (defn ClockToolView [props {:keys [service-chan conn]}]
   (let [clock-tool @(p/pull conn '[*] (get-in props [:tool :db/id]))
-        camera-control @(p/pull conn '[*] (get-in props [:camera-control :db/id]))
-        {:clock-tool/keys [steps-per-second step-interval clock]} clock-tool
+        scene-coordinate (m.astro-scene/sub-scene-coordinate conn (get-in props [:astro-scene]))
+        {:clock-tool/keys [step-interval clock]} clock-tool
         clock @(p/pull conn '[*] (:db/id clock))
         {:clock/keys [time-in-days]} clock
         step-interval-in-chinese (case step-interval
@@ -39,15 +41,14 @@
 
        [:> mt/Grid {:container true :spacing 1}
 
-        (if (= (:spaceship-camera-control/mode camera-control) :surface-control)
+        (if (= (:coordinate/type scene-coordinate) :horizon-coordinate)
           [:<>
            ($ mt/Grid {:item true :xs 4}
               ($ mt/Typography {:variant "subtitle2"}
                  "本地时间： "))
            ($ mt/Grid {:item true :xs 8}
               ($ mt/Typography {:variant "subtitle2"}
-                 (let [longitude (m.clock/cal-longitude (:spaceship-camera-control/position camera-control))
-                       local-time (m.clock/cal-local-time time-in-days longitude)]
+                 (let [local-time (m.hc/cal-local-time scene-coordinate time-in-days)]
                    (m.clock/utc-format-string local-time))))]
 
 

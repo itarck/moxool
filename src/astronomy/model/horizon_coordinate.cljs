@@ -16,6 +16,11 @@
                            :chinese-name {:db/unique :db.unique/identity}})
 
 
+(defn cal-local-time [hc epoch-time]
+  (let [{:horizon-coordinate/keys [longitude]} hc]
+    (+ epoch-time (/ longitude 360))))
+
+
 (comment
 
   (def sample
