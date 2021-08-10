@@ -882,6 +882,7 @@
 (def atmosphere
   #:atmosphere {:name "default"
                 :show? true
+                :object/scene [:scene/name "solar"]
                 :entity/type :atmosphere})
 
 

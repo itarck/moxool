@@ -70,13 +70,6 @@
                         (>= (m.hc/sun-elevation-angle sun-position) 0))]
      has-day-light))
 
-(defn has-atmosphere?
-  [coordinate atmosphere]
-  (let [sun-position (m.coordinate/from-system-vector coordinate [0 0 0])]
-    (and
-     (= (:coordinate/type coordinate) :horizon-coordinate)
-     (:atmosphere/show? atmosphere)
-     (>= (m.hc/sun-elevation-angle sun-position) -10))))
 
 ;; tx
 

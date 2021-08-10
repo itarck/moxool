@@ -1,6 +1,8 @@
 (ns astronomy.model.atmosphere
   (:require
-   [posh.reagent :as p]))
+   [posh.reagent :as p]
+   [astronomy.model.coordinate :as m.coordinate]
+   [astronomy.model.horizon-coordinate :as m.hc]))
 
 
 (def schema {:atmosphere/name {:db/unique :db.unique/identity}})
@@ -37,3 +39,12 @@
 (defn sub-unique-one [conn]
   @(p/pull conn whole-selector unique-id))
 
+(defn sub-show-atmosphere?
+  [conn atmosphere]
+  (let [atmosphere-1 @(p/pull conn '[* {:object/scene [{:astro-scene/coordinate [*]}]}] (:db/id atmosphere))
+        coordinate (get-in atmosphere-1 [:object/scene :astro-scene/coordinate])
+        sun-position (m.coordinate/from-system-vector coordinate [0 0 0])]
+    (and
+     (= (:coordinate/type coordinate) :horizon-coordinate)
+     (:atmosphere/show? atmosphere)
+     (>= (m.hc/sun-elevation-angle sun-position) -10))))

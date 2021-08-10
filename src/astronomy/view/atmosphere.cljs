@@ -7,11 +7,12 @@
    [astronomy.model.atmosphere :as m.atmosphere]))
 
 
-(defn AtmosphereView [{:keys [has-atmosphere? sun-position up]} {:keys [conn] :as env}]
-  (when has-atmosphere?
-    ($ Sky {:distance 500
-            :rayleigh 1
-            :sunPosition (v3/from-seq sun-position)
-            :mieCoefficient 0.05
-            :mieDirectionalG 0.9999
-            :material-uniforms-up-value (clj->js up)})))
+(defn AtmosphereView [{:keys [sun-position object]} {:keys [conn] :as env}]
+  (let [show-atmosphere? (m.atmosphere/sub-show-atmosphere? conn object)]
+    (when show-atmosphere?
+      ($ Sky {:distance 500
+              :rayleigh 1
+              :sunPosition (v3/from-seq sun-position)
+              :mieCoefficient 0.05
+              :mieDirectionalG 0.9999
+              :material-uniforms-up-value #js [0 1 0]}))))
