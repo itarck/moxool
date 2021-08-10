@@ -6,10 +6,9 @@
    [posh.reagent :as p]
    ["@react-three/drei" :refer [Sphere Plane]]
    ["three" :as three]
-   [shu.three.quaternion :as q]
-   [shu.three.vector3 :as v3]
    [methodology.view.gltf :as v.gltf]
    [astronomy.model.star :as m.star]
+   [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.model.constellation :as m.constel]
    [astronomy.view.planet :as v.planet]))
 
@@ -39,7 +38,7 @@
     ($ :primitive {:object l})))
 
 
-(defn StarView [{:keys [has-day-light?] :as props} {:keys [conn] :as env}]
+(defn StarView [{:keys [astro-scene] :as props} {:keys [conn] :as env}]
   (let [star @(p/pull conn '[* {:planet/_star [:db/id]}] (get-in props [:object :db/id]))
         celestial-scale (get-in props [:astro-scene :astro-scene/celestial-scale])
         {:star/keys [color]} star
@@ -74,8 +73,7 @@
       (for [planet (:planet/_star star)]
         ^{:key (:db/id planet)}
         [v.planet/PlanetView {:planet planet
-                              :has-day-light? has-day-light?
-                              :astro-scene (:astro-scene props)} env])]]))
+                              :astro-scene astro-scene} env])]]))
 
 
 (defnc StarsSphereComponent [props]
@@ -104,7 +102,8 @@
                             :fog              false}))))
 
 
-(defn StarsSphereView [{:keys [has-day-light?]} {:keys [conn]}]
-  (let [stars (m.constel/sub-all-constellation-stars conn)]
+(defn StarsSphereView [{:keys [astro-scene]} {:keys [conn]}]
+  (let [stars (m.constel/sub-all-constellation-stars conn)
+        has-day-light? (m.astro-scene/sub-has-day-light? conn astro-scene)]
     (when-not has-day-light?
       ($ StarsSphereComponent {:stars stars}))))

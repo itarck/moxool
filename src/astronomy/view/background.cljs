@@ -5,7 +5,8 @@
    [helix.hooks :refer [use-memo]]
    [shu.arithmetic.number :as shu.number]
    [shu.three.vector3 :as v3]
-   [shu.astronomy.light :as shu.light]))
+   [shu.astronomy.light :as shu.light]
+   [astronomy.model.astro-scene :as m.astro-scene]))
 
 
 
@@ -99,8 +100,11 @@
                             :opacity          1
                             :fog              false}))))
 
-(defn BackgroundView [props env]
-  [:<>
-   ($ StarsView)
+
+(defn BackgroundView [{:keys [astro-scene]} {:keys [conn]}]
+  (let [has-day-light? (m.astro-scene/sub-has-day-light? conn astro-scene)]
+    (when has-day-light?
+      [:<>
+       ($ StarsView)
   ;;  ($ StarsView2)
-   #_($ StarsView3)])
+       #_($ StarsView3)])))

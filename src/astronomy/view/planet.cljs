@@ -62,7 +62,7 @@
                                   (v3/from-seq [(* 0.7 size) 0 0])]
                          :color "red"}]])
 
-(defn PlanetView [{:keys [planet astro-scene has-day-light?] :as props} {:keys [conn service-chan] :as env}]
+(defn PlanetView [{:keys [planet astro-scene] :as props} {:keys [conn service-chan] :as env}]
   (let [planet @(p/pull conn '[{:satellite/_planet [:db/id]
                                 :celestial/orbit [*]
                                 :celestial/spin [*]} *] (:db/id planet))
@@ -98,7 +98,6 @@
        (for [satellite satellites]
          ^{:key (:db/id satellite)}
          [v.satellite/SatelliteView {:satellite satellite
-                                     :has-day-light? has-day-light?
                                      :astro-scene astro-scene} env])]]
 
      (when (:orbit/show? orbit) [PlanetOrbitView {:orbit orbit} env])

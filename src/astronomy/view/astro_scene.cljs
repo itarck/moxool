@@ -5,7 +5,6 @@
    [methodology.model.object :as m.object]
    [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.model.atmosphere :as m.atmosphere]
-   [astronomy.model.coordinate :as m.coordinate]
    [astronomy.view.background :as v.background]
    [astronomy.view.constellation :as v.constel]
    [astronomy.view.star :as v.star]
@@ -19,8 +18,7 @@
         {:scene/keys [scale]} astro-scene
         objects (m.scene/sub-objects conn (:db/id astro-scene))
         coor @(p/pull conn '[*] (get-in astro-scene [:astro-scene/coordinate :db/id]))
-        invert-matrix (m.object/cal-invert-matrix coor)
-        has-day-light? (m.astro-scene/has-day-light? coor atmosphere)]
+        invert-matrix (m.object/cal-invert-matrix coor)]
     ;; (println "astro scene view mounted ?? " invert-matrix)
     [:<>
      [:mesh {:scale [scale scale scale]}
@@ -30,23 +28,14 @@
                :matrix invert-matrix}
 
        [v.constel/ConstellationsView {:astro-scene astro-scene} env]
-
-       (when-not has-day-light?
-         [v.background/BackgroundView])
-
-       [v.star/StarsSphereView {:has-day-light? has-day-light?} env]
-
+       [v.background/BackgroundView {:astro-scene astro-scene} env]
+       [v.star/StarsSphereView {:astro-scene astro-scene} env]
 
        (for [object objects]
          (let [object-view-fn (get object-libray (:entity/type object))]
            (when object-view-fn
-             (case (:entity/type object)
-               :star ^{:key (:db/id object)} [object-view-fn {:object object
-                                                              :has-day-light? has-day-light?
-                                                              :astro-scene astro-scene} env]
-               ^{:key (:db/id object)} [object-view-fn {:object object
-                                                        :user user
-                                                        :astro-scene astro-scene} env]))))]
-
-      #_[:PolarGridHelper {:args [10 4 10 360 "red" "red"]}]]]
-    ))
+             ^{:key (:db/id object)} [object-view-fn {:object object
+                                                      :user user
+                                                      :astro-scene astro-scene} env])))
+      ;;  
+       ]]]))

@@ -8,7 +8,6 @@
    [methodology.view.gltf :as v.gltf]
    [astronomy.model.ellipse-orbit :as m.ellipse-orbit]
    [astronomy.model.moon-orbit :as m.moon-orbit]
-   [astronomy.model.circle-orbit :as m.circle-orbit]
    [astronomy.model.astro-scene :as m.astro-scene]
    [methodology.lib.geometry :as v.geo]))
 
@@ -73,14 +72,15 @@
                             :circle-points (* 360 20)}]))
 
 
-(defn SatelliteView [{:keys [satellite astro-scene has-day-light?] :as props} {:keys [conn service-chan] :as env}]
+(defn SatelliteView [{:keys [satellite astro-scene] :as props} {:keys [conn service-chan] :as env}]
   (let [satellite @(p/pull conn '[{:celestial/orbit [*]
                                    :celestial/spin [*]}
                                   *] (:db/id satellite))
         {:satellite/keys [color]} satellite
         {:object/keys [position quaternion]} satellite
         {:celestial/keys [orbit gltf radius spin]} satellite
-        scaled-radius (* radius (:astro-scene/celestial-scale astro-scene))]
+        scaled-radius (* radius (:astro-scene/celestial-scale astro-scene))
+        has-day-light? (m.astro-scene/sub-has-day-light? conn astro-scene)]
     ;; (println "satellite view " satellite)
     [:<>
      [:mesh {:position position}
