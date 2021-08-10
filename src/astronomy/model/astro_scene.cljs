@@ -2,10 +2,10 @@
   (:require
    [datascript.core :as d]
    [posh.reagent :as p]
-   [shu.three.vector3 :as v3]
    [astronomy.model.celestial :as m.celestial]
    [astronomy.model.coordinate :as m.coordinate]
-   [astronomy.model.horizon-coordinate :as m.hc]))
+   [astronomy.model.horizon-coordinate :as m.hc]
+   [astronomy.model.atmosphere :as m.atmosphere]))
 
 
 (def sample
@@ -51,6 +51,10 @@
 (defn sub-scene-coordinate [conn scene]
   (let [scene1 @(p/pull conn '[*] (:db/id scene))]
     @(p/pull conn '[*] (get-in scene1 [:astro-scene/coordinate :db/id]))))
+
+(defn sub-has-day-light? [conn scene]
+  (let [atmosphere (m.atmosphere/sub-unique-one conn)]
+    (m.atmosphere/sub-has-day-light? conn atmosphere)))
 
 ;; 
 

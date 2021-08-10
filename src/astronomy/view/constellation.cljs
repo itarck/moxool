@@ -7,6 +7,7 @@
    ["three" :as three]
    [posh.reagent :as p]
    [shu.astronomy.light :as shu.light]
+   [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.model.constellation :as m.constel]))
 
 
@@ -50,8 +51,9 @@
           [StarLineView star-line constellation-color])])]))
 
 
-(defn ConstellationsView [{:keys [has-day-light?] :as props} {:keys [conn] :as env}]
-    (let [constellation-ids (m.constel/sub-all-constellation-ids conn)]
+(defn ConstellationsView [{:keys [astro-scene] :as props} {:keys [conn] :as env}]
+    (let [has-day-light? (m.astro-scene/sub-has-day-light? conn astro-scene)
+          constellation-ids (m.constel/sub-all-constellation-ids conn)]
       (when (not has-day-light?)
         [:<>
          (for [id constellation-ids]

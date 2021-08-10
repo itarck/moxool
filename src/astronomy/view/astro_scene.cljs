@@ -29,7 +29,7 @@
       [:group {:matrixAutoUpdate false
                :matrix invert-matrix}
 
-       [v.constel/ConstellationsView {:has-day-light? has-day-light?} env]
+       [v.constel/ConstellationsView {:astro-scene astro-scene} env]
 
        (when-not has-day-light?
          [v.background/BackgroundView])
