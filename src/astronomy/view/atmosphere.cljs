@@ -4,11 +4,16 @@
    [posh.reagent :as p]
    ["@react-three/drei" :refer [Sky]]
    [shu.three.vector3 :as v3]
-   [astronomy.model.atmosphere :as m.atmosphere]))
+   [astronomy.model.astro-scene :as m.astro-scene]
+   [astronomy.model.atmosphere :as m.atmosphere]
+   [astronomy.model.horizon-coordinate :as m.hc]))
 
 
-(defn AtmosphereView [{:keys [sun-position object]} {:keys [conn] :as env}]
-  (let [show-atmosphere? (m.atmosphere/sub-show-atmosphere? conn object)]
+(defn AtmosphereView [{:keys [object]} {:keys [conn] :as env}]
+  (let [atmosphere @(p/pull conn '[*] (:db/id object))
+        coordinate (m.astro-scene/sub-scene-coordinate conn (:object/scene atmosphere))
+        show-atmosphere? (m.atmosphere/sub-show-atmosphere? conn object)
+        sun-position (m.hc/get-sun-position coordinate)]
     (when show-atmosphere?
       ($ Sky {:distance 500
               :rayleigh 1

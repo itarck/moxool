@@ -20,13 +20,11 @@
         objects (m.scene/sub-objects conn (:db/id astro-scene))
         coor @(p/pull conn '[*] (get-in astro-scene [:astro-scene/coordinate :db/id]))
         invert-matrix (m.object/cal-invert-matrix coor)
-        sun-position (m.coordinate/from-system-vector coor [0 0 0])
         has-day-light? (m.astro-scene/has-day-light? coor atmosphere)]
     ;; (println "astro scene view mounted ?? " invert-matrix)
     [:<>
      [:mesh {:scale [scale scale scale]}
-      [v.atmosphere/AtmosphereView {:sun-position sun-position
-                                    :object atmosphere} env]
+      [v.atmosphere/AtmosphereView {:object atmosphere} env]
 
       [:group {:matrixAutoUpdate false
                :matrix invert-matrix}
