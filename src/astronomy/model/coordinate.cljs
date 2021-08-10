@@ -1,12 +1,9 @@
 (ns astronomy.model.coordinate
-  (:require 
+  (:require
    [datascript.core :as d]
    [posh.reagent :as p]
    [shu.three.vector3 :as v3]
-   [methodology.model.object :as m.object]
-   [astronomy.model.astronomical-coordinate :as m.astronomical-coordinate]
-   [astronomy.model.terrestrial-coordinate :as m.terrestrial-coordinate]
-   [astronomy.model.horizon-coordinate :as m.horizon-coordinate]))
+   [methodology.model.object :as m.object]))
 
 
 (def schema {:coordinate/name {:db/unique :db.unique/identity}})
@@ -57,11 +54,3 @@
         coordinate @(p/pull conn '[*] (get-in full-scene [:astro-scene/coordinate :db/id]))]
     coordinate))
 
-;; tx
-
-(defn update-position-and-quaternion-tx [db coordinate-id]
-  (let [coordinate (d/pull db '[*] coordinate-id)]
-    (case (:coordinate/type coordinate)
-      :astronomical-coordinate (m.astronomical-coordinate/update-position-and-quaternion-tx db coordinate-id)
-      :terrestrial-coordinate (m.terrestrial-coordinate/update-position-and-quaternion-tx db coordinate-id)
-      :horizon-coordinate (m.horizon-coordinate/update-position-and-quaternion-tx db coordinate-id))))
