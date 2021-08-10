@@ -1,9 +1,7 @@
 (ns astronomy.view.astro-scene
   (:require
    [posh.reagent :as p]
-   [methodology.model.scene :as m.scene]
-   [methodology.model.object :as m.object]
-   [astronomy.model.astro-scene :as m.astro-scene]
+   [astronomy.model.coordinate :as m.coordinate]
    [astronomy.model.atmosphere :as m.atmosphere]
    [astronomy.view.background :as v.background]
    [astronomy.view.constellation :as v.constel]
@@ -12,13 +10,15 @@
 
 
 (defn AstroSceneView [props {:keys [conn object-libray] :as env}]
-  (let [astro-scene @(p/pull conn '[*] (get-in props [:astro-scene :db/id]))
+  (let [astro-scene @(p/pull conn '[* {:object/_scene [*]
+                                       :astro-scene/coordinate [*]}]
+                             (get-in props [:astro-scene :db/id]))
+        {scale :scene/scale 
+         coordiante :astro-scene/coordinate
+         objects :object/_scene} astro-scene
         user @(p/pull conn '[*] (get-in props [:user :db/id]))
         atmosphere (m.atmosphere/sub-unique-one conn)
-        {:scene/keys [scale]} astro-scene
-        objects (m.scene/sub-objects conn (:db/id astro-scene))
-        coor @(p/pull conn '[*] (get-in astro-scene [:astro-scene/coordinate :db/id]))
-        invert-matrix (m.object/cal-invert-matrix coor)]
+        invert-matrix (m.coordinate/cal-invert-matrix coordiante)]
     ;; (println "astro scene view mounted ?? " invert-matrix)
     [:<>
      [:mesh {:scale [scale scale scale]}

@@ -36,6 +36,8 @@
         pt (v3/from-seq local-vector)]
     (vec (v3/apply-matrix4 pt matrix))))
 
+(def cal-invert-matrix m.object/cal-invert-matrix)
+
 ;; find 
 
 (defn find-all-ids [db]
