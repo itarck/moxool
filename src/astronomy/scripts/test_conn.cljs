@@ -27,7 +27,6 @@
    {:db/id [:tool/name "constellation-tool"]}
    {:db/id [:tool/name "universe tool"]}
    {:db/id [:tool/name "atmosphere-tool"]}
-   {:db/id [:tool/name "eagle-eye-tool"]}
    {:db/id [:tool/name "astronomical-coordinate-tool"]}])
 
 
@@ -39,25 +38,6 @@
     (p/transact! conn (m.clock/set-clock-time-in-days-tx clock-id 0))
     (p/transact! conn (m.astro-scene/refresh-tx @conn astro-scene))
     (p/transact! conn (m.backpack/put-in-backpack-tx backpack tools))))
-
-
-(defn init-conn! []
-  (let [conn (create-empty-conn!)]
-    (d/transact! conn d.basic/dataset1)
-    (d/transact! conn d.celestial/dataset1)
-    ;; (d/transact! conn d.celestial/dataset2)
-    (d/transact! conn d.celestial/dataset3)
-    (d/transact! conn d.galaxy/dataset1)
-    (d/transact! conn d.coordinate/dataset1)
-
-    ;; (p/transact! conn d.stars/dataset1)
-    (d/transact! conn d.constel/dataset1)
-    ;; (d/transact! conn d.constel/dataset2)
-    ;; (d/transact! conn d.constel/dataset3)
-    (d/transact! conn d.tool/dataset1)
-
-    (kick-start! conn)
-    conn))
 
 
 ;; dbs 
@@ -74,5 +54,21 @@
     (d/transact! conn d.celestial/dataset3)
     (d/transact! conn d.coordinate/dataset1)
     (d/transact! conn d.tool/dataset1)
+    @conn))
+
+
+
+;; 经过kickstar
+(def test-db11
+  (let [conn (create-empty-conn!)]
+    (d/transact! conn d.basic/dataset1)
+    (d/transact! conn d.celestial/dataset1)
+    (d/transact! conn d.celestial/dataset3)
+    (d/transact! conn d.galaxy/dataset1)
+    (d/transact! conn d.coordinate/dataset1)
+    (d/transact! conn d.constel/dataset1)
+    (d/transact! conn d.tool/dataset1)
+
+    (kick-start! conn)
     @conn))
 

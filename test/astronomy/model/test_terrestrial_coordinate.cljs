@@ -12,15 +12,17 @@
 
 ;; test db
 
-(def db-1 test-conn/test-db2)
+(def db-1 test-conn/test-db11)
 
 (def tc-1
   (d/pull db-1 '[*] [:coordinate/name "地球坐标系"]))
 
-(m.terrestrial-coordinate/update-position-and-quaternion-tx db-1 (:db/id tc-1))
-;; => [{:db/id 34, :object/position [], :object/quaternion (0 -0.6255422740012656 0 0.7801902738674237)}]
+
+(deftest test-terrestrial-coordinate-model
+  (is (= (m.terrestrial-coordinate/update-position-and-quaternion-tx db-1 (:db/id tc-1))
+         [{:db/id 36, :object/position [442.9497885783528 191.68192377598768 -88.40464973856325]
+           :object/quaternion '(0 -0.6255422740012656 0 0.7801902738674237)}])))
 
 
-(:object/position tc-1)
-(:object/quaternion tc-1)
 
+(run-tests)
