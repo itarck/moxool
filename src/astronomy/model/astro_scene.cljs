@@ -67,15 +67,6 @@
     [?scene-id :astro-scene/coordinate ?coor-id]
     [?coor-id :coordinate/track-position ?cele-id]])
 
-(defn has-day-light?
-  [coordinate atmosphere]
-   (let [sun-position (m.coordinate/from-system-vector coordinate [0 0 0])
-         has-day-light (and
-                        (= (:coordinate/type coordinate) :horizon-coordinate)
-                        (:atmosphere/show? atmosphere)
-                        (>= (m.horizon-coordinate/sun-elevation-angle sun-position) 0))]
-     has-day-light))
-
 
 ;; tx
 

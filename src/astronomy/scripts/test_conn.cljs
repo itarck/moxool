@@ -3,7 +3,7 @@
    [datascript.core :as d]
    [posh.reagent :as p]
    [methodology.model.user.backpack :as m.backpack]
-   [astronomy.conn.core :refer [create-empty-conn!]]
+   [astronomy.conn.core :refer [create-empty-conn!] :as conn.core]
    [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.model.clock :as m.clock]
    [astronomy.data.basic :as d.basic]
@@ -58,4 +58,21 @@
 
     (kick-start! conn)
     conn))
+
+
+;; dbs 
+
+(def test-db1
+  (let [conn (create-empty-conn!)]
+    (d/transact! conn d.basic/dataset1)
+    @conn))
+
+(def test-db2
+  (let [conn (create-empty-conn!)]
+    (d/transact! conn d.basic/dataset1)
+    (d/transact! conn d.celestial/dataset1)
+    (d/transact! conn d.celestial/dataset3)
+    (d/transact! conn d.coordinate/dataset1)
+    (d/transact! conn d.tool/dataset1)
+    @conn))
 
