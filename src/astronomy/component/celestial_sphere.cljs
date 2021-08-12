@@ -49,16 +49,17 @@
 (defnc LongitudeMarksComponent [{:keys [radius color]}]
   (r/as-element
    [:<>
-    (for [i (range 24)]
+    (for [i (range 36)]
       ^{:key i}
       [:> Html {:position (v3/from-spherical-coords
                            radius
                            (/ Math/PI 2)
-                           (* i (/ 1 24) 2 Math/PI))
+                           (* i (/ 1 36) 2 Math/PI))
                 :zIndexRange [0 0]
                 :style {:color color
                         :font-size "14px"}}
-       [:p (str i "h")]])]))
+       [:p (str (* i 10) "°")]])]))
+
 
 
 (defnc LongitudeComponent [{:keys [radius longitude color] :as props}]
