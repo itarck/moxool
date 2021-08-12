@@ -54,7 +54,8 @@
    :horizon-coordinate-tool v.horizon-coordinate-tool/HorizonCoordinateToolView
    :astronomical-coordinate-tool v.astronomical-coordinate-tool/AstronomicalCoordinateToolView
    :terrestrial-coordinate-tool v.terrestrial-coordinate-tool/TerrestrialCoordinateToolView
-   :astronomical-point-tool v.astronomical-point-tool/AstronomicalPointToolView})
+   :astronomical-point-tool v.astronomical-point-tool/AstronomicalPointToolView
+   :ruler-tool v.ruler-tool/RulerToolView})
 
 
 (def object-libray 

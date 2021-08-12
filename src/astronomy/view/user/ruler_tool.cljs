@@ -38,7 +38,7 @@
                  :zIndexRange [0 0]
                  :style {:color color
                          :font-size "14px"}}
-        [:p (gstring/format "%0.3f" distance)]])]))
+        [:p (gstring/format "%0.2f" distance)]])]))
 
 
 (defn RulerSceneView
@@ -62,3 +62,21 @@
                                       :color "green"
                                       :show-distance? false}])
         nil))))
+
+
+(defn RulerToolView [props {:keys [service-chan conn] :as env}]
+  (let [tool @(p/pull conn '[*] (get-in props [:tool :db/id]))]
+    [:div {:class "astronomy-righthand"}
+     [:div {:class "astronomy-righthand-tool"}
+
+      [:div.p-2
+       [:div
+        [:img {:src (:tool/icon tool)
+               :class "astronomy-button"}]
+        [:span {:style {:font-size "18px"
+                        :font-weight "bold"}}
+         (:tool/chinese-name tool)]]
+
+       
+    ;;    
+       ]]]))
