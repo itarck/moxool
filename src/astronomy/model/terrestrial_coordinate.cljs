@@ -85,6 +85,14 @@
   (let [{:terrestrial-coordinate/keys [longitude-0-offset]} terrestrial-coordinate]
     (q/from-axis-angle (v3/vector3 0 1 0) (shu.angle/to-radians longitude-0-offset))))
 
+(defn cal-min-distance [db tc]
+  (let [tc1 (d/pull db '[* {:terrestrial-coordinate/center-object [:celestial/radius]
+                            :object/scene [:scene/scale]}]
+                    (:db/id tc))]
+    (* (get-in tc1 [:terrestrial-coordinate/center-object :celestial/radius])
+       (get-in tc1 [:object/scene :scene/scale])
+       1.1)))
+
 ;; sub
 
 (defn sub-coordinate-names [conn]

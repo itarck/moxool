@@ -14,7 +14,7 @@
 
 (defn SpaceshipCameraControlView [props {:keys [conn dom-atom]}]
   (let [scc @(p/pull conn '[*] (get-in props [:spaceship-camera-control :db/id]))
-        {:spaceship-camera-control/keys [mode]} scc
+        {:spaceship-camera-control/keys [mode min-distance]} scc
         props (m.spaceship/cal-component-props scc mode)]
     [:> c.camera-controls/CameraControlsComponent
      (merge {:domAtom dom-atom} props)]))

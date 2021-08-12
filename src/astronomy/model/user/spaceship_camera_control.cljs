@@ -1,7 +1,11 @@
 (ns astronomy.model.user.spaceship-camera-control
   (:require
    [cljs.spec.alpha :as s]
-   [shu.three.vector3 :as v3]))
+   [datascript.core :as d]
+   [shu.three.vector3 :as v3]
+   [astronomy.model.astronomical-coordinate :as m.astronomical-coordinate]
+   [astronomy.model.terrestrial-coordinate :as m.terrestrial-coordinate]
+   [astronomy.model.horizon-coordinate :as m.horizon-coordinate]))
 
 
 ;; 模型介绍：spaceship-camera-control，缩写scc
@@ -84,3 +88,11 @@
   {:pre [(s/assert :methodology/entity scc)]}
   [{:db/id (:db/id scc)
     :spaceship-camera-control/zoom zoom}])
+
+(defn update-min-distance-tx [db scc coordinate]
+  (let [coor-1 (d/pull db '[*] (:db/id coordinate))
+        min-distance (case (:coordinate/type coor-1)
+                       :terrestrial-coordinate (m.terrestrial-coordinate/cal-min-distance db coor-1)
+                       :astronomical-coordinate (m.astronomical-coordinate/cal-min-distance db coor-1)
+                       0)]
+    (set-min-distance-tx scc min-distance)))

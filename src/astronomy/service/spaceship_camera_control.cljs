@@ -28,6 +28,9 @@
           tx1 (m.spaceship/set-position-tx current-tool (seq click-point))]
       (create-effect :tx tx1))))
 
-(defmethod handle-event :astro-scene.pub/coordinate-changed 
-  [props env event]
-  (create-effect :log (str "in spaceship service" event)))
+(defmethod handle-event :astro-scene.pub/coordinate-changed
+  [_props {:keys [db]} {detail :event/detail}]
+  (let [{:keys [coordinate]} detail
+        tx (m.spaceship/update-min-distance-tx db {:db/id [:spaceship-camera-control/name "default"]}
+                                               coordinate)]
+    (create-effect :tx tx)))

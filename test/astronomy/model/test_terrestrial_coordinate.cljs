@@ -29,3 +29,5 @@
 
 (run-tests)
 
+
+(m.tc/cal-min-distance db-1 tc-1)
