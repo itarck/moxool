@@ -21,7 +21,7 @@
 
 
 
-(defn SpaceshipCameraToolView [props {:keys [service-chan conn dom-atom]}]
+(defn SpaceshipCameraToolView [props {:keys [service-chan conn]}]
   (let [tool @(p/pull conn '[*] (get-in props [:tool :db/id]))
         {:spaceship-camera-control/keys [mode zoom]} tool
         mode-and-names [[:orbit-mode "轨道运动模式"]
@@ -42,15 +42,11 @@
          [:> mt/Typography {:variant "subtitle1"} "当前模式："]
          [:> mt/Select {:value mode
                         :onChange (fn [e]
-                                    (let [new-mode (j/get-in e [:target :value])
-                                          position (c.camera-controls/get-camera-position (:spaceship-camera-control @dom-atom))
-                                          direction (c.camera-controls/get-camera-direction (:camera @dom-atom))]
+                                    (let [new-mode (j/get-in e [:target :value])]
                                       (go (>! service-chan
                                               #:event {:action :spaceship-camera-control/change-mode
                                                        :detail {:spaceship-camera-control tool
-                                                                :new-mode (keyword new-mode)
-                                                                :direction (vec direction)
-                                                                :position (vec position)}}))))}
+                                                                :new-mode (keyword new-mode)}}))))}
           (for [[mode mode-name] mode-and-names]
             ^{:key mode}
             [:> mt/MenuItem {:value mode} mode-name])]]]
@@ -64,13 +60,9 @@
                              :width "200px"})
             :value zoom
             :onChange (fn [e value]
-                        (let [position (c.camera-controls/get-camera-position (:spaceship-camera-control @dom-atom))
-                              direction (c.camera-controls/get-camera-direction (:camera @dom-atom))]
-                          (go (>! service-chan #:event {:action :spaceship-camera-control/change-zoom
-                                                        :detail {:spaceship-camera-control tool
-                                                                 :position (vec position)
-                                                                 :direction (vec direction)
-                                                                 :zoom value}}))))
+                        (go (>! service-chan #:event {:action :spaceship-camera-control/change-zoom
+                                                      :detail {:spaceship-camera-control tool
+                                                               :zoom value}})))
             :step 0.2 :min 0.4 :max 6 :marks true
             :getAriaValueText identity
             :aria-labelledby "discrete-slider-restrict"
