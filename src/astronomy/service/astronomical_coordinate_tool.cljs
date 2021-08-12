@@ -1,16 +1,12 @@
 (ns astronomy.service.astronomical-coordinate-tool
   (:require
-   [datascript.core :as d]
-   [shu.three.vector3 :as v3]
-   [methodology.model.object :as m.object]
-   [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.model.user.astronomical-coordinate-tool :as m.astronomical-coordinate-tool]
    [astronomy.service.effect :as s.effect :refer [create-effect]]))
 
 
 ;; handle-event version
 
-(defmulti handle-event (fn [props env event] (:event/action event)))
+(defmulti handle-event (fn [_props _env event] (:event/action event)))
 
 (defmethod handle-event :astronomical-coordinate-tool/log
   [_props _env {:event/keys [detail]}]
@@ -29,12 +25,6 @@
         tx [{:db/id (:db/id astronomical-coordinate)
              :astronomical-coordinate/show-latitude? show?}]]
     (create-effect :tx tx)))
-
-(defmethod handle-event :astronomical-coordinate-tool/set-scene-reference
-  [props _env {:event/keys [detail]}]
-  (let [{:keys [astronomical-coordinate]} detail
-        astro-scene (get-in props [:astro-scene])]
-    (create-effect :tx (m.astro-scene/set-scene-coordinate-tx astro-scene astronomical-coordinate))))
 
 (defmethod handle-event :astronomical-coordinate-tool/change-query-args
   [props {:keys [db]} {:event/keys [detail]}]

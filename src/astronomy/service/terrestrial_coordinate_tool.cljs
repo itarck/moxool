@@ -1,8 +1,6 @@
 (ns astronomy.service.terrestrial-coordinate-tool
   (:require
    [posh.reagent :as p]
-   [datascript.core :as d]
-   [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.model.terrestrial-coordinate :as m.terrestrial-coordinate]
    [astronomy.model.user.terrestrial-coordinate-tool :as m.terrestrial-coordinate-tool]
    [cljs.core.async :refer [go-loop go >! <! timeout] :as a]))
@@ -24,12 +22,6 @@
   [props {:keys [conn]} {:event/keys [detail]}]
   (let [{:keys [terrestrial-coordinate show?]} detail]
     (p/transact! conn (m.terrestrial-coordinate/change-show-latitude-tx terrestrial-coordinate show?))))
-
-(defmethod handle-event! :terrestrial-coordinate-tool/set-scene-reference
-  [props {:keys [conn]} {:event/keys [detail]}]
-  (let [{:keys [terrestrial-coordinate]} detail
-        astro-scene (get-in props [:astro-scene])]
-    (p/transact! conn (m.astro-scene/set-scene-coordinate-tx astro-scene terrestrial-coordinate))))
 
 (defmethod handle-event! :terrestrial-coordinate-tool/change-query-args
   [props {:keys [conn]} {:event/keys [detail]}]

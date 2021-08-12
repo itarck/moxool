@@ -1,17 +1,14 @@
 (ns astronomy.view.user.astronomical-coordinate-tool
   (:require
    [applied-science.js-interop :as j]
-   [goog.string :as gstring]
-   [helix.core :refer [$]]
    [cljs.core.async :refer [go >! <! go-loop] :as a]
    [posh.reagent :as p]
    ["@material-ui/core" :as mt]
-   [shu.astronomy.celestial-coordinate :as shu.cc]
    [astronomy.model.user.astronomical-coordinate-tool :as m.astronomical-coordinate-tool]))
 
 
 
-(defn AstronomicalCoordinateToolView [props {:keys [service-chan conn]}]
+(defn AstronomicalCoordinateToolView [{:keys [astro-scene] :as props} {:keys [service-chan conn]}]
   (let [tool @(p/pull conn '[*] (get-in props [:tool :db/id]))
         {:astronomical-coordinate-tool/keys [query-args]} tool
         query-args-candidates (m.astronomical-coordinate-tool/sub-query-args-candidates conn tool)]
@@ -49,8 +46,9 @@
               [:> mt/Typography {:variant "subtitle2"} "设为系统参考系"]]
              [:> mt/Grid {:item true :xs 6}
               [:> mt/ButtonGroup {:size "small"}
-               [:> mt/Button {:onClick #(go (>! service-chan #:event{:action :astronomical-coordinate-tool/set-scene-reference
-                                                                     :detail {:astronomical-coordinate astronomical-coordinate}}))} "设置"]]]
+               [:> mt/Button {:onClick #(go (>! service-chan #:event{:action :astro-scene/change-coordinate
+                                                                     :detail {:astro-scene astro-scene
+                                                                              :coordinate astronomical-coordinate}}))} "设置"]]]
 
              [:> mt/Grid {:item true :xs 6}
               [:> mt/Typography {:variant "subtitle2"} "显示经度"]]

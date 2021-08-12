@@ -1,7 +1,6 @@
 (ns astronomy.service.astro-scene
   (:require
    [posh.reagent :as p]
-   [datascript.core :as d]
    [cljs.core.async :refer [go-loop go >! <! timeout] :as a]
    [astronomy.model.astro-scene :as m.astro-scene]))
 
@@ -15,14 +14,14 @@
     (p/transact! conn tx)))
 
 (defmethod handle-event! :astro-scene/change-coordinate
-  [{:keys [astro-scene] :as props} {:keys [conn service-chan]} {:event/keys [detail]}]
-  (let [astro-scene-id (get-in props [:astro-scene :db/id])
-        {:keys [coordinate-name]} detail]
-    (p/transact! conn [[:db/add astro-scene-id :astro-scene/coordinate [:coordinate/name coordinate-name]]])
+  [_props {:keys [conn service-chan]} {:event/keys [detail]}]
+  (let [{:keys [astro-scene coordinate]} detail
+        tx (m.astro-scene/set-scene-coordinate-tx astro-scene coordinate)]
+    (p/transact! conn tx)
     (go (>! service-chan #:event{:action :astro-scene/refresh}))
     (go (>! service-chan #:event{:action :astro-scene.pub/coordinate-changed
                                  :detail {:astro-scene astro-scene
-                                          :coordinate {:db/id [:coordinate/name coordinate-name]}}}))))
+                                          :coordinate coordinate}}))))
 
 
 

@@ -35,7 +35,8 @@
                                     (let [new-value (j/get-in e [:target :value])]
                                       (go (>! service-chan
                                               #:event {:action :astro-scene/change-coordinate
-                                                       :detail {:coordinate-name new-value}}))))}
+                                                       :detail {:astro-scene astro-scene
+                                                                :coordinate {:db/id [:coordinate/name new-value]}}}))))}
           (for [name coordinate-names]
             ^{:key name}
             [:> mt/MenuItem {:value name} name])]]

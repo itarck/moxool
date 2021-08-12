@@ -7,11 +7,11 @@
    [astronomy.model.user.terrestrial-coordinate-tool :as m.terrestrial-coordinate-tool]))
 
 
-(defn TerrestrialCoordinateToolView [props {:keys [service-chan conn]}]
+(defn TerrestrialCoordinateToolView [{:keys [astro-scene] :as props} {:keys [service-chan conn]}]
   (let [tool @(p/pull conn '[*] (get-in props [:tool :db/id]))
         {:terrestrial-coordinate-tool/keys [query-args]} tool
         query-args-candidates (m.terrestrial-coordinate-tool/sub-query-args-candidates conn tool)]
-    (println "TerrestrialCoordinateToolView: " tool)
+    ;; (println "TerrestrialCoordinateToolView: " tool)
     [:div {:class "astronomy-righthand"}
      [:div {:class "astronomy-righthand-tool"}
       [:div.p-2
@@ -39,14 +39,15 @@
           (let [terrestrial-coordinate-id (first (get-in tool [:terrestrial-coordinate-tool/query-result]))
                 terrestrial-coordinate @(p/pull conn '[*] terrestrial-coordinate-id)
                 {:terrestrial-coordinate/keys [show-latitude? show-longitude? show-latitude-0? show-regression-line?
-                                               show-longitude-0? show-ecliptic? show-lunar-orbit?]} terrestrial-coordinate]
+                                               show-longitude-0?]} terrestrial-coordinate]
             [:<>
              [:> mt/Grid {:item true :xs 6}
               [:> mt/Typography {:variant "subtitle2"} "设为系统参考系"]]
              [:> mt/Grid {:item true :xs 6}
               [:> mt/ButtonGroup {:size "small"}
-               [:> mt/Button {:onClick #(go (>! service-chan #:event{:action :terrestrial-coordinate-tool/set-scene-reference
-                                                                     :detail {:terrestrial-coordinate terrestrial-coordinate}}))} "设置"]]]
+               [:> mt/Button {:onClick #(go (>! service-chan #:event{:action :astro-scene/change-coordinate
+                                                                     :detail {:astro-scene astro-scene
+                                                                              :coordinate terrestrial-coordinate}}))} "设置"]]]
 
              [:> mt/Grid {:item true :xs 6}
               [:> mt/Typography {:variant "subtitle2"} "显示经度"]]
