@@ -1,7 +1,6 @@
 (ns astronomy.service.spaceship-camera-control
   (:require
    [astronomy.service.effect :as s.effect :refer [create-effect]]
-   [astronomy.component.camera-controls :as c.camera-controls]
    [astronomy.model.user.spaceship-camera-control :as m.spaceship]))
 
 
