@@ -63,7 +63,7 @@
                         (go (>! service-chan #:event {:action :spaceship-camera-control/change-zoom
                                                       :detail {:spaceship-camera-control tool
                                                                :zoom value}})))
-            :step 0.2 :min 0.4 :max 6 :marks true
+            :step 0.2 :min 0.4 :max 5 :marks true
             :getAriaValueText identity
             :aria-labelledby "discrete-slider-restrict"
             :valueLabelDisplay "auto"})]
