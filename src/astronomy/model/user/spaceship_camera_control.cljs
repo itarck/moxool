@@ -39,6 +39,7 @@
 
 ;; tranform
 
+
 (defn cal-component-props [scc mode]
   (let [{:spaceship-camera-control/keys [up center position
                                          min-distance max-distance zoom direction]} scc
@@ -46,7 +47,6 @@
                       :zoom zoom
                       :azimuthRotateSpeed -0.3
                       :polarRotateSpeed -0.3}
-        position-v3 (v3/from-seq position)
         direction-v3 (v3/from-seq direction)]
     (case mode
       :orbit-mode (merge common-props
@@ -55,18 +55,19 @@
                           :minDistance min-distance
                           :maxDistance max-distance})
       :static-mode (merge common-props
-                          {:target position 
-                           :position (vec (v3/add position-v3 (v3/multiply-scalar direction-v3 -1e-3)))
+                          {:target center
+                           :position (vec (v3/add (v3/from-seq center) (v3/multiply-scalar direction-v3 -1e-5)))
                            :minDistance 1e-3
                            :maxDistance 1e-3}))))
 
 
 ;; tx
 
-(defn set-mode-tx [scc mode]
+(defn set-mode-tx [scc mode center]
   {:pre [(s/assert :methodology/entity scc)]}
   [{:db/id (:db/id scc)
-    :spaceship-camera-control/mode mode}])
+    :spaceship-camera-control/mode mode
+    :spaceship-camera-control/center center}])
 
 (defn set-position-tx [scc position]
   {:pre [(s/assert :methodology/entity scc)]}

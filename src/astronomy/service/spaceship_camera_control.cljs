@@ -10,9 +10,13 @@
 
 
 (defmethod handle-event :spaceship-camera-control/change-mode
-  [_props _env {:event/keys [detail]}]
+  [_props {:keys [dom]} {:event/keys [detail]}]
   (let [{:keys [spaceship-camera-control new-mode]} detail
-        tx (m.spaceship/set-mode-tx spaceship-camera-control new-mode)
+        position (c.camera-controls/get-camera-position (:spaceship-camera-control dom))
+        center (case new-mode
+                 :orbit-mode [0 0 0]
+                 :static-mode position)
+        tx (m.spaceship/set-mode-tx spaceship-camera-control new-mode center)
         event #:event {:action :spaceship-camera-control/refresh-camera
                        :detail {:spaceship-camera-control spaceship-camera-control}}]
     (effects :tx tx :event event)))
