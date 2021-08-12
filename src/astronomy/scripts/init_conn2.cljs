@@ -6,6 +6,7 @@
    [methodology.model.user.backpack :as m.backpack]
    [astronomy.conn.core :refer [create-empty-conn!]]
    [astronomy.model.astro-scene :as m.astro-scene]
+   [astronomy.model.user.spaceship-camera-control :as m.spaceship]
    [astronomy.model.clock :as m.clock]
    [astronomy.data.basic :as d.basic]
    [astronomy.data.celestial :as d.celestial]
@@ -37,10 +38,13 @@
   (let [clock-id [:clock/name "default"]
         astro-scene (d/pull @conn '[*] [:scene/name "solar"])
         person (d/pull @conn '[*] [:person/name "dr who"])
-        backpack (d/pull @conn '[*] (-> person :person/backpack :db/id))]
+        backpack (d/pull @conn '[*] (-> person :person/backpack :db/id))
+        scc (d/pull @conn '[*] [:spaceship-camera-control/name "default"])
+        coordinate {:db/id [:coordinate/name "地球坐标系"]}]
     (p/transact! conn (m.clock/set-clock-time-in-days-tx clock-id 0))
     (p/transact! conn (m.astro-scene/refresh-tx @conn astro-scene))
-    (p/transact! conn (m.backpack/put-in-backpack-tx backpack tools))))
+    (p/transact! conn (m.backpack/put-in-backpack-tx backpack tools))
+    (p/transact! conn (m.spaceship/update-min-distance-tx @conn scc coordinate))))
 
 
 (defn init-conn! []

@@ -1,5 +1,6 @@
 (ns astronomy.app.scene-free
   (:require
+   [cljs.core.async :refer [go >!]]
    [integrant.core :as ig]
    [methodology.lib.circuit]
    [astronomy.system.solar :as system.solar]))
