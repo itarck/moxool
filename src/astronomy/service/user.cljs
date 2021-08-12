@@ -40,7 +40,7 @@
         current-tool (:person/right-tool person)
         event #:event {:action (keyword (:entity/type current-tool) :mouse-clicked)
                        :detail (assoc detail :current-tool current-tool)}]
-    (println "in service :user/mouse-clicked")
+    ;; (println "in service :user/mouse-clicked")
     (go (>! service-chan event))))
 
 (defmethod handle-event! :user/keyboard-down

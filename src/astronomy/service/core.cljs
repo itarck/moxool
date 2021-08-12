@@ -95,7 +95,9 @@
                        :dom @dom-atom}]
       (try
         (let [effect (handle-event-fn props handler-env event)]
-          (when effect
+          (if (or (seq? effect) (vector? effect))
+            (doseq [eft effect]
+              (s.effect/handle-effect! eft env))
             (s.effect/handle-effect! effect env)))
         (catch js/Error e
           (println process-name ": no handler found for event" (:event/action event)))))

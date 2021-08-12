@@ -1,6 +1,6 @@
 (ns astronomy.service.spaceship-camera-control
   (:require
-   [astronomy.service.effect :as s.effect :refer [create-effect]]
+   [astronomy.service.effect :as s.effect :refer [create-effect effects]]
    [astronomy.model.user.spaceship-camera-control :as m.spaceship]
    [astronomy.component.camera-controls :as c.camera-controls]))
 
@@ -39,4 +39,4 @@
         direction (c.camera-controls/get-camera-direction (:camera dom))
         tx1 (m.spaceship/refresh-camera-tx scc position direction)
         tx2 (m.spaceship/update-min-distance-tx db scc coordinate)]
-    (create-effect :tx (concat tx1 tx2))))
+    (effects :tx (concat tx1 tx2))))
