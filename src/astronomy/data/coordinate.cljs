@@ -64,7 +64,7 @@
                        :entity/type :horizon-coordinate
                        :center-object [:planet/name "earth"]
                        :center-radius (* 0.021022607702247035 1.0003)
-                       :radius 0.002
+                       :radius 0.001
                        :longitude-0-offset -77.64
                        :longitude 30.910060054274055
                        :latitude 29.878937704799164
