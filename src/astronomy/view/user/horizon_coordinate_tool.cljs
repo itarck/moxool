@@ -9,7 +9,7 @@
 
 
 
-(defn HorizonCoordinateToolView [props {:keys [service-chan conn]}]
+(defn HorizonCoordinateToolView [{:keys [astro-scene] :as props} {:keys [service-chan conn]}]
   (let [tool @(p/pull conn '[*] (get-in props [:tool :db/id]))
         {:horizon-coordinate-tool/keys [query-args]} tool
         query-args-candidates (m.horizon-coordinate-tool/sub-query-args-candidates conn tool)]
@@ -47,8 +47,9 @@
               [:> mt/Typography {:variant "subtitle2"} "设为系统参考系"]]
              [:> mt/Grid {:item true :xs 6}
               [:> mt/ButtonGroup {:size "small"}
-               [:> mt/Button {:onClick #(go (>! service-chan #:event{:action :horizon-coordinate/set-scene-reference
-                                                                     :detail {:horizon-coordinate horizon-coordinate}}))} "设置"]]]
+               [:> mt/Button {:onClick #(go (>! service-chan #:event{:action :astro-scene/change-coordinate
+                                                                     :detail {:astro-scene astro-scene
+                                                                              :coordinate horizon-coordinate}}))} "设置"]]]
 
              [:> mt/Grid {:item true :xs 6}
               [:> mt/Typography {:variant "subtitle2"} "显示经度"]]
