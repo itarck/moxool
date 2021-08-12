@@ -48,7 +48,7 @@
     :process-name "info-tool"
     :service-fn s.info-tool/init-service!}
 
-   {:listen [:spaceship-camera-control]
+   {:listen [:spaceship-camera-control :astro-scene.pub]
     :process-name "spaceship-camera-control"
     :handle-event-fn s.spaceship/handle-event}
 

@@ -15,11 +15,14 @@
     (p/transact! conn tx)))
 
 (defmethod handle-event! :astro-scene/change-coordinate
-  [props {:keys [conn service-chan]} {:event/keys [detail]}]
+  [{:keys [astro-scene] :as props} {:keys [conn service-chan]} {:event/keys [detail]}]
   (let [astro-scene-id (get-in props [:astro-scene :db/id])
         {:keys [coordinate-name]} detail]
     (p/transact! conn [[:db/add astro-scene-id :astro-scene/coordinate [:coordinate/name coordinate-name]]])
-    (go (>! service-chan #:event{:action :astro-scene/refresh}))))
+    (go (>! service-chan #:event{:action :astro-scene/refresh}))
+    (go (>! service-chan #:event{:action :astro-scene.pub/coordinate-changed
+                                 :detail {:astro-scene astro-scene
+                                          :coordinate {:db/id [:coordinate/name coordinate-name]}}}))))
 
 
 

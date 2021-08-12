@@ -80,5 +80,5 @@
         (try
           (handle-event! props env event)
           (catch js/Error e
-            (js/console.log e)))))
+            (js/console.log "in user service, not match")))))
     (recur)))

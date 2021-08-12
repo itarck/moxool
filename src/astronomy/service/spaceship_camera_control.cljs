@@ -28,4 +28,6 @@
           tx1 (m.spaceship/set-position-tx current-tool (seq click-point))]
       (create-effect :tx tx1))))
 
-
+(defmethod handle-event :astro-scene.pub/coordinate-changed 
+  [props env event]
+  (create-effect :log (str "in spaceship service" event)))

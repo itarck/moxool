@@ -1,5 +1,6 @@
 (ns astronomy.service.universe-tool
   (:require
+   [applied-science.js-interop :as j]
    [datascript.core :as d]
    [posh.reagent :as p]
    [cljs.core.async :refer [go-loop go >! <! timeout] :as a]
@@ -30,6 +31,7 @@
       (try
         (handle-event! props env event)
         (catch js/Error e
-          (js/console.log e))))
+          (cond
+            (re-find #"No method in multimethod" (j/get e :message)) nil
+            :else (println "universe tool error: " e)))))
     (recur)))
-
