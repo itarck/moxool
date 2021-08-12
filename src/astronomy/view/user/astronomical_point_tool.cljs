@@ -5,6 +5,7 @@
    [posh.reagent :as p]
    [goog.string :as gstring]
    ["@material-ui/core" :as mt]
+   ["@react-three/drei" :refer [Html]]
    [shu.three.vector3 :as v3]
    [astronomy.component.tool :as c.tool]
    [astronomy.component.mouse :as c.mouse]
@@ -55,7 +56,7 @@
                ($ mt/Typography {:variant "subtitle1"} "当前选中点"))
 
             ($ mt/Grid {:item true :xs 5}
-               ($ mt/Typography {:variant "subtitle2"} "id"))
+               ($ mt/Typography {:variant "subtitle2"} "ID"))
             ($ mt/Grid {:item true :xs 7}
                ($ mt/Typography {:variant "subtitle2"}
                   (:db/id point)))
@@ -65,7 +66,7 @@
                ($ mt/Typography {:variant "subtitle2"} "经纬度"))
             ($ mt/Grid {:item true :xs 7}
                ($ mt/Typography {:variant "subtitle2"}
-                  (str "[" (gstring/format "%0.2f" longitude) ", " (gstring/format "%0.2f" latitude) "]")))
+                  (str "[" (gstring/format "%0.1f" longitude) ", " (gstring/format "%0.1f" latitude) "]")))
 
             ($ mt/Grid {:item true :xs 5}
                ($ mt/Typography {:variant "subtitle2"} "尺寸"))
@@ -133,7 +134,7 @@
 
 
 
-(defn AstronomicalPointHudView [{:keys [user astro-scene] :as props} {:keys [conn dom-atom]}]
+#_(defn AstronomicalPointHudView [{:keys [user astro-scene] :as props} {:keys [conn dom-atom]}]
   (let [tool @(p/pull conn '[:db/id :tool/current-panel] (get-in props [:tool :db/id]))]
     (when (= (:tool/current-panel tool) :create-panel)
       (let [mouse @(p/pull conn '[*] (get-in user [:person/mouse :db/id]))
@@ -156,3 +157,25 @@
                                :background "rgba(255, 255, 255, 0.3)"}}
              (str "[" (gstring/format "%.2f" longitude)
                   ", " (gstring/format "%.2f" latitude) "]")]))))))
+
+
+(defn AstronomicalPointToolObjectView [props {:keys [conn]}]
+  (let [tool @(p/pull conn '[*] (get-in props [:object :db/id]))
+        apt-id (:astronomical-point-tool/pull-id tool)]
+    (when (and (= (:tool/current-panel tool) :pull-panel)
+               apt-id)
+      (let [apt-1 @(p/pull conn '[*] apt-id)
+            [longitude latitude] (m.apt/get-longitude-and-latitude apt-1)]
+        [:> Html {:position (seq (m.apt/cal-position-vector3 apt-1))
+                  :zIndexRange [0 0]
+                  :style {:color "white"
+                          :margin-left "10px"
+                          :margin-top "10px"
+                          :padding "4px"
+                          :background "rgba(255, 255, 255, 0.3)"
+                          :font-size "14px"}}
+         [:p {:style {:white-space "nowrap"
+                      :line-height "80%"
+                      :margin "2px"}}
+          (str "[ " (gstring/format "%.1f" longitude)
+               ", " (gstring/format "%.1f" latitude) " ]")]]))))

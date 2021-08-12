@@ -65,6 +65,7 @@
    :astronomical-coordinate v.astronomical-coordinate/AstronomicalCoordinateView
    :horizon-coordinate v.horizon-coordinate/HorizonCoordinateView
    :constellation v.constel/ConstellationView
+   :astronomical-point-tool v.astronomical-point-tool/AstronomicalPointToolObjectView
    :ruler-tool v.ruler-tool/RulerSceneView})
 
 (def hud-library

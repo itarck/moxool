@@ -2,14 +2,15 @@
   (:require
    [posh.reagent :as p]
    ["@react-three/drei" :refer [Html]]
+   [helix.core :refer [$ defnc]]
+   ["@material-ui/core" :as mt]
    [goog.string :as gstring]
    [shu.three.vector3 :as v3]
    [astronomy.component.mouse :as c.mouse]
    [astronomy.component.line :as c.line]
    [methodology.model.user.person :as m.person]
    [astronomy.model.astro-scene :as m.astro-scene]
-   [astronomy.model.astronomical-point :as m.apt]
-   [astronomy.model.user.ruler-tool :as m.ruler-tool]))
+   [astronomy.model.astronomical-point :as m.apt]))
 
 
 
@@ -77,6 +78,9 @@
                         :font-weight "bold"}}
          (:tool/chinese-name tool)]]
 
-       
+       ($ mt/Grid {:container true :spacing 1}
+          ($ mt/Grid {:item true :xs 12}
+             ($ mt/Typography {:variant "subtitle1"} "点击天球上两点来测量")))
+
     ;;    
        ]]]))

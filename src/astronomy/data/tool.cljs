@@ -40,7 +40,7 @@
 
 (def ppt-tool
   #:ppt-tool {:query-type :ppt-by-name
-              :query-args ["18.食季"]
+              :query-args ["19.月球的轨道形状"]
               :ppts [#:ppt{:pages [#:ppt-page{:image-url "/slides/1.universe-distance/Slide1.jpeg"}
                                    #:ppt-page{:image-url "/slides/1.universe-distance/Slide2.jpeg"}
                                    #:ppt-page{:image-url "/slides/1.universe-distance/Slide3.jpeg"}
@@ -128,6 +128,11 @@
                                     #:ppt-page{:image-url "/slides/18.eclipse-season/Slide3.jpeg"}
                                     #:ppt-page{:image-url "/slides/18.eclipse-season/Slide4.jpeg"}]
                             :chinese-name "18.食季"
+                            :current-page 0}
+                     #:ppt {:pages [#:ppt-page{:image-url "/slides/19.moon-orbit/Slide1.jpeg"}
+                                    #:ppt-page{:image-url "/slides/19.moon-orbit/Slide2.jpeg"}
+                                    #:ppt-page{:image-url "/slides/19.moon-orbit/Slide3.jpeg"}]
+                            :chinese-name "19.月球的轨道形状"
                             :current-page 0}]
               :tool/name "ppt tool"
               :tool/chinese-name "脚本"
@@ -206,6 +211,7 @@
     :tool/type :astronomical-point-tool
     :tool/panels [:create-panel :pull-panel :delete-panel]
     :tool/current-panel :create-panel
+    :object/scene [:scene/name "solar"]
     :entity/type :astronomical-point-tool})
 
 (def ruler-tool-1
