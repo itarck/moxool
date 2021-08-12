@@ -64,10 +64,13 @@
         conn))
 
 (defn sub-all-constellation-star-ids [conn]
-  (let [constels @(p/q '[:find [?star-lines ...]
-                        :where [?id :constellation/star-lines ?star-lines]]
-                      conn)]
-    (distinct (flatten constels))))
+  (let [star-lines @(p/q '[:find [?star-lines ...]
+                         :where [?id :constellation/star-lines ?star-lines]]
+                       conn)]
+    (->> star-lines
+         (apply concat)
+         (apply concat)
+         distinct)))
 
 (defn sub-all-constellation-stars [conn]
   (let [ids (sub-all-constellation-star-ids conn)]

@@ -10,7 +10,8 @@
    [astronomy.model.clock :as m.clock]
    [astronomy.model.astronomical-point :as m.apt]
    [astronomy.model.user.ruler-tool :as m.ruler-tool]
-   [astronomy.model.user.spaceship-camera-control :as m.spaceship]))
+   [astronomy.model.user.spaceship-camera-control :as m.spaceship]
+   [astronomy.model.constellation :as m.constel]))
 
 ;; 
 
@@ -39,5 +40,9 @@ conn
 
 (def scc @(p/pull conn '[*] [:spaceship-camera-control/name "default"]))
 
-(let [tx (m.spaceship/set-min-distance-tx scc 250)] 
+(let [tx (m.spaceship/set-min-distance-tx scc 250)]
   (p/transact! conn tx))
+
+
+(def star-1
+  @(p/pull conn '[*] [:star/HR 2491]))
