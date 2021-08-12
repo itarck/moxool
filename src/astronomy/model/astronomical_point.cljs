@@ -103,6 +103,10 @@
          :where [?id :astronomical-point/longitude _]]
        db))
 
+(defn get-latest-id [db]
+  (first (sort > (find-all-ids db))))
+
+
 ;; sub
 
 (def query-all-ids-by-coordinate
@@ -131,7 +135,6 @@
 
 (defn delete-astronomical-point-tx [apt1]
   [[:db.fn/retractEntity (:db/id apt1)]])
-
 
 
 (comment 

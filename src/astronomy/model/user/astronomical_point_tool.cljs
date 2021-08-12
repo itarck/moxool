@@ -1,5 +1,6 @@
 (ns astronomy.model.user.astronomical-point-tool
-  (:require))
+  (:require
+   [astronomy.model.astronomical-point :as m.apt]))
 
 
 ;; 标记点工具，缩写apt-tool
@@ -20,3 +21,8 @@
 (defn pull-point-tx [tool point]
   [{:db/id (:db/id tool)
     :astronomical-point-tool/pull-id (:db/id point) }])
+
+(defn pull-lastest-point-tx [db tool]
+  (let [point-id (m.apt/get-latest-id db)]
+    (when point-id
+      [[:db/add (:db/id tool) :astronomical-point-tool/pull-id point-id]])))

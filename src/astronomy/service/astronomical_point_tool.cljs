@@ -3,7 +3,7 @@
    [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.model.astronomical-point :as m.apt]
    [astronomy.model.user.astronomical-point-tool :as m.apt-tool]
-   [astronomy.service.effect :as s.effect :refer [create-effect]]))
+   [astronomy.service.effect :as s.effect :refer [create-effect effects]]))
 
 
 ;; handle-event version
@@ -32,8 +32,16 @@
                           apt-1 (m.apt/from-local-camera-view scene-coordinate
                                                               (:camera/positon camera) mouse-direction)]
                       (when meta-key
-                        (create-effect :tx [apt-1])))
+                        (effects :tx [apt-1]
+                                 :event #:event {:action :astronomical-point-tool/pull-latest-point
+                                                 :detail {:current-tool current-tool}})))
       nil)))
+
+(defmethod handle-event :astronomical-point-tool/pull-latest-point
+  [_prop {:keys [db]} {:event/keys [detail]}]
+  (let [{:keys [current-tool]} detail
+        tx (m.apt-tool/pull-lastest-point-tx db current-tool)]
+    (create-effect :tx tx)))
 
 (defmethod handle-event :astronomical-point-tool/keyboard-down
   [{:keys [astro-scene] :as props} {:keys [db]} {:event/keys [detail]}]

@@ -6,9 +6,8 @@
    [goog.string :as gstring]
    ["@material-ui/core" :as mt]
    ["@react-three/drei" :refer [Html]]
-   [shu.three.vector3 :as v3]
    [astronomy.component.tool :as c.tool]
-   [astronomy.component.mouse :as c.mouse]
+   [methodology.model.user.person :as m.person]
    [astronomy.model.astronomical-point :as m.apt]
    [astronomy.model.coordinate :as m.coordinate]))
 
@@ -159,11 +158,11 @@
                   ", " (gstring/format "%.2f" latitude) "]")]))))))
 
 
-(defn AstronomicalPointToolObjectView [props {:keys [conn]}]
+(defn AstronomicalPointToolObjectView
+  [{:keys [user] :as props} {:keys [conn]}]
   (let [tool @(p/pull conn '[*] (get-in props [:object :db/id]))
         apt-id (:astronomical-point-tool/pull-id tool)]
-    (when (and (= (:tool/current-panel tool) :pull-panel)
-               apt-id)
+    (when (and (m.person/in-right-hand? user tool) apt-id)
       (let [apt-1 @(p/pull conn '[*] apt-id)
             [longitude latitude] (m.apt/get-longitude-and-latitude apt-1)]
         [:> Html {:position (seq (m.apt/cal-position-vector3 apt-1))
