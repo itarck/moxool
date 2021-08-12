@@ -96,3 +96,14 @@
                        :astronomical-coordinate (m.astronomical-coordinate/cal-min-distance db coor-1)
                        0)]
     (set-min-distance-tx scc min-distance)))
+
+(defn check-valid-position-tx [scc]
+  (let [{:spaceship-camera-control/keys [min-distance position]} scc
+        position-v3 (v3/from-seq position)
+        length (v3/length position-v3)
+        new-position (if (< length min-distance)
+                       (seq (v3/multiply-scalar (v3/normalize position-v3)
+                                                (* min-distance 2)))
+                       position)]
+    [{:db/id (:db/id scc)
+      :spaceship-camera-control/position new-position}]))
