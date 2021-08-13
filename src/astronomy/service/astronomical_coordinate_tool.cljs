@@ -1,7 +1,8 @@
 (ns astronomy.service.astronomical-coordinate-tool
   (:require
    [astronomy.model.user.astronomical-coordinate-tool :as m.astronomical-coordinate-tool]
-   [astronomy.service.effect :as s.effect :refer [create-effect]]))
+   [astronomy.service.effect :as s.effect :refer [create-effect]]
+   ))
 
 
 ;; handle-event version

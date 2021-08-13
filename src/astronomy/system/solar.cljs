@@ -13,7 +13,8 @@
    [astronomy.view.terrestrial-coordinate :as v.terrestrial-coordinate]
    [astronomy.view.astronomical-coordinate :as v.astronomical-coordinate]
    [astronomy.view.horizon-coordinate :as v.horizon-coordinate]
-   [astronomy.view.ecliptic :as v.ecliptic]
+
+   [astronomy.omodule.ecliptic.view :as ecliptic.v]
    
    [astronomy.view.user.universe-tool :as v.universe-tool]
    [astronomy.view.user.clock-tool :as v.clock-tool]
@@ -68,7 +69,7 @@
    :constellation v.constel/ConstellationView
    :astronomical-point-tool v.astronomical-point-tool/AstronomicalPointToolObjectView
    :ruler-tool v.ruler-tool/RulerSceneView
-   :ecliptic v.ecliptic/EclipticSceneView})
+   :ecliptic ecliptic.v/EclipticSceneView})
 
 
 (def hud-library

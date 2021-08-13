@@ -4,6 +4,7 @@
    [cljs.core.async :refer [go >! <! go-loop] :as a]
    [posh.reagent :as p]
    ["@material-ui/core" :as mt]
+   [astronomy.omodule.ecliptic.model :as m.ecliptic]
    [astronomy.model.user.astronomical-coordinate-tool :as m.astronomical-coordinate-tool]))
 
 
@@ -11,7 +12,8 @@
 (defn AstronomicalCoordinateToolView [{:keys [astro-scene] :as props} {:keys [service-chan conn]}]
   (let [tool @(p/pull conn '[*] (get-in props [:tool :db/id]))
         {:astronomical-coordinate-tool/keys [query-args]} tool
-        query-args-candidates (m.astronomical-coordinate-tool/sub-query-args-candidates conn tool)]
+        query-args-candidates (m.astronomical-coordinate-tool/sub-query-args-candidates conn tool)
+        eclipic-1 (m.ecliptic/sub-unique-one conn)]
     [:div {:class "astronomy-righthand"}
      [:div {:class "astronomy-righthand-tool"}
       [:div.p-2
@@ -127,11 +129,11 @@
               [:span "否"]
               [:> mt/Switch {:color "default"
                              :size "small"
-                             :checked show-ecliptic?
+                             :checked (:ecliptic/show? eclipic-1)
                              :onChange (fn [event]
                                          (let [show? (j/get-in event [:target :checked])]
-                                           (go (>! service-chan #:event {:action :astronomical-coordinate-tool/change-show-ecliptic
-                                                                         :detail {:astronomical-coordinate astronomical-coordinate
+                                           (go (>! service-chan #:event {:action :ecliptic/change-show
+                                                                         :detail {:ecliptic eclipic-1
                                                                                   :show? show?}}))))}]
               [:span "是"]]
 

@@ -1,4 +1,4 @@
-(ns astronomy.view.ecliptic
+(ns astronomy.omodule.ecliptic.view
   (:require
    [shu.three.vector3 :as v3]
    [posh.reagent :as p]
@@ -41,5 +41,4 @@
                                         (v3/multiply-scalar (v3/from-seq (:object/position earth)) -1)]
                                :color "orange"}]
          [EclipticMarksView {:radius 500
-                             :color "orange"}]])))
-  )
+                             :color "orange"}]]))))
