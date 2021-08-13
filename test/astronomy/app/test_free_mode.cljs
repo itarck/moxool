@@ -61,3 +61,10 @@ terr-1
                     :detail {:clock {:db/id [:clock/name "default"]}
                              :time-in-days (* 365 -2400)}}]
   (go (>! service-chan event)))
+
+
+@(p/pull conn '[*] [:entity/name "ecliptic"])
+
+@(p/q '[:find ?id .
+        :where [?id :entity/type :ecliptic]]
+     conn)

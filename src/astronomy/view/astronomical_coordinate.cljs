@@ -2,48 +2,13 @@
   (:require
    [applied-science.js-interop :as j]
    [cljs.core.async :refer [go >! <! go-loop] :as a]
-   ["@react-three/drei" :refer [Html]]
    [posh.reagent :as p]
-   [shu.three.vector3 :as v3]
    [shu.astronomy.celestial-coordinate :as shu.cc]
-   [astronomy.model.const :as m.const]
    [astronomy.model.astronomical-point :as m.apt]
-   [methodology.lib.geometry :as v.geo]
    [astronomy.view.satellite :as v.satellite]
    [astronomy.component.celestial-sphere :as c.celestial-sphere]
    [astronomy.view.astronomical-point :as v.apt]))
 
-
-(defn EclipticMarksView [{:keys [radius color]}]
-  [:mesh {:quaternion m.const/ecliptic-quaternion}
-   (for [i (range 36)]
-     ^{:key i}
-     [:> Html {:position (v3/from-spherical-coords
-                          radius
-                          (/ Math/PI 2)
-                          (* i (/ 1 36) 2 Math/PI))
-               :zIndexRange [0 0]
-               :style {:color color
-                       :font-size "14px"}}
-      [:p (str (* i 10) "°")]])])
-
-
-(defn EclipticSceneView [{:keys [earth]} env]
-  [:<>
-   [v.geo/CircleComponent {:center [0 0 0]
-                           :radius 500
-                           :axis m.const/ecliptic-axis
-                           :color "orange"}]
-   (let [points (c.celestial-sphere/gen-latitude-points 500 0 36)]
-     [:mesh {:quaternion m.const/ecliptic-quaternion}
-      [v.geo/PointsComponent {:points points
-                              :size 40000
-                              :color "orange"}]])
-   [v.geo/LineComponent {:points [(v3/from-seq [0 0 0])
-                                  (v3/multiply-scalar (v3/from-seq (:object/position earth)) -1)]
-                         :color "orange"}]
-   [EclipticMarksView {:radius 500
-                       :color "orange"}]])
 
 
 (defn AstronomicalCoordinateView
@@ -109,11 +74,8 @@
                                                    :latitude -23.4
                                                    :color "red"}]])
 
-      (when show-ecliptic?
-        [EclipticSceneView {:earth earth} env])
-
       (when show-lunar-orbit?
-        [v.satellite/CelestialOrbitView {:orbit (:celestial/orbit moon)
+          [v.satellite/CelestialOrbitView {:orbit (:celestial/orbit moon)
                                          :celestial moon
                                          :clock clock} env])
 

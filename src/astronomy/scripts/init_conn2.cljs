@@ -14,7 +14,8 @@
    [astronomy.data.coordinate :as d.coordinate]
    [astronomy.data.tool :as d.tool]
    [astronomy.data.stars :as d.stars]
-   [astronomy.data.constellation :as d.constel]))
+   [astronomy.data.constellation :as d.constel]
+   [astronomy.data.misc :as d.misc]))
 
 ;; processes
 
@@ -61,6 +62,7 @@
     (d/transact! conn d.constel/dataset2)
     (d/transact! conn d.constel/dataset3)
     (d/transact! conn d.tool/dataset1)
+    (d/transact! conn d.misc/dataset1)
 
     (kick-start! conn)
     conn))
@@ -76,4 +78,3 @@
   (async-run2!)
 ;;   
   )
-

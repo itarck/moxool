@@ -11,7 +11,8 @@
                :entity/name "solar"
                :entity/type :star})
 
-(def schema {:entity/name {:db/unique :db.unique/identity}})
+(def schema {:entity/name {:db/unique :db.unique/identity}
+             :entity/chinese-name {:db/unique :db.unique/identity}})
 
 ;; spec
 
