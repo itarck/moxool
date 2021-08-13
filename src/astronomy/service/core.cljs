@@ -21,8 +21,8 @@
    [astronomy.service.terrestrial-coordinate-tool :as s.terrestrial-coordinate-tool]
    [astronomy.service.astronomical-point-tool :as s.astronomical-point-tool]
    [astronomy.service.ruler-tool :as s.ruler-tool]
-   
-   [astronomy.omodule.ecliptic.handler :as h.ecliptic]))
+
+   [astronomy.objects.ecliptic.h :as ecliptic.h]))
 
 
 (def processes
@@ -83,7 +83,7 @@
     :handle-event-fn s.ruler-tool/handle-event}
    {:listen [:ecliptic]
     :process-name "ecliptic"
-    :handle-event-fn h.ecliptic/handle-event}
+    :handle-event-fn ecliptic.h/handle-event}
 
    {:listen []
     :process-name "camera"

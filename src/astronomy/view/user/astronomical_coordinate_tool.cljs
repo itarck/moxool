@@ -4,7 +4,7 @@
    [cljs.core.async :refer [go >! <! go-loop] :as a]
    [posh.reagent :as p]
    ["@material-ui/core" :as mt]
-   [astronomy.omodule.ecliptic.model :as m.ecliptic]
+   [astronomy.objects.ecliptic.m :as ecliptic.m]
    [astronomy.model.user.astronomical-coordinate-tool :as m.astronomical-coordinate-tool]))
 
 
@@ -13,7 +13,7 @@
   (let [tool @(p/pull conn '[*] (get-in props [:tool :db/id]))
         {:astronomical-coordinate-tool/keys [query-args]} tool
         query-args-candidates (m.astronomical-coordinate-tool/sub-query-args-candidates conn tool)
-        eclipic-1 (m.ecliptic/sub-unique-one conn)]
+        eclipic-1 (ecliptic.m/sub-unique-one conn)]
     [:div {:class "astronomy-righthand"}
      [:div {:class "astronomy-righthand-tool"}
       [:div.p-2

@@ -14,7 +14,7 @@
    [astronomy.view.astronomical-coordinate :as v.astronomical-coordinate]
    [astronomy.view.horizon-coordinate :as v.horizon-coordinate]
 
-   [astronomy.omodule.ecliptic.view :as ecliptic.v]
+   [astronomy.objects.ecliptic.v :as ecliptic.v]
    
    [astronomy.view.user.universe-tool :as v.universe-tool]
    [astronomy.view.user.clock-tool :as v.clock-tool]

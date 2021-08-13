@@ -1,4 +1,4 @@
-(ns astronomy.omodule.ecliptic.handler
+(ns astronomy.objects.ecliptic.h
   (:require
    [astronomy.service.effect :as s.effect :refer [create-effect]]))
 

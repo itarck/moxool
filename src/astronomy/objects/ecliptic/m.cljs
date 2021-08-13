@@ -1,4 +1,4 @@
-(ns astronomy.omodule.ecliptic.model
+(ns astronomy.objects.ecliptic.m
   (:require
    [posh.reagent :as p]))
 

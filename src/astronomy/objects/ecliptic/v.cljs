@@ -1,4 +1,4 @@
-(ns astronomy.omodule.ecliptic.view
+(ns astronomy.objects.ecliptic.v
   (:require
    [shu.three.vector3 :as v3]
    [posh.reagent :as p]
