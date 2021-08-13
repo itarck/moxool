@@ -46,3 +46,18 @@ conn
 
 (def star-1
   @(p/pull conn '[*] [:star/HR 2491]))
+
+(def terr-1
+  @(p/pull conn '[*] [:coordinate/name "地球坐标系"]))
+
+terr-1
+
+(let [tx [{:db/id (:db/id terr-1)
+           :terrestrial-coordinate/radius 10000}]]
+  (p/transact! conn tx))
+
+
+(let [event #:event{:action :clock-tool/set-time-in-days
+                    :detail {:clock {:db/id [:clock/name "default"]}
+                             :time-in-days (* 365 -2400)}}]
+  (go (>! service-chan event)))
