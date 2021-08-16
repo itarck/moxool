@@ -33,7 +33,7 @@
   (let [{:keys [editor player]} props
         player (m.player/sub-player system-conn (:db/id player))
         scene-id (get-in editor [:editor/scene :db/id])
-        scene (m.scene/sub-whole-scene system-conn scene-id)
+        ;; scene (m.scene/sub-whole-scene system-conn scene-id)
         ;; videos (:video/_scene scene)
         ]
     [:div

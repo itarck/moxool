@@ -12,6 +12,11 @@
    [methodology.lib.chest :refer [create-conn!]]))
 
 
+;; 值模块，直接返回config
+(defmethod ig/init-key :circuit/value [_ config]
+  config)
+
+
 ;; atom 模块：用的是reagent atom，view也可以自动响应
 ;; config: {:init-value {:a 1}}
 ;; instance:  ;; => #object[reagent.ratom.RAtom {:val {:a 1}}]
