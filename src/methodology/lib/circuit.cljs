@@ -64,10 +64,13 @@
 ;;        :scene-conn (ig/ref :scene/conn)}}
 
 (defmethod ig/init-key :circuit/service [_key config]
-  (let [{:service/keys [props env service-fn]} config
+  (let [{:service/keys [props env service-fn initial-events]} config
         service-chan (get-in env [:service-chan])]
 
     (service-fn props env)
+    (when initial-events
+      (doseq [event initial-events]
+        (go (>! service-chan event))))
     {:service-chan service-chan}))
 
 
