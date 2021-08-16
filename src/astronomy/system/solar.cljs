@@ -78,9 +78,12 @@
    })
 
 (defn create-system! [props]
-  (let [db-url (or (get props :db-url) "/edn/free-mode.edn")
-        config {::conn #:conn {:initial-db basic-db
-                               :db-url db-url}
+  (let [conn-config (cond
+                      (:initial-db props) #:conn {:initial-db (:initial-db props)}
+                      (:db-url props) #:conn {:initial-db basic-db
+                                              :db-url (:db-url props)}
+                      :else #:conn {:initial-db basic-db})
+        config {::conn conn-config
                 ::dom-atom #:atom {}
                 ::state-atom #:atom {}
                 ::chan #:chan {}
