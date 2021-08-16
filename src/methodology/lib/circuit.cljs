@@ -73,9 +73,9 @@
         service-chan (get-in env [:service-chan])]
 
     (service-fn props env)
+    
     (when initial-events
-      (doseq [event initial-events]
-        (go (>! service-chan event))))
+      (go (>! service-chan initial-events)))
     {:service-chan service-chan}))
 
 

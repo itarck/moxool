@@ -4,7 +4,6 @@
 
 
 (defn EditorView [{:keys [editor]} {:keys [conn instance-atom] :as env}]
-  (println "EditorView" editor env)
   (let [editor-1 @(p/pull conn '[*] (:db/id editor))
         status (:editor/status editor-1)]
     [:div {:style {:position :absolute

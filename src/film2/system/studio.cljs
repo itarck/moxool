@@ -53,7 +53,8 @@
                              :instance-atom (ig/ref :free-room/instance-atom)
                              :service-chan (ig/ref :free-room/service-chan)
                              :scene-lib (ig/ref :free-room/scene-lib)}
-                       :initial-events [#:event{:action :editor/pull-current-frame}]}
+                       :initial-events [#:event{:action :editor/pull-current-frame}
+                                        #:event{:action :editor/load-current-frame}]}
     :view #:view{:view-fn editor.v/EditorView
                  :props {:editor {:db/id [:editor/name "default"]}}
                  :env {:conn (ig/ref :free-room/conn)
