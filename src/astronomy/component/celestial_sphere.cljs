@@ -114,17 +114,13 @@
                        :latitudeInterval 10
                        :latitudeColorMap #js {:default "#555"}}
         celes-sphere (merge default-props props)
-        {:keys [radius onClick currentPoint points color]} celes-sphere
+        {:keys [radius onClick points color]} celes-sphere
         latitudes (range -90 90 (:latitudeInterval celes-sphere))
         longitudes (range -180 180 (:longitudeInterval celes-sphere))]
     (h/<>
 
      ($ SphereComponent {:radius (* radius 0.98)
                          :onClick onClick})
-
-     (when currentPoint
-       ($ PointComponent {:position currentPoint
-                          :color "red"}))
 
      (when points
        (h/<>

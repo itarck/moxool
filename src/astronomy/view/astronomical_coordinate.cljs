@@ -16,7 +16,8 @@
   [{:keys [astro-scene] :as props} {:keys [conn service-chan] :as env}]
   (let [ac @(p/pull conn '[*] (get-in props [:object :db/id]))
         {:astronomical-coordinate/keys [radius show-latitude? show-longitude? show-regression-line?
-                                        show-latitude-0? show-longitude-0? show-ecliptic? show-lunar-orbit?]} ac
+                                        show-latitude-0? show-longitude-0? show-lunar-orbit?
+                                        default-color highlight-color]} ac
         earth @(p/pull conn '[*] [:planet/name "earth"])
         moon @(p/pull conn '[*] [:satellite/name "moon"])
         clock @(p/pull conn '[*] (-> (:celestial/clock earth) :db/id))
@@ -40,12 +41,11 @@
                                                  :alt-key (j/get-in e [:altKey])
                                                  :meta-key (j/get-in e [:metaKey])}}]
                      (go (>! service-chan event))))
-        :color "red"
         :longitude-interval 30
         :show-latitude? show-latitude?
         :show-longitude? show-longitude?
-        :longitude-color-map {:default "#770000"}
-        :latitude-color-map {:default "#770000"}}]
+        :longitude-color-map {:default default-color}
+        :latitude-color-map {:default default-color}}]
 
       [:<>
        (for [apt apts]
@@ -57,23 +57,23 @@
         [:<>
          [:> c.celestial-sphere/LatitudeComponent {:radius radius
                                                    :latitude 0
-                                                   :color "red"}]
+                                                   :color highlight-color}]
          [:> c.celestial-sphere/LongitudeMarksComponent {:radius radius
-                                                         :color "red"}]])
+                                                         :color highlight-color}]])
       (when show-longitude-0?
         [:<>
          [:> c.celestial-sphere/LongitudeComponent {:radius radius
                                                     :longitude 0
-                                                    :color "red"}]])
+                                                    :color highlight-color}]])
 
       (when show-regression-line?
         [:<>
          [:> c.celestial-sphere/LatitudeComponent {:radius radius
                                                    :latitude 23.4
-                                                   :color "red"}]
+                                                   :color highlight-color}]
          [:> c.celestial-sphere/LatitudeComponent {:radius radius
                                                    :latitude -23.4
-                                                   :color "red"}]])
+                                                   :color highlight-color}]])
 
       (when show-lunar-orbit?
           [moon-orbit.v/MoonOrbitView {:astro-scene astro-scene

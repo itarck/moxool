@@ -5,40 +5,45 @@
 
 
 (def astronomical-coordinate-1
-  #:astronomical-coordinate {:db/id -1001
-                             :entity/type :astronomical-coordinate
-                             :object/position [0 0 0]
-                             :object/quaternion [0 0 0 1]
-                             :object/scene [:scene/name "solar"]
-                             :coordinate/name "赤道天球坐标系"
-                             :coordinate/type :astronomical-coordinate
+  (merge {:db/id -1001
+          :entity/type :astronomical-coordinate
+          :object/position [0 0 0]
+          :object/quaternion [0 0 0 1]
+          :object/scene [:scene/name "solar"]
+          :coordinate/name "赤道天球坐标系"
+          :coordinate/type :astronomical-coordinate}
+         #:astronomical-coordinate{:radius shu.light/light-year-unit
+                                   :show-latitude? true
+                                   :show-longitude? true
+                                   :show-latitude-0? false
+                                   :show-ecliptic? true
+                                   :show-lunar-orbit? true
+                                   :center-candidates [{:db/id [:planet/name "earth"]}
+                                                       {:db/id [:planet/name "sun"]}]
+                                   :center-object [:planet/name "earth"]
+                                   :quaternion [0 0 0 1]
+                                   :default-color "#770000"
+                                   :highlight-color "red"}))
 
-                             :astronomical-coordinate/radius shu.light/light-year-unit
-                             :astronomical-coordinate/show-latitude? true
-                             :astronomical-coordinate/show-longitude? true
-                             :astronomical-coordinate/show-latitude-0? false
-                             :astronomical-coordinate/show-ecliptic? true
-                             :astronomical-coordinate/show-lunar-orbit? true
-                             :astronomical-coordinate/center-candidates [{:db/id [:planet/name "earth"]}
-                                                                         {:db/id [:planet/name "sun"]}]
-                             :astronomical-coordinate/center-object [:planet/name "earth"]
-                             :astronomical-coordinate/quaternion [0 0 0 1]})
 
 (def astronomical-coordinate-2
-  #:astronomical-coordinate {:db/id -1002
-                             :entity/type :astronomical-coordinate
-                             :object/position [0 0 0]
-                             :object/quaternion (seq m.const/ecliptic-quaternion)
-                             :object/scene [:scene/name "solar"]
-                             :coordinate/name "黄道天球坐标系"
-                             :coordinate/type :astronomical-coordinate
-                             :astronomical-coordinate/show-latitude? false
-                             :astronomical-coordinate/show-longitude? false
-                             :astronomical-coordinate/radius shu.light/light-year-unit
-                             :astronomical-coordinate/center-candidates [{:db/id [:planet/name "earth"]}
-                                                                         {:db/id [:planet/name "sun"]}]
-                             :astronomical-coordinate/center-object [:planet/name "earth"]
-                             :astronomical-coordinate/quaternion (seq m.const/ecliptic-quaternion)})
+  (merge {:db/id -1002
+          :entity/type :astronomical-coordinate
+          :object/position [0 0 0]
+          :object/quaternion (seq m.const/ecliptic-quaternion)
+          :object/scene [:scene/name "solar"]
+          :coordinate/name "黄道天球坐标系"
+          :coordinate/type :astronomical-coordinate}
+         #:astronomical-coordinate {:show-latitude? false
+                                    :show-longitude? false
+                                    :radius shu.light/light-year-unit
+                                    :center-candidates [{:db/id [:planet/name "earth"]}
+                                                        {:db/id [:planet/name "sun"]}]
+                                    :center-object [:planet/name "earth"]
+                                    :quaternion (seq m.const/ecliptic-quaternion)
+                                    :default-color "#885500"
+                                    :highlight-color "orange"}))
+
 
 (def terrestrial-coordinate-1
   #:terrestrial-coordinate {:db/id -1003

@@ -70,7 +70,7 @@
 (defn async-run2! []
   (let [conn (init-conn!)]
     (println "async-run init-conn !!!!")
-    (client/save-db-file @conn "/temp/free-mode.edn")))
+    (client/save-db-file @conn "/temp/frame/solar-1.fra")))
 
 
 (comment
