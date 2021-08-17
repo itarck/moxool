@@ -1,4 +1,4 @@
-(ns astronomy.objects.circle-orbit
+(ns astronomy.objects.circle-orbit.v
   (:require
    [methodology.lib.geometry :as v.geo]))
 

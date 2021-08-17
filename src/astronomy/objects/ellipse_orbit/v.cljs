@@ -1,4 +1,4 @@
-(ns astronomy.objects.ellipse-orbit
+(ns astronomy.objects.ellipse-orbit.v
   (:require
    [astronomy.model.ellipse-orbit :as m.ellipse-orbit]
    [methodology.lib.geometry :as v.geo]))

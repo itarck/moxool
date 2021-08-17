@@ -9,6 +9,11 @@
    [shu.goog.math :as gmath]))
 
 
+#_{:center [0 0 0]
+ :radius 500
+ :axis m.const/ecliptic-axis
+ :color "orange"}
+
 (defn CircleComponent [props]
   (let [merged-props (merge {:color "gray"
                              :circle-points 3600}

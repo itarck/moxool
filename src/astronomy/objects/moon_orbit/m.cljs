@@ -4,7 +4,7 @@
    [shu.three.vector3 :as v3]
    [shu.goog.math :as gmath]
    [shu.geometry.angle :as shu.angle]
-   [astronomy.model.const :refer [ecliptic-angle ecliptic-axis lunar-axis-j2000]]))
+   [astronomy.model.const :as const :refer [ecliptic-angle ecliptic-axis lunar-axis-j2000]]))
 
 ;; 带轴进动的圆形轨道
 ;; 按照参考点 2010-7-2，黄经 192度，黄纬 84.85度。轴进动的周期是6798天，顺时针方向
@@ -152,5 +152,21 @@
     (cal-position-vector moon-orbit day)))
 
 
+(defn cal-north-pole-vector3 [moon-orbit epoch-days]
+  (let [{:moon-orbit/keys [axis-precession-center axis-precession-velocity axis]} moon-orbit
+        current-axis-v3 (v3/apply-axis-angle (v3/from-seq axis)
+                                             (v3/from-seq axis-precession-center)
+                                             (shu.angle/to-radians (* axis-precession-velocity epoch-days)))]
+    current-axis-v3))
+
+
+(defn cal-north-pole-on-astronomical-sphere [moon-orbit epoch-days]
+  (let [north-pole-v3 (cal-north-pole-vector3 moon-orbit epoch-days)]
+    (seq (v3/multiply-scalar north-pole-v3 const/astronomical-sphere-radius))))
+
+
 (comment
-  (cal-orbit-points-vectors moon-sample1 360))
+  (cal-orbit-points-vectors moon-sample1 360)
+  (cal-north-pole-vector3 moon-sample1 360)
+
+  )

@@ -7,7 +7,8 @@
    [astronomy.model.astronomical-point :as m.apt]
    [astronomy.view.satellite :as v.satellite]
    [astronomy.component.celestial-sphere :as c.celestial-sphere]
-   [astronomy.view.astronomical-point :as v.apt]))
+   [astronomy.view.astronomical-point :as v.apt]
+   [astronomy.objects.moon-orbit.v :as moon-orbit.v]))
 
 
 
@@ -75,9 +76,9 @@
                                                    :color "red"}]])
 
       (when show-lunar-orbit?
-          [v.satellite/CelestialOrbitView {:orbit (:celestial/orbit moon)
-                                         :celestial moon
-                                         :clock clock} env])
+          [moon-orbit.v/MoonOrbitView {:orbit (:celestial/orbit moon)
+                                       :celestial moon
+                                       :clock clock} env])
 
       ;; 
       ]]))

@@ -1,10 +1,25 @@
-(ns astronomy.objects.moon-orbit
+(ns astronomy.objects.moon-orbit.v
   (:require
    [posh.reagent :as p]
    [shu.three.vector3 :as v3]
    [methodology.lib.geometry :as v.geo]
-   [astronomy.model.ellipse-orbit :as m.ellipse-orbit]
+   [astronomy.model.const :as const]
    [astronomy.objects.moon-orbit.m :as moon-orbit.m]))
+
+
+(defn NorthPointView
+  [{:keys [orbit epoch-day]}]
+  (let [axis (moon-orbit.m/cal-north-pole-vector3 orbit epoch-day)
+        north-pole-on-sph (moon-orbit.m/cal-north-pole-on-astronomical-sphere orbit epoch-day)
+        props {:center north-pole-on-sph
+               :radius (* 0.01 const/astronomical-sphere-radius)
+               :axis axis
+               :color "white"
+               :circle-points 60}
+        props2 (assoc props :radius (* 0.006 const/astronomical-sphere-radius))]
+    [:<>
+     [v.geo/CircleComponent props]
+     [v.geo/CircleComponent props2]]))
 
 
 (defn CelestialPositionLineView
@@ -26,27 +41,6 @@
      [CelestialPositionLineView {:celestial celestial} env]
      [v.geo/LineComponent {:points [(v3/from-seq [0 0 0])
                                     (moon-orbit.m/cal-perigee-vector orbit epoch-day)]
-                           :color "#444"}]]))
-
-(defn EllipseOrbitView 
-  [{:keys [orbit]} env]
-  [v.geo/LineComponent {:points (m.ellipse-orbit/cal-orbit-points-vectors orbit (* 10 360))
-                        :color (:orbit/color orbit)}])
-
-
-(defn CircleOrbitView
-  [{:keys [orbit]} env]
-  [v.geo/CircleComponent {:center [0 0 0]
-                          :radius (:circle-orbit/radius orbit)
-                          :axis (:circle-orbit/axis orbit)
-                          :color (:orbit/color orbit)
-                          :circle-points (* 360 20)}])
-
-
-(defn MultiOrbitView
-  [{:keys [orbit] :as props} env]
-  (case (:orbit/type orbit)
-    :moon-orbit [MoonOrbitView props env]
-    :ellipse-orbit [EllipseOrbitView props env]
-    :circle-orbit [CircleOrbitView props env]))
-
+                           :color "#444"}]
+     [NorthPointView {:orbit orbit
+                      :epoch-day epoch-day}]]))
