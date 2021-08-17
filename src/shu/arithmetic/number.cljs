@@ -15,3 +15,19 @@ Optional tolerance range. Defaults to 0.000001. If specified, should be greater 
 
 (defn rand-sign []
   (if (< (rand) 0.5) -1 1))
+
+
+(defn log
+  ([n]
+   (Math/log n))
+  ([base n]
+   (/ (Math/log n) (Math/log base))))
+
+(defn pow
+  ([x]
+   (Math/exp x))
+  ([base x]
+   (Math/pow base x)))
+
+(defn exp [n]
+  (Math/exp n))

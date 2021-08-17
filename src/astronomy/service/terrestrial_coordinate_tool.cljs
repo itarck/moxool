@@ -51,6 +51,14 @@
     (p/transact! conn tx)))
 
 
+(defmethod handle-event! :terrestrial-coordinate-tool/change-radius
+  [props {:keys [conn]} {:event/keys [detail]}]
+  (let [{:keys [terrestrial-coordinate radius]} detail
+        tx [{:db/id (:db/id terrestrial-coordinate)
+             :terrestrial-coordinate/radius radius}]]
+    (p/transact! conn tx)))
+
+
 (defn init-service! [props {:keys [process-chan] :as env}]
   (go-loop []
     (let [event (<! process-chan)]

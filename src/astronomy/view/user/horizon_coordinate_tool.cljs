@@ -121,7 +121,7 @@
                   :step 0.0001 :min 0.0001 :max 0.005 :marks true
                   :getAriaValueText identity
                   :aria-labelledby "discrete-slider-restrict"
-                  :valueLabelDisplay "auto"})]]
-            )
-          )
-        ]]]]))
+                  :valueLabelDisplay "auto"})]
+
+            ;;  
+             ]))]]]]))

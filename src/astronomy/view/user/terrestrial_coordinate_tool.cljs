@@ -3,8 +3,18 @@
    [applied-science.js-interop :as j]
    [cljs.core.async :refer [go >! <! go-loop] :as a]
    [posh.reagent :as p]
+   [goog.string :as gstring]
    ["@material-ui/core" :as mt]
+   [helix.core :refer [$]]
+   [shu.arithmetic.number :as number]
    [astronomy.model.user.terrestrial-coordinate-tool :as m.terrestrial-coordinate-tool]))
+
+
+(defn radius-format [n]
+  (cond
+    (> n 1000) (gstring/format "%0.1f" n)
+    (> n 10) (gstring/format "%0.2f" n)
+    :else (gstring/format "%0.3f" n)))
 
 
 (defn TerrestrialCoordinateToolView [{:keys [astro-scene] :as props} {:keys [service-chan conn]}]
@@ -39,7 +49,7 @@
           (let [terrestrial-coordinate-id (first (get-in tool [:terrestrial-coordinate-tool/query-result]))
                 terrestrial-coordinate @(p/pull conn '[*] terrestrial-coordinate-id)
                 {:terrestrial-coordinate/keys [show-latitude? show-longitude? show-latitude-0? show-regression-line?
-                                               show-longitude-0?]} terrestrial-coordinate]
+                                               show-longitude-0? radius]} terrestrial-coordinate]
             [:<>
              [:> mt/Grid {:item true :xs 6}
               [:> mt/Typography {:variant "subtitle2"} "设为系统参考系"]]
@@ -121,5 +131,28 @@
               [:span "是"]]
 
 
+             [:> mt/Grid {:item true :xs 6}
+              [:> mt/Typography {:variant "subtitle2"} "天球半径"]]
+             [:> mt/Grid {:item true :xs 6}
+              [:> mt/Typography {:variant "subtitle2"} (str (radius-format radius) "光秒")]]
+             [:> mt/Grid {:item true :xs 12}
+              ($ mt/Slider
+                 {:style (clj->js {:color "#666"
+                                   :width "200px"})
+                  :value (number/log 10 radius)
+                  :onChange (fn [e value]
+                              (go (>! service-chan #:event {:action :terrestrial-coordinate-tool/change-radius
+                                                            :detail {:terrestrial-coordinate terrestrial-coordinate
+                                                                     :radius (number/pow 10 value)}})))
+                  :step 0.1 :min -3 :max 5 :marks true
+                  :getAriaValueText #(number/pow 10 %)
+                  :valueLabelFormat (fn [n] (radius-format (number/pow 10 n))) 
+                  :aria-labelledby "discrete-slider-restrict"
+                  :valueLabelDisplay "auto"})]
+             
+
             ;;  
              ]))]]]]))
+
+
+(gstring/format "%0.2f" 32.543)
