@@ -31,17 +31,17 @@
 ;; ig
 
 
-(derive :free-room/scene-lib :circuit/value)
-(derive :free-room/conn :circuit/conn)
-(derive :free-room/instance-atom :circuit/atom)
-(derive :free-room/view :circuit/view)
-(derive :free-room/service-chan :circuit/chan)
-(derive :free-room/service :circuit/service)
+(derive :studio/scene-lib :circuit/value)
+(derive :studio/conn :circuit/conn)
+(derive :studio/instance-atom :circuit/atom)
+(derive :studio/view :circuit/view)
+(derive :studio/service-chan :circuit/chan)
+(derive :studio/service :circuit/service)
 
 
 
 (def default-config
-  #:free-room
+  #:studio
    {:scene-lib {:solar system.solar/create-system!}
     :conn #:conn {:schema schema
                   :initial-tx initial-tx}
@@ -49,18 +49,19 @@
     :service-chan #:chan{}
     :service #:service{:service-fn editor.s/init-service!
                        :props {:editor {:db/id [:editor/name "default"]}}
-                       :env {:conn (ig/ref :free-room/conn)
-                             :instance-atom (ig/ref :free-room/instance-atom)
-                             :service-chan (ig/ref :free-room/service-chan)
-                             :scene-lib (ig/ref :free-room/scene-lib)}
+                       :env {:conn (ig/ref :studio/conn)
+                             :instance-atom (ig/ref :studio/instance-atom)
+                             :service-chan (ig/ref :studio/service-chan)
+                             :scene-lib (ig/ref :studio/scene-lib)}
                        :initial-events [#:event{:action :editor/pull-current-frame}
-                                        #:event{:action :editor/load-current-frame}]}
+                                        #:event{:action :editor/load-current-frame}]
+                       }
     :view #:view{:view-fn editor.v/EditorView
                  :props {:editor {:db/id [:editor/name "default"]}}
-                 :env {:conn (ig/ref :free-room/conn)
-                       :service-chan (ig/ref :free-room/service-chan)
-                       :instance-atom (ig/ref :free-room/instance-atom)
-                       :scene-lib (ig/ref :free-room/scene-lib)}}})
+                 :env {:conn (ig/ref :studio/conn)
+                       :service-chan (ig/ref :studio/service-chan)
+                       :instance-atom (ig/ref :studio/instance-atom)
+                       :scene-lib (ig/ref :studio/scene-lib)}}})
 
 
 (defn create-app! [config]
@@ -73,7 +74,7 @@
   
   (def system (ig/init default-config))
 
-  (:free-room/conn system)
+  (:studio/conn system)
 
 
   ;; 

@@ -8,7 +8,6 @@
    [astronomy.app.scene-free :as scene-free]
    [astronomy.app.scene-in-editor :as scene-in-editor]
    [astronomy.app.scene-in-player :as scene-in-player]
-   [astronomy.app.free-room :as app.free-room]
    [film2.system.studio :as studio])
   (:require-macros [methodology.lib.resource]))
 
@@ -26,14 +25,13 @@
 
 #_(defonce free-app-instance (scene-free/create-app! #:app{:scene-db-url "/temp/free-mode.edn"}))
 
-#_(defonce free-room (app.free-room/create-app! {}))
 
 (defonce studio (studio/create-app! {}))
 
 
 (defn update! []
   (rdom/render
-   (:free-room/view studio)
+   (:studio/view studio)
    (j/call js/document :getElementById  "app")))
 
 

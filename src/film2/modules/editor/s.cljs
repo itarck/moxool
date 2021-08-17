@@ -19,18 +19,19 @@
     (go (let [response (<! (http/get db-url))
               stored-data (:body response)]
           (p/transact! conn [{:db/id (:db/id frame-1)
-                              :frame/db-string stored-data}])))))
+                              :frame/db-string stored-data
+                              :frame/db (dt/read-transit-str stored-data)}])))))
 
 (defmethod handle-event! :editor/load-current-frame
   [{:keys [editor]} {:keys [conn instance-atom]} event]
   (go (let [editor-1 (d/pull @conn '[*] (:db/id editor))
             frame-1 (d/pull @conn '[*] (get-in editor-1 [:editor/current-frame :db/id]))
-            stored-data (:frame/db-string frame-1)
-            stored-db (when stored-data (dt/read-transit-str stored-data))
+            stored-db (:frame/db frame-1)
             scene-system (system.solar/create-system! {:initial-db stored-db})]
         (swap! instance-atom assoc :scene-system scene-system)
         (p/transact! conn  [{:db/id (:db/id editor-1)
-                             :editor/status :ready}]))))
+                             :editor/status :ready
+                             :editor/last-updated (js/Date.)}]))))
 
 
 (defn init-service! [props {:keys [service-chan] :as env}]
@@ -46,7 +47,4 @@
         (catch js/Error e
           (println "editor service error: " e))))
     (recur)))
-
-
-
 
