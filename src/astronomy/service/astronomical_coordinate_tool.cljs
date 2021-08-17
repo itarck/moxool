@@ -69,4 +69,9 @@
     (create-effect :tx tx)))
 
 
-
+(defmethod handle-event :astronomical-coordinate-tool/change-radius
+  [_props _env {:event/keys [detail]}]
+  (let [{:keys [astronomical-coordinate radius]} detail
+        tx [{:db/id (:db/id astronomical-coordinate)
+             :astronomical-coordinate/radius radius}]]
+    (create-effect :tx tx)))

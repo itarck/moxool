@@ -3,9 +3,21 @@
    [applied-science.js-interop :as j]
    [cljs.core.async :refer [go >! <! go-loop] :as a]
    [posh.reagent :as p]
+   [goog.string :as gstring]
+   [helix.core :refer [$]]
    ["@material-ui/core" :as mt]
+   [shu.arithmetic.number :as number]
    [astronomy.objects.ecliptic.m :as ecliptic.m]
    [astronomy.model.user.astronomical-coordinate-tool :as m.astronomical-coordinate-tool]))
+
+
+
+(defn radius-format [n]
+  (cond
+    (> n 100000) (gstring/format "%0.0f" n)
+    (> n 1000) (gstring/format "%0.1f" n)
+    (> n 10) (gstring/format "%0.2f" n)
+    :else (gstring/format "%0.3f" n)))
 
 
 
@@ -41,7 +53,7 @@
           (let [astronomical-coordinate-id (first (get-in tool [:astronomical-coordinate-tool/query-result]))
                 astronomical-coordinate @(p/pull conn '[*] astronomical-coordinate-id)
                 {:astronomical-coordinate/keys [show-latitude? show-longitude? show-latitude-0? show-regression-line?
-                                                show-longitude-0? show-ecliptic? show-lunar-orbit?]} astronomical-coordinate]
+                                                show-longitude-0? radius show-lunar-orbit?]} astronomical-coordinate]
             ;; (println "AstronomicalCoordinateToolView: " astronomical-coordinate)
             [:<>
              [:> mt/Grid {:item true :xs 6}
@@ -152,5 +164,26 @@
               [:span "是"]]
 
 
+
+             [:> mt/Grid {:item true :xs 6}
+              [:> mt/Typography {:variant "subtitle2"} "天球半径"]]
+             [:> mt/Grid {:item true :xs 6}
+              [:> mt/Typography {:variant "subtitle2"} (str (radius-format radius) "光秒")]]
+             [:> mt/Grid {:item true :xs 12}
+              ($ mt/Slider
+                 {:style (clj->js {:color "#666"
+                                   :width "200px"})
+                  :value (number/log 10 radius)
+                  :onChange (fn [e value]
+                              (go (>! service-chan #:event {:action :astronomical-coordinate-tool/change-radius
+                                                            :detail {:astronomical-coordinate astronomical-coordinate
+                                                                     :radius (number/pow 10 value)}})))
+                  :step 0.1 :min -3 :max 8 :marks true
+                  :getAriaValueText #(number/pow 10 %)
+                  :valueLabelFormat (fn [n] (radius-format (number/pow 10 n)))
+                  :aria-labelledby "discrete-slider-restrict"
+                  :valueLabelDisplay "auto"})]
             ;;  
              ]))]]]]))
+
+
