@@ -13,7 +13,7 @@
 
 
 (defn AstronomicalCoordinateView
-  [props {:keys [conn service-chan] :as env}]
+  [{:keys [astro-scene] :as props} {:keys [conn service-chan] :as env}]
   (let [ac @(p/pull conn '[*] (get-in props [:object :db/id]))
         {:astronomical-coordinate/keys [radius show-latitude? show-longitude? show-regression-line?
                                         show-latitude-0? show-longitude-0? show-ecliptic? show-lunar-orbit?]} ac
@@ -76,7 +76,8 @@
                                                    :color "red"}]])
 
       (when show-lunar-orbit?
-          [moon-orbit.v/MoonOrbitView {:orbit (:celestial/orbit moon)
+          [moon-orbit.v/MoonOrbitView {:astro-scene astro-scene
+                                       :orbit (:celestial/orbit moon)
                                        :celestial moon
                                        :clock clock} env])
 

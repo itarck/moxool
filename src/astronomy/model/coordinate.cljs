@@ -35,7 +35,7 @@
 
 (def cal-invert-matrix m.object/cal-invert-matrix)
 
-;; find 
+;; find
 
 (defn find-all-ids [db]
   (d/q '[:find [?id ...]
@@ -53,4 +53,3 @@
   (let [full-scene @(p/pull conn '[*] (:db/id scene))
         coordinate @(p/pull conn '[*] (get-in full-scene [:astro-scene/coordinate :db/id]))]
     coordinate))
-
