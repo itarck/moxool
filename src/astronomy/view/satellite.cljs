@@ -4,12 +4,12 @@
    ["@react-three/drei" :refer [Sphere]]
    [cljs.core.async :refer [go >! <!]]
    [posh.reagent :as p]
-   [shu.three.vector3 :as v3]
    [methodology.view.gltf :as v.gltf]
-   [astronomy.model.ellipse-orbit :as m.ellipse-orbit]
-   [astronomy.model.moon-orbit :as m.moon-orbit]
    [astronomy.model.astro-scene :as m.astro-scene]
-   [methodology.lib.geometry :as v.geo]))
+   [astronomy.objects.moon-orbit.v :as moon-orbit.v]
+   [astronomy.objects.circle-orbit.v :as circle-orbit.v]
+   [astronomy.objects.ellipse-orbit.v :as ellipse-orbit.v]
+   ))
 
 
 (def moon
@@ -33,43 +33,12 @@
     :entity/type :satellite})
 
 
-;; 绑定数据层
-
-(defn CelestialPositionLineView [{:keys [celestial]} env]
-  (let [color (or (get-in celestial [:celestial/orbit :orbit/color])
-                  "gray")]
-    [v.geo/LineComponent {:points [(v3/from-seq [0 0 0])
-                                   (v3/from-seq (map #(* 1.003 %) (:object/position celestial)))]
-                          :color color}
-     ]))
-
-
-
-(defn CelestialOrbitView [{:keys [orbit celestial clock]} {:keys [conn] :as env}]
-  (cond
-    (= (:orbit/type orbit) :moon-orbit)
-    (let [clock @(p/pull conn '[*] (:db/id clock))
-          epoch-day (:clock/time-in-days clock)
-          days (range (+ -60 epoch-day) (+ 0.2 epoch-day) 0.1)]
-      [:<>
-       [v.geo/LineComponent {:points (m.moon-orbit/cal-orbit-points-vectors orbit days)
-                             :color (:orbit/color orbit)}]
-       [CelestialPositionLineView {:celestial celestial} env]
-       [v.geo/LineComponent {:points [(v3/from-seq [0 0 0])
-                                      (m.moon-orbit/cal-perigee-vector orbit epoch-day)]
-                             :color "#444"}]])
-
-
-    (= (:orbit/type orbit) :ellipse-orbit)
-    [v.geo/LineComponent {:points (m.ellipse-orbit/cal-orbit-points-vectors orbit (* 10 360))
-                          :color (:orbit/color orbit)}]
-
-    :else
-    [v.geo/CircleComponent {:center [0 0 0]
-                            :radius (:circle-orbit/radius orbit)
-                            :axis (:circle-orbit/axis orbit)
-                            :color (:orbit/color orbit)
-                            :circle-points (* 360 20)}]))
+(defn MultiOrbitView
+  [{:keys [orbit] :as props} env]
+  (case (:orbit/type orbit)
+    :moon-orbit [moon-orbit.v/MoonOrbitView props env]
+    :ellipse-orbit [ellipse-orbit.v/EllipseOrbitView props env]
+    :circle-orbit [circle-orbit.v/CircleOrbitView props env]))
 
 
 (defn SatelliteView [{:keys [satellite astro-scene] :as props} {:keys [conn service-chan] :as env}]
@@ -106,10 +75,8 @@
          (when (:spin/show-helper? spin)
            [:gridHelper {:args [(* 4 scaled-radius) 10 "gray gray"]}])])]
 
-     (when (:orbit/show? orbit) [CelestialOrbitView {:celestial satellite
-                                                     :orbit orbit
-                                                     :clock (:celestial/clock satellite)} env])
-     #_(when (:orbit/show? orbit) [CelestialPositionLineView {:celestial satellite} env])
-     
+     (when (:orbit/show? orbit) [MultiOrbitView {:celestial satellite
+                                                 :orbit orbit
+                                                 :clock (:celestial/clock satellite)} env])
      ]))
 
