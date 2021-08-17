@@ -34,6 +34,7 @@
         props {:start [0 0 0]
                :direction axis
                :length (* 1.5 (:moon-orbit/semi-major-axis orbit))
+               :arrow-size (* 0.2 (:moon-orbit/semi-major-axis orbit))
                :color "white"}]
     ;; (println "NorthAxisView" props)
     [v.geo/ArrowLineComponent props]))
@@ -58,7 +59,7 @@
      [CelestialPositionLineView {:celestial celestial} env]
      [v.geo/LineComponent {:points [(v3/from-seq [0 0 0])
                                     (moon-orbit.m/cal-perigee-vector orbit epoch-day)]
-                           :color "#444"}]
+                           :color "#666"}]
      [NorthPoleView {:orbit orbit
                      :epoch-day epoch-day}]
      [NorthAxisView {:orbit orbit

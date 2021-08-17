@@ -1,8 +1,9 @@
 (ns methodology.lib.geometry
-  (:require 
+  (:require
    [applied-science.js-interop :as j]
    [helix.core :refer [$]]
    ["three" :as three]
+   ["@react-three/drei" :refer [Cone]]
    [shu.three.spherical :as sph]
    [shu.three.vector3 :as v3]
    [shu.three.quaternion :as q]
@@ -59,12 +60,18 @@
     :color \"orange\"}
    "
   [props]
-  (let [{:keys [start direction length color]} (merge {:color "gray"} props)
-        axis (v3/multiply-scalar (v3/from-seq direction) length)
+  (let [{:keys [start direction length arrow-size color]} (merge {:color "gray"} props)
+        axis (v3/vector3 0 length 0)
         start-v (v3/from-seq start)
-        end-v (v3/add (v3/from-seq start) axis)]
-    [LineComponent {:points [start-v end-v]
-                    :color color}]))
+        end-v (v3/add (v3/from-seq start) axis)
+        q1 (q/from-unit-vectors (v3/from-seq [0 1 0])
+                                (v3/normalize (v3/from-seq direction)))]
+    [:mesh {:quaternion (seq q1)
+            :position start-v}
+     [LineComponent {:points [start-v end-v]
+                     :color color}]
+     [:> Cone {:args [(* 0.1 arrow-size) arrow-size 16]
+               :position axis}]]))
 
 
 (defn CrossComponent
