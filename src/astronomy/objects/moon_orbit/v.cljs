@@ -15,11 +15,9 @@
                :radius (* 0.01 const/astronomical-sphere-radius)
                :axis axis
                :color "white"
-               :circle-points 60}
-        props2 (assoc props :radius (* 0.006 const/astronomical-sphere-radius))]
+               :circle-points 60}]
     [:<>
-     [v.geo/CircleComponent props]
-     [v.geo/CircleComponent props2]]))
+     [v.geo/CrossComponent props]]))
 
 
 (defn CelestialPositionLineView

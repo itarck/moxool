@@ -9,12 +9,15 @@
    [shu.goog.math :as gmath]))
 
 
-#_{:center [0 0 0]
- :radius 500
- :axis m.const/ecliptic-axis
- :color "orange"}
-
-(defn CircleComponent [props]
+(defn CircleComponent 
+  "
+   props sample
+   {:center [0 0 0]
+    :radius 500
+    :axis m.const/ecliptic-axis
+    :color \"orange\"}
+   "
+  [props]
   (let [merged-props (merge {:color "gray"
                              :circle-points 3600}
                             props)
@@ -36,6 +39,7 @@
                                 :linejoin "round"}))]))
 
 
+
 (defn LineComponent [{:keys [points color] :as props}]
   (let [lineGeometry (three/BufferGeometry.)]
     (j/call lineGeometry :setFromPoints (clj->js points))
@@ -44,6 +48,32 @@
                                :color color
                                :linecap "round"
                                :linejoin "round"}))))
+
+(defn CrossComponent
+  "
+   props sample
+   {:center [0 0 0]
+    :radius 500
+    :axis m.const/ecliptic-axis
+    :color \"orange\"}
+   "
+  [props]
+  (let [merged-props (merge {:color "gray"}
+                            props)
+        {:keys [center radius axis color]} merged-props
+        qt (seq (q/from-unit-vectors
+                 (v3/vector3 0 1 0)
+                 (v3/normalize (v3/from-seq axis))))
+        points (for [i (range 0 360.0001 (/ 360 4))]
+                 (v3/from-spherical-coords radius
+                                           (gmath/to-radians 90)
+                                           (gmath/to-radians i)))]
+
+    [:mesh {:position center
+            :quaternion qt}
+     (for [p points]
+       [LineComponent {:points [p (v3/vector3 0 0 0)]
+                       :color color}])]))
 
 
 (defn PointsComponent [{:keys [points size color] :as props}]
