@@ -1,11 +1,10 @@
-(ns astronomy.view.astronomical-coordinate
+(ns astronomy.objects.astronomical-coordinate.v
   (:require
    [applied-science.js-interop :as j]
    [cljs.core.async :refer [go >! <! go-loop] :as a]
    [posh.reagent :as p]
    [shu.astronomy.celestial-coordinate :as shu.cc]
    [astronomy.model.astronomical-point :as m.apt]
-   [astronomy.view.satellite :as v.satellite]
    [astronomy.component.celestial-sphere :as c.celestial-sphere]
    [astronomy.view.astronomical-point :as v.apt]
    [astronomy.objects.moon-orbit.v :as moon-orbit.v]))
@@ -76,10 +75,10 @@
                                                    :color highlight-color}]])
 
       (when show-lunar-orbit?
-          [moon-orbit.v/MoonOrbitView {:astro-scene astro-scene
-                                       :orbit (:celestial/orbit moon)
-                                       :celestial moon
-                                       :clock clock} env])
+        [moon-orbit.v/MoonOrbitView {:astro-scene astro-scene
+                                     :orbit (:celestial/orbit moon)
+                                     :celestial moon
+                                     :clock clock} env])
 
       ;; 
       ]]))

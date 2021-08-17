@@ -4,7 +4,7 @@
    [posh.reagent :as p]
    [astronomy.model.celestial :as m.celestial]
    [astronomy.model.coordinate :as m.coordinate]
-   [astronomy.model.astronomical-coordinate :as m.astronomical-coordinate]
+   [astronomy.objects.astronomical-coordinate.m :as astronomical-coordinate]
    [astronomy.model.terrestrial-coordinate :as m.terrestrial-coordinate]
    [astronomy.model.horizon-coordinate :as m.horizon-coordinate]
    [astronomy.model.atmosphere :as m.atmosphere]))
@@ -77,7 +77,7 @@
 (defn update-coordinate-tx [db coordinate-id]
   (let [coordinate (d/pull db '[*] coordinate-id)]
     (case (:coordinate/type coordinate)
-      :astronomical-coordinate (m.astronomical-coordinate/update-position-and-quaternion-tx db coordinate-id)
+      :astronomical-coordinate (astronomical-coordinate/update-position-and-quaternion-tx db coordinate-id)
       :terrestrial-coordinate (m.terrestrial-coordinate/update-position-and-quaternion-tx db coordinate-id)
       :horizon-coordinate (m.horizon-coordinate/update-position-and-quaternion-tx db coordinate-id))))
 

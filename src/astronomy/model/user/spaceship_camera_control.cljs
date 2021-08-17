@@ -3,9 +3,9 @@
    [cljs.spec.alpha :as s]
    [datascript.core :as d]
    [shu.three.vector3 :as v3]
-   [astronomy.model.astronomical-coordinate :as m.astronomical-coordinate]
+   [astronomy.objects.astronomical-coordinate.m :as astronomical-coordinate]
    [astronomy.model.terrestrial-coordinate :as m.terrestrial-coordinate]
-   [astronomy.model.horizon-coordinate :as m.horizon-coordinate]))
+   ))
 
 
 ;; 模型介绍：spaceship-camera-control，缩写scc
@@ -94,7 +94,7 @@
   (let [coor-1 (d/pull db '[*] (:db/id coordinate))
         min-distance (case (:coordinate/type coor-1)
                        :terrestrial-coordinate (m.terrestrial-coordinate/cal-min-distance db coor-1)
-                       :astronomical-coordinate (m.astronomical-coordinate/cal-min-distance db coor-1)
+                       :astronomical-coordinate (astronomical-coordinate/cal-min-distance db coor-1)
                        0)]
     (set-min-distance-tx scc min-distance)))
 

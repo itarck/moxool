@@ -11,10 +11,10 @@
    [astronomy.view.galaxy :as v.galaxy]
    [astronomy.view.constellation :as v.constel]
    [astronomy.view.terrestrial-coordinate :as v.terrestrial-coordinate]
-   [astronomy.view.astronomical-coordinate :as v.astronomical-coordinate]
    [astronomy.view.horizon-coordinate :as v.horizon-coordinate]
 
    [astronomy.objects.ecliptic.v :as ecliptic.v]
+   [astronomy.objects.astronomical-coordinate.v :as astronomical-coordinate.v]
    
    [astronomy.view.user.universe-tool :as v.universe-tool]
    [astronomy.view.user.clock-tool :as v.clock-tool]
@@ -64,7 +64,7 @@
   {:star v.star/StarView
    :galaxy v.galaxy/GalaxyView
    :terrestrial-coordinate v.terrestrial-coordinate/TerrestrialCoordinateView
-   :astronomical-coordinate v.astronomical-coordinate/AstronomicalCoordinateView
+   :astronomical-coordinate astronomical-coordinate.v/AstronomicalCoordinateView
    :horizon-coordinate v.horizon-coordinate/HorizonCoordinateView
    :constellation v.constel/ConstellationView
    :astronomical-point-tool v.astronomical-point-tool/AstronomicalPointToolObjectView

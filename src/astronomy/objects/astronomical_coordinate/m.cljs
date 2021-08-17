@@ -1,4 +1,4 @@
-(ns astronomy.model.astronomical-coordinate
+(ns astronomy.objects.astronomical-coordinate.m
   (:require
    [cljs.spec.alpha :as s]
    [datascript.core :as d]
@@ -18,7 +18,7 @@
 
 ;; schema
 
-(def schema 
+(def schema
   {:astronomical-coordinate/center-object {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}})
 
 
@@ -26,7 +26,7 @@
   (s/keys :req [:astronomical-coordinate/center-object]
           :opt []))
 
-(comment 
+(comment
   (def sample
     #:astronomical-coordinate {:object/position [0 0 0]
                                :object/quaternion [0 0 0 1]

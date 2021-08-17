@@ -4,7 +4,7 @@
    [astronomy.scripts.test-conn :refer [create-test-conn!]]
    [posh.reagent :as p]
    [methodology.model.object :as m.object]
-   [astronomy.model.astronomical-coordinate :as m.astro-coor]))
+   [astronomy.objects.astronomical-coordinate.m :as astro-coor]))
 
 
 (def conn (create-test-conn!))
@@ -14,7 +14,7 @@
   @(p/pull conn '[*] [:coordinate/name "赤道天球坐标系"]))
 
 
-(p/transact! conn (m.astro-coor/update-position-tx @conn astro-coor))
+(p/transact! conn (astro-coor/update-position-tx @conn astro-coor))
 ;; => [{:db/id 24, :object/position [442.9497885783528 191.68192377598768 -88.40464973856325]}]
 
 (def astro-coor2

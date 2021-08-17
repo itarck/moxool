@@ -1,6 +1,6 @@
 (ns astronomy.model.user.astronomical-coordinate-tool
   (:require
-   [astronomy.model.astronomical-coordinate :as m.astronomical-coordinate]))
+   [astronomy.objects.astronomical-coordinate.m :as astronomical-coordinate]))
 
 
 (def astronomical-coordinate-tool-1
@@ -19,7 +19,7 @@
 
 (defn cal-query-result [db query-type query-args]
   (case query-type
-    :one-by-name (let [one (m.astronomical-coordinate/pull-one-by-name db (first query-args))]
+    :one-by-name (let [one (astronomical-coordinate/pull-one-by-name db (first query-args))]
                    [(:db/id one)])))
 
 ;; tx
@@ -45,4 +45,4 @@
 
 (defn sub-query-args-candidates [conn act-nm]
   (case (:astronomical-coordinate-tool/query-type act-nm)
-    :one-by-name (m.astronomical-coordinate/sub-coordinate-names conn)))
+    :one-by-name (astronomical-coordinate/sub-coordinate-names conn)))
