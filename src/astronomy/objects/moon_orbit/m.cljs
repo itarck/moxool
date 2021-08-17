@@ -1,13 +1,10 @@
-(ns astronomy.model.moon-orbit
+(ns astronomy.objects.moon-orbit.m
   (:require
    [shu.three.quaternion :as q]
    [shu.three.vector3 :as v3]
    [shu.goog.math :as gmath]
-   [cljs-time.core :as t]
    [shu.geometry.angle :as shu.angle]
-   [shu.calendar.epoch :as epoch]
-   [shu.astronomy.celestial-coordinate :as shu.cc]
-   [astronomy.model.const :refer [ecliptic-angle ecliptic-axis]]))
+   [astronomy.model.const :refer [ecliptic-angle ecliptic-axis lunar-axis-j2000]]))
 
 ;; 带轴进动的圆形轨道
 ;; 按照参考点 2010-7-2，黄经 192度，黄纬 84.85度。轴进动的周期是6798天，顺时针方向
@@ -16,27 +13,6 @@
 ;; data
 
 (def schema {})
-
-
-(defn from-ecliptic-to-equatorial [vector-in-ecliptic]
-  (v3/apply-axis-angle vector-in-ecliptic (v3/vector3 0 0 1) (gmath/to-radians ecliptic-angle)))
-
-(defn from-equatorial-to-ecliptic [vector-in-equatorial]
-  (v3/apply-axis-angle vector-in-equatorial (v3/vector3 0 0 1) (gmath/to-radians ecliptic-angle)))
-
-
-(def lunar-axis-j2000
-  (v3/apply-axis-angle
-   (->
-    (shu.cc/celestial-coordinate 192 84.85)
-    (shu.cc/to-unit-vector)
-    (from-ecliptic-to-equatorial))
-   ecliptic-axis
-   (* (epoch/to-epoch-days (t/date-time 2010 7 2))
-      (shu.angle/period-to-angular-velocity-in-radians 6798))))
-
-lunar-axis-j2000
-;; => #object[Vector3 [-0.34885989419537267 0.9342903258325582 0.07347354134438353]]
 
 
 (def moon-sample1
@@ -176,7 +152,5 @@ lunar-axis-j2000
     (cal-position-vector moon-orbit day)))
 
 
-(comment 
-  (cal-orbit-points-vectors moon-sample1 360)
-  
-  )
+(comment
+  (cal-orbit-points-vectors moon-sample1 360))

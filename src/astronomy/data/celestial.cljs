@@ -2,11 +2,10 @@
   (:require
    [shu.goog.math :as gmath]
    [shu.geometry.angle :as shu.angle]
-   [astronomy.model.const :as m.const :refer [ecliptic-axis ecliptic-quaternion]]
+   [astronomy.model.const :as m.const :refer [ecliptic-axis ecliptic-quaternion lunar-axis-j2000]]
    [astronomy.model.ellipse-orbit :as m.ellipse-orbit]
    [astronomy.model.planet :as m.planet]
-   [astronomy.model.spin :as m.spin]
-   [astronomy.model.moon-orbit :as m.moon-orbit :refer [lunar-axis-j2000]]))
+   [astronomy.model.spin :as m.spin]))
 
 
 (def sun

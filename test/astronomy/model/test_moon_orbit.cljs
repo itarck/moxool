@@ -6,7 +6,7 @@
    [shu.goog.math :as gmath]
    [cljs-time.format :as ft]
    [astronomy.model.ellipse-orbit :as m.ellipse-orbit]
-   [astronomy.model.moon-orbit :as mo :refer [moon-sample1]]))
+   [astronomy.objects.moon-orbit.m :as mo :refer [moon-sample1]]))
 
 
 (=

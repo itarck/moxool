@@ -2,12 +2,11 @@
   (:require
    [cljs.spec.alpha :as s]
    [datascript.core :as d]
-   [shu.three.vector3 :as v3]
    [shu.three.quaternion :as q]
    [shu.three.matrix4 :as m4]
    [astronomy.model.ellipse-orbit :as m.ellipse-orbit]
    [astronomy.model.circle-orbit :as m.circle-orbit]
-   [astronomy.model.moon-orbit :as m.moon-orbit]
+   [astronomy.objects.moon-orbit.m :as moon-orbit.m]
    [astronomy.model.spin :as m.spin]))
 
 
@@ -76,7 +75,7 @@
   (let [{:celestial/keys [orbit]} celestial]
     (cond
       (and orbit (= (:orbit/type orbit) :ellipse-orbit)) (m.ellipse-orbit/cal-position orbit days)
-      (and orbit (= (:orbit/type orbit) :moon-orbit)) (seq (m.moon-orbit/cal-position-vector orbit days))
+      (and orbit (= (:orbit/type orbit) :moon-orbit)) (seq (moon-orbit.m/cal-position-vector orbit days))
       orbit (m.circle-orbit/cal-position orbit days)
       :else [0 0 0])))
 

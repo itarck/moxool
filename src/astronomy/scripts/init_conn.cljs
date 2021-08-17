@@ -14,16 +14,14 @@
    [shu.astronomy.light :as shu.light]
    [methodology.model.user.backpack :as m.backpack]
    [methodology.model.core :as mtd-model]
-   [astronomy.model.const :as m.const]
    [astronomy.model.astro-scene :as m.astro-scene]
-   [astronomy.model.const :refer [ecliptic-axis ecliptic-quaternion]]
+   [astronomy.model.const :refer [ecliptic-axis ecliptic-quaternion lunar-axis-j2000]]
    [astronomy.model.ellipse-orbit :as m.ellipse-orbit]
    [astronomy.model.core :as ast-model]
    [astronomy.model.clock :as m.clock]
    [astronomy.model.planet :as m.planet]
    [astronomy.model.star :as m.star]
-   [astronomy.model.spin :as m.spin]
-   [astronomy.model.moon-orbit :as m.moon-orbit :refer [lunar-axis-j2000]]))
+   [astronomy.model.spin :as m.spin]))
 
 (def schema (merge ast-model/schema
                    mtd-model/schema))

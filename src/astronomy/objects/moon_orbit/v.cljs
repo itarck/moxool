@@ -2,9 +2,9 @@
   (:require
    [posh.reagent :as p]
    [shu.three.vector3 :as v3]
+   [methodology.lib.geometry :as v.geo]
    [astronomy.model.ellipse-orbit :as m.ellipse-orbit]
-   [astronomy.model.moon-orbit :as m.moon-orbit]
-   [methodology.lib.geometry :as v.geo]))
+   [astronomy.objects.moon-orbit.m :as moon-orbit.m]))
 
 
 (defn CelestialPositionLineView
@@ -21,11 +21,11 @@
         epoch-day (:clock/time-in-days clock)
         days (range (+ -60 epoch-day) (+ 0.2 epoch-day) 0.1)]
     [:<>
-     [v.geo/LineComponent {:points (m.moon-orbit/cal-orbit-points-vectors orbit days)
+     [v.geo/LineComponent {:points (moon-orbit.m/cal-orbit-points-vectors orbit days)
                            :color (:orbit/color orbit)}]
      [CelestialPositionLineView {:celestial celestial} env]
      [v.geo/LineComponent {:points [(v3/from-seq [0 0 0])
-                                    (m.moon-orbit/cal-perigee-vector orbit epoch-day)]
+                                    (moon-orbit.m/cal-perigee-vector orbit epoch-day)]
                            :color "#444"}]]))
 
 (defn EllipseOrbitView 
