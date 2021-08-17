@@ -1,5 +1,6 @@
 (ns astronomy.model.satellite
   (:require
+   [cljs.spec.alpha :as s]
    [posh.reagent :as p]
    [datascript.core :as d]))
 
@@ -60,6 +61,11 @@
           (:object/position planet)
           (:object/position star))))
 
+
+(defn sub-planet [conn satellite]
+  {:pre [(s/valid? (s/keys :req [:db/id]) satellite)]}
+  (let [satellite-1 @(p/pull conn '[{:satellite/planet [*]}] (:db/id satellite))]
+    (:satellite/planet satellite-1)))
 
 
 (comment)

@@ -7,7 +7,7 @@
    [astronomy.objects.moon-orbit.m :as moon-orbit.m]))
 
 
-(defn NorthPointView
+(defn NorthPoleView
   [{:keys [orbit epoch-day]}]
   (let [axis (moon-orbit.m/cal-north-pole-vector3 orbit epoch-day)
         north-pole-on-sph (moon-orbit.m/cal-north-pole-on-astronomical-sphere orbit epoch-day)
@@ -18,6 +18,25 @@
                :circle-points 60}]
     [:<>
      [v.geo/CrossComponent props]]))
+
+
+(defn NorthAxisView
+  "
+   {:orbit
+   :moon 
+   :epoch-days
+   }
+   "
+  [{:keys [orbit moon epoch-day]} {:keys [conn]}]
+  (let [moon-1 @(p/pull conn '[{:satellite/planet [*]}] (:db/id moon))
+        planet-1 (:satellite/planet moon-1)
+        axis (moon-orbit.m/cal-north-pole-vector3 orbit epoch-day)
+        props {:start [0 0 0]
+               :direction axis
+               :length (* 1.5 (:moon-orbit/semi-major-axis orbit))
+               :color "white"}]
+    ;; (println "NorthAxisView" props)
+    [v.geo/ArrowLineComponent props]))
 
 
 (defn CelestialPositionLineView
@@ -40,5 +59,8 @@
      [v.geo/LineComponent {:points [(v3/from-seq [0 0 0])
                                     (moon-orbit.m/cal-perigee-vector orbit epoch-day)]
                            :color "#444"}]
-     [NorthPointView {:orbit orbit
-                      :epoch-day epoch-day}]]))
+     [NorthPoleView {:orbit orbit
+                     :epoch-day epoch-day}]
+     [NorthAxisView {:orbit orbit
+                     :moon celestial
+                     :epoch-day epoch-day} env]]))

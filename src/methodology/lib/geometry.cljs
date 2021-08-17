@@ -49,6 +49,24 @@
                                :linecap "round"
                                :linejoin "round"}))))
 
+
+(defn ArrowLineComponent
+  "
+   {:start [0 0 0]
+    :direction [1 0 0]
+    :length 500
+    :arrow-size 10
+    :color \"orange\"}
+   "
+  [props]
+  (let [{:keys [start direction length color]} (merge {:color "gray"} props)
+        axis (v3/multiply-scalar (v3/from-seq direction) length)
+        start-v (v3/from-seq start)
+        end-v (v3/add (v3/from-seq start) axis)]
+    [LineComponent {:points [start-v end-v]
+                    :color color}]))
+
+
 (defn CrossComponent
   "
    props sample
@@ -72,6 +90,7 @@
     [:mesh {:position center
             :quaternion qt}
      (for [p points]
+       ^{:key (str p)}
        [LineComponent {:points [p (v3/vector3 0 0 0)]
                        :color color}])]))
 
