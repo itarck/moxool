@@ -24,7 +24,7 @@
                                    :30day "月"
                                    :day "日"
                                    :year "年"
-                                   :100year "纪")
+                                   :100year "百年")
         gen-click-step-interval (fn [step-interval]
                                   #(go (>! service-chan #:event{:action :clock-tool/change-step-interval
                                                                 :detail {:clock-tool clock-tool
@@ -81,9 +81,6 @@
               ($ mt/Button {:onClick (gen-click-step-interval :hour)
                             :variant (if (= step-interval :hour) "contained" "outlined")}
                  "时")
-              #_($ mt/Button {:onClick (gen-click-step-interval :star-day)
-                              :variant (if (= step-interval :star-day) "contained" "outlined")}
-                   "恒星日")
               ($ mt/Button {:onClick (gen-click-step-interval :day)
                             :variant (if (= step-interval :day) "contained" "outlined")}
                  "日")
@@ -92,7 +89,12 @@
                  "月")
               ($ mt/Button {:onClick (gen-click-step-interval :year)
                             :variant (if (= step-interval :year) "contained" "outlined")}
-                 "年")))
+                 "年"))
+           ($ mt/ButtonGroup {:size "small"
+                              :style {:margin-top "4px"}}
+              ($ mt/Button {:onClick (gen-click-step-interval :100year)
+                            :variant (if (= step-interval :100year) "contained" "outlined")}
+                 "百年")))
 
         ($ mt/Grid {:item true :xs 12}
            ($ mt/Typography {:variant "subtitle2"} "动作")

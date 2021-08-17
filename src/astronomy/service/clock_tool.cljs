@@ -67,7 +67,8 @@
                         :star-day 0.99726968
                         :day 1
                         :30day 30
-                        :year 365)
+                        :year 365
+                        :100year (* 365.25 100))
         tx [{:db/id (:db/id clock-tool)
              :clock-tool/step-interval step-interval
              :clock-tool/days-per-step days-per-step}]]
