@@ -19,3 +19,11 @@
   (let [{:keys [celestial show?]} detail
         tx (m.celestial/update-show-spin-helper-tx celestial show?)]
     (effects :tx tx)))
+
+
+(defmethod handle-event :planet/show-name
+  [props _env {:event/keys [detail]}]
+  (let [{:keys [planet show?]} detail
+        tx [{:db/id (:db/id planet)
+             :planet/show-name? show?}]]
+    (effects :tx tx)))

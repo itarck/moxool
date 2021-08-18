@@ -82,6 +82,19 @@
                                                                  :show? show?}}))))}]
           [:span "是"]]
 
+         
+         [:> mt/Typography {:variant "subtitle1"} "显示名字："
+          [:span "否"]
+          [:> mt/Switch
+           {:color "default"
+            :size "small"
+            :checked (or (get-in target [:planet/show-name?]) false)
+            :onChange (fn [event]
+                        (let [show? (j/get-in event [:target :checked])]
+                          (go (>! service-chan #:event {:action :planet/show-name
+                                                        :detail {:planet target
+                                                                 :show? show?}}))))}]
+          [:span "是"]]
 
 ;; 
          ]]]]]))

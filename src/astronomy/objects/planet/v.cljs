@@ -76,11 +76,13 @@
 
     [:<>
      [:mesh {:position position}
-      [:> Html
-       [:p {:style {:margin-top "5px"
-                    :margin-left "5px"
-                    :color "#777"}}
-        chinese-name]]
+      
+      (when (:planet/show-name? planet)
+        [:> Html
+         [:p {:style {:margin-top "5px"
+                      :margin-left "5px"
+                      :color "#777"}}
+          chinese-name]])
 
       (when (and (:object/show? planet) gltf)
         [:mesh {:quaternion quaternion}
