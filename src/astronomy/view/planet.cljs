@@ -3,6 +3,7 @@
    [applied-science.js-interop :as j]
    [cljs.core.async :refer [go >! <!]]
    [posh.reagent :as p]
+   ["@react-three/drei" :refer [Html]]
    [shu.three.vector3 :as v3]
    [astronomy.model.ellipse-orbit :as m.ellipse-orbit]
    [methodology.lib.geometry :as v.geo]
@@ -68,12 +69,19 @@
                                 :celestial/spin [*]} *] (:db/id planet))
         {:object/keys [position quaternion]} planet
         {:celestial/keys [gltf orbit radius spin]} planet
+        {:planet/keys [show-name? chinese-name]} planet
         satellites (:satellite/_planet planet)
         scaled-radius (* radius (:astro-scene/celestial-scale astro-scene))]
     ;; (println "planet view: " planet)
 
     [:<>
      [:mesh {:position position}
+      [:> Html 
+       [:p {:style {:margin-top "5px"
+                    :margin-left "5px"
+                    :color "#777"}}
+        chinese-name]]
+
       (when (and (:object/show? planet) gltf)
         [:mesh {:quaternion quaternion}
          [:mesh {:scale [scaled-radius scaled-radius scaled-radius]

@@ -23,7 +23,6 @@
 (def tools
   [{:db/id [:tool/name "ppt tool"]}
    {:db/id [:tool/name "clock control 1"]}
-  ;;  {:db/id [:tool/name "goto celestial tool"]}
    {:db/id [:tool/name "spaceship camera tool"]}
    {:db/id [:tool/name "horizon-coordinate-tool"]}
    {:db/id [:tool/name "terrestrial-coordinate-tool"]}
@@ -32,7 +31,8 @@
    {:db/id [:tool/name "universe tool"]}
    {:db/id [:tool/name "atmosphere-tool"]}
    {:db/id [:tool/name "astronomical-point-tool"]}
-   {:db/id [:tool/name "ruler-tool"]}])
+   {:db/id [:tool/name "ruler-tool"]}
+   {:db/id [:tool/name "goto celestial tool"]}])
 
 
 (defn kick-start! [conn]
