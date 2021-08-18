@@ -132,10 +132,3 @@
 
     {:service-chan service-chan}))
 
-
-
-(let [{process-name :process/name
-       :process/keys [listen]} #:process{:name "ppt-tool"
-                                         :listen ["ppt-tool"]
-                                         :service-fn s.ppt-tool/init-service!}]
-  process-name)
