@@ -21,9 +21,14 @@
    [astronomy.service.astronomical-point-tool :as s.astronomical-point-tool]
    [astronomy.service.ruler-tool :as s.ruler-tool]
 
+   [astronomy.objects.planet.h :as planet.h]
    [astronomy.objects.ecliptic.h :as ecliptic.h]
+
    [astronomy.tools.astronomical-coordinate-tool.h :as astronomical-coordinate-tool.h]
-   [astronomy.tools.planet-tool.h :as planet-tool.h]))
+   [astronomy.tools.planet-tool.h :as planet-tool.h]
+   
+  ;;  
+   ))
 
 
 (def processes
@@ -36,6 +41,9 @@
    #:process{:name "astro-scene"
              :listen ["astro-scene"]
              :service-fn s.astro-scene/init-service!}
+   #:process{:name "planet"
+             :listen ["planet"]
+             :handle-event-fn planet.h/handle-event}
    #:process{:name "tool"
              :listen ["tool"]
              :handle-event-fn s.tool/handle-event}

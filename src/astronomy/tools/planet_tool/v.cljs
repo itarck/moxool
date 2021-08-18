@@ -64,7 +64,7 @@
               :checked (or (get-in target [:celestial/orbit :orbit/show?]) false)
               :onChange (fn [event]
                           (let [show? (j/get-in event [:target :checked])]
-                            (go (>! service-chan #:event {:action :planet-tool/show-orbit
+                            (go (>! service-chan #:event {:action :planet/show-orbit
                                                           :detail {:celestial target
                                                                    :show? show?}}))))}]
             [:span "是"]])
@@ -77,7 +77,7 @@
             :checked (or (get-in target [:celestial/spin :spin/show-helper?]) false)
             :onChange (fn [event]
                         (let [show? (j/get-in event [:target :checked])]
-                          (go (>! service-chan #:event {:action :planet-tool/show-spin-helper
+                          (go (>! service-chan #:event {:action :planet/show-spin-helper
                                                         :detail {:celestial target
                                                                  :show? show?}}))))}]
           [:span "是"]]
