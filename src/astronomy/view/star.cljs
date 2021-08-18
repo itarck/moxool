@@ -28,7 +28,7 @@
         l (new three/DirectionalLight "white" intensity)]
     (j/apply-in l [:position :set] position)
     (j/assoc! l :castShadow true)
-    (j/assoc! l :decay 2)
+    ;; (j/assoc! l :decay 2)
     (j/assoc-in! l [:shadow :camera :near] shadow-camera-near)
     (j/assoc-in! l [:shadow :camera :far] shadow-camera-far)
     (j/assoc-in! l [:shadow :camera :left] (- shadow-camera-size))
@@ -51,7 +51,7 @@
      (when (= (:star/name star) "sun")
        [:<>
         ($ SunLight {:position #js [0 0 0]
-                     :intensity 5
+                     :intensity 10
                      :shadow-camera-near 1
                      :shadow-camera-far 100000000
                      :shadow-camera-size 500})])
