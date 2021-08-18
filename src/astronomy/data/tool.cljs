@@ -227,8 +227,8 @@
 (def planet-tool-1
   #:planet-tool {:tool/name "planet-tool"
                  :tool/chinese-name "行星"
-                 :tool/icon "/image/moxool/goto.jpg"
-                 :tool/target {:planet/name "earth"}
+                 :tool/icon "/image/moxool/planet.jpg"
+                 :tool/target [:planet/name "earth"]
                  :entity/type :planet-tool})
 
 (def dataset1 [universe-tool-1 clock-tool1 info-tool
