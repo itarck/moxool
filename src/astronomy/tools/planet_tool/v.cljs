@@ -5,8 +5,7 @@
    [goog.string :as gstring]
    [posh.reagent :as p]
    ["@material-ui/core" :as mt]
-   [astronomy.objects.planet.m :as planet.m]
-   [astronomy.model.celestial :as m.celestial]))
+   [astronomy.objects.planet.m :as planet.m]))
 
 
 (defn PlanetToolView [props {:keys [service-chan conn]}]
