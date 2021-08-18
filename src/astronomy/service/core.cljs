@@ -42,7 +42,7 @@
              :listen ["astro-scene"]
              :service-fn s.astro-scene/init-service!}
    #:process{:name "planet"
-             :listen ["planet"]
+             :listen ["planet" "clock.pub"]
              :handle-event-fn planet.h/handle-event}
    #:process{:name "tool"
              :listen ["tool"]

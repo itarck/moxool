@@ -27,3 +27,7 @@
         tx [{:db/id (:db/id planet)
              :planet/show-name? show?}]]
     (effects :tx tx)))
+
+(defmethod handle-event :clock.pub/time-changed
+  [_props _env {:event/keys [detail] :as event}]
+  (effects :log (str "service planet: " event)))
