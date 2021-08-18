@@ -8,7 +8,8 @@
    [astronomy.model.ellipse-orbit :as m.ellipse-orbit]
    [methodology.lib.geometry :as v.geo]
    [methodology.view.gltf :as v.gltf]
-   [astronomy.view.satellite :as v.satellite]))
+   [astronomy.view.satellite :as v.satellite]
+   [astronomy.objects.planet.m :as planet]))
 
 
 (def earth
@@ -63,9 +64,18 @@
                                   (v3/from-seq [(* 0.7 size) 0 0])]
                          :color "red"}]])
 
-(defn PlanetPositionLogView [{:keys [planet]}]
-  [v.geo/LineComponent {:points (mapv (fn [p] (v3/from-seq p)) (:planet/position-log planet))
-                        :color "white"}])
+(defn PlanetPositionLogView [{:keys [planet]} {:keys [conn]}]
+  (let [planet-1 @(p/pull conn '[*] (:db/id planet))]
+    [v.geo/LineComponent {:points (mapv (fn [p] (v3/from-seq p)) (:planet/position-log planet-1))
+                          :color "white"}]))
+
+
+(defn PlanetsHasPositionLogView [props {:keys [conn] :as env}]
+  (let [planet-ids @(p/q planet/query-all-ids-with-tracker conn)]
+    [:<>
+     (for [id planet-ids]
+       ^{:key id}
+       [PlanetPositionLogView {:planet {:db/id id}} env])]))
 
 
 (defn PlanetView [{:keys [planet astro-scene] :as props} {:keys [conn service-chan] :as env}]
@@ -118,6 +128,4 @@
      (when (:orbit/show? orbit) [PlanetOrbitView {:orbit orbit} env])
      (when (:orbit/show? orbit) [PlanetPositionLineView {:planet planet} env])
 
-     #_(when (:planet/track-position? planet)
-       [PlanetPositionLogView {:planet planet}])
      ]))
