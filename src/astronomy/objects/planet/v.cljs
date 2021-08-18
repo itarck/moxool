@@ -65,9 +65,10 @@
                          :color "red"}]])
 
 (defn PlanetPositionLogView [{:keys [planet]} {:keys [conn]}]
-  (let [planet-1 @(p/pull conn '[*] (:db/id planet))]
+  (let [planet-1 @(p/pull conn '[*] (:db/id planet))
+        color (get-in planet-1 [:celestial/orbit :orbit/color])]
     [v.geo/LineComponent {:points (mapv (fn [p] (v3/from-seq p)) (:planet/position-log planet-1))
-                          :color "white"}]))
+                          :color color}]))
 
 
 (defn PlanetsHasPositionLogView [props {:keys [conn] :as env}]
