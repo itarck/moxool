@@ -1,9 +1,12 @@
 (ns astronomy.model.test-planet
   (:require
    [cljs.test :refer-macros [deftest is testing run-tests]]
+   [datascript.core :as d]
    [astronomy.conn.core :refer [create-basic-conn!]]
    [astronomy.data.celestial :as d.celestial]
-   [posh.reagent :as p]))
+   [posh.reagent :as p]
+   [astronomy.objects.planet.m :as planet]
+   [astronomy.scripts.test-conn :refer [test-db3 test-db11]]))
 
 
 (def planet-1
@@ -25,6 +28,20 @@
             :object/scene [:scene/name "solar"]
             :object/position [100 0 0]
             :entity/type :planet})
+
+
+;; test model
+
+(def all-ids (d/q planet/query-all-ids test-db3))
+
+all-ids
+;; => [23 32 36 40 44 48]
+
+(planet/cal-world-position test-db11 {:db/id 23})
+
+(planet/update-all-world-position test-db11)
+
+;; 
 
 (def conn
   (let [conn (create-basic-conn!)]

@@ -57,6 +57,15 @@
     (d/transact! conn d.tool/dataset1)
     @conn))
 
+(def test-db3
+  (let [conn (create-empty-conn!)]
+    (d/transact! conn d.basic/dataset1)
+    (d/transact! conn d.celestial/dataset1)
+    (d/transact! conn d.celestial/dataset2)
+    (d/transact! conn d.celestial/dataset3)
+    (d/transact! conn d.coordinate/dataset1)
+    (d/transact! conn d.tool/dataset1)
+    @conn))
 
 
 ;; 经过kickstar
@@ -65,6 +74,7 @@
     (d/transact! conn d.basic/dataset1)
     (d/transact! conn d.celestial/dataset1)
     (d/transact! conn d.celestial/dataset3)
+    (d/transact! conn d.celestial/dataset4)
     (d/transact! conn d.galaxy/dataset1)
     (d/transact! conn d.coordinate/dataset1)
     (d/transact! conn d.constel/dataset1)

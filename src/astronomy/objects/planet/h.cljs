@@ -1,6 +1,7 @@
 (ns astronomy.objects.planet.h
   (:require
    [astronomy.model.celestial :as m.celestial]
+   [astronomy.objects.planet.m :as planet]
    [astronomy.service.effect :refer [effects]]))
 
 
@@ -28,6 +29,13 @@
              :planet/show-name? show?}]]
     (effects :tx tx)))
 
+(defmethod handle-event :planet/update-all-world-position
+  [_props {:keys [db]} _event]
+  (let [tx (planet/update-all-world-position db)]
+    (effects :tx tx)))
+
+;; listen
+
 (defmethod handle-event :clock.pub/time-changed
   [_props _env {:event/keys [detail] :as event}]
-  (effects :log (str "service planet: " event)))
+  (effects :event #:event{:action :planet/update-all-world-position}))

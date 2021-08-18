@@ -4,7 +4,8 @@
    [shu.three.vector3 :as v3]
    [shu.three.spherical :as sph]
    [shu.three.quaternion :as q]
-   [posh.reagent :as p]))
+   [posh.reagent :as p]
+   [astronomy.model.celestial :as m.celestial]))
 
 ;; 包含ns: planet
 
@@ -41,6 +42,10 @@
 
 ;; query
 
+(def query-all-ids
+  '[:find [?id ...]
+    :where [?id :entity/type :planet]])
+
 (def query-all-id-and-chinese-name
   '[:find ?id ?chinese-name
     :where
@@ -59,9 +64,9 @@
 
 
 (defn cal-world-position [db planet]
-  (let [star (d/pull db '[*] (-> planet :planet/star :db/id))]
-    (mapv + (:object/position planet)
-          (:object/position star))))
+  (let [planet-1 (d/pull db '[:object/position {:planet/star [:object/position]}] (:db/id planet))]
+    (mapv + (:object/position planet-1)
+          (get-in planet-1 [:planet/star :object/position]))))
 
 
 ;; sub
@@ -71,4 +76,12 @@
         star @(p/pull conn '[:object/position] (-> planet :planet/star :db/id))]
     (mapv + (:object/position planet)
           (:object/position star))))
+
+;; tx
+
+(defn update-all-world-position [db]
+  (let [ids (d/q query-all-ids db)]
+    (mapv (fn [id] {:db/id id
+                    :planet/position (cal-world-position db {:db/id id})})
+          ids)))
 
