@@ -1,4 +1,4 @@
-(ns astronomy.model.user.astronomical-coordinate-tool
+(ns astronomy.tools.astronomical-coordinate-tool.m
   (:require
    [astronomy.objects.astronomical-coordinate.m :as astronomical-coordinate]))
 

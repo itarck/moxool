@@ -17,12 +17,12 @@
    [astronomy.service.contellation-tool :as s.constellation-tool]
    [astronomy.service.atmosphere-tool :as s.atmosphere-tool]
    [astronomy.service.horizon-coordinate-tool :as s.horizon-coordinate]
-   [astronomy.service.astronomical-coordinate-tool :as s.astronomical-coordinate-tool]
    [astronomy.service.terrestrial-coordinate-tool :as s.terrestrial-coordinate-tool]
    [astronomy.service.astronomical-point-tool :as s.astronomical-point-tool]
    [astronomy.service.ruler-tool :as s.ruler-tool]
 
-   [astronomy.objects.ecliptic.h :as ecliptic.h]))
+   [astronomy.objects.ecliptic.h :as ecliptic.h]
+   [astronomy.tools.astronomical-coordinate-tool.h :as astronomical-coordinate-tool.h]))
 
 
 (def processes
@@ -71,7 +71,7 @@
     :service-fn s.horizon-coordinate/init-service!}
    {:listen [:astronomical-coordinate-tool]
     :process-name "astronomical-coordinate-tool"
-    :handle-event-fn s.astronomical-coordinate-tool/handle-event}
+    :handle-event-fn astronomical-coordinate-tool.h/handle-event}
    {:listen [:terrestrial-coordinate-tool]
     :process-name "terrestrial-coordinate-tool"
     :service-fn s.terrestrial-coordinate-tool/init-service!}

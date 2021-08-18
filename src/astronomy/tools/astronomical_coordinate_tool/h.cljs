@@ -1,8 +1,7 @@
-(ns astronomy.service.astronomical-coordinate-tool
+(ns astronomy.tools.astronomical-coordinate-tool.h
   (:require
-   [astronomy.model.user.astronomical-coordinate-tool :as m.astronomical-coordinate-tool]
-   [astronomy.service.effect :as s.effect :refer [create-effect]]
-   ))
+   [astronomy.tools.astronomical-coordinate-tool.m :as astronomical-coordinate-tool]
+   [astronomy.service.effect :as s.effect :refer [create-effect]]))
 
 
 ;; handle-event version
@@ -30,7 +29,7 @@
 (defmethod handle-event :astronomical-coordinate-tool/change-query-args
   [props {:keys [db]} {:event/keys [detail]}]
   (let [{:keys [tool query-args]} detail]
-    (create-effect :tx (m.astronomical-coordinate-tool/update-query-args-tx db tool query-args))))
+    (create-effect :tx (astronomical-coordinate-tool/update-query-args-tx db tool query-args))))
 
 (defmethod handle-event :astronomical-coordinate-tool/change-show-latitude-0
   [_props _env {:event/keys [detail]}]

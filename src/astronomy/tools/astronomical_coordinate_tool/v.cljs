@@ -1,4 +1,4 @@
-(ns astronomy.view.user.astronomical-coordinate-tool
+(ns astronomy.tools.astronomical-coordinate-tool.v
   (:require
    [applied-science.js-interop :as j]
    [cljs.core.async :refer [go >! <! go-loop] :as a]
@@ -8,7 +8,7 @@
    ["@material-ui/core" :as mt]
    [shu.arithmetic.number :as number]
    [astronomy.objects.ecliptic.m :as ecliptic.m]
-   [astronomy.model.user.astronomical-coordinate-tool :as m.astronomical-coordinate-tool]))
+   [astronomy.tools.astronomical-coordinate-tool.m :as astronomical-coordinate-tool]))
 
 
 
@@ -24,7 +24,7 @@
 (defn AstronomicalCoordinateToolView [{:keys [astro-scene] :as props} {:keys [service-chan conn]}]
   (let [tool @(p/pull conn '[*] (get-in props [:tool :db/id]))
         {:astronomical-coordinate-tool/keys [query-args]} tool
-        query-args-candidates (m.astronomical-coordinate-tool/sub-query-args-candidates conn tool)
+        query-args-candidates (astronomical-coordinate-tool/sub-query-args-candidates conn tool)
         eclipic-1 (ecliptic.m/sub-unique-one conn)]
     [:div {:class "astronomy-righthand"}
      [:div {:class "astronomy-righthand-tool"}
@@ -175,7 +175,7 @@
                                    :width "200px"})
                   :value (number/log 10 radius)
                   :onChange (fn [e value]
-                              (go (>! service-chan #:event {:action :astronomical-coordinate-tool/change-radius
+                            (go (>! service-chan #:event {:action :astronomical-coordinate-tool/change-radius
                                                             :detail {:astronomical-coordinate astronomical-coordinate
                                                                      :radius (number/pow 10 value)}})))
                   :step 0.1 :min -3 :max 8 :marks true

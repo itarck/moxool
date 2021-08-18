@@ -13,9 +13,6 @@
    [astronomy.view.terrestrial-coordinate :as v.terrestrial-coordinate]
    [astronomy.view.horizon-coordinate :as v.horizon-coordinate]
 
-   [astronomy.objects.ecliptic.v :as ecliptic.v]
-   [astronomy.objects.astronomical-coordinate.v :as astronomical-coordinate.v]
-   
    [astronomy.view.user.universe-tool :as v.universe-tool]
    [astronomy.view.user.clock-tool :as v.clock-tool]
    [astronomy.view.user.spaceship-camera-control :as v.spaceship]
@@ -25,10 +22,15 @@
    [astronomy.view.user.constellation-tool :as v.constellation-tool]
    [astronomy.view.user.atmosphere-tool :as v.atmosphere-tool]
    [astronomy.view.user.horizon-coordinate-tool :as v.horizon-coordinate-tool]
-   [astronomy.view.user.astronomical-coordinate-tool :as v.astronomical-coordinate-tool]
    [astronomy.view.user.terrestrial-coordinate-tool :as v.terrestrial-coordinate-tool]
    [astronomy.view.user.astronomical-point-tool :as v.astronomical-point-tool]
    [astronomy.view.user.ruler-tool :as v.ruler-tool]
+
+
+   [astronomy.objects.ecliptic.v :as ecliptic.v]
+   [astronomy.objects.astronomical-coordinate.v :as astronomical-coordinate.v]
+
+   [astronomy.tools.astronomical-coordinate-tool.v :as astronomical-coordinate-tool.v]
    ))
 
 
@@ -54,7 +56,7 @@
    :constellation-tool v.constellation-tool/ConstellationToolView
    :atmosphere-tool v.atmosphere-tool/AtmosphereToolView
    :horizon-coordinate-tool v.horizon-coordinate-tool/HorizonCoordinateToolView
-   :astronomical-coordinate-tool v.astronomical-coordinate-tool/AstronomicalCoordinateToolView
+   :astronomical-coordinate-tool astronomical-coordinate-tool.v/AstronomicalCoordinateToolView
    :terrestrial-coordinate-tool v.terrestrial-coordinate-tool/TerrestrialCoordinateToolView
    :astronomical-point-tool v.astronomical-point-tool/AstronomicalPointToolView
    :ruler-tool v.ruler-tool/RulerToolView})

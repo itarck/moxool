@@ -4,7 +4,7 @@
    [posh.reagent :as p]
    [astronomy.service.effect :as s.effect]
    [astronomy.scripts.test-conn :as test-conn]
-   [astronomy.service.astronomical-coordinate-tool :as s.act]))
+   [astronomy.tools.astronomical-coordinate-tool.h :as act.h]))
 
 
 ;; env
@@ -20,7 +20,7 @@
 
 ;; test fn
 
-(def handle-event s.act/handle-event)
+(def handle-event act.h/handle-event)
 
 (def handle-event! (s.effect/wrap-handle-event! handle-event))
 
