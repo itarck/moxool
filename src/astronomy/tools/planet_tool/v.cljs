@@ -96,5 +96,18 @@
                                                                  :show? show?}}))))}]
           [:span "是"]]
 
+         
+         [:> mt/Typography {:variant "subtitle1"} "位置跟踪："
+          [:span "否"]
+          [:> mt/Switch
+           {:color "default"
+            :size "small"
+            :checked (or (get-in target [:planet/track-position?]) false)
+            :onChange (fn [event]
+                        (let [value (j/get-in event [:target :checked])]
+                          (go (>! service-chan #:event {:action :planet/change-track-position
+                                                        :detail {:planet target
+                                                                 :track-position? value}}))))}]
+          [:span "是"]]
 ;; 
          ]]]]]))
