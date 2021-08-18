@@ -63,6 +63,11 @@
                                   (v3/from-seq [(* 0.7 size) 0 0])]
                          :color "red"}]])
 
+(defn PlanetPositionLogView [{:keys [planet]}]
+  [v.geo/LineComponent {:points (mapv (fn [p] (v3/from-seq p)) (:planet/position-log planet))
+                        :color "white"}])
+
+
 (defn PlanetView [{:keys [planet astro-scene] :as props} {:keys [conn service-chan] :as env}]
   (let [planet @(p/pull conn '[{:satellite/_planet [:db/id]
                                 :celestial/orbit [*]
@@ -76,7 +81,7 @@
 
     [:<>
      [:mesh {:position position}
-      
+
       (when (:planet/show-name? planet)
         [:> Html
          [:p {:style {:margin-top "5px"
@@ -111,4 +116,8 @@
                                      :astro-scene astro-scene} env])]]
 
      (when (:orbit/show? orbit) [PlanetOrbitView {:orbit orbit} env])
-     (when (:orbit/show? orbit) [PlanetPositionLineView {:planet planet} env])]))
+     (when (:orbit/show? orbit) [PlanetPositionLineView {:planet planet} env])
+
+     #_(when (:planet/track-position? planet)
+       [PlanetPositionLogView {:planet planet}])
+     ]))

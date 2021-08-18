@@ -5,7 +5,7 @@
    [shu.three.spherical :as sph]
    [shu.three.quaternion :as q]
    [posh.reagent :as p]
-   [astronomy.model.celestial :as m.celestial]))
+   [astronomy.model.coordinate :as m.coordinate]))
 
 ;; 包含ns: planet
 
@@ -73,6 +73,10 @@
     (mapv + (:object/position planet-1)
           (get-in planet-1 [:planet/star :object/position]))))
 
+(defn cal-position-in-coordinate [db planet coordinate]
+  (let [world-position (cal-world-position db planet)
+        local-position (m.coordinate/from-system-vector coordinate world-position)]
+    local-position))
 
 ;; sub
 
@@ -88,6 +92,14 @@
   (let [ids (d/q query-all-ids db)]
     (mapv (fn [id] {:db/id id
                     :planet/position (cal-world-position db {:db/id id})})
+          ids)))
+
+(defn update-all-local-position 
+  "在当前系统坐标系下的位置"
+  [db coordinate]
+  (let [ids (d/q query-all-ids db)]
+    (mapv (fn [id] {:db/id id
+                    :planet/position (cal-position-in-coordinate db {:db/id id} coordinate)})
           ids)))
 
 (defn update-all-position-logs [db]
