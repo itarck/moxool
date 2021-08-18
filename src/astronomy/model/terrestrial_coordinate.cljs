@@ -6,7 +6,7 @@
    [shu.three.quaternion :as q]
    [shu.three.vector3 :as v3]
    [shu.geometry.angle :as shu.angle]
-   [astronomy.model.planet :as m.planet]
+   [astronomy.objects.planet.m :as m.planet]
    [astronomy.model.satellite :as m.satellite]))
 
 

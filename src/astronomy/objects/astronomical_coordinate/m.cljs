@@ -4,7 +4,7 @@
    [datascript.core :as d]
    [posh.reagent :as p]
    [astronomy.model.const :as m.const]
-   [astronomy.model.planet :as m.planet]
+   [astronomy.objects.planet.m :as m.planet]
    [astronomy.model.satellite :as m.satellite]))
 
 

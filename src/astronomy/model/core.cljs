@@ -7,7 +7,6 @@
    [astronomy.model.circle-orbit :as m.circle-orbit]
    [astronomy.model.clock :as m.clock]
    [astronomy.model.galaxy :as m.galaxy]
-   [astronomy.model.planet :as m.planet]
    [astronomy.model.satellite :as m.satellite]
    [astronomy.model.spin :as m.spin]
    [astronomy.model.star :as m.star]
@@ -18,8 +17,6 @@
    [astronomy.model.horizon-coordinate :as m.horizon-coordinate]
    [astronomy.model.astronomical-point :as m.astronomical-point]
 
-   [astronomy.objects.astronomical-coordinate.m :as astronomical-coordinate.m]
-   
    [astronomy.model.user.universe-tool :as m.universe-tool]
    [astronomy.model.user.clock-tool :as m.clock-tool]
    [astronomy.model.user.info-tool :as m.info-tool]
@@ -27,9 +24,9 @@
    [astronomy.model.user.goto-celestial-tool :as m.goto-tool]
    [astronomy.model.user.ppt-tool :as m.ppt-tool]
    [astronomy.model.user.ruler-tool :as m.ruler-tool]
-   
-   
-   ))
+
+   [astronomy.objects.planet.m :as planet.m]
+   [astronomy.objects.astronomical-coordinate.m :as astronomical-coordinate.m]))
 
 
 (def schema
@@ -39,7 +36,7 @@
    m.circle-orbit/schema
    m.clock/schema
    m.galaxy/schema
-   m.planet/schema
+   planet.m/schema
    m.satellite/schema
    m.spin/schema
    m.star/schema

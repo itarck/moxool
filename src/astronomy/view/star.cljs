@@ -10,7 +10,7 @@
    [astronomy.model.star :as m.star]
    [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.model.constellation :as m.constel]
-   [astronomy.view.planet :as v.planet]))
+   [astronomy.objects.planet.v :as planet.v]))
 
 
 (def sample1
@@ -72,7 +72,7 @@
      [:<>
       (for [planet (:planet/_star star)]
         ^{:key (:db/id planet)}
-        [v.planet/PlanetView {:planet planet
+        [planet.v/PlanetView {:planet planet
                               :astro-scene astro-scene} env])]]))
 
 

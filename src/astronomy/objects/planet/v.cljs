@@ -1,4 +1,4 @@
-(ns astronomy.view.planet
+(ns astronomy.objects.planet.v
   (:require
    [applied-science.js-interop :as j]
    [cljs.core.async :refer [go >! <!]]
@@ -40,7 +40,7 @@
     [v.geo/LineComponent {:points [(v3/from-seq [0 0 0])
                                    (v3/from-seq (map #(* 1.003 %) (:object/position planet)))]
                           :color color}]))
-  
+
 
 (defn PlanetOrbitView [{:keys [orbit]} env]
   (cond
@@ -50,8 +50,8 @@
 
     :else
     [v.geo/CircleComponent {:center [0 0 0]
-                            :radius (:circle-orbit/radius orbit) 
-                            :axis (:circle-orbit/axis orbit) 
+                            :radius (:circle-orbit/radius orbit)
+                            :axis (:circle-orbit/axis orbit)
                             :color (:orbit/color orbit)
                             :circle-points (* 360 20)}]))
 
@@ -76,7 +76,7 @@
 
     [:<>
      [:mesh {:position position}
-      [:> Html 
+      [:> Html
        [:p {:style {:margin-top "5px"
                     :margin-left "5px"
                     :color "#777"}}
@@ -109,6 +109,4 @@
                                      :astro-scene astro-scene} env])]]
 
      (when (:orbit/show? orbit) [PlanetOrbitView {:orbit orbit} env])
-     (when (:orbit/show? orbit) [PlanetPositionLineView {:planet planet} env])
-
-     ]))
+     (when (:orbit/show? orbit) [PlanetPositionLineView {:planet planet} env])]))

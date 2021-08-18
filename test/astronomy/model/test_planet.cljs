@@ -3,8 +3,7 @@
    [cljs.test :refer-macros [deftest is testing run-tests]]
    [astronomy.conn.core :refer [create-basic-conn!]]
    [astronomy.data.celestial :as d.celestial]
-   [posh.reagent :as p]
-   [astronomy.model.planet :as m.planet]))
+   [posh.reagent :as p]))
 
 
 (def planet-1

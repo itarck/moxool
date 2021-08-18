@@ -9,7 +9,7 @@
    [shu.three.matrix4 :as mat4]
    [shu.astronomy.celestial-coordinate :as shu.cc]
    [methodology.model.object :as m.object]
-   [astronomy.model.planet :as m.planet]
+   [astronomy.objects.planet.m :as m.planet]
    [astronomy.model.satellite :as m.satellite]))
 
 

@@ -4,8 +4,8 @@
    [shu.geometry.angle :as shu.angle]
    [astronomy.model.const :as m.const :refer [ecliptic-axis ecliptic-quaternion lunar-axis-j2000]]
    [astronomy.model.ellipse-orbit :as m.ellipse-orbit]
-   [astronomy.model.planet :as m.planet]
-   [astronomy.model.spin :as m.spin]))
+   [astronomy.model.spin :as m.spin]
+   [astronomy.objects.planet.m :as planet.m]))
 
 
 (def sun
@@ -84,7 +84,7 @@
                       :radius 350
                       :color "gold"
                       :show? true
-                      :start-position (m.planet/random-position 350 ecliptic-axis)
+                      :start-position (planet.m/random-position 350 ecliptic-axis)
                       :axis ecliptic-axis
                       :period 224.7
                       :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 224.7)}
@@ -245,7 +245,7 @@
                     :radius 760.3147908
                     :color "red"
                     :show? true
-                    :start-position (m.planet/random-position 760.3147908 ecliptic-axis)
+                    :start-position (planet.m/random-position 760.3147908 ecliptic-axis)
                     :axis ecliptic-axis
                     :period 686.93
                     :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 686.93)}
@@ -268,7 +268,7 @@
     :color "green"
     :planet [:planet/name "mars"]
     :celestial/radius 0.000037
-    :celestial/orbit #:circle-orbit {:start-position (m.planet/random-position 0.031267 mars-spin-axis)
+    :celestial/orbit #:circle-orbit {:start-position (planet.m/random-position 0.031267 mars-spin-axis)
                                      :radius 0.031267
                                      :axis mars-spin-axis
                                      :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 0.319)
@@ -298,7 +298,7 @@
     :color "green"
     :planet [:planet/name "mars"]
     :celestial/radius 0.0000207
-    :celestial/orbit #:circle-orbit {:start-position (m.planet/random-position 0.078200 mars-spin-axis)
+    :celestial/orbit #:circle-orbit {:start-position (planet.m/random-position 0.078200 mars-spin-axis)
                                      :radius 0.078200
                                      :axis mars-spin-axis
                                      :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 1.262)
@@ -351,7 +351,7 @@
                       :color "gray"
                       :show? true
                       :radius 1380.955354
-                      :start-position (m.planet/random-position 1380.955354 ceres-orbit-axis)
+                      :start-position (planet.m/random-position 1380.955354 ceres-orbit-axis)
                       :axis ceres-orbit-axis
                       :period 1681.63
                       :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 1681.63)}
@@ -421,7 +421,7 @@
                     :color "BurlyWood"
                     :show? true
                     :radius 2596.503011
-                    :start-position (m.planet/random-position 2596.503011 ecliptic-axis)
+                    :start-position (planet.m/random-position 2596.503011 ecliptic-axis)
                     :axis ecliptic-axis
                     :period (* 11.856 365)
                     :angular-velocity (shu.angle/period-to-angular-velocity-in-radians (* 11.856 365))}
@@ -445,7 +445,7 @@
     :color "green"
     :planet [:planet/name "jupiter"]
     :celestial/radius 0.006100
-    :celestial/orbit #:circle-orbit {:start-position (m.planet/random-position 1.405666667 jupiter-spin-axis)
+    :celestial/orbit #:circle-orbit {:start-position (planet.m/random-position 1.405666667 jupiter-spin-axis)
                                      :radius 1.405666667
                                      :axis jupiter-spin-axis
                                      :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 1.769137786)
@@ -474,7 +474,7 @@
     :color "green"
     :planet [:planet/name "jupiter"]
     :celestial/radius 0.005203
-    :celestial/orbit #:circle-orbit {:start-position (m.planet/random-position 2.236780 jupiter-spin-axis)
+    :celestial/orbit #:circle-orbit {:start-position (planet.m/random-position 2.236780 jupiter-spin-axis)
                                      :radius 2.236780
                                      :axis jupiter-spin-axis
                                      :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 3.551181041)
@@ -503,7 +503,7 @@
     :color "green"
     :planet [:planet/name "jupiter"]
     :celestial/radius 0.008771
-    :celestial/orbit #:circle-orbit {:start-position (m.planet/random-position 3.568040 jupiter-spin-axis)
+    :celestial/orbit #:circle-orbit {:start-position (planet.m/random-position 3.568040 jupiter-spin-axis)
                                      :radius 3.568040
                                      :axis jupiter-spin-axis
                                      :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 7.15455296)
@@ -531,7 +531,7 @@
     :color "green"
     :planet [:planet/name "jupiter"]
     :celestial/radius 0.008034
-    :celestial/orbit #:circle-orbit {:start-position (m.planet/random-position 6.275697 jupiter-spin-axis)
+    :celestial/orbit #:circle-orbit {:start-position (planet.m/random-position 6.275697 jupiter-spin-axis)
                                      :radius 6.275697
                                      :axis jupiter-spin-axis
                                      :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 16.6890184)
@@ -563,7 +563,7 @@
     :celestial/radius 0.200893333
     :celestial/radius-string "9.45 地球半径"
     :celestial/orbit #:circle-orbit {:star [:star/name "sun"]
-                                     :start-position (m.planet/random-position 4750 ecliptic-axis)
+                                     :start-position (planet.m/random-position 4750 ecliptic-axis)
                                      :axis (vec ecliptic-axis)
                                      :angular-velocity (shu.angle/period-to-angular-velocity-in-radians (* 29.448 365))
                                      :radius 4750
@@ -593,7 +593,7 @@
     :color "green"
     :planet [:planet/name "saturn"]
     :celestial/radius 0.008587
-    :celestial/orbit #:circle-orbit {:start-position (m.planet/random-position 4.072900 saturn-spin-axis)
+    :celestial/orbit #:circle-orbit {:start-position (planet.m/random-position 4.072900 saturn-spin-axis)
                                      :radius 4.072900
                                      :axis saturn-spin-axis
                                      :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 15.945)
@@ -623,7 +623,7 @@
     :celestial/radius 0.085196667
     :celestial/radius-string "4.01 地球半径"
     :celestial/orbit #:circle-orbit {:star [:star/name "sun"]
-                                     :start-position (m.planet/random-position 9569.907333 m.const/ecliptic-axis)
+                                     :start-position (planet.m/random-position 9569.907333 m.const/ecliptic-axis)
                                      :radius 9569.907333
                                      :axis (vec ecliptic-axis)
                                      :angular-velocity (shu.angle/period-to-angular-velocity-in-radians (* 84.02 365))
@@ -657,7 +657,7 @@
     :celestial/radius-string "3.88 地球半径"
     :celestial/orbit #:circle-orbit {:star [:star/name "sun"]
                                      :radius 14994.17633
-                                     :start-position (m.planet/random-position 14994.17633 ecliptic-axis)
+                                     :start-position (planet.m/random-position 14994.17633 ecliptic-axis)
                                      :axis (vec ecliptic-axis)
                                      :angular-velocity (shu.angle/period-to-angular-velocity-in-radians (* 164.79 365))
 
@@ -690,7 +690,7 @@
     :color "green"
     :planet [:planet/name "neptune"]
     :celestial/radius 0.004511
-    :celestial/orbit #:circle-orbit {:start-position (m.planet/random-position 1.182530 triton-orbit-axis)
+    :celestial/orbit #:circle-orbit {:start-position (planet.m/random-position 1.182530 triton-orbit-axis)
                                      :radius 1.182530
                                      :axis triton-orbit-axis
                                      :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 5.876854)
@@ -738,7 +738,7 @@
     #_#:circle-orbit {:star [:star/name "sun"]
                     :color "gray"
                     :radius 19687.93333
-                    :start-position (m.planet/random-position 19687.93333 ecliptic-axis)
+                    :start-position (planet.m/random-position 19687.93333 ecliptic-axis)
                     :axis ecliptic-axis
                     :period (* 247.92 365)
                     :angular-velocity (shu.angle/period-to-angular-velocity-in-radians (* 247.92 365))}
@@ -762,7 +762,7 @@
     :color "white"
     :planet [:planet/name "pluto"]
     :celestial/radius 0.002020
-    :celestial/orbit #:circle-orbit {:start-position (m.planet/random-position 0.065237 pluto-spin-axis)
+    :celestial/orbit #:circle-orbit {:start-position (planet.m/random-position 0.065237 pluto-spin-axis)
                                      :radius 0.065237
                                      :axis pluto-spin-axis
                                      :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 6.387230)

@@ -1,7 +1,6 @@
-(ns astronomy.model.planet
+(ns astronomy.objects.planet.m
   (:require
    [datascript.core :as d]
-   [shu.goog.math :as gmath]
    [shu.three.vector3 :as v3]
    [shu.three.spherical :as sph]
    [shu.three.quaternion :as q]
@@ -34,7 +33,7 @@
     :celestial/gltf #:gltf {:url "models/11-tierra/scene.gltf"
                             :scale [0.2 0.2 0.2]}
     :celestial/clock [:clock/name "default"]
-    
+
     :object/scene [:scene/name "solar"]
     :object/position [0 0 100]
     :object/quaternion [0 0 0 1]
@@ -67,13 +66,3 @@
     (mapv + (:object/position planet)
           (:object/position star))))
 
-
-(comment
-  
-  (def ecliptic-axis
-    (let [ang 23.4]
-      [(- (Math/sin (gmath/to-radians ang)))
-       (Math/cos (gmath/to-radians ang))
-       0]))
-  
-  (random-position 100 ecliptic-axis))
