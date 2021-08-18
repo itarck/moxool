@@ -40,7 +40,7 @@
 
 (def ppt-tool
   #:ppt-tool {:query-type :ppt-by-name
-              :query-args ["19.月球的轨道形状"]
+              :query-args ["22.地理坐标"]
               :ppts [#:ppt{:pages [#:ppt-page{:image-url "/slides/1.universe-distance/Slide1.jpeg"}
                                    #:ppt-page{:image-url "/slides/1.universe-distance/Slide2.jpeg"}
                                    #:ppt-page{:image-url "/slides/1.universe-distance/Slide3.jpeg"}
@@ -134,6 +134,11 @@
                                     #:ppt-page{:image-url "/slides/19.moon-orbit/Slide3.jpeg"}
                                     #:ppt-page{:image-url "/slides/19.moon-orbit/Slide4.jpeg"}]
                             :chinese-name "19.月球的轨道形状"
+                            :current-page 0}
+                     #:ppt {:pages [#:ppt-page{:image-url "/slides/22.geography/Slide1.jpeg"}
+                                    #:ppt-page{:image-url "/slides/22.geography/Slide2.jpeg"}
+                                    #:ppt-page{:image-url "/slides/22.geography/Slide3.jpeg"}]
+                            :chinese-name "22.地理坐标"
                             :current-page 0}]
               :tool/name "ppt tool"
               :tool/chinese-name "脚本"
