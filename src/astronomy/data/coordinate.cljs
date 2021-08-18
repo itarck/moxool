@@ -17,7 +17,7 @@
                                    :show-longitude? true
                                    :show-latitude-0? false
                                    :show-ecliptic? true
-                                   :show-lunar-orbit? true
+                                   :show-lunar-orbit? false
                                    :center-candidates [{:db/id [:planet/name "earth"]}
                                                        {:db/id [:planet/name "sun"]}]
                                    :center-object [:planet/name "earth"]
@@ -46,23 +46,25 @@
 
 
 (def terrestrial-coordinate-1
-  #:terrestrial-coordinate {:db/id -1003
-                            :entity/type :terrestrial-coordinate
-                            :object/position [0 0 0]
-                            :object/quaternion [0 0 0 1]
-                            :object/scene [:scene/name "solar"]
-                            :coordinate/name "地球坐标系"
-                            :coordinate/type :terrestrial-coordinate
+  (merge {:db/id -1003
+          :entity/type :terrestrial-coordinate
+          :object/position [0 0 0]
+          :object/quaternion [0 0 0 1]
+          :object/scene [:scene/name "solar"]
+          :coordinate/name "地球坐标系"
+          :coordinate/type :terrestrial-coordinate
 
-                            :astro-scene/_coordinate [:scene/name "solar"]
+          :astro-scene/_coordinate [:scene/name "solar"]}
+         #:terrestrial-coordinate{:longitude-0-offset -77.444
+                                  :radius 0.0215
+                                  :show-latitude? false
+                                  :show-longitude? false
+                                  :show-latitude-0? false
+                                  :show-longitude-0? false
+                                  :center-object [:planet/name "earth"]
+                                  :default-color "#172E83"
+                                  :highlight-color "#6989FE"}))
 
-                            :terrestrial-coordinate/longitude-0-offset -77.444
-                            :terrestrial-coordinate/radius 0.0215
-                            :terrestrial-coordinate/show-latitude? false
-                            :terrestrial-coordinate/show-longitude? false
-                            :terrestrial-coordinate/show-latitude-0? false
-                            :terrestrial-coordinate/show-longitude-0? false
-                            :terrestrial-coordinate/center-object [:planet/name "earth"]})
 
 (def horizon-coordinate-1
   #:horizon-coordinate{:db/id -1004
@@ -73,10 +75,10 @@
                        :longitude-0-offset -77.64
                        :longitude 30.910060054274055
                        :latitude 29.878937704799164
-                       :show-latitude? true
-                       :show-longitude? true
+                       :show-latitude? false
+                       :show-longitude? false
                        :show-horizontal-plane? false
-                       :show-compass? true
+                       :show-compass? false
                        :coordinate/name "埃及地平坐标系"
                        :coordinate/type :horizon-coordinate
 

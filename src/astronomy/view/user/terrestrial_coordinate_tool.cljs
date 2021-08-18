@@ -144,7 +144,7 @@
                               (go (>! service-chan #:event {:action :terrestrial-coordinate-tool/change-radius
                                                             :detail {:terrestrial-coordinate terrestrial-coordinate
                                                                      :radius (number/pow 10 value)}})))
-                  :step 0.1 :min -3 :max 5 :marks true
+                  :step 0.02 :min -3 :max 5 :marks true
                   :getAriaValueText #(number/pow 10 %)
                   :valueLabelFormat (fn [n] (radius-format (number/pow 10 n))) 
                   :aria-labelledby "discrete-slider-restrict"
