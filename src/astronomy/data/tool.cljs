@@ -224,7 +224,14 @@
    :entity/type :ruler-tool
    :tool/type :ruler-tool})
 
+(def planet-tool-1
+  #:planet-tool {:tool/name "planet-tool"
+                 :tool/chinese-name "行星"
+                 :tool/icon "/image/moxool/goto.jpg"
+                 :tool/target {:planet/name "earth"}
+                 :entity/type :planet-tool})
+
 (def dataset1 [universe-tool-1 clock-tool1 info-tool
                ppt-tool goto-tool-1 constellation-tool-1 atmosphere-tool-1
                horizon-coordinate-tool astronomical-coordinate-tool terrestrial-coordinate-tool-1
-               apt-tool-1 ruler-tool-1])
+               apt-tool-1 ruler-tool-1 planet-tool-1])

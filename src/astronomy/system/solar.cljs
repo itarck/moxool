@@ -29,8 +29,9 @@
 
    [astronomy.objects.ecliptic.v :as ecliptic.v]
    [astronomy.objects.astronomical-coordinate.v :as astronomical-coordinate.v]
-
+ 
    [astronomy.tools.astronomical-coordinate-tool.v :as astronomical-coordinate-tool.v]
+   [astronomy.tools.planet-tool.v :as planet-tool.v]
    ))
 
 
@@ -59,7 +60,8 @@
    :astronomical-coordinate-tool astronomical-coordinate-tool.v/AstronomicalCoordinateToolView
    :terrestrial-coordinate-tool v.terrestrial-coordinate-tool/TerrestrialCoordinateToolView
    :astronomical-point-tool v.astronomical-point-tool/AstronomicalPointToolView
-   :ruler-tool v.ruler-tool/RulerToolView})
+   :ruler-tool v.ruler-tool/RulerToolView
+   :planet-tool planet-tool.v/PlanetToolView})
 
 
 (def object-libray 
