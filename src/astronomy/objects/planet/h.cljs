@@ -32,7 +32,12 @@
 (defmethod handle-event :planet/update-all-world-position
   [_props {:keys [db]} _event]
   (let [tx (planet/update-all-world-position db)]
-    (effects :tx tx)))
+    (effects :tx tx
+             :event #:event{:action :planet/update-all-position-logs})))
+
+(defmethod handle-event :planet/update-all-position-logs
+  [_props {:keys [db]} _event]
+  (effects :tx (planet/update-all-position-logs db)))
 
 ;; listen
 

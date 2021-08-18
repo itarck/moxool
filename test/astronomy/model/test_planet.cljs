@@ -32,32 +32,18 @@
 
 ;; test model
 
+(def conn1 (d/conn-from-db test-db11))
+
 (def all-ids (d/q planet/query-all-ids test-db3))
 
 all-ids
 ;; => [23 32 36 40 44 48]
 
-(planet/cal-world-position test-db11 {:db/id 23})
+(d/q planet/query-all-ids-with-tracker test-db11)
 
-(planet/update-all-world-position test-db11)
+(d/transact! conn1 (planet/update-all-world-position @conn1))
 
-;; 
+(d/transact! conn1 (planet/update-all-position-logs @conn1))
 
-(def conn
-  (let [conn (create-basic-conn!)]
-    (p/transact! conn d.celestial/dataset1)
-    conn))
-
-
-(def earth
-  @(p/pull conn '[* {:planet/star [*]}]
-           [:planet/name "earth"]))
-
-(:celestial/orbit earth)
-
-(deftest test-planet
-  (is (= (get-in earth [:planet/star :star/name])
-         "sun")))
-
-(run-tests)
+(:planet/position-log (d/pull @conn1 '[*] 32))
 

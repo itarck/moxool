@@ -33,6 +33,8 @@
    {:name "mercury"
     :chinese-name "水星"
     :show-name? true
+    :track-position? true
+    :position-log []
     :star [:star/name "sun"]
     :celestial/radius 0.008132333
     :celestial/radius-string "0.383 地球半径"

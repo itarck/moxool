@@ -46,6 +46,12 @@
   '[:find [?id ...]
     :where [?id :entity/type :planet]])
 
+(def query-all-ids-with-tracker
+  '[:find [?id ...]
+    :where
+    [?id :entity/type :planet]
+    [?id :planet/track-position? true]])
+
 (def query-all-id-and-chinese-name
   '[:find ?id ?chinese-name
     :where
@@ -61,7 +67,6 @@
   (let [v1 (v3/from-spherical (sph/spherical radius (/ Math/PI 2) (* Math/PI 2 (rand))))
         q1 (q/from-unit-vectors (v3/vector3 0 1 0) (v3/from-seq axis))]
     (seq (v3/apply-quaternion v1 q1))))
-
 
 (defn cal-world-position [db planet]
   (let [planet-1 (d/pull db '[:object/position {:planet/star [:object/position]}] (:db/id planet))]
@@ -85,3 +90,10 @@
                     :planet/position (cal-world-position db {:db/id id})})
           ids)))
 
+(defn update-all-position-logs [db]
+  (let [ids (d/q query-all-ids-with-tracker db)]
+    (mapv (fn [id]
+            (let [p (d/pull db '[*] id)]
+              {:db/id id
+               :planet/position-log (conj (:planet/position-log p) (:planet/position p))}))
+          ids)))
