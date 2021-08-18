@@ -5,6 +5,7 @@
    [goog.string :as gstring]
    [posh.reagent :as p]
    ["@material-ui/core" :as mt]
+   [astronomy.objects.planet.m :as planet.m]
    [astronomy.model.celestial :as m.celestial]))
 
 
@@ -12,7 +13,7 @@
   (let [tool @(p/pull conn '[*] (get-in props [:tool :db/id]))
         target @(p/pull conn '[{:celestial/orbit [*]
                                 :celestial/spin [*]} *] (get-in tool [:tool/target :db/id]))
-        candidate-id-and-names (sort-by first @(p/q m.celestial/query-all-id-and-chinese-name conn))]
+        candidate-id-and-names (sort-by first @(p/q planet.m/query-all-id-and-chinese-name conn))]
     [:div {:class "astronomy-righthand"}
      [:div {:class "astronomy-righthand-tool"}
       [:div.p-2

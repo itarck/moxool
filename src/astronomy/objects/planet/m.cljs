@@ -39,7 +39,13 @@
     :object/quaternion [0 0 0 1]
     :entity/type :planet})
 
+;; query
 
+(def query-all-id-and-chinese-name
+  '[:find ?id ?chinese-name
+    :where
+    [?id :entity/type :planet]
+    [?id :entity/chinese-name ?chinese-name]])
 
 ;; model 
 
