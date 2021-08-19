@@ -86,10 +86,11 @@
   (let [planet @(p/pull conn '[{:satellite/_planet [:db/id]
                                 :celestial/orbit [*]
                                 :celestial/spin [*]} *] (:db/id planet))
-        {:object/keys [quaternion]} planet
+        {:object/keys [position quaternion]} planet
         {:celestial/keys [gltf radius spin]} planet
         scaled-radius (* radius (:astro-scene/celestial-scale astro-scene))]
-    [:mesh {:quaternion quaternion}
+    [:mesh {:position position
+            :quaternion quaternion}
      [:mesh {:scale [scaled-radius scaled-radius scaled-radius]
              :onClick (fn [e]
                         (let [pt (j/get-in e [:intersections 0 :point])
