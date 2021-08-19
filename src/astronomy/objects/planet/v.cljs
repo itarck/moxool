@@ -108,33 +108,32 @@
 
 
 (defn update-mesh [conn id mesh]
-  (let [object (p/pull conn '[:object/position :object/quaternion] id)
+  (let [object @(p/pull conn '[:object/quaternion :object/position] id)
         [qx qy qz qw] (:object/quaternion object)
         [px py pz] (:object/position object)]
-    (try
-      (doto mesh
-        (j/assoc-in! [:current :quaternion :x] qx)
-        (j/assoc-in! [:current :quaternion :y] qy)
-        (j/assoc-in! [:current :quaternion :z] qz)
-        (j/assoc-in! [:current :quaternion :w] qw)
-        (j/assoc-in! [:current :position :x] px)
-        (j/assoc-in! [:current :position :y] py)
-        (j/assoc-in! [:current :position :z] pz))
-      (catch js/Error e
-        nil))))
+    (doto mesh
+      (j/assoc-in! [:current :quaternion :x] qx)
+      (j/assoc-in! [:current :quaternion :y] qy)
+      (j/assoc-in! [:current :quaternion :z] qz)
+      (j/assoc-in! [:current :quaternion :w] qw)
+      (j/assoc-in! [:current :position :x] px)
+      (j/assoc-in! [:current :position :y] py)
+      (j/assoc-in! [:current :position :z] pz))))
 
 
 (defn AnimatedPlanetCelestialView
-  "只有星球部分，还有问题"
+  "只有星球部分，可用"
   [{:keys [planet astro-scene] :as props} {:keys [conn service-chan] :as env}]
-  (let [planet @(p/pull conn '[{:satellite/_planet [:db/id]
-                                :celestial/orbit [*]
-                                :celestial/spin [*]}
-                               :db/id]
-                        (:db/id planet))
-        {:celestial/keys [gltf radius spin]} planet
+  (let [planet-1 @(p/pull conn '[{:satellite/_planet [:db/id]
+                                  :celestial/orbit [*]
+                                  :celestial/spin [*]}
+                                 :celestial/gltf
+                                 :celestial/radius
+                                 :db/id]
+                          (:db/id planet))
+        {:celestial/keys [gltf radius spin]} planet-1
         scaled-radius (* radius (:astro-scene/celestial-scale astro-scene))]
-    ($ a/AnimatedMeshComponent {:use-frame-fn (partial update-mesh conn (:db/id planet))}
+    ($ a/AnimatedMeshComponent {:use-frame-fn (partial update-mesh conn (:db/id planet-1))}
        (r/as-element [:mesh {:position [0 0 0]
                              :quaternion [0 0 0 1]
                              :scale [scaled-radius scaled-radius scaled-radius]
@@ -151,7 +150,8 @@
                       [v.gltf/GltfView gltf env]]))))
 
 
-(defn PlanetView [{:keys [planet astro-scene] :as props} {:keys [conn] :as env}]
+(defn PlanetView 
+  [{:keys [planet astro-scene] :as props} {:keys [conn] :as env}]
   (let [planet @(p/pull conn '[{:satellite/_planet [:db/id]
                                 :celestial/orbit [*]
                                 :celestial/spin [*]} *] (:db/id planet))
@@ -161,6 +161,9 @@
         satellites (:satellite/_planet planet)]
 
     [:<>
+     (when (and (:object/show? planet) gltf)
+       [PlanetCelestialView props env])
+     
      [:mesh {:position position}
 
       (when show-name?
@@ -169,10 +172,6 @@
                       :margin-left "5px"
                       :color "#777"}}
           chinese-name]])
-
-      (when (and (:object/show? planet) gltf)
-        [PlanetCelestialView props env])
-
 
       [:<>
        (for [satellite satellites]

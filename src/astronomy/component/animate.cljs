@@ -7,11 +7,11 @@
    ["react-three-fiber" :refer [Canvas useFrame extend useThree]]))
 
 
-(defnc AnimatedMeshComponent [{:keys [use-frame-fn position rotation scale children] :as props}]
+(defnc AnimatedMeshComponent [{:keys [use-frame-fn position quaternion scale children] :as props}]
   (let [mesh-ref (useRef)]
     (useFrame #(use-frame-fn mesh-ref))
     ($ "mesh" {:ref mesh-ref
                :position (or position #js [0 0 0])
-               :rotation (or rotation #js [0 0 0 1])
+               :quaternion (or quaternion #js [0 0 0 1])
                :scale (or scale #js [1 1 1])}
        children)))
