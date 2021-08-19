@@ -137,7 +137,13 @@
                             :current-page 0}
                      #:ppt {:pages [#:ppt-page{:image-url "/slides/22.geography/Slide1.jpeg"}
                                     #:ppt-page{:image-url "/slides/22.geography/Slide2.jpeg"}
-                                    #:ppt-page{:image-url "/slides/22.geography/Slide3.jpeg"}]
+                                    #:ppt-page{:image-url "/slides/22.geography/Slide3.jpeg"}
+                                    #:ppt-page{:image-url "/slides/22.geography/Slide4.jpeg"}
+                                    #:ppt-page{:image-url "/slides/22.geography/Slide5.jpeg"}
+                                    #:ppt-page{:image-url "/slides/22.geography/Slide6.jpeg"}
+                                    #:ppt-page{:image-url "/slides/22.geography/Slide7.jpeg"}
+                                    #:ppt-page{:image-url "/slides/22.geography/Slide8.jpeg"}
+                                    #:ppt-page{:image-url "/slides/22.geography/Slide9.jpeg"}]
                             :chinese-name "22.地理坐标"
                             :current-page 0}]
               :tool/name "ppt tool"
