@@ -3,13 +3,16 @@
    [applied-science.js-interop :as j]
    [cljs.core.async :refer [go >! <!]]
    [posh.reagent :as p]
+   [reagent.core :as r]
+   [helix.core :refer [$]]
    ["@react-three/drei" :refer [Html]]
    [shu.three.vector3 :as v3]
    [astronomy.model.ellipse-orbit :as m.ellipse-orbit]
    [methodology.lib.geometry :as v.geo]
    [methodology.view.gltf :as v.gltf]
    [astronomy.view.satellite :as v.satellite]
-   [astronomy.objects.planet.m :as planet]))
+   [astronomy.objects.planet.m :as planet]
+   [astronomy.component.animate :as a]))
 
 
 (def earth
@@ -32,8 +35,6 @@
             :entity/type :planet})
 
 
-
-;; 绑定数据层
 
 (defn PlanetPositionLineView [{:keys [planet]} env]
   (let [color (or (get-in planet [:celestial/orbit :orbit/color])
@@ -106,7 +107,51 @@
        [PlanetSpinPlaneView {:size (* 4 scaled-radius)} env])]))
 
 
-(defn PlanetView [{:keys [planet astro-scene] :as props} {:keys [conn service-chan] :as env}]
+(defn update-mesh [conn id mesh]
+  (let [object (p/pull conn '[:object/position :object/quaternion] id)
+        [qx qy qz qw] (:object/quaternion object)
+        [px py pz] (:object/position object)]
+    (try
+      (doto mesh
+        (j/assoc-in! [:current :quaternion :x] qx)
+        (j/assoc-in! [:current :quaternion :y] qy)
+        (j/assoc-in! [:current :quaternion :z] qz)
+        (j/assoc-in! [:current :quaternion :w] qw)
+        (j/assoc-in! [:current :position :x] px)
+        (j/assoc-in! [:current :position :y] py)
+        (j/assoc-in! [:current :position :z] pz))
+      (catch js/Error e
+        nil))))
+
+
+(defn AnimatedPlanetCelestialView
+  "只有星球部分，还有问题"
+  [{:keys [planet astro-scene] :as props} {:keys [conn service-chan] :as env}]
+  (let [planet @(p/pull conn '[{:satellite/_planet [:db/id]
+                                :celestial/orbit [*]
+                                :celestial/spin [*]}
+                               :db/id]
+                        (:db/id planet))
+        {:celestial/keys [gltf radius spin]} planet
+        scaled-radius (* radius (:astro-scene/celestial-scale astro-scene))]
+    ($ a/AnimatedMeshComponent {:use-frame-fn (partial update-mesh conn (:db/id planet))}
+       (r/as-element [:mesh {:position [0 0 0]
+                             :quaternion [0 0 0 1]
+                             :scale [scaled-radius scaled-radius scaled-radius]
+                             :onClick (fn [e]
+                                        (let [pt (j/get-in e [:intersections 0 :point])
+                                              point (seq (j/call pt :toArray))]
+                                          (println "click-point: " point)
+                                          (go (>! service-chan #:event {:action :user/object-clicked
+                                                                        :detail {:click-point point
+                                                                                 :alt-key (j/get-in e [:altKey])
+                                                                                 :meta-key (j/get-in e [:metaKey])
+                                                                                 :shift-key (j/get-in e [:shiftKey])
+                                                                                 :object planet}}))))}
+                      [v.gltf/GltfView gltf env]]))))
+
+
+(defn PlanetView [{:keys [planet astro-scene] :as props} {:keys [conn] :as env}]
   (let [planet @(p/pull conn '[{:satellite/_planet [:db/id]
                                 :celestial/orbit [*]
                                 :celestial/spin [*]} *] (:db/id planet))
