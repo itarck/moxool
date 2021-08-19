@@ -79,21 +79,46 @@
        [PlanetPositionLogView {:planet {:db/id id}} env])]))
 
 
+(defn PlanetCelestialView 
+  "只有星球部分"
+  [{:keys [planet astro-scene] :as props} {:keys [conn service-chan] :as env}]
+  (let [planet @(p/pull conn '[{:satellite/_planet [:db/id]
+                                :celestial/orbit [*]
+                                :celestial/spin [*]} *] (:db/id planet))
+        {:object/keys [quaternion]} planet
+        {:celestial/keys [gltf radius spin]} planet
+        scaled-radius (* radius (:astro-scene/celestial-scale astro-scene))]
+    [:mesh {:quaternion quaternion}
+     [:mesh {:scale [scaled-radius scaled-radius scaled-radius]
+             :onClick (fn [e]
+                        (let [pt (j/get-in e [:intersections 0 :point])
+                              point (seq (j/call pt :toArray))]
+                          (println "click-point: " point)
+                          (go (>! service-chan #:event {:action :user/object-clicked
+                                                        :detail {:click-point point
+                                                                 :alt-key (j/get-in e [:altKey])
+                                                                 :meta-key (j/get-in e [:metaKey])
+                                                                 :shift-key (j/get-in e [:shiftKey])
+                                                                 :object planet}}))))}
+      [v.gltf/GltfView gltf env]]
+
+     (when (:spin/show-helper? spin)
+       [PlanetSpinPlaneView {:size (* 4 scaled-radius)} env])]))
+
+
 (defn PlanetView [{:keys [planet astro-scene] :as props} {:keys [conn service-chan] :as env}]
   (let [planet @(p/pull conn '[{:satellite/_planet [:db/id]
                                 :celestial/orbit [*]
                                 :celestial/spin [*]} *] (:db/id planet))
-        {:object/keys [position quaternion]} planet
-        {:celestial/keys [gltf orbit radius spin]} planet
+        {:object/keys [position]} planet
+        {:celestial/keys [gltf orbit]} planet
         {:planet/keys [show-name? chinese-name]} planet
-        satellites (:satellite/_planet planet)
-        scaled-radius (* radius (:astro-scene/celestial-scale astro-scene))]
-    ;; (println "planet view: " planet)
+        satellites (:satellite/_planet planet)]
 
     [:<>
      [:mesh {:position position}
 
-      (when (:planet/show-name? planet)
+      (when show-name?
         [:> Html
          [:p {:style {:margin-top "5px"
                       :margin-left "5px"
@@ -101,23 +126,7 @@
           chinese-name]])
 
       (when (and (:object/show? planet) gltf)
-        [:mesh {:quaternion quaternion}
-         [:mesh {:scale [scaled-radius scaled-radius scaled-radius]
-                 :onClick (fn [e]
-                            (let [pt (j/get-in e [:intersections 0 :point])
-                                  point (seq (j/call pt :toArray))]
-                              (println "click-point: " point)
-                              (go (>! service-chan #:event {:action :user/object-clicked
-                                                            :detail {:click-point point
-                                                                     :alt-key (j/get-in e [:altKey])
-                                                                     :meta-key (j/get-in e [:metaKey])
-                                                                     :shift-key (j/get-in e [:shiftKey])
-                                                                     :object planet}}))))}
-          [v.gltf/GltfView gltf env]]
-
-         #_[:PolarGridHelper {:args [5 8 5 64 "deepskyblue" "deepskyblue"]}]
-         (when (:spin/show-helper? spin)
-           [PlanetSpinPlaneView {:size (* 4 scaled-radius)} env])])
+        [PlanetCelestialView props env])
 
 
       [:<>
