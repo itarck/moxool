@@ -58,6 +58,18 @@
   (let [atmosphere (m.atmosphere/sub-unique-one conn)]
     (m.atmosphere/sub-has-day-light? conn atmosphere)))
 
+(defn sub-scene-center-entity [conn scene]
+  (let [scene-1 @(p/pull conn '[{:astro-scene/coordinate [:coordinate/type
+                                                         :astronomical-coordinate/center-object
+                                                         :terrestrial-coordinate/center-object
+                                                         :horizon-coordinate/center-object]}]
+                         (:db/id scene))
+        coordinate-1 (:astro-scene/coordinate scene-1)]
+    (case (get-in coordinate-1 [:coordinate/type])
+      :horizon-coordinate (get-in coordinate-1 [:horizon-coordinate/center-object])
+      :terrestrial-coordinate (get-in coordinate-1 [:terrestrial-coordinate/center-object])
+      :astronomical-coordinate (get-in coordinate-1 [:astronomical-coordinate/center-object]))))
+
 ;; 
 
 (def find-center-celestial-id-query

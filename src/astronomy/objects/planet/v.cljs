@@ -7,6 +7,7 @@
    [helix.core :refer [$]]
    ["@react-three/drei" :refer [Html]]
    [shu.three.vector3 :as v3]
+   [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.model.ellipse-orbit :as m.ellipse-orbit]
    [methodology.lib.geometry :as v.geo]
    [methodology.view.gltf :as v.gltf]
@@ -156,6 +157,7 @@
   (let [planet @(p/pull conn '[{:satellite/_planet [:db/id]
                                 :celestial/orbit [*]
                                 :celestial/spin [*]} *] (:db/id planet))
+        center-entity (m.astro-scene/sub-scene-center-entity conn astro-scene)
         {:object/keys [position]} planet
         {:celestial/keys [gltf orbit]} planet
         {:planet/keys [show-name? chinese-name]} planet
@@ -163,8 +165,10 @@
 
     [:<>
      (when (and (:object/show? planet) gltf)
-       [PlanetCelestialView props env])
-     
+       (if (= (:db/id planet) (:db/id center-entity))
+         [PlanetCelestialView props env]
+         [AnimatedPlanetCelestialView props env]))
+
      [:mesh {:position position}
 
       (when show-name?
@@ -181,6 +185,4 @@
                                      :astro-scene astro-scene} env])]]
 
      (when (:orbit/show? orbit) [PlanetOrbitView {:orbit orbit} env])
-     (when (:orbit/show? orbit) [PlanetPositionLineView {:planet planet} env])
-
-     ]))
+     (when (:orbit/show? orbit) [PlanetPositionLineView {:planet planet} env])]))
