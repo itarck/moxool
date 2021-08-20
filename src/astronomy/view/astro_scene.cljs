@@ -1,6 +1,7 @@
 (ns astronomy.view.astro-scene
   (:require
    [posh.reagent :as p]
+   [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.model.coordinate :as m.coordinate]
    [astronomy.model.atmosphere :as m.atmosphere]
    [astronomy.view.background :as v.background]
@@ -19,7 +20,9 @@
          objects :object/_scene} astro-scene
         user @(p/pull conn '[*] (get-in props [:user :db/id]))
         atmosphere (m.atmosphere/sub-unique-one conn)
-        invert-matrix (m.coordinate/cal-invert-matrix coordiante)]
+        invert-matrix (m.coordinate/cal-invert-matrix coordiante)
+        ;; has-day-light? (m.astro-scene/sub-has-day-light? conn astro-scene)
+        ]
     ;; (println "astro scene view mounted ?? " invert-matrix)
     [:<>
      [:mesh {:scale [scale scale scale]}
@@ -30,9 +33,10 @@
       [:group {:matrixAutoUpdate false
                :matrix invert-matrix}
 
-       [v.constel/ConstellationsView {:astro-scene astro-scene} env]
-       [v.background/BackgroundView {:astro-scene astro-scene} env]
-       [v.star/StarsSphereView {:astro-scene astro-scene} env]
+       [:<>
+        [v.constel/ConstellationsView {} env]
+        [v.background/BackgroundView {} env]
+        [v.star/StarsSphereView {} env]]
 
        (for [object objects]
          (let [object-view-fn (get object-libray (:entity/type object))]

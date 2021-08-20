@@ -101,10 +101,8 @@
                             :fog              false}))))
 
 
-(defn BackgroundView [{:keys [astro-scene]} {:keys [conn]}]
-  (let [has-day-light? (m.astro-scene/sub-has-day-light? conn astro-scene)]
-    (when has-day-light?
-      [:<>
-       ($ StarsView)
+(defn BackgroundView [_ {:keys [conn]}]
+  [:<>
+   ($ StarsView)
   ;;  ($ StarsView2)
-       #_($ StarsView3)])))
+   #_($ StarsView3)])

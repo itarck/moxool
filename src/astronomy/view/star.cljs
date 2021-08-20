@@ -102,9 +102,6 @@
                             :fog              false}))))
 
 
-(defn StarsSphereView [{:keys [astro-scene]} {:keys [conn]}]
-  (let [stars (m.constel/sub-all-constellation-stars conn)
-        has-day-light? (m.astro-scene/sub-has-day-light? conn astro-scene)]
-    ;; (println "StarsSphereView" has-day-light?)
-    (when-not has-day-light?
-      ($ StarsSphereComponent {:stars stars}))))
+(defn StarsSphereView [_props {:keys [conn]}]
+  (let [stars (m.constel/sub-all-constellation-stars conn)]
+    ($ StarsSphereComponent {:stars stars})))

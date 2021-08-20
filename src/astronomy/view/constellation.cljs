@@ -51,11 +51,9 @@
           [StarLineView star-line constellation-color])])]))
 
 
-(defn ConstellationsView [{:keys [astro-scene] :as props} {:keys [conn] :as env}]
-    (let [has-day-light? (m.astro-scene/sub-has-day-light? conn astro-scene)
-          constellation-ids (m.constel/sub-all-constellation-ids conn)]
-      (when (not has-day-light?)
-        [:<>
-         (for [id constellation-ids]
-           ^{:key id}
-           [ConstellationView {:object {:db/id id}} env])])))
+(defn ConstellationsView [_props {:keys [conn] :as env}]
+    (let [constellation-ids (m.constel/sub-all-constellation-ids conn)]
+      [:<>
+       (for [id constellation-ids]
+         ^{:key id}
+         [ConstellationView {:object {:db/id id}} env])]))
