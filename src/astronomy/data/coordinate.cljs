@@ -11,7 +11,8 @@
           :object/quaternion [0 0 0 1]
           :object/scene [:scene/name "solar"]
           :coordinate/name "赤道天球坐标系"
-          :coordinate/type :astronomical-coordinate}
+          :coordinate/type :astronomical-coordinate
+          :astro-scene/_coordinate [:scene/name "solar"]}
          #:astronomical-coordinate{:radius shu.light/light-year-unit
                                    :show-latitude? true
                                    :show-longitude? true
@@ -52,9 +53,7 @@
           :object/quaternion [0 0 0 1]
           :object/scene [:scene/name "solar"]
           :coordinate/name "地球坐标系"
-          :coordinate/type :terrestrial-coordinate
-
-          :astro-scene/_coordinate [:scene/name "solar"]}
+          :coordinate/type :terrestrial-coordinate}
          #:terrestrial-coordinate{:longitude-0-offset -77.444
                                   :radius 0.0215
                                   :show-latitude? false
@@ -79,7 +78,7 @@
                        :show-longitude? false
                        :show-horizontal-plane? false
                        :show-compass? false
-                       :coordinate/name "埃及地平坐标系"
+                       :coordinate/name "开罗地平坐标系"
                        :coordinate/type :horizon-coordinate
 
                        :object/scene [:scene/name "solar"]})
@@ -88,8 +87,8 @@
 (def horizon-coordinate-2
   #:horizon-coordinate{:entity/type :horizon-coordinate
                        :center-object [:planet/name "earth"]
-                       :center-radius 0.021024
-                       :radius 0.002
+                       :center-radius (* 0.020982 1.0003)
+                       :radius 0.001
                        :longitude-0-offset -77.64
                        :longitude 0
                        :latitude 51.25

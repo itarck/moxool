@@ -165,7 +165,8 @@
 
     [:<>
      (when (and (:object/show? planet) gltf)
-       (if (= (:db/id planet) (:db/id center-entity))
+       [PlanetCelestialView props env]
+       #_(if (= (:db/id planet) (:db/id center-entity))
          [PlanetCelestialView props env]
          [AnimatedPlanetCelestialView props env]))
 
