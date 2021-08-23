@@ -77,7 +77,7 @@
       (and orbit (= (:orbit/type orbit) :ellipse-orbit)) (m.ellipse-orbit/cal-position orbit days)
       (and orbit (= (:orbit/type orbit) :moon-orbit)) (seq (moon-orbit.m/cal-position-vector orbit days))
       orbit (m.circle-orbit/cal-position orbit days)
-      :else [0 0 0])))
+      :else (:object/position celestial))))
 
 (defn cal-position-matrix [celestial days]
   {:pre [(s/assert :astronomy/celestial celestial)]}
@@ -88,7 +88,7 @@
   (let [{:celestial/keys [spin]} celestial]
     (if spin
       (m.spin/cal-quaternion spin days)
-      (q/quaternion))))
+      (:object/quaternion celestial))))
 
 (defn cal-tilt-matrix [celestial days]
   (let [{:celestial/keys [spin]} celestial]
@@ -116,35 +116,21 @@
 
 ;; create transact
 
-(defn update-position-tx [celestial]
-  {:pre [(s/assert :astronomy/celestial celestial)
-         (s/assert :astronomy/clock (:celestial/clock celestial))]}
-  (if (:celestial/orbit celestial)
-    (let [{id :db/id :celestial/keys [orbit]} celestial
-          time-in-days (-> celestial :celestial/clock :clock/time-in-days)
-          position (vec (cal-position celestial time-in-days))]
-      [[:db/add id :object/position position]])
-    []))
-
-(defn update-quaternion-tx [celestial]
-  (if (:celestial/spin celestial)
-    (let [{id :db/id :celestial/keys [spin clock]} celestial
-          {:clock/keys [time-in-days]} clock
-          quaternion (vec (m.spin/cal-quaternion spin time-in-days))]
-      [[:db/add id :object/quaternion quaternion]])
-    []))
-
-(defn update-matrix-tx [celestial]
+(defn update-current-matrix-tx [celestial]
   (let [{:celestial/keys [clock]} celestial
         {:clock/keys [time-in-days]} clock
         matrix (cal-matrix celestial time-in-days)]
     [[:db/add (:db/id celestial) :celestial/matrix (:row-seq matrix)]]))
 
-(defn update-position-and-quaternion-tx [celestial]
+(defn update-current-position-and-quaternion-tx [celestial]
   {:pre [(s/assert :astronomy/celestial celestial)
          (s/assert :astronomy/clock (:celestial/clock celestial))]}
-  (vec (concat (update-position-tx celestial)
-               (update-quaternion-tx celestial))))
+  (let [{id :db/id :celestial/keys [clock]} celestial
+        {:clock/keys [time-in-days]} clock
+        position (cal-position celestial time-in-days)
+        quaternion (cal-quaternion celestial time-in-days)]
+    (concat (if position [[:db/add id :object/position position]] [])
+            (if quaternion [[:db/add id :object/quaternion quaternion]] []))))
 
 
 (defn update-show-orbit-tx [celestial show?]
@@ -155,3 +141,4 @@
 (defn update-show-spin-helper-tx [celestial show?]
   [{:db/id (get-in celestial [:celestial/spin :db/id])
     :spin/show-helper? show?}])
+

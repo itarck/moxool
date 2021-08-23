@@ -96,7 +96,7 @@
 (defn refresh-tx [db1 astro-scene]
   (let [clock-id (get-in astro-scene [:astro-scene/clock :db/id])
         celes (m.celestial/find-all-by-clock db1 clock-id)
-        tx1 (mapcat #(m.celestial/update-position-and-quaternion-tx %) celes)
+        tx1 (mapcat #(m.celestial/update-current-position-and-quaternion-tx %) celes)
         db2 (d/db-with db1 tx1)
         coor-ids (m.coordinate/find-all-ids db2)
         tx2 (mapcat (fn [id] (update-coordinate-tx db2 id)) coor-ids)]
