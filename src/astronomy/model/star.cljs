@@ -66,10 +66,6 @@
 (defn sub-planets [conn star]
   (let [star @(p/pull conn '[* {:planet/_star [*]}] (:db/id star))]
     (:planet/_star star)))
-  
-(defn sub-world-position [conn star-id]
-  (let [star @(p/pull conn '[*] star-id)]
-    (:object/position star)))
 
 
 (defn show-all-planet-orbits-tx [star show?]

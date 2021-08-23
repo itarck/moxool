@@ -62,6 +62,13 @@
        (get-in tc1 [:object/scene :scene/scale])
        1.1)))
 
+(defn cal-current-system-position 
+  "计算当前的系统位置"
+  [db ac]
+  
+  )
+
+
 ;; query
 
 (def query-coordinate-names
@@ -87,8 +94,8 @@
         center-object (:astronomical-coordinate/center-object pulled-one)
         position (case (:entity/type center-object)
                    :star (:object/position center-object)
-                   :planet (m.planet/cal-world-position db center-object)
-                   :satellite (m.satellite/cal-world-position db center-object))]
+                   :planet (m.planet/cal-current-system-position db center-object)
+                   :satellite (m.satellite/cal-current-system-position db center-object))]
     [{:db/id (:db/id pulled-one)
       :object/position position
       :object/quaternion (get-in pulled-one [:astronomical-coordinate/quaternion])}]))

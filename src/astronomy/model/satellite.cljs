@@ -43,7 +43,7 @@
                         :celestial/clock [*]}])
 
 
-(defn cal-world-position [db satellite]
+(defn cal-current-system-position [db satellite]
   (let [planet (d/pull db '[*] (-> satellite :satellite/planet :db/id))
         star (d/pull db '[*] (-> planet :planet/star :db/id))]
     (mapv + (:object/position satellite)
@@ -52,14 +52,6 @@
 
 
 ;; subs
-
-(defn sub-world-position [conn satellite-id]
-  (let [satellite @(p/pull conn '[:object/position :satellite/planet] satellite-id)
-        planet @(p/pull conn '[:object/position :planet/star] (-> satellite :satellite/planet :db/id))
-        star @(p/pull conn '[:object/position] (-> planet :planet/star :db/id))]
-    (mapv + (:object/position satellite)
-          (:object/position planet)
-          (:object/position star))))
 
 
 (defn sub-planet [conn satellite]

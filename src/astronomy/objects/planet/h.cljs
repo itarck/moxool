@@ -38,11 +38,6 @@
              :planet/position-log []}]]
     (effects :tx tx)))
 
-(defmethod handle-event :planet/update-all-world-position
-  [_props {:keys [db]} _event]
-  (let [tx (planet/update-all-world-position db)]
-    (effects :tx tx
-             :event #:event{:action :planet/update-all-position-logs})))
 
 (defmethod handle-event :planet/update-all-local-position
   [{:keys [astro-scene]} {:keys [db]} _event]

@@ -115,8 +115,8 @@
         center-object (:terrestrial-coordinate/center-object pulled-one)
         position (case (:entity/type center-object)
                    :star (:object/position center-object)
-                   :planet (m.planet/cal-world-position db center-object)
-                   :satellite (m.satellite/cal-world-position db center-object))
+                   :planet (m.planet/cal-current-system-position db center-object)
+                   :satellite (m.satellite/cal-current-system-position db center-object))
         center-quaternion (q/from-seq (get-in center-object [:object/quaternion]))
         local-quaternion (cal-local-quaternion pulled-one)]
     [{:db/id (:db/id pulled-one)
