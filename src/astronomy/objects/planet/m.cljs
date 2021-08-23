@@ -78,7 +78,7 @@
     (mapv + (:object/position planet-1)
           (get-in planet-1 [:planet/star :object/position]))))
 
-(defn cal-system-position
+(defn cal-system-position-at-epoch
   "在系统参考系里的位置，如果带时间，就计算指定时间"
   [db planet epoch-days]
   (let [planet-1 (d/pull db '[* {:celestial/orbit [*]
@@ -102,7 +102,7 @@
 
 (defmethod m.celestial/cal-system-position-at-epoch :planet
   [db planet epoch-days]
-  (cal-system-position db planet epoch-days))
+  (cal-system-position-at-epoch db planet epoch-days))
 
 ;; sub
 

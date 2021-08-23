@@ -37,16 +37,12 @@
 
 (deftest test-planet-1
   (let [earth (d/pull test-db11 '[*] [:planet/name "earth"])]
-    (is (= (planet/cal-system-position test-db11 earth 2)
+    (is (= (planet/cal-system-position-at-epoch test-db11 earth 2)
            [439.7765559273832 190.30873698560643 -105.51499959752967]))
-    (is (= (planet/cal-system-position test-db11 earth 0)
+    (is (= (planet/cal-system-position-at-epoch test-db11 earth 0)
            [442.9497885783528 191.68192377598768 -88.40464973856325]))
     (is (= (d/q planet/query-all-ids test-db11)
            [23 32 36 40 44 48]))))
-
-(coordinate.m/cal-coordinate-position test-db11 (planet/cal-system-position test-db11 earth 2) ac-1 0)
-
-(ac.m/cal-invert-matrix test-db11 ac-1 0)
 
 
 (run-tests)
