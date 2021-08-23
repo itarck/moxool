@@ -113,8 +113,15 @@
   (let [ids (d/q query-all-ids-with-tracker db)]
     (mapv (fn [id]
             (let [planet-1 (d/pull db '[*] id)
-                  epoch-days (:clock/time-in-days clock)
-                  position (cal-coordinate-position-at-epoch db planet-1 coordinate epoch-days)]
+                  position-log (:planet/position-log planet-1)
+                  current-epoch-days (:clock/time-in-days clock)
+                  last-epoch-days (first (last position-log))
+                  range-days (if last-epoch-days
+                               (range last-epoch-days current-epoch-days)
+                               [current-epoch-days])
+                  time-and-positions (mapv (fn [epoch]
+                                             [epoch (cal-coordinate-position-at-epoch db planet-1 coordinate epoch)])
+                                           range-days)]
               {:db/id id
-               :planet/position-log (conj (:planet/position-log planet-1) [epoch-days position])}))
+               :planet/position-log (concat (:planet/position-log planet-1) time-and-positions)}))
           ids)))

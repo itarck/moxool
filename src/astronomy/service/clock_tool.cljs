@@ -12,11 +12,13 @@
 
 (defmethod handle-event! :clock-tool/set-time-in-days
   [props {:keys [conn service-chan]} {:event/keys [detail]}]
-  (let [{:keys [clock time-in-days]} detail]
+  (let [{:keys [clock time-in-days]} detail
+        new-clock {:db/id (:db/id clock)
+                   :clock/time-in-days time-in-days}]
     (p/transact! conn (m.clock/set-clock-time-in-days-tx (:db/id clock) time-in-days))
     (go (>! service-chan #:event{:action :astro-scene/refresh}))
     (go (>! service-chan #:event{:action :clock.pub/time-changed
-                                 :detail {:clock clock}}))))
+                                 :detail {:clock new-clock}}))))
 
 
 (defmethod handle-event! :clock-tool/reset
