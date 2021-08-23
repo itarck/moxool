@@ -61,7 +61,9 @@
 
 ;; model 
 
-(defn is-coordinate-center? [planet coordinate]
+(defn is-coordinate-center? 
+  "代码旧了，要改动"
+  [planet coordinate]
   (= (:db/id planet) (get-in coordinate [:coordinate/track-position :db/id])))
 
 (defn random-position [radius axis]
@@ -69,22 +71,37 @@
         q1 (q/from-unit-vectors (v3/vector3 0 1 0) (v3/from-seq axis))]
     (seq (v3/apply-quaternion v1 q1))))
 
-(defn cal-current-system-position [db planet]
+(defn cal-current-system-position
+  "在系统参考系里的位置"
+  [db planet]
   (let [planet-1 (d/pull db '[:object/position {:planet/star [:object/position]}] (:db/id planet))]
     (mapv + (:object/position planet-1)
           (get-in planet-1 [:planet/star :object/position]))))
 
-(defn cal-system-position-at-epoch-days [db planet epoch-days]
+(defn cal-system-position
+  "在系统参考系里的位置，如果带时间，就计算指定时间"
+  [db planet epoch-days]
   (let [planet-1 (d/pull db '[* {:celestial/orbit [*]
                                  :planet/star [:object/position]}] (:db/id planet))
         object-position (m.celestial/cal-position planet-1 epoch-days)
         star-position (get-in planet-1 [:planet/star :object/position])]
     (mapv + object-position star-position)))
 
-(defn cal-position-in-coordinate [db planet coordinate]
+(defn cal-position-in-coordinate
+  [db planet coordinate]
   (let [world-position (cal-current-system-position db planet)
         local-position (m.coordinate/from-system-vector coordinate world-position)]
     local-position))
+
+
+#_(defn cal-coordinate-position
+  "在指定参考系内的位置，给定时间"
+  [db planet coordinate epoch-days]
+  (let [system-position (cal-system-position db planet epoch-days)
+        im (ac.m/cal-invert-matrix db coordinate epoch-days)]
+    (vec (v3/apply-matrix4 system-position im))))
+
+
 
 ;; sub
 

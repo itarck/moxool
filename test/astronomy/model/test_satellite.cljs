@@ -15,9 +15,9 @@
            '(-0.92099222494957 -0.2626882147761619 -1.034279284990182)))
     (is (= (m.satellite/cal-local-position-at-epoch-days test-db11 moon 1)
            '(-1.1051375691915346 -0.3484879007849228 -0.8180533688332752)))
-    (is (= (m.satellite/cal-system-position-at-epoch-days test-db11 moon 0)
+    (is (= (m.satellite/cal-system-position test-db11 moon 0)
            [442.02879635340327 191.41923556121154 -89.43892902355343]))
-    (is (= (m.satellite/cal-system-position-at-epoch-days test-db11 moon 1)
+    (is (= (m.satellite/cal-system-position test-db11 moon 1)
            [440.3267309888779 190.6765700928551 -97.79296943774905]))
     ))
 

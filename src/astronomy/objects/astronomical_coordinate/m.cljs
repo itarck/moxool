@@ -3,6 +3,9 @@
    [cljs.spec.alpha :as s]
    [datascript.core :as d]
    [posh.reagent :as p]
+   [shu.three.matrix4 :as m4]
+   [shu.three.vector3 :as v3]
+   [shu.three.quaternion :as q]
    [astronomy.model.const :as m.const]
    [astronomy.objects.planet.m :as m.planet]
    [astronomy.model.satellite :as m.satellite]))
@@ -75,16 +78,35 @@
     position))
 
 
-(defn cal-system-position-at-epoch-days
+(defn cal-system-position
   [db ac epoch-days]
   (let [pulled-one (d/pull db '[{:astronomical-coordinate/center-object [*]}] (:db/id ac))
         center-object (:astronomical-coordinate/center-object pulled-one)
         position (case (:entity/type center-object)
                    :star (:object/position center-object)
-                   :planet (m.planet/cal-system-position-at-epoch-days db center-object epoch-days)
-                   :satellite (m.satellite/cal-system-position-at-epoch-days db center-object epoch-days))]
+                   :planet (m.planet/cal-system-position db center-object epoch-days)
+                   :satellite (m.satellite/cal-system-position db center-object epoch-days))]
     position))
 
+
+(defn cal-matrix
+  [db ac epoch-days]
+  (let [ac-1 (d/pull db '[*] (:db/id ac))
+        position (cal-system-position db ac epoch-days)
+        quaternion (:astronomical-coordinate/quaternion ac-1)]
+    (m4/compose (v3/from-seq position) (q/from-seq quaternion) (v3/vector3 1 1 1))))
+
+
+(defn cal-invert-matrix
+  [db ac epoch-days]
+  (m4/invert (cal-matrix db ac epoch-days)))
+
+
+(defn convert-to-coordinate-position
+  "在指定参考系内的位置，给定时间"
+  [db ac epoch-days system-position]
+  (let [im (cal-invert-matrix db ac epoch-days)]
+    (vec (v3/apply-matrix4 (v3/from-seq system-position) im))))
 
 ;; query
 

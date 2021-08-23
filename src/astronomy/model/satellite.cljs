@@ -56,12 +56,12 @@
         object-position (m.celestial/cal-position satellite-1 epoch-days)]
     object-position))
 
-(defn cal-system-position-at-epoch-days
+(defn cal-system-position
   "system positon 是对应在系统参考系，也就是 J2000历元的赤道天球"
   [db satellite epoch-days]
   (let [satellite-1 (d/pull db '[* {:celestial/orbit [*]}] (:db/id satellite))
         object-position (m.celestial/cal-position satellite-1 epoch-days)
-        planet-position (planet.m/cal-system-position-at-epoch-days db (:satellite/planet satellite-1) epoch-days)]
+        planet-position (planet.m/cal-system-position db (:satellite/planet satellite-1) epoch-days)]
     (mapv + object-position planet-position)))
 
 ;; subs

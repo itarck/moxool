@@ -1,23 +1,28 @@
 (ns astronomy.model.test-astronomical-coordinate
   (:require
    [cljs.test :refer-macros [deftest is testing run-tests]]
-   [astronomy.scripts.test-conn :refer [create-test-conn!]]
-   [posh.reagent :as p]
-   [methodology.model.object :as m.object]
-   [astronomy.objects.astronomical-coordinate.m :as astro-coor]))
+   [datascript.core :as d]
+   [astronomy.objects.planet.m :as planet]
+   [astronomy.model.satellite :as satellite]
+   [astronomy.objects.astronomical-coordinate.m :as ac.m]
+   [astronomy.scripts.test-conn :refer [test-db3 test-db11]]))
 
 
-(def conn (create-test-conn!))
+
+(def earth {:db/id [:planet/name "earth"]})
+(def moon {:db/id [:satellite/name "moon"]})
+(def ac-1 {:db/id [:coordinate/name "赤道天球坐标系"]})
 
 
 (def astro-coor
-  @(p/pull conn '[*] [:coordinate/name "赤道天球坐标系"]))
+  (d/pull test-db11 '[*] [:coordinate/name "赤道天球坐标系"]))
+
+(ac.m/convert-to-coordinate-position test-db11 ac-1 2 (planet/cal-system-position test-db11 earth 2))
 
 
-(p/transact! conn (astro-coor/update-position-tx @conn astro-coor))
-;; => [{:db/id 24, :object/position [442.9497885783528 191.68192377598768 -88.40464973856325]}]
-
-(def astro-coor2
-  @(p/pull conn '[*] [:coordinate/name "赤道天球坐标系"]))
-
-(m.object/cal-invert-matrix astro-coor2)
+(let [earth {:db/id [:planet/name "earth"]}
+      ac-1 {:db/id [:coordinate/name "赤道天球坐标系"]}
+      epoch-days 5
+      system-position (satellite/cal-system-position test-db11 moon epoch-days)
+      coordinate-position (ac.m/convert-to-coordinate-position test-db11 ac-1 epoch-days system-position)]
+  coordinate-position)

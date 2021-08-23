@@ -23,6 +23,10 @@
                 :clock {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
                 :camera {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}})
 
+
+;; transform 
+
+
 ;; find and pull
 
 (defn pull-one [db scene]
@@ -35,6 +39,8 @@
 (defn pull-scene-camera [db scene]
   (let [scene1 (pull-one db scene)]
     (d/pull db '[*] (get-in scene1 [:astro-scene/camera :db/id]))))
+
+
 
 ;; sub
 
