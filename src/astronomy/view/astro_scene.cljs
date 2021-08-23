@@ -19,14 +19,14 @@
          coordiante :astro-scene/coordinate
          objects :object/_scene} astro-scene
         user @(p/pull conn '[*] (get-in props [:user :db/id]))
-        atmosphere (m.atmosphere/sub-unique-one conn)
+        ;; atmosphere (m.atmosphere/sub-unique-one conn)
         invert-matrix (m.coordinate/cal-invert-matrix coordiante)
         ;; has-day-light? (m.astro-scene/sub-has-day-light? conn astro-scene)
         ]
     ;; (println "astro scene view mounted ?? " invert-matrix)
     [:<>
      [:mesh {:scale [scale scale scale]}
-      [v.atmosphere/AtmosphereView {:object atmosphere} env]
+      ;; [v.atmosphere/AtmosphereView {:object atmosphere} env]
 
       [planet.v/PlanetsHasPositionLogView props env]
 
@@ -34,9 +34,10 @@
                :matrix invert-matrix}
 
        [:<>
-        [v.constel/ConstellationsView {} env]
-        [v.background/BackgroundView {} env]
-        [v.star/StarsSphereView {} env]]
+        ;; [v.constel/ConstellationsView {} env]
+        ;; [v.background/BackgroundView {} env]
+        ;; [v.star/StarsSphereView {} env]
+        ]
 
        (for [object objects]
          (let [object-view-fn (get object-libray (:entity/type object))]

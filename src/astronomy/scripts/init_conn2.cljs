@@ -54,7 +54,7 @@
     (d/transact! conn d.basic/dataset1)
     (d/transact! conn d.celestial/dataset1)
     (d/transact! conn d.celestial/dataset3)
-    ;; (d/transact! conn d.celestial/dataset4)
+    (d/transact! conn d.celestial/dataset4)
     (d/transact! conn d.galaxy/dataset1)
     (d/transact! conn d.coordinate/dataset1)
 
