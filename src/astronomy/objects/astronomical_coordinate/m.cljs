@@ -8,8 +8,6 @@
    [shu.three.quaternion :as q]
    [astronomy.model.coordinate :as m.coordinate]
    [astronomy.model.const :as m.const]
-   [astronomy.objects.planet.m :as m.planet]
-   [astronomy.model.satellite :as m.satellite]
    [astronomy.model.celestial :as m.celestial]))
 
 
@@ -77,21 +75,18 @@
     position))
 
 
-(defn cal-system-position
+(defn cal-origin-position-at-epoch
   [db ac epoch-days]
   (let [pulled-one (d/pull db '[{:astronomical-coordinate/center-object [*]}] (:db/id ac))
         center-object (:astronomical-coordinate/center-object pulled-one)
-        position (case (:entity/type center-object)
-                   :star (:object/position center-object)
-                   :planet (m.planet/cal-system-position db center-object epoch-days)
-                   :satellite (m.satellite/cal-system-position db center-object epoch-days))]
+        position (m.celestial/cal-system-position-at-epoch db center-object epoch-days)]
     position))
 
 
 (defn cal-matrix-at-epoch
   [db ac epoch-days]
   (let [ac-1 (d/pull db '[*] (:db/id ac))
-        position (cal-system-position db ac epoch-days)
+        position (cal-origin-position-at-epoch db ac epoch-days)
         quaternion (:astronomical-coordinate/quaternion ac-1)]
     (m4/compose (v3/from-seq position) (q/from-seq quaternion) (v3/vector3 1 1 1))))
 

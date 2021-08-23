@@ -70,6 +70,12 @@
   [db satellite]
   (cal-system-position-now db satellite))
 
+
+(defmethod m.celestial/cal-system-position-at-epoch :satellite
+  [db satellite epoch-days]
+  (cal-system-position db satellite epoch-days))
+
+
 ;; subs
 
 

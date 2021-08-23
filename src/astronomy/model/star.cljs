@@ -68,6 +68,9 @@
   [_db star]
   (:object/position star))
 
+(defmethod m.celestial/cal-system-position-at-epoch :star
+  [db star epoch-days]
+  (:object/position star))
 
 ;; subs
 

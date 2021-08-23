@@ -100,6 +100,10 @@
   [db planet]
   (cal-system-position-now db planet))
 
+(defmethod m.celestial/cal-system-position-at-epoch :planet
+  [db planet epoch-days]
+  (cal-system-position db planet epoch-days))
+
 ;; sub
 
 

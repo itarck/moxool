@@ -119,6 +119,11 @@
   "当前星体在系统内的位置"
   (fn [_db celes] (:entity/type celes)))
 
+(defmulti cal-system-position-at-epoch
+  "指定 epoch-days， 星体在系统内的位置"
+  (fn [_db celestial _epoch-days] (:entity/type celestial)))
+
+
 ;; create transact
 
 (defn update-current-matrix-tx [celestial]
