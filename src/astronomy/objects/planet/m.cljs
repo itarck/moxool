@@ -93,6 +93,11 @@
         local-position (m.coordinate/from-system-position-now coordinate world-position)]
     local-position))
 
+(defn cal-coordinate-position-at-epoch
+  [db planet coordinate epoch-days]
+  (let [system-position (cal-system-position-at-epoch db planet epoch-days)]
+    (m.coordinate/from-system-position-at-epoch db coordinate epoch-days system-position)))
+
 
 ;; 实现接口
 
@@ -110,7 +115,7 @@
 
 ;; tx
 
-(defn update-all-local-position 
+(defn update-all-local-position
   "在当前系统坐标系下的位置"
   [db coordinate]
   (let [ids (d/q query-all-ids db)]

@@ -3,9 +3,8 @@
    [cljs.test :refer-macros [deftest is testing run-tests]]
    [datascript.core :as d]
    [astronomy.objects.planet.m :as planet]
-   [astronomy.scripts.test-conn :refer [test-db3 test-db11]]
-   [astronomy.objects.astronomical-coordinate.m :as ac.m]
-   [astronomy.model.coordinate :as coordinate.m]))
+   [astronomy.model.coordinate :as coordinate]
+   [astronomy.scripts.test-conn :refer [test-db11]]))
 
 
 (def planet-1
@@ -32,8 +31,9 @@
 ;; test model
 
 (def earth (d/pull test-db11 '[*] [:planet/name "earth"]))
+(def mercury (d/pull test-db11 '[*] [:planet/name "mercury"]))
 
-(def ac-1 {:db/id [:coordinate/name "赤道天球坐标系"]})
+(def ac-1 (d/pull test-db11 '[*] [:coordinate/name "赤道天球坐标系"]))
 
 (deftest test-planet-1
   (let [earth (d/pull test-db11 '[*] [:planet/name "earth"])]
@@ -42,7 +42,11 @@
     (is (= (planet/cal-system-position-at-epoch test-db11 earth 0)
            [442.9497885783528 191.68192377598768 -88.40464973856325]))
     (is (= (d/q planet/query-all-ids test-db11)
-           [23 32 36 40 44 48]))))
+           [23 32 36 40 44 48]))
+    
+    (is (= (planet/cal-coordinate-position-at-epoch test-db11 mercury ac-1 0)
+           [-309.44533427268226 -123.98534769993685 122.15004660287056]))
+    ))
 
 
 (run-tests)
