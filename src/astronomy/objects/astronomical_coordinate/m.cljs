@@ -67,7 +67,7 @@
        1.1)))
 
 
-(defn cal-current-system-position
+(defn cal-origin-position-now
   "计算当前的系统位置"
   [db ac]
   (let [pulled-one (d/pull db '[{:astronomical-coordinate/center-object [*]}] (:db/id ac))
@@ -90,7 +90,7 @@
     position))
 
 
-(defn cal-matrix
+(defn cal-matrix-at-epoch
   [db ac epoch-days]
   (let [ac-1 (d/pull db '[*] (:db/id ac))
         position (cal-system-position db ac epoch-days)
@@ -98,15 +98,21 @@
     (m4/compose (v3/from-seq position) (q/from-seq quaternion) (v3/vector3 1 1 1))))
 
 
-(defn cal-invert-matrix
+(defn cal-invert-matrix-at-epoch
   [db ac epoch-days]
-  (m4/invert (cal-matrix db ac epoch-days)))
+  (m4/invert (cal-matrix-at-epoch db ac epoch-days)))
 
+;; 实现 coordinate的抽象
+
+(defmethod m.coordinate/cal-origin-position-now
+  :astronomical-coordinate
+  [db ac]
+  (cal-origin-position-now db ac))
 
 (defmethod m.coordinate/from-system-position-at-epoch
   :astronomical-coordinate
   [db ac epoch-days system-position]
-  (let [im (cal-invert-matrix db ac epoch-days)]
+  (let [im (cal-invert-matrix-at-epoch db ac epoch-days)]
     (vec (v3/apply-matrix4 (v3/from-seq system-position) im))))
 
 ;; query
@@ -131,7 +137,7 @@
 
 (defn update-position-and-quaternion-tx [db id]
   (let [ac (d/pull db '[*] id)
-        position (cal-current-system-position db ac)]
+        position (cal-origin-position-now db ac)]
     [{:db/id id
       :object/position position
       :object/quaternion (get-in ac [:astronomical-coordinate/quaternion])}]))

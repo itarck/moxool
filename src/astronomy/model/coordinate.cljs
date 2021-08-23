@@ -21,6 +21,10 @@
 
 ;; now
 
+(defmulti cal-origin-position-now
+  "原点在系统坐标内的位置"
+  (fn [_db coor] (:entity/type coor)))
+
 (def cal-origin-matrix-now
   m.object/cal-matrix)
 
@@ -43,11 +47,13 @@
 
 ;; at epoch days
 
+
 (defmulti from-system-position-at-epoch
   "从系统坐标转移到坐标系坐标，坐标系随时间变化"
   (fn [_db coordinate _epoch-days _system-position] (:entity/type coordinate)))
 
 (defmulti to-system-position-at-epoch
+  "坐标系坐标转换到系统坐标，坐标系在随时间变化"
   (fn [_db coordinate _epoch-days _system-position] (:entity/type coordinate)))
 
 
