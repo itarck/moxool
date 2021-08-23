@@ -564,16 +564,28 @@
     :star [:star/name "sun"]
     :celestial/radius 0.200893333
     :celestial/radius-string "9.45 地球半径"
-    :celestial/orbit #:circle-orbit {:star [:star/name "sun"]
-                                     :start-position (planet.m/random-position 4750 ecliptic-axis)
-                                     :axis (vec ecliptic-axis)
-                                     :angular-velocity (shu.angle/period-to-angular-velocity-in-radians (* 29.448 365))
-                                     :radius 4750
+    :celestial/orbit #_#:circle-orbit {:star [:star/name "sun"]
+                                       :start-position (planet.m/random-position 4750 ecliptic-axis)
+                                       :axis (vec ecliptic-axis)
+                                       :angular-velocity (shu.angle/period-to-angular-velocity-in-radians (* 29.448 365))
+                                       :radius 4750
 
-                                     :orbit/type :circle-orbit
-                                     :orbit/color "darkgoldenrod"
-                                     :orbit/period (* 29.448 365)
-                                     :orbit/show? false}
+                                       :orbit/type :circle-orbit
+                                       :orbit/color "darkgoldenrod"
+                                       :orbit/period (* 29.448 365)
+                                       :orbit/show? false}
+    #:ellipse-orbit {:semi-major-axis 4781.472421
+                     :eccentricity 0.055723219
+                     :inclination-in-degree 2.48524
+                     :longitude-of-the-ascending-node-in-degree 113.642811
+                     :argument-of-periapsis-in-degree 336.013862
+                     :mean-anomaly-in-degree 320.346
+                     :angular-velocity-in-degree (m.ellipse-orbit/period-to-angular-velocity-in-degree (* 29.448 365))
+
+                     :orbit/type :ellipse-orbit
+                     :orbit/period (* 29.448 365)
+                     :orbit/color "darkgoldenrod"
+                     :orbit/show? false}
     :celestial/spin #:spin {:axis saturn-spin-axis
                             :period 0.444
                             :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 0.444)}
