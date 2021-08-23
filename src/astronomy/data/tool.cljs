@@ -40,7 +40,7 @@
 
 (def ppt-tool
   #:ppt-tool {:query-type :ppt-by-name
-              :query-args ["22.地理坐标"]
+              :query-args ["23.奇怪的行星轨迹"]
               :ppts [#:ppt{:pages [#:ppt-page{:image-url "/slides/1.universe-distance/Slide1.jpeg"}
                                    #:ppt-page{:image-url "/slides/1.universe-distance/Slide2.jpeg"}
                                    #:ppt-page{:image-url "/slides/1.universe-distance/Slide3.jpeg"}
@@ -145,6 +145,12 @@
                                     #:ppt-page{:image-url "/slides/22.geography/Slide8.jpeg"}
                                     #:ppt-page{:image-url "/slides/22.geography/Slide9.jpeg"}]
                             :chinese-name "22.地理坐标"
+                            :current-page 0}
+                     #:ppt {:pages [#:ppt-page{:image-url "/slides/23.planet-route/Slide1.jpeg"}
+                                    #:ppt-page{:image-url "/slides/23.planet-route/Slide2.jpeg"}
+                                    #:ppt-page{:image-url "/slides/23.planet-route/Slide3.jpeg"}
+                                    #:ppt-page{:image-url "/slides/23.planet-route/Slide4.jpeg"}]
+                            :chinese-name "23.奇怪的行星轨迹"
                             :current-page 0}]
               :tool/name "ppt tool"
               :tool/chinese-name "脚本"

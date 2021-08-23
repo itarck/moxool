@@ -139,8 +139,8 @@
         {:clock/keys [time-in-days]} clock
         position (cal-position celestial time-in-days)
         quaternion (cal-quaternion celestial time-in-days)]
-    (concat (if position [[:db/add id :object/position position]] [])
-            (if quaternion [[:db/add id :object/quaternion quaternion]] []))))
+    (concat (if position [[:db/add id :object/position (seq position)]] [])
+            (if quaternion [[:db/add id :object/quaternion (seq quaternion)]] []))))
 
 
 (defn update-show-orbit-tx [celestial show?]
