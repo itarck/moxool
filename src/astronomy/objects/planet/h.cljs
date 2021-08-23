@@ -39,19 +39,16 @@
     (effects :tx tx)))
 
 
-(defmethod handle-event :planet/update-all-local-position
-  [{:keys [astro-scene]} {:keys [db]} _event]
-  (let [coordinate (m.astro-scene/pull-scene-coordinate db astro-scene)]
-    (effects :tx (planet/update-all-local-position db coordinate)
-             :event #:event{:action :planet/update-all-position-logs})))
-
 
 (defmethod handle-event :planet/update-all-position-logs
-  [_props {:keys [db]} _event]
-  (effects :tx (planet/update-all-position-logs db)))
+  [{:keys [astro-scene]} {:keys [db]} {:event/keys [detail] :as event}]
+  (let [{:keys [clock]} detail
+        coordinate (m.astro-scene/pull-scene-coordinate db astro-scene)]
+    (effects :tx (planet/update-all-position-logs db coordinate clock))))
 
 ;; listen
 
 (defmethod handle-event :clock.pub/time-changed
   [_props _env {:event/keys [detail] :as event}]
-  (effects :event #:event{:action :planet/update-all-local-position}))
+  (effects :event #:event{:action :planet/update-all-position-logs
+                          :detail detail}))

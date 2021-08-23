@@ -69,7 +69,7 @@
 (defn PlanetPositionLogView [{:keys [planet]} {:keys [conn]}]
   (let [planet-1 @(p/pull conn '[*] (:db/id planet))
         color (get-in planet-1 [:celestial/orbit :orbit/color])]
-    [v.geo/LineComponent {:points (mapv (fn [p] (v3/from-seq p)) (:planet/position-log planet-1))
+    [v.geo/LineComponent {:points (mapv (fn [[_epoch-days position]] (v3/from-seq position)) (:planet/position-log planet-1))
                           :color color}]))
 
 
@@ -157,7 +157,7 @@
   (let [planet @(p/pull conn '[{:satellite/_planet [:db/id]
                                 :celestial/orbit [*]
                                 :celestial/spin [*]} *] (:db/id planet))
-        center-entity (m.astro-scene/sub-scene-center-entity conn astro-scene)
+        ;; center-entity (m.astro-scene/sub-scene-center-entity conn astro-scene)
         {:object/keys [position]} planet
         {:celestial/keys [gltf orbit]} planet
         {:planet/keys [show-name? chinese-name]} planet

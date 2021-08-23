@@ -87,11 +87,6 @@
         star-position (get-in planet-1 [:planet/star :object/position])]
     (mapv + object-position star-position)))
 
-(defn cal-position-in-coordinate
-  [db planet coordinate]
-  (let [world-position (cal-system-position-now db planet)
-        local-position (m.coordinate/from-system-position-now coordinate world-position)]
-    local-position))
 
 (defn cal-coordinate-position-at-epoch
   [db planet coordinate epoch-days]
@@ -112,21 +107,14 @@
 ;; sub
 
 
-
 ;; tx
 
-(defn update-all-local-position
-  "在当前系统坐标系下的位置"
-  [db coordinate]
-  (let [ids (d/q query-all-ids db)]
-    (mapv (fn [id] {:db/id id
-                    :planet/position (cal-position-in-coordinate db {:db/id id} coordinate)})
-          ids)))
-
-(defn update-all-position-logs [db]
+(defn update-all-position-logs [db coordinate clock]
   (let [ids (d/q query-all-ids-with-tracker db)]
     (mapv (fn [id]
-            (let [p (d/pull db '[*] id)]
+            (let [planet-1 (d/pull db '[*] id)
+                  epoch-days (:clock/time-in-days clock)
+                  position (cal-coordinate-position-at-epoch db planet-1 coordinate epoch-days)]
               {:db/id id
-               :planet/position-log (conj (:planet/position-log p) (:planet/position p))}))
+               :planet/position-log (conj (:planet/position-log planet-1) [epoch-days position])}))
           ids)))
