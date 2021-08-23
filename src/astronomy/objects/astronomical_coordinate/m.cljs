@@ -6,6 +6,7 @@
    [shu.three.matrix4 :as m4]
    [shu.three.vector3 :as v3]
    [shu.three.quaternion :as q]
+   [astronomy.model.coordinate :as m.coordinate]
    [astronomy.model.const :as m.const]
    [astronomy.objects.planet.m :as m.planet]
    [astronomy.model.satellite :as m.satellite]))
@@ -102,8 +103,8 @@
   (m4/invert (cal-matrix db ac epoch-days)))
 
 
-(defn convert-to-coordinate-position
-  "在指定参考系内的位置，给定时间"
+(defmethod m.coordinate/from-system-position-at-epoch
+  :astronomical-coordinate
   [db ac epoch-days system-position]
   (let [im (cal-invert-matrix db ac epoch-days)]
     (vec (v3/apply-matrix4 (v3/from-seq system-position) im))))

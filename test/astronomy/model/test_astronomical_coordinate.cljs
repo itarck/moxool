@@ -4,25 +4,32 @@
    [datascript.core :as d]
    [astronomy.objects.planet.m :as planet]
    [astronomy.model.satellite :as satellite]
-   [astronomy.objects.astronomical-coordinate.m :as ac.m]
-   [astronomy.scripts.test-conn :refer [test-db3 test-db11]]))
-
+   [astronomy.model.coordinate :as coordinate]
+   [astronomy.scripts.test-conn :refer [test-db11]]))
 
 
 (def earth {:db/id [:planet/name "earth"]})
 (def moon {:db/id [:satellite/name "moon"]})
-(def ac-1 {:db/id [:coordinate/name "赤道天球坐标系"]})
-
 
 (def astro-coor
   (d/pull test-db11 '[*] [:coordinate/name "赤道天球坐标系"]))
 
-(ac.m/convert-to-coordinate-position test-db11 ac-1 2 (planet/cal-system-position test-db11 earth 2))
+
+(deftest test-coordinate-1
+  (is (= (->>
+          (planet/cal-system-position test-db11 earth 2)
+          (coordinate/from-system-position-at-epoch test-db11 astro-coor 2))
+         [0 0 0]))
+  (is (=  (->>
+           (satellite/cal-system-position test-db11 moon 0)
+           (coordinate/from-system-position-at-epoch test-db11 astro-coor 0))
+          [-0.9209922249495435 -0.2626882147761478 -1.034279284990177]))
+
+  (is (= (->>
+          (satellite/cal-system-position test-db11 moon 5)
+          (coordinate/from-system-position-at-epoch test-db11 astro-coor 5))
+         [-1.2932436036575155 -0.5069960718801099 0.29847131548032735])))
 
 
-(let [earth {:db/id [:planet/name "earth"]}
-      ac-1 {:db/id [:coordinate/name "赤道天球坐标系"]}
-      epoch-days 5
-      system-position (satellite/cal-system-position test-db11 moon epoch-days)
-      coordinate-position (ac.m/convert-to-coordinate-position test-db11 ac-1 epoch-days system-position)]
-  coordinate-position)
+
+(run-tests)

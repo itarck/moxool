@@ -134,31 +134,6 @@
 
 
 
-#_(defn AstronomicalPointHudView [{:keys [user astro-scene] :as props} {:keys [conn dom-atom]}]
-  (let [tool @(p/pull conn '[:db/id :tool/current-panel] (get-in props [:tool :db/id]))]
-    (when (= (:tool/current-panel tool) :create-panel)
-      (let [mouse @(p/pull conn '[*] (get-in user [:person/mouse :db/id]))
-            {:mouse/keys [page-x page-y]} mouse]
-        (when-not (or (is-mouse-in-backpack? mouse)
-                      (is-mouse-in-tool-panel? mouse))
-          (let [mouse-direction (c.mouse/get-mouse-direction-vector3 (:three-instance @dom-atom))
-                camera-position (c.mouse/get-camera-position (:three-instance @dom-atom))
-                act-1 @(p/pull conn '[*] [:coordinate/name "赤道天球坐标系"])
-                local-vector3 (v3/add (v3/multiply-scalar mouse-direction (:astronomical-coordinate/radius act-1))
-                                    camera-position)
-                scene-coordinate (m.coordinate/sub-scene-coordinate conn astro-scene)
-                system-vector (m.coordinate/to-system-vector scene-coordinate local-vector3)
-                apt-1 (m.apt/from-position system-vector)
-                [longitude latitude] (m.apt/get-longitude-and-latitude apt-1)]
-            [:div.p-2 {:style {:position :absolute
-                               :top (+ page-y 5)
-                               :left (+ page-x 5)
-                               :color "white"
-                               :background "rgba(255, 255, 255, 0.3)"}}
-             (str "[" (gstring/format "%.2f" longitude)
-                  ", " (gstring/format "%.2f" latitude) "]")]))))))
-
-
 (defn AstronomicalPointToolObjectView
   [{:keys [user] :as props} {:keys [conn]}]
   (let [tool @(p/pull conn '[*] (get-in props [:object :db/id]))

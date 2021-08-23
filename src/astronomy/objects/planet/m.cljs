@@ -90,17 +90,8 @@
 (defn cal-position-in-coordinate
   [db planet coordinate]
   (let [world-position (cal-current-system-position db planet)
-        local-position (m.coordinate/from-system-vector coordinate world-position)]
+        local-position (m.coordinate/from-system-position-now coordinate world-position)]
     local-position))
-
-
-#_(defn cal-coordinate-position
-  "在指定参考系内的位置，给定时间"
-  [db planet coordinate epoch-days]
-  (let [system-position (cal-system-position db planet epoch-days)
-        im (ac.m/cal-invert-matrix db coordinate epoch-days)]
-    (vec (v3/apply-matrix4 system-position im))))
-
 
 
 ;; sub

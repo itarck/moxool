@@ -43,7 +43,7 @@
   [conn atmosphere]
   (let [atmosphere-1 @(p/pull conn '[* {:object/scene [{:astro-scene/coordinate [*]}]}] (:db/id atmosphere))
         coordinate (get-in atmosphere-1 [:object/scene :astro-scene/coordinate])
-        sun-position (m.coordinate/from-system-vector coordinate [0 0 0])]
+        sun-position (m.coordinate/from-system-position-now coordinate [0 0 0])]
     (and
      (= (:coordinate/type coordinate) :horizon-coordinate)
      (:atmosphere/show? atmosphere)
@@ -53,7 +53,7 @@
   [conn atmosphere]
   (let [atmosphere-1 @(p/pull conn '[* {:object/scene [{:astro-scene/coordinate [*]}]}] (:db/id atmosphere))
         coordinate (get-in atmosphere-1 [:object/scene :astro-scene/coordinate])
-        sun-position (m.coordinate/from-system-vector coordinate [0 0 0])]
+        sun-position (m.coordinate/from-system-position-now coordinate [0 0 0])]
     (and
      (= (:coordinate/type coordinate) :horizon-coordinate)
      (:atmosphere/show? atmosphere)

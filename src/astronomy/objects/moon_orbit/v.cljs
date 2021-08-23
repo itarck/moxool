@@ -33,7 +33,7 @@
         planet-1 (:satellite/planet moon-1)
         axis (moon-orbit.m/cal-north-pole-vector3 orbit epoch-day)
         coor-1 (m.coordinate/sub-scene-coordinate conn astro-scene)
-        start-v (m.coordinate/from-system-vector coor-1 (:object/position planet-1))
+        start-v (m.coordinate/from-system-position-now coor-1 (:object/position planet-1))
         props {:start start-v
                :direction axis
                :length (* 1.5 (:moon-orbit/semi-major-axis orbit))

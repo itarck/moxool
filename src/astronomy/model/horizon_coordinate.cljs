@@ -10,7 +10,8 @@
    [shu.astronomy.celestial-coordinate :as shu.cc]
    [methodology.model.object :as m.object]
    [astronomy.objects.planet.m :as m.planet]
-   [astronomy.model.satellite :as m.satellite]))
+   [astronomy.model.satellite :as m.satellite]
+   [astronomy.model.coordinate :as m.coordinate]))
 
 
 (def schema
@@ -21,26 +22,13 @@
 (defn horizon-coordinate? [coordinate]
   (= (:coordinate/type coordinate) :horizon-coordinate))
 
-(defn from-system-vector
-  "把系统坐标系的点转化到当前坐标系"
-  [coordinate system-vector]
-  (let [matrix (m.object/cal-invert-matrix coordinate)
-        pt (v3/from-seq system-vector)]
-    (vec (v3/apply-matrix4 pt matrix))))
-
-(defn to-system-vector
-  "把系统坐标系的点转化到当前坐标系"
-  [coordinate local-vector]
-  (let [matrix (m.object/cal-matrix coordinate)
-        pt (v3/from-seq local-vector)]
-    (vec (v3/apply-matrix4 pt matrix))))
 
 (defn cal-local-time [hc epoch-time]
   (let [{:horizon-coordinate/keys [longitude]} hc]
     (+ epoch-time (/ longitude 360))))
 
 (defn get-sun-position [hc]
-  (from-system-vector hc [0 0 0]))
+  (m.coordinate/from-system-position-now hc [0 0 0]))
 
 (defn sun-elevation-angle
   [sun-position]

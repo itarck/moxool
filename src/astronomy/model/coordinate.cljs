@@ -19,21 +19,36 @@
 
 ;; transform 
 
-(defn from-system-vector
+;; now
+
+(def cal-origin-matrix-now
+  m.object/cal-matrix)
+
+(def cal-origin-invert-matrix-now 
+  m.object/cal-invert-matrix)
+
+(defn from-system-position-now
   "把系统坐标系的点转化到当前坐标系"
   [coordinate system-vector]
   (let [matrix (m.object/cal-invert-matrix coordinate)
         pt (v3/from-seq system-vector)]
     (vec (v3/apply-matrix4 pt matrix))))
 
-(defn to-system-vector
+(defn to-system-position-now
   "把系统坐标系的点转化到当前坐标系"
   [coordinate local-vector]
   (let [matrix (m.object/cal-matrix coordinate)
         pt (v3/from-seq local-vector)]
     (vec (v3/apply-matrix4 pt matrix))))
 
-(def cal-invert-matrix m.object/cal-invert-matrix)
+;; at epoch days
+
+(defmulti from-system-position-at-epoch
+  "从系统坐标转移到坐标系坐标，坐标系随时间变化"
+  (fn [_db coordinate _epoch-days _system-position] (:entity/type coordinate)))
+
+(defmulti to-system-position-at-epoch
+  (fn [_db coordinate _epoch-days _system-position] (:entity/type coordinate)))
 
 
 ;; find

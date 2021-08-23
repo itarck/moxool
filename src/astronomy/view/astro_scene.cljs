@@ -20,7 +20,7 @@
          objects :object/_scene} astro-scene
         user @(p/pull conn '[*] (get-in props [:user :db/id]))
         ;; atmosphere (m.atmosphere/sub-unique-one conn)
-        invert-matrix (m.coordinate/cal-invert-matrix coordiante)
+        invert-matrix (m.coordinate/cal-origin-invert-matrix-now coordiante)
         ;; has-day-light? (m.astro-scene/sub-has-day-light? conn astro-scene)
         ]
     ;; (println "astro scene view mounted ?? " invert-matrix)

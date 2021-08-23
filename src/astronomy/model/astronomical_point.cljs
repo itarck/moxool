@@ -66,7 +66,7 @@
   [local-coordinate local-position local-direction]
   (let [local-vector3 (v3/add (v3/multiply-scalar (v3/from-seq local-direction) const/astronomical-sphere-radius)
                               (v3/from-seq local-position))
-        system-vector (m.coordinate/to-system-vector local-coordinate local-vector3)
+        system-vector (m.coordinate/to-system-position-now local-coordinate local-vector3)
         apt-1 (from-position system-vector)]
     apt-1))
 
