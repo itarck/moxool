@@ -32,6 +32,20 @@
 
 ;; test model
 
+(def earth (d/pull test-db11 '[*] [:planet/name "earth"]))
+
+(deftest test-planet-1
+  (let [earth (d/pull test-db11 '[*] [:planet/name "earth"])]
+    (is (= (planet/cal-system-position-at-epoch-days test-db11 earth 2)
+           [439.7765559273832 190.30873698560643 -105.51499959752967]))
+    (is (= (planet/cal-system-position-at-epoch-days test-db11 earth 0)
+           [442.9497885783528 191.68192377598768 -88.40464973856325]))
+    (is (= (d/q planet/query-all-ids test-db11)
+           [23 32 36 40 44 48]))))
+
+
+;; position-log 
+
 (def conn1 (d/conn-from-db test-db11))
 
 (def all-ids (d/q planet/query-all-ids test-db3))
@@ -47,3 +61,5 @@ all-ids
 
 (:planet/position-log (d/pull @conn1 '[*] 32))
 
+
+(run-tests)

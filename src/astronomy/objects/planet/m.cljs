@@ -5,7 +5,8 @@
    [shu.three.spherical :as sph]
    [shu.three.quaternion :as q]
    [posh.reagent :as p]
-   [astronomy.model.coordinate :as m.coordinate]))
+   [astronomy.model.coordinate :as m.coordinate]
+   [astronomy.model.celestial :as m.celestial]))
 
 ;; 包含ns: planet
 
@@ -72,6 +73,13 @@
   (let [planet-1 (d/pull db '[:object/position {:planet/star [:object/position]}] (:db/id planet))]
     (mapv + (:object/position planet-1)
           (get-in planet-1 [:planet/star :object/position]))))
+
+(defn cal-system-position-at-epoch-days [db planet epoch-days]
+  (let [planet-1 (d/pull db '[* {:celestial/orbit [*]
+                                 :planet/star [:object/position]}] (:db/id planet))
+        object-position (m.celestial/cal-position planet-1 epoch-days)
+        star-position (get-in planet-1 [:planet/star :object/position])]
+    (mapv + object-position star-position)))
 
 (defn cal-position-in-coordinate [db planet coordinate]
   (let [world-position (cal-current-system-position db planet)

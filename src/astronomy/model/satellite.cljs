@@ -2,7 +2,9 @@
   (:require
    [cljs.spec.alpha :as s]
    [posh.reagent :as p]
-   [datascript.core :as d]))
+   [datascript.core :as d]
+   [astronomy.model.celestial :as m.celestial]
+   [astronomy.objects.planet.m :as planet.m]))
 
 ;; 包含ns: planet
 
@@ -39,9 +41,6 @@
 
 ;; selector
 
-(def wide-selector '[* {:satellite/planet [* {:planet/star [*]}]
-                        :celestial/clock [*]}])
-
 
 (defn cal-current-system-position [db satellite]
   (let [planet (d/pull db '[*] (-> satellite :satellite/planet :db/id))
@@ -50,6 +49,20 @@
           (:object/position planet)
           (:object/position star))))
 
+(defn cal-local-position-at-epoch-days
+  "local position 是对应父参考系的"
+  [db satellite epoch-days]
+  (let [satellite-1 (d/pull db '[* {:celestial/orbit [*]}] (:db/id satellite))
+        object-position (m.celestial/cal-position satellite-1 epoch-days)]
+    object-position))
+
+(defn cal-system-position-at-epoch-days
+  "system positon 是对应在系统参考系，也就是 J2000历元的赤道天球"
+  [db satellite epoch-days]
+  (let [satellite-1 (d/pull db '[* {:celestial/orbit [*]}] (:db/id satellite))
+        object-position (m.celestial/cal-position satellite-1 epoch-days)
+        planet-position (planet.m/cal-system-position-at-epoch-days db (:satellite/planet satellite-1) epoch-days)]
+    (mapv + object-position planet-position)))
 
 ;; subs
 

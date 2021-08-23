@@ -62,11 +62,28 @@
        (get-in tc1 [:object/scene :scene/scale])
        1.1)))
 
-(defn cal-current-system-position 
+
+(defn cal-current-system-position
   "计算当前的系统位置"
   [db ac]
-  
-  )
+  (let [pulled-one (d/pull db '[{:astronomical-coordinate/center-object [*]}] (:db/id ac))
+        center-object (:astronomical-coordinate/center-object pulled-one)
+        position (case (:entity/type center-object)
+                   :star (:object/position center-object)
+                   :planet (m.planet/cal-current-system-position db center-object)
+                   :satellite (m.satellite/cal-current-system-position db center-object))]
+    position))
+
+
+(defn cal-system-position-at-epoch-days
+  [db ac epoch-days]
+  (let [pulled-one (d/pull db '[{:astronomical-coordinate/center-object [*]}] (:db/id ac))
+        center-object (:astronomical-coordinate/center-object pulled-one)
+        position (case (:entity/type center-object)
+                   :star (:object/position center-object)
+                   :planet (m.planet/cal-system-position-at-epoch-days db center-object epoch-days)
+                   :satellite (m.satellite/cal-system-position-at-epoch-days db center-object epoch-days))]
+    position))
 
 
 ;; query
@@ -90,12 +107,8 @@
 ;; tx
 
 (defn update-position-and-quaternion-tx [db id]
-  (let [pulled-one (d/pull db '[* {:astronomical-coordinate/center-object [*]}] id)
-        center-object (:astronomical-coordinate/center-object pulled-one)
-        position (case (:entity/type center-object)
-                   :star (:object/position center-object)
-                   :planet (m.planet/cal-current-system-position db center-object)
-                   :satellite (m.satellite/cal-current-system-position db center-object))]
-    [{:db/id (:db/id pulled-one)
+  (let [ac (d/pull db '[*] id)
+        position (cal-current-system-position db ac)]
+    [{:db/id id
       :object/position position
-      :object/quaternion (get-in pulled-one [:astronomical-coordinate/quaternion])}]))
+      :object/quaternion (get-in ac [:astronomical-coordinate/quaternion])}]))
