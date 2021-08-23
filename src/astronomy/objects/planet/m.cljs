@@ -94,6 +94,12 @@
     local-position))
 
 
+;; 实现接口
+
+(defmethod m.celestial/cal-system-position-now :planet
+  [db planet]
+  (cal-current-system-position db planet))
+
 ;; sub
 
 

@@ -64,6 +64,12 @@
         planet-position (planet.m/cal-system-position db (:satellite/planet satellite-1) epoch-days)]
     (mapv + object-position planet-position)))
 
+;; abstract
+
+(defmethod m.celestial/cal-system-position-now :satellite 
+  [db satellite]
+  (cal-current-system-position db satellite))
+
 ;; subs
 
 

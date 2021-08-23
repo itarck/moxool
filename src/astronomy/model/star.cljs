@@ -61,6 +61,14 @@
                  db)]
     (mapv (fn [id] (d/pull db '[*] id)) ids)))
 
+
+;; 实现接口
+
+(defmethod m.celestial/cal-system-position-now :star
+  [_db star]
+  (:object/position star))
+
+
 ;; subs
 
 (defn sub-planets [conn star]

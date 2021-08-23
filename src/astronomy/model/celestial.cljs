@@ -37,7 +37,7 @@
       :db/id -1})
 
   (s/valid? :astronomy/celestial celestial-1)
-  
+
   ;; 
   )
 
@@ -113,6 +113,11 @@
         spin-matrix (cal-spin-matrix celestial days)]
     (m4/multiply orbit-matrix spin-matrix)))
 
+;; interface
+
+(defmulti cal-system-position-now
+  "当前星体在系统内的位置"
+  (fn [_db celes] (:entity/type celes)))
 
 ;; create transact
 
