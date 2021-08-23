@@ -71,7 +71,7 @@
         q1 (q/from-unit-vectors (v3/vector3 0 1 0) (v3/from-seq axis))]
     (seq (v3/apply-quaternion v1 q1))))
 
-(defn cal-current-system-position
+(defn cal-system-position-now
   "在系统参考系里的位置"
   [db planet]
   (let [planet-1 (d/pull db '[:object/position {:planet/star [:object/position]}] (:db/id planet))]
@@ -89,7 +89,7 @@
 
 (defn cal-position-in-coordinate
   [db planet coordinate]
-  (let [world-position (cal-current-system-position db planet)
+  (let [world-position (cal-system-position-now db planet)
         local-position (m.coordinate/from-system-position-now coordinate world-position)]
     local-position))
 
@@ -98,7 +98,7 @@
 
 (defmethod m.celestial/cal-system-position-now :planet
   [db planet]
-  (cal-current-system-position db planet))
+  (cal-system-position-now db planet))
 
 ;; sub
 

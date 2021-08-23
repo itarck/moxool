@@ -8,9 +8,7 @@
    [shu.three.spherical :as sph]
    [shu.three.matrix4 :as mat4]
    [shu.astronomy.celestial-coordinate :as shu.cc]
-   [methodology.model.object :as m.object]
-   [astronomy.objects.planet.m :as m.planet]
-   [astronomy.model.satellite :as m.satellite]
+   [astronomy.model.celestial :as m.celestial]
    [astronomy.model.coordinate :as m.coordinate]))
 
 
@@ -120,10 +118,7 @@
 (defn update-position-and-quaternion-tx [db id]
   (let [hc (d/pull db '[* {:horizon-coordinate/center-object [*]}] id)
         center-object (:horizon-coordinate/center-object hc)
-        center-position (case (:entity/type center-object)
-                          :star (:object/position center-object)
-                          :planet (m.planet/cal-current-system-position db center-object)
-                          :satellite (m.satellite/cal-current-system-position db center-object))
+        center-position (m.celestial/cal-system-position-now db center-object)
         center-quaternion (get-in center-object [:object/quaternion])
         s1 (v3/vector3 1 1 1)
         center-matrix (mat4/compose (v3/from-seq center-position) (q/from-seq center-quaternion) s1)

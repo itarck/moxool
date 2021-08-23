@@ -9,7 +9,8 @@
    [astronomy.model.coordinate :as m.coordinate]
    [astronomy.model.const :as m.const]
    [astronomy.objects.planet.m :as m.planet]
-   [astronomy.model.satellite :as m.satellite]))
+   [astronomy.model.satellite :as m.satellite]
+   [astronomy.model.celestial :as m.celestial]))
 
 
 ;; 天球坐标系
@@ -72,10 +73,7 @@
   [db ac]
   (let [pulled-one (d/pull db '[{:astronomical-coordinate/center-object [*]}] (:db/id ac))
         center-object (:astronomical-coordinate/center-object pulled-one)
-        position (case (:entity/type center-object)
-                   :star (:object/position center-object)
-                   :planet (m.planet/cal-current-system-position db center-object)
-                   :satellite (m.satellite/cal-current-system-position db center-object))]
+        position (m.celestial/cal-system-position-now db center-object)]
     position))
 
 

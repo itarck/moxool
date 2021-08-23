@@ -42,7 +42,7 @@
 ;; selector
 
 
-(defn cal-current-system-position [db satellite]
+(defn cal-system-position-now [db satellite]
   (let [planet (d/pull db '[*] (-> satellite :satellite/planet :db/id))
         star (d/pull db '[*] (-> planet :planet/star :db/id))]
     (mapv + (:object/position satellite)
@@ -68,7 +68,7 @@
 
 (defmethod m.celestial/cal-system-position-now :satellite 
   [db satellite]
-  (cal-current-system-position db satellite))
+  (cal-system-position-now db satellite))
 
 ;; subs
 

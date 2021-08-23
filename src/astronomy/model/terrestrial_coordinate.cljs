@@ -6,8 +6,7 @@
    [shu.three.quaternion :as q]
    [shu.three.vector3 :as v3]
    [shu.geometry.angle :as shu.angle]
-   [astronomy.objects.planet.m :as m.planet]
-   [astronomy.model.satellite :as m.satellite]))
+   [astronomy.model.celestial :as m.celestial]))
 
 
 ;; * 地球坐标系：Terrestrial Coordinate
@@ -113,10 +112,7 @@
 (defn update-position-and-quaternion-tx [db id]
   (let [pulled-one (d/pull db '[* {:terrestrial-coordinate/center-object [*]}] id)
         center-object (:terrestrial-coordinate/center-object pulled-one)
-        position (case (:entity/type center-object)
-                   :star (:object/position center-object)
-                   :planet (m.planet/cal-current-system-position db center-object)
-                   :satellite (m.satellite/cal-current-system-position db center-object))
+        position (m.celestial/cal-system-position-now db center-object)
         center-quaternion (q/from-seq (get-in center-object [:object/quaternion]))
         local-quaternion (cal-local-quaternion pulled-one)]
     [{:db/id (:db/id pulled-one)
