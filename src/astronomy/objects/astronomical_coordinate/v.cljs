@@ -16,7 +16,7 @@
   (let [ac @(p/pull conn '[*] (get-in props [:object :db/id]))
         {:astronomical-coordinate/keys [radius show-latitude? show-longitude? show-regression-line?
                                         show-latitude-0? show-longitude-0? show-lunar-orbit?
-                                        default-color highlight-color]} ac
+                                        default-color highlight-color show-marks?]} ac
         earth @(p/pull conn '[*] [:planet/name "earth"])
         moon @(p/pull conn '[*] [:satellite/name "moon"])
         clock @(p/pull conn '[*] (-> (:celestial/clock earth) :db/id))
@@ -55,12 +55,14 @@
 
 
       (when show-latitude-0?
-        [:<>
-         [:> c.celestial-sphere/LatitudeComponent {:radius radius
-                                                   :latitude 0
-                                                   :color highlight-color}]
-         [:> c.celestial-sphere/LongitudeMarksComponent {:radius radius
-                                                         :color highlight-color}]])
+        [:> c.celestial-sphere/LatitudeComponent {:radius radius
+                                                  :latitude 0
+                                                  :color highlight-color}])
+
+      (when show-marks?
+        [:> c.celestial-sphere/LongitudeMarksComponent {:radius radius
+                                                        :color highlight-color}])
+      
       (when show-longitude-0?
         [:<>
          [:> c.celestial-sphere/LongitudeComponent {:radius radius

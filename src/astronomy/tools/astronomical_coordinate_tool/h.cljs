@@ -56,6 +56,13 @@
              :astronomical-coordinate/show-longitude-0? show?}]]
     (create-effect :tx tx)))
 
+(defmethod handle-event :astronomical-coordinate-tool/change-show-marks
+  [_props _env {:event/keys [detail]}]
+  (let [{:keys [astronomical-coordinate show?]} detail
+        tx [{:db/id (:db/id astronomical-coordinate)
+             :astronomical-coordinate/show-marks? show?}]]
+    (create-effect :tx tx)))
+
 (defmethod handle-event :astronomical-coordinate-tool/change-show-ecliptic
   [_props _env {:event/keys [detail]}]
   (let [{:keys [astronomical-coordinate show?]} detail

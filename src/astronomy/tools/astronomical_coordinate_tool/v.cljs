@@ -55,7 +55,7 @@
           (let [astronomical-coordinate-id (first (get-in tool [:astronomical-coordinate-tool/query-result]))
                 astronomical-coordinate @(p/pull conn '[*] astronomical-coordinate-id)
                 {:astronomical-coordinate/keys [show-latitude? show-longitude? show-latitude-0? show-regression-line?
-                                                show-longitude-0? radius show-lunar-orbit? center-object]} astronomical-coordinate
+                                                show-longitude-0? radius show-lunar-orbit? center-object show-marks?]} astronomical-coordinate
                 center-candidates-id-and-names (ac.m/sub-center-candidates-id-and-names conn)]
             ;; (println "AstronomicalCoordinateToolView: " astronomical-coordinate)
             [:<>
@@ -155,8 +155,22 @@
               [:span "是"]]
 
              [:> mt/Grid {:item true :xs 6}
-              [:> mt/Typography {:variant "subtitle2"} "显示黄道"]]
+              [:> mt/Typography {:variant "subtitle2"} "显示刻度"]]
              [:> mt/Grid {:item true :xs 6}
+              [:span "否"]
+              [:> mt/Switch {:color "default"
+                             :size "small"
+                             :checked show-marks?
+                             :onChange (fn [event]
+                                         (let [show? (j/get-in event [:target :checked])]
+                                           (go (>! service-chan #:event {:action :astronomical-coordinate-tool/change-show-marks
+                                                                         :detail {:astronomical-coordinate astronomical-coordinate
+                                                                                  :show? show?}}))))}]
+              [:span "是"]]
+
+             #_[:> mt/Grid {:item true :xs 6}
+              [:> mt/Typography {:variant "subtitle2"} "显示黄道"]]
+             #_[:> mt/Grid {:item true :xs 6}
               [:span "否"]
               [:> mt/Switch {:color "default"
                              :size "small"
