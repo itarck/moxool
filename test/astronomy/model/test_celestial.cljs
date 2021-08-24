@@ -42,6 +42,7 @@
 
 (comment
 
+  (d/q m.celestial/query-all-id-and-chinese-name test-db11)
 
   ;; 
   )

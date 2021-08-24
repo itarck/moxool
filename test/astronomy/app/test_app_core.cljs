@@ -5,7 +5,6 @@
    [posh.reagent :as p]
    [film2.system.studio :as studio]
    [datascript.core :as d]
-   [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.objects.astronomical-coordinate.m :as ac.m]))
 
 
@@ -75,12 +74,9 @@
 
   (def mercury @(p/pull conn '[*] [:planet/name "mercury"]))
 
-  (let [tx (ac.m/change-center-object-tx ac-1 sun)]
+  (let [tx (ac.m/change-center-object-tx @conn ac-1 sun)]
     (p/transact! conn tx))
   
-  (let [tx (m.astro-scene/refresh-tx @conn astro-scene)]
-    (p/transact! conn tx))
-
 
   )
 

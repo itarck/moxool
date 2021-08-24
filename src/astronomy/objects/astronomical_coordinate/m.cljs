@@ -123,9 +123,12 @@
       :object/quaternion (get-in ac-1 [:astronomical-coordinate/quaternion])}]))
 
 
-(defn change-center-object-tx [ac-1 celestial]
-  [{:db/id (:db/id ac-1)
-    :astronomical-coordinate/center-object (:db/id celestial)}])
+(defn change-center-object-tx [db ac-1 celestial]
+  (let [tx1 [{:db/id (:db/id ac-1)
+              :astronomical-coordinate/center-object (:db/id celestial)}]
+        db1 (d/db-with db tx1)
+        tx2 (update-position-and-quaternion-tx db1 ac-1)]
+    (concat tx1 tx2)))
 
 
 ;; 实现 coordinate的抽象
