@@ -7,7 +7,6 @@
    [helix.core :refer [$]]
    ["@material-ui/core" :as mt]
    [shu.arithmetic.number :as number]
-   [astronomy.objects.ecliptic.m :as ecliptic.m]
    [astronomy.objects.astronomical-coordinate.m :as ac.m]
    [astronomy.tools.astronomical-coordinate-tool.m :as astronomical-coordinate-tool]))
 
@@ -21,12 +20,17 @@
     :else (gstring/format "%0.3f" n)))
 
 
+(defn get-latitude-0-name [ac]
+  (case (:coordinate/name ac)
+    "赤道天球坐标系" "天赤道"
+    "黄道天球坐标系" "黄道"
+    "零纬度线"))
+
 
 (defn AstronomicalCoordinateToolView [{:keys [astro-scene] :as props} {:keys [service-chan conn]}]
   (let [tool @(p/pull conn '[*] (get-in props [:tool :db/id]))
         {:astronomical-coordinate-tool/keys [query-args]} tool
-        query-args-candidates (astronomical-coordinate-tool/sub-query-args-candidates conn tool)
-        eclipic-1 (ecliptic.m/sub-unique-one conn)]
+        query-args-candidates (astronomical-coordinate-tool/sub-query-args-candidates conn tool)]
     
     [:div {:class "astronomy-righthand"}
      [:div {:class "astronomy-righthand-tool"}
@@ -113,7 +117,7 @@
 
 
              [:> mt/Grid {:item true :xs 6}
-              [:> mt/Typography {:variant "subtitle2"} "显示天赤道"]]
+              [:> mt/Typography {:variant "subtitle2"} (str "显示" (get-latitude-0-name astronomical-coordinate))]]
              [:> mt/Grid {:item true :xs 6}
               [:span "否"]
               [:> mt/Switch {:color "default"
@@ -126,22 +130,25 @@
                                                                                   :show? show?}}))))}]
               [:span "是"]]
 
-             [:> mt/Grid {:item true :xs 6}
-              [:> mt/Typography {:variant "subtitle2"} "显示回归线"]]
-             [:> mt/Grid {:item true :xs 6}
-              [:span "否"]
-              [:> mt/Switch {:color "default"
-                             :size "small"
-                             :checked show-regression-line?
-                             :onChange (fn [event]
-                                         (let [show? (j/get-in event [:target :checked])]
-                                           (go (>! service-chan #:event {:action :astronomical-coordinate-tool/change-show-regression-line
-                                                                         :detail {:astronomical-coordinate astronomical-coordinate
-                                                                                  :show? show?}}))))}]
-              [:span "是"]]
+             (when (= (:coordinate/name astronomical-coordinate) "赤道天球坐标系")
+               [:<>
+                [:> mt/Grid {:item true :xs 6}
+                 [:> mt/Typography {:variant "subtitle2"} "显示回归线"]]
+                [:> mt/Grid {:item true :xs 6}
+                 [:span "否"]
+                 [:> mt/Switch {:color "default"
+                                :size "small"
+                                :checked show-regression-line?
+                                :onChange (fn [event]
+                                            (let [show? (j/get-in event [:target :checked])]
+                                              (go (>! service-chan #:event {:action :astronomical-coordinate-tool/change-show-regression-line
+                                                                            :detail {:astronomical-coordinate astronomical-coordinate
+                                                                                     :show? show?}}))))}]
+                 [:span "是"]]])
 
+             
              [:> mt/Grid {:item true :xs 6}
-              [:> mt/Typography {:variant "subtitle2"} "显示本初子午线"]]
+              [:> mt/Typography {:variant "subtitle2"} "显示零经度线"]]
              [:> mt/Grid {:item true :xs 6}
               [:span "否"]
               [:> mt/Switch {:color "default"
@@ -169,18 +176,18 @@
               [:span "是"]]
 
              #_[:> mt/Grid {:item true :xs 6}
-              [:> mt/Typography {:variant "subtitle2"} "显示黄道"]]
+                [:> mt/Typography {:variant "subtitle2"} "显示黄道"]]
              #_[:> mt/Grid {:item true :xs 6}
-              [:span "否"]
-              [:> mt/Switch {:color "default"
-                             :size "small"
-                             :checked (:ecliptic/show? eclipic-1)
-                             :onChange (fn [event]
-                                         (let [show? (j/get-in event [:target :checked])]
-                                           (go (>! service-chan #:event {:action :ecliptic/change-show
-                                                                         :detail {:ecliptic eclipic-1
-                                                                                  :show? show?}}))))}]
-              [:span "是"]]
+                [:span "否"]
+                [:> mt/Switch {:color "default"
+                               :size "small"
+                               :checked (:ecliptic/show? eclipic-1)
+                               :onChange (fn [event]
+                                           (let [show? (j/get-in event [:target :checked])]
+                                             (go (>! service-chan #:event {:action :ecliptic/change-show
+                                                                           :detail {:ecliptic eclipic-1
+                                                                                    :show? show?}}))))}]
+                [:span "是"]]
 
              [:> mt/Grid {:item true :xs 6}
               [:> mt/Typography {:variant "subtitle2"} "显示白道"]]
