@@ -11,7 +11,6 @@
    [astronomy.view.star :as v.star]
    [astronomy.view.galaxy :as v.galaxy]
    [astronomy.view.constellation :as v.constel]
-   [astronomy.view.horizon-coordinate :as v.horizon-coordinate]
    [astronomy.view.user.universe-tool :as v.universe-tool]
    [astronomy.view.user.clock-tool :as v.clock-tool]
    [astronomy.view.user.spaceship-camera-control :as v.spaceship]
@@ -20,7 +19,7 @@
    [astronomy.view.user.goto-celestial-tool :as v.goto]
    [astronomy.view.user.constellation-tool :as v.constellation-tool]
    [astronomy.view.user.atmosphere-tool :as v.atmosphere-tool]
-   [astronomy.view.user.horizon-coordinate-tool :as v.horizon-coordinate-tool]
+   [astronomy.view.user.horizon-coordinate-tool :as horizon-coordinate.v-tool]
    [astronomy.view.user.terrestrial-coordinate-tool :as v.terrestrial-coordinate-tool]
    [astronomy.view.user.astronomical-point-tool :as v.astronomical-point-tool]
    [astronomy.view.user.ruler-tool :as v.ruler-tool]
@@ -29,6 +28,7 @@
    [astronomy.objects.ecliptic.v :as ecliptic.v]
    [astronomy.objects.astronomical-coordinate.v :as astronomical-coordinate.v]
    [astronomy.objects.terrestrial-coordinate.v :as terrestrial-coordinate.v]
+   [astronomy.objects.horizon-coordinate.v :as horizon-coordinate.v]
 
    [astronomy.tools.astronomical-coordinate-tool.v :as astronomical-coordinate-tool.v]
    [astronomy.tools.planet-tool.v :as planet-tool.v]
@@ -74,7 +74,7 @@
    :goto-celestial-tool v.goto/GotoCelestialToolView
    :constellation-tool v.constellation-tool/ConstellationToolView
    :atmosphere-tool v.atmosphere-tool/AtmosphereToolView
-   :horizon-coordinate-tool v.horizon-coordinate-tool/HorizonCoordinateToolView
+   :horizon-coordinate-tool horizon-coordinate.v-tool/HorizonCoordinateToolView
    :astronomical-coordinate-tool astronomical-coordinate-tool.v/AstronomicalCoordinateToolView
    :terrestrial-coordinate-tool v.terrestrial-coordinate-tool/TerrestrialCoordinateToolView
    :astronomical-point-tool v.astronomical-point-tool/AstronomicalPointToolView
@@ -87,7 +87,7 @@
    :galaxy v.galaxy/GalaxyView
    :terrestrial-coordinate terrestrial-coordinate.v/TerrestrialCoordinateView
    :astronomical-coordinate astronomical-coordinate.v/AstronomicalCoordinateView
-   :horizon-coordinate v.horizon-coordinate/HorizonCoordinateView
+   :horizon-coordinate horizon-coordinate.v/HorizonCoordinateView
    :constellation v.constel/ConstellationView
    :astronomical-point-tool v.astronomical-point-tool/AstronomicalPointToolObjectView
    :ruler-tool v.ruler-tool/RulerSceneView

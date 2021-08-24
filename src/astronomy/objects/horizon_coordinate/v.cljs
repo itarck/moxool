@@ -1,4 +1,4 @@
-(ns astronomy.view.horizon-coordinate
+(ns astronomy.objects.horizon-coordinate.v
   (:require
    [posh.reagent :as p]
    [helix.core :refer [defnc $] :as h]
