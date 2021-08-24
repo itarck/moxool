@@ -74,9 +74,14 @@
 
   (def mercury @(p/pull conn '[*] [:planet/name "mercury"]))
 
-  (let [tx (ac.m/change-center-object-tx @conn ac-1 sun)]
+  #_(let [tx (ac.m/change-center-object-tx @conn ac-1 sun)]
     (p/transact! conn tx))
-  
+
+  (let [event #:event {:action :astronomical-coordinate-tool/change-center-object
+                       :detail {:astronomical-coordinate ac-1
+                                :center-object sun}}]
+    (go (>! service-chan event)))
+
 
   )
 

@@ -23,6 +23,9 @@
 
 ;; transform 
 
+(defn is-scene-coordinate? [scene coordinate]
+  (= (get-in scene [:astro-scene/coordinate :db/id])
+     (:db/id coordinate)))
 
 ;; find and pull
 

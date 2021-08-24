@@ -1,7 +1,10 @@
 (ns astronomy.tools.astronomical-coordinate-tool.h
   (:require
+   [datascript.core :as d]
+   [astronomy.model.astro-scene :as m.astro-scene]
+   [astronomy.objects.astronomical-coordinate.m :as ac.m]
    [astronomy.tools.astronomical-coordinate-tool.m :as astronomical-coordinate-tool]
-   [astronomy.service.effect :as s.effect :refer [create-effect]]))
+   [astronomy.service.effect :as s.effect :refer [create-effect effects]]))
 
 
 ;; handle-event version
@@ -74,3 +77,15 @@
         tx [{:db/id (:db/id astronomical-coordinate)
              :astronomical-coordinate/radius radius}]]
     (create-effect :tx tx)))
+
+(defmethod handle-event :astronomical-coordinate-tool/change-center-object
+  [{:keys [astro-scene]} {:keys [db]} {:event/keys [detail]}]
+  (let [{:keys [astronomical-coordinate center-object]} detail
+        tx (ac.m/change-center-object-tx db astronomical-coordinate center-object)
+        astro-scene-1 (d/pull db '[*] (:db/id astro-scene))
+        event #:event{:action :astro-scene.pub/coordinate-changed
+                      :detail {:astro-scene astro-scene
+                               :coordinate astronomical-coordinate}}]
+    (if (m.astro-scene/is-scene-coordinate? astro-scene-1 astronomical-coordinate)
+      (effects :tx tx :event event)
+      (effects :tx tx))))
