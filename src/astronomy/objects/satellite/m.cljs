@@ -1,4 +1,4 @@
-(ns astronomy.model.satellite
+(ns astronomy.objects.satellite.m
   (:require
    [cljs.spec.alpha :as s]
    [posh.reagent :as p]
@@ -66,7 +66,7 @@
 
 ;; abstract
 
-(defmethod m.celestial/cal-system-position-now :satellite 
+(defmethod m.celestial/cal-system-position-now :satellite
   [db satellite]
   (cal-system-position-now db satellite))
 

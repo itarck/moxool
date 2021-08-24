@@ -2,7 +2,7 @@
   (:require
    [cljs.test :refer-macros [deftest is testing run-tests]]
    [datascript.core :as d]
-   [astronomy.model.satellite :as m.satellite]
+   [astronomy.objects.satellite.m :as m.satellite]
    [astronomy.scripts.test-conn :refer [test-db3 test-db11]]))
 
 

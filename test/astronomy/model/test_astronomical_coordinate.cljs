@@ -3,7 +3,7 @@
    [cljs.test :refer-macros [deftest is testing run-tests]]
    [datascript.core :as d]
    [astronomy.objects.planet.m :as planet]
-   [astronomy.model.satellite :as satellite]
+   [astronomy.objects.satellite :as satellite]
    [astronomy.model.coordinate :as coordinate]
    [astronomy.objects.astronomical-coordinate.m :as ac.m]
    [astronomy.scripts.test-conn :refer [test-db11]]))
