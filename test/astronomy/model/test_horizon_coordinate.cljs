@@ -9,7 +9,7 @@
    [astronomy.model.astro-scene :as m.astro-scene]
    [methodology.model.object :as m.object]
    [astronomy.model.clock :as m.clock]
-   [astronomy.model.horizon-coordinate :as m.horizon-coordinate]))
+   [astronomy.objects.horizon-coordinate.m :as horizon.m]))
 
 
 (def conn 
@@ -30,7 +30,7 @@ horizon-coor
 
 (p/transact! conn (m.astro-scene/refresh-tx @conn scene))
 
-(p/transact! conn (m.horizon-coordinate/update-position-and-quaternion-tx @conn [:coordinate/name "地平坐标系"]))
+(p/transact! conn (horizon.m/update-position-and-quaternion-tx @conn [:coordinate/name "地平坐标系"]))
 
 
 (def horizon-coor-2

@@ -1,6 +1,6 @@
 (ns astronomy.model.user.horizon-coordinate-tool
   (:require
-   [astronomy.model.horizon-coordinate :as m.horizon-coordinate]))
+   [astronomy.objects.horizon-coordinate.m :as horizon-coordinate.m]))
 
 
 (def horizon-coordinate-tool
@@ -18,11 +18,11 @@
 ;; find
 (defn get-query-args-candidates [db query-type]
   (case query-type
-    :one-by-name (m.horizon-coordinate/find-horizon-coordinate-names db)))
+    :one-by-name (horizon-coordinate.m/find-horizon-coordinate-names db)))
 
 (defn cal-query-result [db query-type query-args]
   (case query-type
-    :one-by-name (let [one (m.horizon-coordinate/pull-one-by-name db (first query-args))]
+    :one-by-name (let [one (horizon-coordinate.m/pull-one-by-name db (first query-args))]
                    [(:db/id one)])))
 
 ;; tx
@@ -48,5 +48,5 @@
 
 (defn sub-query-args-candidates [conn hct-nm]
   (case (:horizon-coordinate-tool/query-type hct-nm)
-    :one-by-name (m.horizon-coordinate/sub-horizon-coordinate-names conn)))
+    :one-by-name (horizon-coordinate.m/sub-horizon-coordinate-names conn)))
 

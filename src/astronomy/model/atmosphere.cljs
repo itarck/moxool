@@ -2,7 +2,7 @@
   (:require
    [posh.reagent :as p]
    [astronomy.model.coordinate :as m.coordinate]
-   [astronomy.model.horizon-coordinate :as m.hc]))
+   [astronomy.objects.horizon-coordinate.m :as hc.m]))
 
 
 (def schema {:atmosphere/name {:db/unique :db.unique/identity}})
@@ -47,7 +47,7 @@
     (and
      (= (:coordinate/type coordinate) :horizon-coordinate)
      (:atmosphere/show? atmosphere)
-     (>= (m.hc/sun-elevation-angle sun-position) -10))))
+     (>= (hc.m/sun-elevation-angle sun-position) -10))))
 
 (defn sub-has-day-light?
   [conn atmosphere]
@@ -57,4 +57,4 @@
     (and
      (= (:coordinate/type coordinate) :horizon-coordinate)
      (:atmosphere/show? atmosphere)
-     (>= (m.hc/sun-elevation-angle sun-position) 0))))
+     (>= (hc.m/sun-elevation-angle sun-position) 0))))

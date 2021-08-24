@@ -1,4 +1,4 @@
-(ns astronomy.model.horizon-coordinate
+(ns astronomy.objects.horizon-coordinate.m
   (:require
    [datascript.core :as d]
    [posh.reagent :as p]

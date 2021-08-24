@@ -8,7 +8,7 @@
    ["@material-ui/core" :as mt]
    [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.model.clock :as m.clock]
-   [astronomy.model.horizon-coordinate :as m.hc]))
+   [astronomy.objects.horizon-coordinate.m :as m.hc]))
 
 
 (defn ClockToolView [props {:keys [service-chan conn]}]
