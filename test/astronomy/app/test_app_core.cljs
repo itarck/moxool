@@ -4,7 +4,9 @@
    [cljs.core.async :refer [go >!]]
    [posh.reagent :as p]
    [film2.system.studio :as studio]
-   [datascript.core :as d]))
+   [datascript.core :as d]
+   [astronomy.model.astro-scene :as m.astro-scene]
+   [astronomy.objects.astronomical-coordinate.m :as ac.m]))
 
 
 ;; current studio in app core
@@ -19,7 +21,6 @@
 
   (def clock @(p/pull conn '[*] [:clock/name "default"]))
   (def clock-tool @(p/pull conn '[*] [:tool/name "clock control 1"]))
-
 
   (go (>! service-chan #:event{:action :clock-tool/start
                                :detail {:clock-tool clock-tool
@@ -59,3 +60,27 @@
                                          :clock clock}}))
   
   )
+
+
+(comment
+
+  (def solar-system1 (:scene-system @(:studio/instance-atom app/studio)))
+  (def conn (get-in solar-system1 [:system/conn]))
+  (def service-chan (get-in solar-system1 [:system/service-chan]))
+
+  (def astro-scene @(p/pull conn '[*] [:scene/name "solar"]))
+  (def ac-1 @(p/pull conn '[*] [:coordinate/name "赤道天球坐标系"]))
+
+  (def sun @(p/pull conn '[*] [:star/name "sun"]))
+
+  (def mercury @(p/pull conn '[*] [:planet/name "mercury"]))
+
+  (let [tx (ac.m/change-center-object-tx ac-1 sun)]
+    (p/transact! conn tx))
+  
+  (let [tx (m.astro-scene/refresh-tx @conn astro-scene)]
+    (p/transact! conn tx))
+
+
+  )
+

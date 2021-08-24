@@ -134,3 +134,8 @@
     [{:db/id id
       :object/position position
       :object/quaternion (get-in ac [:astronomical-coordinate/quaternion])}]))
+
+
+(defn change-center-object-tx [ac-1 celestial]
+  [{:db/id (:db/id ac-1)
+    :astronomical-coordinate/center-object (:db/id celestial)}])
