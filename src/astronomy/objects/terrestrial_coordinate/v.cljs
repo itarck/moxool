@@ -1,4 +1,4 @@
-(ns astronomy.view.terrestrial-coordinate
+(ns astronomy.objects.terrestrial-coordinate.v
   (:require
    [cljs.core.async :refer [go >! <! go-loop] :as a]
    [posh.reagent :as p]

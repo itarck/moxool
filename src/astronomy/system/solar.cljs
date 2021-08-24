@@ -11,9 +11,7 @@
    [astronomy.view.star :as v.star]
    [astronomy.view.galaxy :as v.galaxy]
    [astronomy.view.constellation :as v.constel]
-   [astronomy.view.terrestrial-coordinate :as v.terrestrial-coordinate]
    [astronomy.view.horizon-coordinate :as v.horizon-coordinate]
-
    [astronomy.view.user.universe-tool :as v.universe-tool]
    [astronomy.view.user.clock-tool :as v.clock-tool]
    [astronomy.view.user.spaceship-camera-control :as v.spaceship]
@@ -30,6 +28,7 @@
 
    [astronomy.objects.ecliptic.v :as ecliptic.v]
    [astronomy.objects.astronomical-coordinate.v :as astronomical-coordinate.v]
+   [astronomy.objects.terrestrial-coordinate.v :as terrestrial-coordinate.v]
 
    [astronomy.tools.astronomical-coordinate-tool.v :as astronomical-coordinate-tool.v]
    [astronomy.tools.planet-tool.v :as planet-tool.v]
@@ -86,7 +85,7 @@
 (def object-libray 
   {:star v.star/StarView
    :galaxy v.galaxy/GalaxyView
-   :terrestrial-coordinate v.terrestrial-coordinate/TerrestrialCoordinateView
+   :terrestrial-coordinate terrestrial-coordinate.v/TerrestrialCoordinateView
    :astronomical-coordinate astronomical-coordinate.v/AstronomicalCoordinateView
    :horizon-coordinate v.horizon-coordinate/HorizonCoordinateView
    :constellation v.constel/ConstellationView
