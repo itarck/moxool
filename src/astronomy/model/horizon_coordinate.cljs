@@ -115,8 +115,8 @@
   [{:db/id (:db/id hc)
     :horizon-coordinate/radius radius}])
 
-(defn update-position-and-quaternion-tx [db id]
-  (let [hc (d/pull db '[* {:horizon-coordinate/center-object [*]}] id)
+(defn update-position-and-quaternion-tx [db horizon-coordinate]
+  (let [hc (d/pull db '[* {:horizon-coordinate/center-object [*]}] (:db/id horizon-coordinate))
         center-object (:horizon-coordinate/center-object hc)
         center-position (m.celestial/cal-system-position-now db center-object)
         center-quaternion (get-in center-object [:object/quaternion])
@@ -139,11 +139,10 @@
 (defn sub-horizon-coordinate-names [conn]
   @(p/q query-horizon-coordinate-names conn))
 
-(comment
 
-  (cal-local-position sample)
-  ;; => #object[Vector3 [0 0.5000000000000001 0.8660254037844386]]
+;; 实现接口
 
-  (cal-local-quaternion sample)
-  ;; => #object[Quaternion [0.49999999999999994 0 0 0.8660254037844387]]
-  )
+(defmethod m.coordinate/update-position-and-quaternion-tx
+  :terrestrial-coordinate
+  [db hc]
+  (update-position-and-quaternion-tx db hc))

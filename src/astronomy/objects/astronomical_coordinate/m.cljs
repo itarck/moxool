@@ -95,19 +95,6 @@
   [db ac epoch-days]
   (m4/invert (cal-matrix-at-epoch db ac epoch-days)))
 
-;; 实现 coordinate的抽象
-
-(defmethod m.coordinate/cal-origin-position-now
-  :astronomical-coordinate
-  [db ac]
-  (cal-origin-position-now db ac))
-
-(defmethod m.coordinate/from-system-position-at-epoch
-  :astronomical-coordinate
-  [db ac epoch-days system-position]
-  (let [im (cal-invert-matrix-at-epoch db ac epoch-days)]
-    (vec (v3/apply-matrix4 (v3/from-seq system-position) im))))
-
 ;; query
 
 (def query-coordinate-names
@@ -128,14 +115,33 @@
 
 ;; tx
 
-(defn update-position-and-quaternion-tx [db id]
-  (let [ac (d/pull db '[*] id)
-        position (cal-origin-position-now db ac)]
-    [{:db/id id
+(defn update-position-and-quaternion-tx [db ac]
+  (let [ac-1 (d/pull db '[*] (:db/id ac))
+        position (cal-origin-position-now db ac-1)]
+    [{:db/id (:db/id ac-1)
       :object/position position
-      :object/quaternion (get-in ac [:astronomical-coordinate/quaternion])}]))
+      :object/quaternion (get-in ac-1 [:astronomical-coordinate/quaternion])}]))
 
 
 (defn change-center-object-tx [ac-1 celestial]
   [{:db/id (:db/id ac-1)
     :astronomical-coordinate/center-object (:db/id celestial)}])
+
+
+;; 实现 coordinate的抽象
+
+(defmethod m.coordinate/cal-origin-position-now
+  :astronomical-coordinate
+  [db ac]
+  (cal-origin-position-now db ac))
+
+(defmethod m.coordinate/from-system-position-at-epoch
+  :astronomical-coordinate
+  [db ac epoch-days system-position]
+  (let [im (cal-invert-matrix-at-epoch db ac epoch-days)]
+    (vec (v3/apply-matrix4 (v3/from-seq system-position) im))))
+
+(defmethod m.coordinate/update-position-and-quaternion-tx
+  :astronomical-coordinate
+  [db ac]
+  (update-position-and-quaternion-tx db ac))

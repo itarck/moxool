@@ -45,6 +45,9 @@
         pt (v3/from-seq local-vector)]
     (vec (v3/apply-matrix4 pt matrix))))
 
+(defmulti update-position-and-quaternion-tx 
+  (fn [_db coor] (:entity/type coor)))
+
 ;; at epoch days
 
 

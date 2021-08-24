@@ -4,9 +4,6 @@
    [posh.reagent :as p]
    [astronomy.model.celestial :as m.celestial]
    [astronomy.model.coordinate :as m.coordinate]
-   [astronomy.objects.astronomical-coordinate.m :as astronomical-coordinate]
-   [astronomy.model.terrestrial-coordinate :as m.terrestrial-coordinate]
-   [astronomy.model.horizon-coordinate :as m.horizon-coordinate]
    [astronomy.model.atmosphere :as m.atmosphere]))
 
 
@@ -92,19 +89,12 @@
   [{:db/id (:db/id scene-sm)
     :astro-scene/coordinate (:db/id coordinate-sm)}])
 
-(defn update-coordinate-tx [db coordinate-id]
-  (let [coordinate (d/pull db '[*] coordinate-id)]
-    (case (:coordinate/type coordinate)
-      :astronomical-coordinate (astronomical-coordinate/update-position-and-quaternion-tx db coordinate-id)
-      :terrestrial-coordinate (m.terrestrial-coordinate/update-position-and-quaternion-tx db coordinate-id)
-      :horizon-coordinate (m.horizon-coordinate/update-position-and-quaternion-tx db coordinate-id))))
-
 (defn refresh-tx [db1 astro-scene]
   (let [clock-id (get-in astro-scene [:astro-scene/clock :db/id])
         celes (m.celestial/find-all-by-clock db1 clock-id)
         tx1 (mapcat #(m.celestial/update-current-position-and-quaternion-tx %) celes)
         db2 (d/db-with db1 tx1)
         coor-ids (m.coordinate/find-all-ids db2)
-        tx2 (mapcat (fn [id] (update-coordinate-tx db2 id)) coor-ids)]
+        tx2 (mapcat (fn [id] (m.coordinate/update-position-and-quaternion-tx db2 {:db/id id})) coor-ids)]
     (concat tx1 tx2)))
 
