@@ -80,12 +80,12 @@
 
 (defmethod handle-event :astronomical-coordinate-tool/change-center-object
   [{:keys [astro-scene]} {:keys [db]} {:event/keys [detail]}]
-  (let [{:keys [astronomical-coordinate center-object]} detail
-        tx (ac.m/change-center-object-tx db astronomical-coordinate center-object)
+  (let [{:keys [coordinate center-object]} detail
+        tx (ac.m/change-center-object-tx db coordinate center-object)
         astro-scene-1 (d/pull db '[*] (:db/id astro-scene))
         event #:event{:action :astro-scene.pub/coordinate-changed
                       :detail {:astro-scene astro-scene
-                               :coordinate astronomical-coordinate}}]
-    (if (m.astro-scene/is-scene-coordinate? astro-scene-1 astronomical-coordinate)
+                               :coordinate coordinate}}]
+    (if (m.astro-scene/is-scene-coordinate? astro-scene-1 coordinate)
       (effects :tx tx :event event)
       (effects :tx tx))))

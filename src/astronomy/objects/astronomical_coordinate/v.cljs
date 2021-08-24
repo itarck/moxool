@@ -22,7 +22,9 @@
         clock @(p/pull conn '[*] (-> (:celestial/clock earth) :db/id))
         apt-ids (m.apt/sub-all-ids-by-coordinate conn ac)
         apts (doall (mapv (fn [id] @(p/pull conn '[*] id)) apt-ids))]
+    
     ;; (println "AstronomicalCoordinateView: " (:db/id ac) ", " apt-ids)
+    
     [:mesh {:position (:object/position ac)
             :quaternion (:object/quaternion ac)}
      [:<>

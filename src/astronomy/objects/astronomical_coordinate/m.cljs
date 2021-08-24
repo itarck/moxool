@@ -103,6 +103,9 @@
     [?id :coordinate/name ?name]
     [?id :entity/type :astronomical-coordinate]])
 
+(def query-center-candidates-id-and-names
+  m.celestial/query-all-id-and-chinese-name)
+
 ;; find
 
 (defn pull-one-by-name [db name]
@@ -112,6 +115,9 @@
 
 (defn sub-coordinate-names [conn]
   @(p/q query-coordinate-names conn))
+
+(defn sub-center-candidates-id-and-names [conn]
+  @(p/q m.celestial/query-all-id-and-chinese-name conn))
 
 ;; tx
 

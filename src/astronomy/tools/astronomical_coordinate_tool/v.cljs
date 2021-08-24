@@ -8,6 +8,7 @@
    ["@material-ui/core" :as mt]
    [shu.arithmetic.number :as number]
    [astronomy.objects.ecliptic.m :as ecliptic.m]
+   [astronomy.objects.astronomical-coordinate.m :as ac.m]
    [astronomy.tools.astronomical-coordinate-tool.m :as astronomical-coordinate-tool]))
 
 
@@ -26,6 +27,7 @@
         {:astronomical-coordinate-tool/keys [query-args]} tool
         query-args-candidates (astronomical-coordinate-tool/sub-query-args-candidates conn tool)
         eclipic-1 (ecliptic.m/sub-unique-one conn)]
+    
     [:div {:class "astronomy-righthand"}
      [:div {:class "astronomy-righthand-tool"}
       [:div.p-2
@@ -53,7 +55,8 @@
           (let [astronomical-coordinate-id (first (get-in tool [:astronomical-coordinate-tool/query-result]))
                 astronomical-coordinate @(p/pull conn '[*] astronomical-coordinate-id)
                 {:astronomical-coordinate/keys [show-latitude? show-longitude? show-latitude-0? show-regression-line?
-                                                show-longitude-0? radius show-lunar-orbit?]} astronomical-coordinate]
+                                                show-longitude-0? radius show-lunar-orbit? center-object]} astronomical-coordinate
+                center-candidates-id-and-names (ac.m/sub-center-candidates-id-and-names conn)]
             ;; (println "AstronomicalCoordinateToolView: " astronomical-coordinate)
             [:<>
              [:> mt/Grid {:item true :xs 6}
@@ -63,6 +66,22 @@
                [:> mt/Button {:onClick #(go (>! service-chan #:event{:action :astro-scene/change-coordinate
                                                                      :detail {:astro-scene astro-scene
                                                                               :coordinate astronomical-coordinate}}))} "设置"]]]
+
+             [:> mt/Grid {:item true :xs 6}
+              [:> mt/Typography {:variant "subtitle2"} "变换原点"]]
+             [:> mt/Grid {:item true :xs 6}
+              [:> mt/FormControl {:size "small"}
+               [:> mt/Select {:value (:db/id center-object)
+                              :onChange (fn [e]
+                                          (let [new-value (j/get-in e [:target :value])
+                                                event #:event {:action :astronomical-coordinate-tool/change-center-object
+                                                               :detail {:coordinate astronomical-coordinate
+                                                                        :center-object {:db/id new-value}}}]
+                                            (go (>! service-chan event))))}
+                (for [[id name] center-candidates-id-and-names]
+                  ^{:key id}
+                  [:> mt/MenuItem {:value id} name])]]]
+
 
              [:> mt/Grid {:item true :xs 6}
               [:> mt/Typography {:variant "subtitle2"} "显示经度"]]
@@ -175,7 +194,7 @@
                                    :width "200px"})
                   :value (number/log 10 radius)
                   :onChange (fn [e value]
-                            (go (>! service-chan #:event {:action :astronomical-coordinate-tool/change-radius
+                              (go (>! service-chan #:event {:action :astronomical-coordinate-tool/change-radius
                                                             :detail {:astronomical-coordinate astronomical-coordinate
                                                                      :radius (number/pow 10 value)}})))
                   :step 0.1 :min -3 :max 8 :marks true
