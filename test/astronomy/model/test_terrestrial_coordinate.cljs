@@ -7,7 +7,7 @@
    [astronomy.model.astro-scene :as m.astro-scene]
    [methodology.model.object :as m.object]
    [astronomy.model.clock :as m.clock]
-   [astronomy.model.terrestrial-coordinate :as m.tc]))
+   [astronomy.objects.terrestrial-coordinate.m :as m.tc]))
 
 
 ;; test db

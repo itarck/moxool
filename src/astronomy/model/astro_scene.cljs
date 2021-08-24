@@ -95,6 +95,9 @@
         tx1 (mapcat #(m.celestial/update-current-position-and-quaternion-tx %) celes)
         db2 (d/db-with db1 tx1)
         coor-ids (m.coordinate/find-all-ids db2)
-        tx2 (mapcat (fn [id] (m.coordinate/update-position-and-quaternion-tx db2 {:db/id id})) coor-ids)]
+        tx2 (mapcat (fn [id]
+                      (let [coor (d/pull db2 '[:db/id :entity/type] id)]
+                        (m.coordinate/update-position-and-quaternion-tx db2 coor)))
+                    coor-ids)]
     (concat tx1 tx2)))
 

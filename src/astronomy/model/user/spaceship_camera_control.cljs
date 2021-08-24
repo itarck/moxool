@@ -4,7 +4,7 @@
    [datascript.core :as d]
    [shu.three.vector3 :as v3]
    [astronomy.objects.astronomical-coordinate.m :as astronomical-coordinate]
-   [astronomy.model.terrestrial-coordinate :as m.terrestrial-coordinate]
+   [astronomy.objects.terrestrial-coordinate.m :as terrestrial-coordinate]
    ))
 
 
@@ -93,7 +93,7 @@
 (defn update-min-distance-tx [db scc coordinate]
   (let [coor-1 (d/pull db '[*] (:db/id coordinate))
         min-distance (case (:coordinate/type coor-1)
-                       :terrestrial-coordinate (m.terrestrial-coordinate/cal-min-distance db coor-1)
+                       :terrestrial-coordinate (terrestrial-coordinate/cal-min-distance db coor-1)
                        :astronomical-coordinate (astronomical-coordinate/cal-min-distance db coor-1)
                        0)]
     (set-min-distance-tx scc min-distance)))

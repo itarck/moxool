@@ -143,6 +143,6 @@
 ;; 实现接口
 
 (defmethod m.coordinate/update-position-and-quaternion-tx
-  :terrestrial-coordinate
+  :horizon-coordinate
   [db hc]
   (update-position-and-quaternion-tx db hc))

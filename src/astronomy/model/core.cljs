@@ -13,7 +13,7 @@
    [astronomy.model.constellation :as m.constellation]
    [astronomy.model.atmosphere :as m.atmosphere]
    [astronomy.model.coordinate :as m.coordinate]
-   [astronomy.model.terrestrial-coordinate :as m.terrestrial-coordinate]
+   
    [astronomy.model.horizon-coordinate :as m.horizon-coordinate]
    [astronomy.model.astronomical-point :as m.astronomical-point]
 
@@ -26,7 +26,8 @@
    [astronomy.model.user.ruler-tool :as m.ruler-tool]
 
    [astronomy.objects.planet.m :as planet.m]
-   [astronomy.objects.astronomical-coordinate.m :as astronomical-coordinate.m]))
+   [astronomy.objects.astronomical-coordinate.m :as astronomical-coordinate.m]
+   [astronomy.objects.terrestrial-coordinate.m :as terrestrial-coordinate.m]))
 
 
 (def schema
@@ -44,7 +45,7 @@
    m.atmosphere/schema
    m.coordinate/schema 
    astronomical-coordinate.m/schema
-   m.terrestrial-coordinate/schema
+   terrestrial-coordinate.m/schema
    m.horizon-coordinate/schema
    m.astronomical-point/schema
 

@@ -1,4 +1,4 @@
-(ns astronomy.model.terrestrial-coordinate
+(ns astronomy.objects.terrestrial-coordinate.m
   (:require
    [cljs.spec.alpha :as s]
    [datascript.core :as d]

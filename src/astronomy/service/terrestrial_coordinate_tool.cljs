@@ -1,8 +1,8 @@
 (ns astronomy.service.terrestrial-coordinate-tool
   (:require
    [posh.reagent :as p]
-   [astronomy.model.terrestrial-coordinate :as m.terrestrial-coordinate]
-   [astronomy.model.user.terrestrial-coordinate-tool :as m.terrestrial-coordinate-tool]
+   [astronomy.objects.terrestrial-coordinate.m :as terrestrial-coordinate]
+   [astronomy.model.user.terrestrial-coordinate-tool :as terrestrial-coordinate-tool]
    [cljs.core.async :refer [go-loop go >! <! timeout] :as a]))
 
 
@@ -16,17 +16,17 @@
 (defmethod handle-event! :terrestrial-coordinate-tool/change-show-longitude
   [props {:keys [conn]} {:event/keys [detail]}]
   (let [{:keys [terrestrial-coordinate show?]} detail]
-    (p/transact! conn (m.terrestrial-coordinate/change-show-longitude-tx terrestrial-coordinate show?))))
+    (p/transact! conn (terrestrial-coordinate/change-show-longitude-tx terrestrial-coordinate show?))))
 
 (defmethod handle-event! :terrestrial-coordinate-tool/change-show-latitude
   [props {:keys [conn]} {:event/keys [detail]}]
   (let [{:keys [terrestrial-coordinate show?]} detail]
-    (p/transact! conn (m.terrestrial-coordinate/change-show-latitude-tx terrestrial-coordinate show?))))
+    (p/transact! conn (terrestrial-coordinate/change-show-latitude-tx terrestrial-coordinate show?))))
 
 (defmethod handle-event! :terrestrial-coordinate-tool/change-query-args
   [props {:keys [conn]} {:event/keys [detail]}]
   (let [{:keys [tool query-args]} detail
-        tx (m.terrestrial-coordinate-tool/update-query-args-tx @conn tool query-args)]
+        tx (terrestrial-coordinate-tool/update-query-args-tx @conn tool query-args)]
     (p/transact! conn tx)))
 
 (defmethod handle-event! :terrestrial-coordinate-tool/change-show-latitude-0

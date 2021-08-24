@@ -1,6 +1,6 @@
 (ns astronomy.model.user.terrestrial-coordinate-tool
   (:require
-   [astronomy.model.terrestrial-coordinate :as m.terrestrial-coordinate]))
+   [astronomy.objects.terrestrial-coordinate.m :as terrestrial-coordinate.m]))
 
 
 (def terrestrial-coordinate-tool-1
@@ -18,11 +18,11 @@
 ;; find
 (defn get-query-args-candidates [db query-type]
   (case query-type
-    :one-by-name (m.terrestrial-coordinate/find-coordinate-names db)))
+    :one-by-name (terrestrial-coordinate.m/find-coordinate-names db)))
 
 (defn cal-query-result [db query-type query-args]
   (case query-type
-    :one-by-name (let [one (m.terrestrial-coordinate/pull-one-by-name db (first query-args))]
+    :one-by-name (let [one (terrestrial-coordinate.m/pull-one-by-name db (first query-args))]
                    [(:db/id one)])))
 
 ;; tx
@@ -48,4 +48,4 @@
 
 (defn sub-query-args-candidates [conn act-nm]
   (case (:terrestrial-coordinate-tool/query-type act-nm)
-    :one-by-name (m.terrestrial-coordinate/sub-coordinate-names conn)))
+    :one-by-name (terrestrial-coordinate.m/sub-coordinate-names conn)))
