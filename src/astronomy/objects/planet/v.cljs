@@ -173,7 +173,7 @@
      [:mesh {:position position}
 
       (when show-name?
-        [:> Html
+        [:> Html {:zIndexRange [0 0]}
          [:p {:style {:margin-top "5px"
                       :margin-left "5px"
                       :color "#777"}}

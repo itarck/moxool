@@ -36,8 +36,8 @@
         start-v (m.coordinate/from-system-position-now coor-1 (:object/position planet-1))
         props {:start start-v
                :direction axis
-               :length (* 1.5 (:moon-orbit/semi-major-axis orbit))
-               :arrow-size (* 0.2 (:moon-orbit/semi-major-axis orbit))
+               :length (* 0.8 (:moon-orbit/semi-major-axis orbit))
+               :arrow-size (* 0.1 (:moon-orbit/semi-major-axis orbit))
                :color "white"}]
     ;; (println "NorthAxisView" props)
     [v.geo/ArrowLineComponent props]))

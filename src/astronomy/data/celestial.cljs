@@ -68,6 +68,7 @@
    {:name "venus"
     :chinese-name "金星"
     :show-name? true
+    :track-position? true
     :star [:star/name "sun"]
     :celestial/radius 0.020172667
     :celestial/radius-string "0.949 地球半径"
@@ -230,6 +231,7 @@
    {:name "mars"
     :chinese-name "火星"
     :show-name? true
+    :track-position? true
     :star [:star/name "sun"]
     :celestial/radius 0.011323333
     :celestial/radius-string "0.533 地球半径"
@@ -407,6 +409,7 @@
    {:name "jupiter"
     :chinese-name "木星"
     :show-name? true
+    :track-position? true
     :star [:star/name "sun"]
     :celestial/radius 0.238306667
     :celestial/radius-string "11.2 地球半径"
@@ -565,6 +568,7 @@
    {:name "saturn"
     :chinese-name "土星"
     :show-name? true
+    :track-position? true
     :star [:star/name "sun"]
     :celestial/radius 0.200893333
     :celestial/radius-string "9.45 地球半径"
