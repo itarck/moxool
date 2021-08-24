@@ -38,6 +38,12 @@
              :planet/position-log []}]]
     (effects :tx tx)))
 
+(defmethod handle-event :planet/change-show-tracks
+  [props _env {:event/keys [detail]}]
+  (let [{:keys [planet show-tracks?]} detail
+        tx [{:db/id (:db/id planet)
+             :planet/show-tracks? show-tracks?}]]
+    (effects :tx tx)))
 
 
 (defmethod handle-event :planet/update-all-position-logs

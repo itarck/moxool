@@ -109,5 +109,18 @@
                                                         :detail {:planet target
                                                                  :track-position? value}}))))}]
           [:span "是"]]
+         
+         [:> mt/Typography {:variant "subtitle1"} "轨迹显示："
+          [:span "否"]
+          [:> mt/Switch
+           {:color "default"
+            :size "small"
+            :checked (or (get-in target [:planet/show-tracks?]) false)
+            :onChange (fn [event]
+                        (let [value (j/get-in event [:target :checked])]
+                          (go (>! service-chan #:event {:action :planet/change-show-tracks
+                                                        :detail {:planet target
+                                                                 :show-tracks? value}}))))}]
+          [:span "是"]]
 ;; 
          ]]]]]))

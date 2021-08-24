@@ -51,7 +51,8 @@
   '[:find [?id ...]
     :where
     [?id :entity/type :planet]
-    [?id :planet/track-position? true]])
+    [?id :planet/track-position? true]
+    [?id :planet/show-tracks? true]])
 
 (def query-all-id-and-chinese-name
   '[:find ?id ?chinese-name
