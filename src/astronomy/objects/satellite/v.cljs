@@ -1,4 +1,4 @@
-(ns astronomy.view.satellite
+(ns astronomy.objects.satellite.v
   (:require
    [applied-science.js-interop :as j]
    ["@react-three/drei" :refer [Sphere]]
@@ -8,8 +8,7 @@
    [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.objects.moon-orbit.v :as moon-orbit.v]
    [astronomy.objects.circle-orbit.v :as circle-orbit.v]
-   [astronomy.objects.ellipse-orbit.v :as ellipse-orbit.v]
-   ))
+   [astronomy.objects.ellipse-orbit.v :as ellipse-orbit.v]))
 
 
 (def moon
@@ -77,6 +76,5 @@
 
      (when (:orbit/show? orbit) [MultiOrbitView {:celestial satellite
                                                  :orbit orbit
-                                                 :clock (:celestial/clock satellite)} env])
-     ]))
+                                                 :clock (:celestial/clock satellite)} env])]))
 

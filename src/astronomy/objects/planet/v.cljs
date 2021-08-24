@@ -7,11 +7,10 @@
    [helix.core :refer [$]]
    ["@react-three/drei" :refer [Html]]
    [shu.three.vector3 :as v3]
-   [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.model.ellipse-orbit :as m.ellipse-orbit]
    [methodology.lib.geometry :as v.geo]
    [methodology.view.gltf :as v.gltf]
-   [astronomy.view.satellite :as v.satellite]
+   [astronomy.objects.satellite.v :as satellite.v]
    [astronomy.objects.planet.m :as planet]
    [astronomy.component.animate :as a]))
 
@@ -182,7 +181,7 @@
       [:<>
        (for [satellite satellites]
          ^{:key (:db/id satellite)}
-         [v.satellite/SatelliteView {:satellite satellite
+         [satellite.v/SatelliteView {:satellite satellite
                                      :astro-scene astro-scene} env])]]
 
      (when (:orbit/show? orbit) [PlanetOrbitView {:orbit orbit} env])
