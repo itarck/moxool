@@ -17,7 +17,6 @@
                                    :show-latitude? true
                                    :show-longitude? true
                                    :show-latitude-0? false
-                                   :show-ecliptic? true
                                    :show-lunar-orbit? false
                                    :center-candidates [{:db/id [:planet/name "earth"]}
                                                        {:db/id [:planet/name "sun"]}]

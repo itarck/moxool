@@ -91,7 +91,8 @@
    :constellation v.constel/ConstellationView
    :astronomical-point-tool v.astronomical-point-tool/AstronomicalPointToolObjectView
    :ruler-tool v.ruler-tool/RulerSceneView
-   :ecliptic ecliptic.v/EclipticSceneView})
+  ;;  :ecliptic ecliptic.v/EclipticSceneView
+   })
 
 
 (def hud-library

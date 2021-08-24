@@ -56,7 +56,7 @@
                        :initial-events [#:event{:action :editor/pull-current-frame}
                                         #:event{:action :editor/load-current-frame}]
                        }
-    :view #:view{:view-fn editor.v/FreeView
+    :view #:view{:view-fn editor.v/EditorView
                  :props {:editor {:db/id [:editor/name "default"]}}
                  :env {:conn (ig/ref :studio/conn)
                        :service-chan (ig/ref :studio/service-chan)
