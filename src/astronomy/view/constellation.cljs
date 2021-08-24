@@ -44,7 +44,7 @@
                  :style {:color constellation-color
                          :font-size "14px"}}
         [:p chinese-name]])
-     (when show-lines?
+     (when (or show-lines? true)
        [:<>
         (for [star-line star-lines]
           ^{:key (str (:db/id constel-entity) (rand))}

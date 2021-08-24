@@ -83,3 +83,24 @@
 
     (kick-start! conn)
     @conn))
+
+
+;; 完整db
+(def test-db12
+  (let [conn (create-empty-conn!)]
+    (d/transact! conn d.basic/dataset1)
+    (d/transact! conn d.celestial/dataset1)
+    (d/transact! conn d.celestial/dataset3)
+    (d/transact! conn d.celestial/dataset4)
+    (d/transact! conn d.galaxy/dataset1)
+    (d/transact! conn d.coordinate/dataset1)
+
+    (p/transact! conn d.stars/dataset1)
+    (d/transact! conn d.constel/dataset1)
+    (d/transact! conn d.constel/dataset2)
+    (d/transact! conn d.constel/dataset3)
+    (d/transact! conn d.tool/dataset1)
+    (d/transact! conn d.misc/dataset1)
+
+    (kick-start! conn)
+    @conn))

@@ -39,6 +39,7 @@
         ;; [v.star/StarsSphereView {} env]
         ]
 
+
        (for [object objects]
          (let [object-view-fn (get object-libray (:entity/type object))]
            (when object-view-fn
