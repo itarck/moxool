@@ -7,15 +7,19 @@
    [helix.core :refer [$]]
    ["@react-three/drei" :refer [Html]]
    [shu.three.vector3 :as v3]
+   [astronomy.model.const :as m.const]
    [astronomy.model.ellipse-orbit :as m.ellipse-orbit]
    [methodology.lib.geometry :as v.geo]
    [methodology.view.gltf :as v.gltf]
-   [astronomy.objects.satellite.v :as satellite.v]
    [astronomy.objects.planet.m :as planet]
-   [astronomy.component.animate :as a]))
+   [astronomy.objects.satellite.v :as satellite.v]
+   [astronomy.component.animate :as a]
+   [astronomy.component.celestial-sphere :as c.celestial-sphere]
+   [astronomy.objects.ecliptic.m :as ecliptic.m]
+   [astronomy.objects.ecliptic.v :as ecliptic.v]))
 
 
-(def earth
+(def earth-1
   #:planet {:name "earth"
             :chinese-name "地球"
             :radius 2
@@ -36,26 +40,28 @@
 
 
 
-(defn PlanetPositionLineView [{:keys [planet]} env]
-  (let [color (or (get-in planet [:celestial/orbit :orbit/color])
+(defn PlanetPositionLineView [{:keys [planet color]} env]
+  (let [merged-color (or color 
+                  (get-in planet [:celestial/orbit :orbit/color])
                   "gray")]
     [v.geo/LineComponent {:points [(v3/from-seq [0 0 0])
                                    (v3/from-seq (map #(* 1.003 %) (:object/position planet)))]
-                          :color color}]))
+                          :color merged-color}]))
 
 
-(defn PlanetOrbitView [{:keys [orbit]} env]
-  (cond
-    (= (:orbit/type orbit) :ellipse-orbit)
-    [v.geo/LineComponent {:points (m.ellipse-orbit/cal-orbit-points-vectors orbit (* 10 360))
-                          :color (:orbit/color orbit)}]
+(defn PlanetOrbitView [{:keys [orbit color]} env]
+  (let [new-color (or color (:orbit/color orbit))]
+    (cond
+      (= (:orbit/type orbit) :ellipse-orbit)
+      [v.geo/LineComponent {:points (m.ellipse-orbit/cal-orbit-points-vectors orbit (* 10 360))
+                            :color new-color}]
 
-    :else
-    [v.geo/CircleComponent {:center [0 0 0]
-                            :radius (:circle-orbit/radius orbit)
-                            :axis (:circle-orbit/axis orbit)
-                            :color (:orbit/color orbit)
-                            :circle-points (* 360 20)}]))
+      :else
+      [v.geo/CircleComponent {:center [0 0 0]
+                              :radius (:circle-orbit/radius orbit)
+                              :axis (:circle-orbit/axis orbit)
+                              :color new-color
+                              :circle-points (* 360 20)}])))
 
 
 (defn PlanetSpinPlaneView [{:keys [size]} env]
@@ -64,6 +70,7 @@
    [v.geo/LineComponent {:points [(v3/from-seq [0 0 0])
                                   (v3/from-seq [(* 0.7 size) 0 0])]
                          :color "red"}]])
+
 
 (defn PlanetPositionLogView [{:keys [planet]} {:keys [conn]}]
   (let [planet-1 @(p/pull conn '[*] (:db/id planet))
@@ -78,6 +85,36 @@
      (for [id planet-ids]
        ^{:key id}
        [PlanetPositionLogView {:planet {:db/id id}} env])]))
+
+
+(defn EpicycleView [props {:keys [conn]}]
+  (let [earth @(p/pull conn '[:object/position] [:planet/name "earth"])]
+    [:<>
+     [v.geo/CircleComponent {:center [0 0 0]
+                             :radius 500
+                             :axis m.const/ecliptic-axis
+                             :color "gray"}]
+     (let [points (c.celestial-sphere/gen-latitude-points 500 0 36)]
+       [:mesh {:quaternion m.const/ecliptic-quaternion}
+        [v.geo/PointsComponent {:points points
+                                :size 40000
+                                :color "gray"}]])
+     [v.geo/LineComponent {:points [(v3/from-seq [0 0 0])
+                                    (v3/multiply-scalar (v3/from-seq (:object/position earth)) -1)]
+                           :color "gray"}]]))
+
+
+(defn DeferentEpicycleView [{:keys [planet]} {:keys [conn] :as env}]
+  (let [earth @(p/pull conn '[*] [:planet/name "earth"])
+        planet-1 @(p/pull conn '[* {:celestial/orbit [*]}] (:db/id planet))
+        {:celestial/keys [orbit]} planet-1]
+    (when-not (= (:db/id earth) (:db/id planet-1))
+      [:mesh {:position (:object/position earth)}
+       [PlanetOrbitView {:orbit orbit :color "gray"} env]
+       [PlanetPositionLineView {:planet planet-1 :color "gray"} env]
+       [:mesh {:position (:object/position planet-1)}
+        [EpicycleView {} env]]])))
+
 
 
 (defn PlanetCelestialView 
@@ -169,6 +206,8 @@
          [PlanetCelestialView props env]
          [AnimatedPlanetCelestialView props env]))
 
+     [DeferentEpicycleView {:planet planet} env]
+
      [:mesh {:position position}
 
       (when show-name?
@@ -185,4 +224,8 @@
                                      :astro-scene astro-scene} env])]]
 
      (when (:orbit/show? orbit) [PlanetOrbitView {:orbit orbit} env])
-     (when (:orbit/show? orbit) [PlanetPositionLineView {:planet planet} env])]))
+     (when (:orbit/show? orbit) [PlanetPositionLineView {:planet planet} env])
+     
+     ]))
+
+
