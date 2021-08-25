@@ -6,7 +6,7 @@
    [astronomy.model.atmosphere :as m.atmosphere]
    [astronomy.view.background :as v.background]
    [astronomy.view.constellation :as v.constel]
-   [astronomy.view.star :as v.star]
+   [astronomy.objects.star.v :as v.star]
    [astronomy.view.atmosphere :as v.atmosphere]
    [astronomy.objects.planet.v :as planet.v]))
 

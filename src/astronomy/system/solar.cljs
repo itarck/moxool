@@ -8,7 +8,7 @@
    [astronomy.model.core :refer [basic-db]]
 
   ;;  views
-   [astronomy.view.star :as v.star]
+   
    [astronomy.view.galaxy :as v.galaxy]
    [astronomy.view.constellation :as v.constel]
    [astronomy.view.user.universe-tool :as v.universe-tool]
@@ -25,6 +25,7 @@
    [astronomy.view.user.ruler-tool :as v.ruler-tool]
 
 
+   [astronomy.objects.star.v :as star.v]
    [astronomy.objects.ecliptic.v :as ecliptic.v]
    [astronomy.objects.astronomical-coordinate.v :as astronomical-coordinate.v]
    [astronomy.objects.terrestrial-coordinate.v :as terrestrial-coordinate.v]
@@ -83,7 +84,7 @@
 
 
 (def object-libray 
-  {:star v.star/StarView
+  {:star star.v/StarView
    :galaxy v.galaxy/GalaxyView
    :terrestrial-coordinate terrestrial-coordinate.v/TerrestrialCoordinateView
    :astronomical-coordinate astronomical-coordinate.v/AstronomicalCoordinateView

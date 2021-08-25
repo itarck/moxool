@@ -14,9 +14,7 @@
    ["react-three-fiber" :refer [Canvas useFrame extend useThree]]
    ["three/examples/jsm/exporters/GLTFExporter" :refer [GLTFExporter]]
    ["@react-three/drei" :refer [useGLTF OrbitControls FlyControls]]
-   [astronomy.scripts.test-conn :refer [test-db12]]
-   [astronomy.view.star :as v.star]
-   [astronomy.view.constellation :as v.constel]))
+   [astronomy.scripts.test-conn :refer [test-db12]]))
 
 
 

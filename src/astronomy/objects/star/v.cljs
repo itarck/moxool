@@ -1,4 +1,4 @@
-(ns astronomy.view.star
+(ns astronomy.objects.star.v
   (:require
    [applied-science.js-interop :as j]
    [cljs-bean.core :refer [->js]]
