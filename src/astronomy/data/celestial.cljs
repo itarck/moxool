@@ -33,7 +33,7 @@
    {:name "mercury"
     :chinese-name "水星"
     :show-name? true
-    :track-position? true
+    :track-position? false
     :show-tracks? true
     :position-log []
     :star [:star/name "sun"]
@@ -69,7 +69,7 @@
    {:name "venus"
     :chinese-name "金星"
     :show-name? true
-    :track-position? true
+    :track-position? false
     :show-tracks? true
     :star [:star/name "sun"]
     :celestial/radius 0.020172667
@@ -233,7 +233,7 @@
    {:name "mars"
     :chinese-name "火星"
     :show-name? true
-    :track-position? true
+    :track-position? false
     :show-tracks? true
     :star [:star/name "sun"]
     :celestial/radius 0.011323333
@@ -412,7 +412,7 @@
    {:name "jupiter"
     :chinese-name "木星"
     :show-name? true
-    :track-position? true
+    :track-position? false
     :show-tracks? true
     :star [:star/name "sun"]
     :celestial/radius 0.238306667
@@ -572,7 +572,7 @@
    {:name "saturn"
     :chinese-name "土星"
     :show-name? true
-    :track-position? true
+    :track-position? false
     :show-tracks? true
     :star [:star/name "sun"]
     :celestial/radius 0.200893333

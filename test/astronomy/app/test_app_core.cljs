@@ -74,6 +74,10 @@
 
   (def mercury @(p/pull conn '[*] [:planet/name "mercury"]))
 
+  (let [tx [{:db/id (get-in mercury [:celestial/orbit :db/id])
+            :orbit/show? true}]]
+    (p/transact! conn tx))
+
   #_(let [tx (ac.m/change-center-object-tx @conn ac-1 sun)]
     (p/transact! conn tx))
 
