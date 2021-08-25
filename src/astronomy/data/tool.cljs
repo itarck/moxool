@@ -150,6 +150,10 @@
                                     #:ppt-page{:image-url "/slides/23.planet-route/Slide2.jpeg"}
                                     #:ppt-page{:image-url "/slides/23.planet-route/Slide3.jpeg"}]
                             :chinese-name "23.奇怪的行星轨迹"
+                            :current-page 0}
+                     #:ppt {:pages [#:ppt-page{:image-url "/slides/24.heliocentric/Slide1.jpeg"}
+                                    #:ppt-page{:image-url "/slides/24.heliocentric/Slide2.jpeg"}]
+                            :chinese-name "24.日心说：参考系变换"
                             :current-page 0}]
               :tool/name "ppt tool"
               :tool/chinese-name "脚本"
