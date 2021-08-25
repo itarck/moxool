@@ -8,15 +8,13 @@
    ["@react-three/drei" :refer [Html]]
    [shu.three.vector3 :as v3]
    [astronomy.model.const :as m.const]
-   [astronomy.model.ellipse-orbit :as m.ellipse-orbit]
+   [astronomy.objects.ellipse-orbit.m :as m.ellipse-orbit]
    [methodology.lib.geometry :as v.geo]
    [methodology.view.gltf :as v.gltf]
    [astronomy.objects.planet.m :as planet]
    [astronomy.objects.satellite.v :as satellite.v]
    [astronomy.component.animate :as a]
-   [astronomy.component.celestial-sphere :as c.celestial-sphere]
-   [astronomy.objects.ecliptic.m :as ecliptic.m]
-   [astronomy.objects.ecliptic.v :as ecliptic.v]))
+   [astronomy.component.celestial-sphere :as c.celestial-sphere]))
 
 
 (def earth-1

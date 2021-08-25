@@ -5,7 +5,7 @@
    [shu.three.vector3 :as v3]
    [shu.goog.math :as gmath]
    [cljs-time.format :as ft]
-   [astronomy.model.ellipse-orbit :as m.ellipse-orbit]
+   [astronomy.objects.ellipse-orbit.m :as m.ellipse-orbit]
    [astronomy.objects.moon-orbit.m :as mo :refer [moon-sample1]]))
 
 

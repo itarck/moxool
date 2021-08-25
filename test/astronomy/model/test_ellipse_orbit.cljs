@@ -4,7 +4,7 @@
    [shu.calendar.epoch :as epoch]
    [shu.three.vector3 :as v3]
    [shu.goog.math :as gmath]
-   [astronomy.model.ellipse-orbit :as m.ellipse-orbit]
+   [astronomy.objects.ellipse-orbit.m :as m.ellipse-orbit]
    [astronomy.model.circle-orbit :as m.circle-orbit]))
 
 

@@ -1,4 +1,4 @@
-(ns astronomy.model.ellipse-orbit
+(ns astronomy.objects.ellipse-orbit.m
   (:require
    [shu.goog.math :as gmath]
    [shu.three.quaternion :as q]
@@ -16,7 +16,7 @@
 (defn period-to-angular-velocity-in-degree [period]
   (/ 360 period))
 
-  
+
 (def sample1
   #:ellipse-orbit {:semi-major-axis 193.1642156
                    :eccentricity 0.205630
@@ -146,7 +146,7 @@
   (cal-position-vector earth-sample 80)
 
   (cal-position-to-vernal-equinox earth-sample 0)
-  
+
   (cal-position earth-sample 0)
 
   ;; 

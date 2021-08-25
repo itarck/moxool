@@ -4,7 +4,7 @@
    [datascript.core :as d]
    [shu.three.quaternion :as q]
    [shu.three.matrix4 :as m4]
-   [astronomy.model.ellipse-orbit :as m.ellipse-orbit]
+   [astronomy.objects.ellipse-orbit.m :as ellipse-orbit.m]
    [astronomy.model.circle-orbit :as m.circle-orbit]
    [astronomy.objects.moon-orbit.m :as moon-orbit.m]
    [astronomy.model.spin :as m.spin]))
@@ -74,7 +74,7 @@
   {:pre [(s/assert :astronomy/celestial celestial)]}
   (let [{:celestial/keys [orbit]} celestial]
     (cond
-      (and orbit (= (:orbit/type orbit) :ellipse-orbit)) (m.ellipse-orbit/cal-position orbit days)
+      (and orbit (= (:orbit/type orbit) :ellipse-orbit)) (ellipse-orbit.m/cal-position orbit days)
       (and orbit (= (:orbit/type orbit) :moon-orbit)) (seq (moon-orbit.m/cal-position-vector orbit days))
       orbit (m.circle-orbit/cal-position orbit days)
       :else (:object/position celestial))))
