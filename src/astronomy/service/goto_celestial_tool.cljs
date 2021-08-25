@@ -5,7 +5,7 @@
    [cljs.core.async :refer [go-loop go >! <! timeout] :as a]
    [astronomy.model.user.spaceship-camera-control :as m.spaceship]
    [astronomy.model.celestial :as m.celestial]
-   [astronomy.model.star :as m.star]
+   [astronomy.objects.star.m :as m.star]
    [astronomy.model.user.goto-celestial-tool :as m.goto-tool]))
 
 

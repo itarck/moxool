@@ -4,7 +4,7 @@
    [datascript.core :as d]
    [integrant.core :as ig]
    [astronomy.app.free-mode :as free-app]
-   [astronomy.model.star :as m.star]
+   [astronomy.objects.star.m :as m.star]
    [methodology.model.user.backpack :as m.backpack]))
 
 

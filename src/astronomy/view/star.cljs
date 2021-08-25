@@ -9,8 +9,7 @@
    ["three" :as three]
    ["react" :as react :refer [useRef Suspense]]
    [methodology.view.gltf :as v.gltf]
-   [astronomy.model.star :as m.star]
-   [astronomy.model.astro-scene :as m.astro-scene]
+   [astronomy.objects.star.m :as m.star]
    [astronomy.model.constellation :as m.constel]
    [astronomy.objects.planet.v :as planet.v]
    [astronomy.component.gltf :as c.gltf]))

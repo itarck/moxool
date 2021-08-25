@@ -1,7 +1,7 @@
 (ns astronomy.data.stars
   (:require
    [cljs.reader :refer [read-string]]
-   [astronomy.model.star :as m.star])
+   [astronomy.objects.star.m :as m.star])
   (:require-macros
    [methodology.lib.resource :refer [read-resource]]))
 

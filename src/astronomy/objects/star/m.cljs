@@ -1,4 +1,4 @@
-(ns astronomy.model.star
+(ns astronomy.objects.star.m
   (:require
    [datascript.core :as d]
    [posh.reagent :as p]
@@ -97,14 +97,11 @@
      (gmath/to-radians right-ascension))))
 
 
-(comment 
+(comment
   (parse-raw-bsc-data sample2)
   ;; => #:star{:DEm 13, :HR 1, :RAh 0, :RAm 5, :DEd 45, :HD 3, :right-ascension 0.08608333333333333, :visual-magnitude 6.7, :DEs 45, :RAs 9.9, :declination 45.22916666666667}
 
-  
+
   (visual-magnitude->length 1)
   ;; => 158.48931924611136
-
-
-
   )

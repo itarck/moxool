@@ -19,8 +19,8 @@
    [astronomy.objects.ellipse-orbit.m :as m.ellipse-orbit]
    [astronomy.model.core :as ast-model]
    [astronomy.model.clock :as m.clock]
-   [astronomy.model.star :as m.star]
    [astronomy.model.spin :as m.spin]
+   [astronomy.objects.star.m :as m.star]
    [astronomy.objects.planet.m :as m.planet]))
 
 (def schema (merge ast-model/schema
