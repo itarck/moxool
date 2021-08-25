@@ -45,6 +45,12 @@
              :planet/show-tracks? show-tracks?}]]
     (effects :tx tx)))
 
+(defmethod handle-event :planet/change-show-epicycle
+  [props _env {:event/keys [detail]}]
+  (let [{:keys [planet show-epicycle?]} detail
+        tx [{:db/id (:db/id planet)
+             :planet/show-epicycle? show-epicycle?}]]
+    (effects :tx tx)))
 
 (defmethod handle-event :planet/update-all-position-logs
   [{:keys [astro-scene]} {:keys [db]} {:event/keys [detail] :as event}]

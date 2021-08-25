@@ -93,15 +93,15 @@
      [v.geo/CircleComponent {:center [0 0 0]
                              :radius 500
                              :axis m.const/ecliptic-axis
-                             :color "gray"}]
+                             :color "#606060"}]
      (let [points (c.celestial-sphere/gen-latitude-points 500 0 36)]
        [:mesh {:quaternion m.const/ecliptic-quaternion}
         [v.geo/PointsComponent {:points points
                                 :size 40000
-                                :color "gray"}]])
+                                :color "#606060"}]])
      [v.geo/LineComponent {:points [(v3/from-seq [0 0 0])
                                     (v3/multiply-scalar (v3/from-seq (:object/position earth)) -1)]
-                           :color "gray"}]]))
+                           :color "#606060"}]]))
 
 
 (defn DeferentEpicycleView [{:keys [planet]} {:keys [conn] :as env}]
@@ -110,8 +110,8 @@
         {:celestial/keys [orbit]} planet-1]
     (when-not (= (:db/id earth) (:db/id planet-1))
       [:mesh {:position (:object/position earth)}
-       [PlanetOrbitView {:orbit orbit :color "gray"} env]
-       [PlanetPositionLineView {:planet planet-1 :color "gray"} env]
+       [PlanetOrbitView {:orbit orbit :color "#606060"} env]
+       [PlanetPositionLineView {:planet planet-1 :color "#606060"} env]
        [:mesh {:position (:object/position planet-1)}
         [EpicycleView {} env]]])))
 
@@ -196,7 +196,7 @@
         ;; center-entity (m.astro-scene/sub-scene-center-entity conn astro-scene)
         {:object/keys [position]} planet
         {:celestial/keys [gltf orbit]} planet
-        {:planet/keys [show-name? chinese-name]} planet
+        {:planet/keys [show-name? chinese-name show-epicycle?]} planet
         satellites (:satellite/_planet planet)]
 
     [:<>
@@ -206,7 +206,8 @@
          [PlanetCelestialView props env]
          [AnimatedPlanetCelestialView props env]))
 
-     [DeferentEpicycleView {:planet planet} env]
+     (when show-epicycle?
+       [DeferentEpicycleView {:planet planet} env])
 
      [:mesh {:position position}
 

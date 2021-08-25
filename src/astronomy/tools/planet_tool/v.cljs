@@ -110,7 +110,7 @@
                                                                  :track-position? value}}))))}]
           [:span "是"]]
          
-         [:> mt/Typography {:variant "subtitle1"} "轨迹显示："
+         [:> mt/Typography {:variant "subtitle1"} "显示轨迹："
           [:span "否"]
           [:> mt/Switch
            {:color "default"
@@ -122,5 +122,20 @@
                                                         :detail {:planet target
                                                                  :show-tracks? value}}))))}]
           [:span "是"]]
+         
+
+         [:> mt/Typography {:variant "subtitle1"} "显示本轮和均轮："
+          [:span "否"]
+          [:> mt/Switch
+           {:color "default"
+            :size "small"
+            :checked (or (get-in target [:planet/show-epicycle?]) false)
+            :onChange (fn [event]
+                        (let [value (j/get-in event [:target :checked])]
+                          (go (>! service-chan #:event {:action :planet/change-show-epicycle
+                                                        :detail {:planet target
+                                                                 :show-epicycle? value}}))))}]
+          [:span "是"]]
+         
 ;; 
          ]]]]]))
