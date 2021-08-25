@@ -5,7 +5,7 @@
    [shu.three.vector3 :as v3]
    [shu.goog.math :as gmath]
    [astronomy.objects.ellipse-orbit.m :as m.ellipse-orbit]
-   [astronomy.model.circle-orbit :as m.circle-orbit]))
+   [astronomy.objects.circle-orbit.m :as m.circle-orbit]))
 
 
 

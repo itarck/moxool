@@ -5,7 +5,7 @@
    [shu.three.quaternion :as q]
    [shu.three.matrix4 :as m4]
    [astronomy.objects.ellipse-orbit.m :as ellipse-orbit.m]
-   [astronomy.model.circle-orbit :as m.circle-orbit]
+   [astronomy.objects.circle-orbit.m :as circle-orbit.m]
    [astronomy.objects.moon-orbit.m :as moon-orbit.m]
    [astronomy.model.spin :as m.spin]))
 
@@ -76,7 +76,7 @@
     (cond
       (and orbit (= (:orbit/type orbit) :ellipse-orbit)) (ellipse-orbit.m/cal-position orbit days)
       (and orbit (= (:orbit/type orbit) :moon-orbit)) (seq (moon-orbit.m/cal-position-vector orbit days))
-      orbit (m.circle-orbit/cal-position orbit days)
+      orbit (circle-orbit.m/cal-position orbit days)
       :else (:object/position celestial))))
 
 (defn cal-position-matrix [celestial days]

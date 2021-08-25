@@ -1,4 +1,4 @@
-(ns astronomy.model.circle-orbit
+(ns astronomy.objects.circle-orbit.m
   (:require
    [shu.three.quaternion :as q]
    [shu.three.vector3 :as v3]
@@ -101,6 +101,4 @@
 
   (cal-position-with-axis-precession moon-sample1 365)
   ;; => #object[Vector3 [-0.9024143502132218 -0.4397705673035338 0.7957456808948292]]
-
-
   )
