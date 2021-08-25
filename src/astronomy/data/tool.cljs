@@ -148,8 +148,7 @@
                             :current-page 0}
                      #:ppt {:pages [#:ppt-page{:image-url "/slides/23.planet-route/Slide1.jpeg"}
                                     #:ppt-page{:image-url "/slides/23.planet-route/Slide2.jpeg"}
-                                    #:ppt-page{:image-url "/slides/23.planet-route/Slide3.jpeg"}
-                                    #:ppt-page{:image-url "/slides/23.planet-route/Slide4.jpeg"}]
+                                    #:ppt-page{:image-url "/slides/23.planet-route/Slide3.jpeg"}]
                             :chinese-name "23.奇怪的行星轨迹"
                             :current-page 0}]
               :tool/name "ppt tool"
