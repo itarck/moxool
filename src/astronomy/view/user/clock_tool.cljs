@@ -3,7 +3,9 @@
    [applied-science.js-interop :as j]
    [cljs-bean.core :refer [->js]]
    [cljs.core.async :refer [go >! <! go-loop] :as a]
+   [cljs.reader :refer [read-string]]
    [helix.core :refer [$]]
+   [goog.string :as gstring]
    [posh.reagent :as p]
    ["@material-ui/core" :as mt]
    [astronomy.model.astro-scene :as m.astro-scene]
@@ -14,7 +16,7 @@
 (defn ClockToolView [props {:keys [service-chan conn]}]
   (let [clock-tool @(p/pull conn '[*] (get-in props [:tool :db/id]))
         scene-coordinate (m.astro-scene/sub-scene-coordinate conn (get-in props [:astro-scene]))
-        {:clock-tool/keys [step-interval clock]} clock-tool
+        {:clock-tool/keys [step-interval clock days-per-step]} clock-tool
         clock @(p/pull conn '[*] (:db/id clock))
         {:clock/keys [time-in-days]} clock
         step-interval-in-chinese (case step-interval
@@ -24,7 +26,8 @@
                                    :30day "月"
                                    :day "日"
                                    :year "年"
-                                   :100year "百年")
+                                   :100year "百年"
+                                   :custom "自定义")
         gen-click-step-interval (fn [step-interval]
                                   #(go (>! service-chan #:event{:action :clock-tool/change-step-interval
                                                                 :detail {:clock-tool clock-tool
@@ -73,7 +76,7 @@
                  :valueLabelDisplay "auto"}))
 
         ($ mt/Grid {:item true :xs 12}
-           ($ mt/Typography {:variant "subtitle2"} "时间步长：" step-interval-in-chinese)
+           ($ mt/Typography {:variant "subtitle2"} "时间步长：" (str (gstring/format "%0.6f" days-per-step) "天"))
            ($ mt/ButtonGroup {:size "small"}
               ($ mt/Button {:onClick (gen-click-step-interval :minute)
                             :variant (if (= step-interval :minute) "contained" "outlined")}
@@ -89,8 +92,7 @@
                  "日")
               ($ mt/Button {:onClick (gen-click-step-interval :30day)
                             :variant (if (= step-interval :30day) "contained" "outlined")}
-                 "月")
-              )
+                 "月"))
            ($ mt/ButtonGroup {:size "small"
                               :style {:margin-top "4px"}}
               ($ mt/Button {:onClick (gen-click-step-interval :year)
@@ -98,7 +100,33 @@
                  "年")
               ($ mt/Button {:onClick (gen-click-step-interval :100year)
                             :variant (if (= step-interval :100year) "contained" "outlined")}
-                 "百年")))
+                 "百年")
+              ($ mt/Button {:onClick (gen-click-step-interval :custom)
+                            :variant (if (= step-interval :custom) "contained" "outlined")}
+                 "自定义")))
+
+        (when (= step-interval :custom)
+          (let [step-ref (atom days-per-step)]
+            [:<>
+             ($ mt/Grid {:item true :xs 8}
+                ($ mt/Input {:id "standard-basic" :label "步长（天）"
+                             :color "secondary" :size "small"
+                             :defaultValue @step-ref
+                             :onChange (fn [e]
+                                         (let [value (j/get-in e [:target :value])]
+                                           (reset! step-ref (read-string value))))}))
+             ($ mt/Grid {:item true :xs 4}
+                ($ mt/Button {:variant "outlined"
+                              :size "small"
+                              :style {:margin-top "5px"}
+                              :onClick #(go (>! service-chan #:event{:action :clock-tool/change-step-interval
+                                                                     :detail {:clock-tool clock-tool
+                                                                              :step-interval step-interval
+                                                                              :days-per-step @step-ref }}))}
+                   "设置"))]))
+
+
+
 
         ($ mt/Grid {:item true :xs 12}
            ($ mt/Typography {:variant "subtitle2"} "动作")

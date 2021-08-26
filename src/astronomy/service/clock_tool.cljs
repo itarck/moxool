@@ -64,18 +64,22 @@
 
 (defmethod handle-event! :clock-tool/change-step-interval
   [props {:keys [conn]} {:event/keys [detail]}]
-  (let [{:keys [clock-tool step-interval]} detail
-        days-per-step (case step-interval
-                        :minute (/ 1 24.0 60.0)
-                        :hour (/ 1 24.0)
-                        :star-day 0.99726968
-                        :day 1
-                        :30day 30
-                        :year 365
-                        :100year (* 365.25 100))
-        tx [{:db/id (:db/id clock-tool)
-             :clock-tool/step-interval step-interval
-             :clock-tool/days-per-step days-per-step}]]
+  (let [{:keys [clock-tool step-interval days-per-step]} detail
+        days-per-step-1 (case step-interval
+                          :minute (/ 1 24.0 60.0)
+                          :hour (/ 1 24.0)
+                          :star-day 0.99726968
+                          :day 1
+                          :30day 30
+                          :year 365
+                          :100year (* 365.25 100)
+                          :custom days-per-step)
+        tx (if days-per-step-1
+             [{:db/id (:db/id clock-tool)
+               :clock-tool/step-interval step-interval
+               :clock-tool/days-per-step days-per-step-1}]
+             [{:db/id (:db/id clock-tool)
+               :clock-tool/step-interval step-interval}])]
     (p/transact! conn tx)))
 
 
