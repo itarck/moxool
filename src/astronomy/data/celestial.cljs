@@ -32,7 +32,7 @@
   #:planet
    {:name "mercury"
     :chinese-name "水星"
-    :show-name? true
+    :show-name? false
     :track-position? false
     :show-tracks? true
     :position-log []
@@ -68,7 +68,7 @@
   #:planet
    {:name "venus"
     :chinese-name "金星"
-    :show-name? true
+    :show-name? false
     :track-position? false
     :show-tracks? true
     :star [:star/name "sun"]
@@ -232,7 +232,7 @@
   #:planet
    {:name "mars"
     :chinese-name "火星"
-    :show-name? true
+    :show-name? false
     :track-position? false
     :show-tracks? true
     :star [:star/name "sun"]
@@ -411,7 +411,7 @@
   #:planet
    {:name "jupiter"
     :chinese-name "木星"
-    :show-name? true
+    :show-name? false
     :track-position? false
     :show-tracks? true
     :star [:star/name "sun"]
@@ -571,7 +571,7 @@
   #:planet
    {:name "saturn"
     :chinese-name "土星"
-    :show-name? true
+    :show-name? false
     :track-position? false
     :show-tracks? true
     :star [:star/name "sun"]
