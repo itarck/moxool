@@ -7,6 +7,7 @@
    [helix.core :refer [$]]
    ["@material-ui/core" :as mt]
    [shu.arithmetic.number :as number]
+   [astronomy.objects.ecliptic.m :as ecliptic]
    [astronomy.objects.astronomical-coordinate.m :as ac.m]
    [astronomy.tools.astronomical-coordinate-tool.m :as astronomical-coordinate-tool]))
 
@@ -60,7 +61,8 @@
                 astronomical-coordinate @(p/pull conn '[*] astronomical-coordinate-id)
                 {:astronomical-coordinate/keys [show-latitude? show-longitude? show-latitude-0? show-regression-line?
                                                 show-longitude-0? radius show-lunar-orbit? center-object show-marks?]} astronomical-coordinate
-                center-candidates-id-and-names (ac.m/sub-center-candidates-id-and-names conn)]
+                center-candidates-id-and-names (ac.m/sub-center-candidates-id-and-names conn)
+                eclipic-1 (ecliptic/sub-unique-one conn)]
             ;; (println "AstronomicalCoordinateToolView: " astronomical-coordinate)
             [:<>
              [:> mt/Grid {:item true :xs 6}
@@ -175,9 +177,9 @@
                                                                                   :show? show?}}))))}]
               [:span "是"]]
 
-             #_[:> mt/Grid {:item true :xs 6}
+             [:> mt/Grid {:item true :xs 6}
                 [:> mt/Typography {:variant "subtitle2"} "显示黄道"]]
-             #_[:> mt/Grid {:item true :xs 6}
+             [:> mt/Grid {:item true :xs 6}
                 [:span "否"]
                 [:> mt/Switch {:color "default"
                                :size "small"
