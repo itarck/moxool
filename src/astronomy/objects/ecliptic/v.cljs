@@ -40,5 +40,5 @@
          [v.geo/LineComponent {:points [(v3/from-seq [0 0 0])
                                         (v3/multiply-scalar (v3/from-seq (:object/position earth)) -1)]
                                :color "orange"}]
-         [EclipticMarksView {:radius 500
+         #_[EclipticMarksView {:radius 500
                              :color "orange"}]]))))
