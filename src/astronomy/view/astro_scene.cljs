@@ -36,7 +36,7 @@
        [:<>
         ;; [v.constel/ConstellationsView {} env]
         ;; [v.background/BackgroundView {} env]
-        ;; [v.star/StarsSphereView {} env]
+        [v.star/SavedStarsSphereView {} env]
         ]
 
 

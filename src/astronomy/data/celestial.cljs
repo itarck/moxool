@@ -929,3 +929,9 @@
 (def dataset3 [atmosphere])
 
 (def dataset4 [mercury venus mars jupiter saturn])
+
+(def dataset-1610 [mercury venus
+                   mars
+                   jupiter
+                   io europa ganymede callisto
+                   saturn])

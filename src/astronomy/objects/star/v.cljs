@@ -42,7 +42,7 @@
 
 (defnc PointSunLight [props]
   ($ :pointLight {:position #js [0 0 0]
-                  :intensity 10}))
+                  :intensity 8}))
 
 (defn StarView [{:keys [astro-scene] :as props} {:keys [conn] :as env}]
   (let [star @(p/pull conn '[* {:planet/_star [:db/id]}] (get-in props [:object :db/id]))
@@ -101,7 +101,7 @@
                                 :count         star-count
                                 :array         positions
                                 :item-size     3}))
-       ($ "pointsMaterial" {:size             35000000000
+       ($ "pointsMaterial" {:size             250000000000
                             :size-attenuation true
                             :color            "white"
                             :transparent      true
@@ -115,7 +115,7 @@
     ($ StarsSphereComponent {:stars stars})))
 
 
-(defn SavedStarsSphereComponent [{:keys [position]}]
+(defn SavedStarsSphereView [{:keys [position]}]
   ($ :mesh {:position (or (->js position) #js [0 0 0])}
      ($ Suspense {:fallback nil}
         ($ c.gltf/GLTF {:url "models/starsphere.gltf"}))))
