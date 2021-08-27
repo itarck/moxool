@@ -36,6 +36,13 @@
           tx1 (m.spaceship/set-position-tx current-tool (seq click-point))]
       (create-effect :tx tx1))))
 
+(defmethod handle-event :spaceship-camera-control/mouse-clicked
+  [_props _env {:event/keys [detail] :as event}]
+  (when (:alt-key detail)
+    (let [{:keys [mouse-direction current-tool]} detail
+          tx (m.spaceship/set-direction-tx current-tool mouse-direction)]
+      (create-effect :tx tx))))
+
 (defmethod handle-event :spaceship-camera-control/check-valid-position
   [_props {:keys [db]} {:event/keys [detail] :as event}]
   (let [{:keys [spaceship-camera-control]} detail

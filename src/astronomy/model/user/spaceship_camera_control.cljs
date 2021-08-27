@@ -74,6 +74,11 @@
   [{:db/id (:db/id scc)
     :spaceship-camera-control/position position}])
 
+(defn set-direction-tx [scc direction]
+  {:pre [(s/assert :methodology/entity scc)]}
+  [{:db/id (:db/id scc)
+    :spaceship-camera-control/direction direction}])
+
 (defn set-min-distance-tx [scc min-distance]
   {:pre [(s/assert :methodology/entity scc)]}
   [{:db/id (:db/id scc)
