@@ -52,6 +52,13 @@
              :planet/show-epicycle? show-epicycle?}]]
     (effects :tx tx)))
 
+(defmethod handle-event :planet/change-scale
+  [props _env {:event/keys [detail]}]
+  (let [{:keys [planet scale]} detail
+        tx [{:db/id (:db/id planet)
+             :celestial/scale scale}]]
+    (effects :tx tx)))
+
 (defmethod handle-event :planet/update-all-position-logs
   [{:keys [astro-scene]} {:keys [db]} {:event/keys [detail] :as event}]
   (let [{:keys [clock]} detail

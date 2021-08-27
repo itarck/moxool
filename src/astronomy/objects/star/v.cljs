@@ -25,7 +25,7 @@
 
 ;; 绑定数据层
 
-(defnc SunLight [props]
+(defnc DirectionalSunLight [props]
   (let [{:keys [position intensity shadow-camera-near shadow-camera-far shadow-camera-size]} props
         l (new three/DirectionalLight "white" intensity)]
     (j/apply-in l [:position :set] position)
@@ -40,6 +40,10 @@
     ($ :primitive {:object l})))
 
 
+(defnc PointSunLight [props]
+  ($ :pointLight {:position #js [0 0 0]
+                  :intensity 10}))
+
 (defn StarView [{:keys [astro-scene] :as props} {:keys [conn] :as env}]
   (let [star @(p/pull conn '[* {:planet/_star [:db/id]}] (get-in props [:object :db/id]))
         celestial-scale (get-in props [:astro-scene :astro-scene/celestial-scale])
@@ -52,11 +56,12 @@
 
      (when (= (:star/name star) "sun")
        [:<>
-        ($ SunLight {:position #js [0 0 0]
-                     :intensity 10
-                     :shadow-camera-near 1
-                     :shadow-camera-far 100000000
-                     :shadow-camera-size 500})])
+        #_($ DirectionalSunLight {:position #js [0 0 0]
+                                  :intensity 10
+                                  :shadow-camera-near 1
+                                  :shadow-camera-far 100000000
+                                  :shadow-camera-size 500})
+        ($ PointSunLight {})])
 
      (when (:object/show? star)
        (if gltf

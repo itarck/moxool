@@ -122,8 +122,8 @@
                                 :celestial/orbit [*]
                                 :celestial/spin [*]} *] (:db/id planet))
         {:object/keys [position quaternion]} planet
-        {:celestial/keys [gltf radius spin]} planet
-        scaled-radius (* radius (:astro-scene/celestial-scale astro-scene))]
+        {:celestial/keys [gltf radius spin scale] :or {scale 1}} planet
+        scaled-radius (* radius scale (:astro-scene/celestial-scale astro-scene))]
     [:mesh {:position position
             :quaternion quaternion}
      [:mesh {:scale [scaled-radius scaled-radius scaled-radius]

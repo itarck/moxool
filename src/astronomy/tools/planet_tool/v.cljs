@@ -4,6 +4,7 @@
    [cljs.core.async :refer [go >! <! go-loop] :as a]
    [goog.string :as gstring]
    [posh.reagent :as p]
+   [helix.core :refer [$]]
    ["@material-ui/core" :as mt]
    [astronomy.objects.planet.m :as planet.m]))
 
@@ -12,7 +13,8 @@
   (let [tool @(p/pull conn '[*] (get-in props [:tool :db/id]))
         target @(p/pull conn '[{:celestial/orbit [*]
                                 :celestial/spin [*]} *] (get-in tool [:tool/target :db/id]))
-        candidate-id-and-names (sort-by first @(p/q planet.m/query-all-id-and-chinese-name conn))]
+        candidate-id-and-names (sort-by first @(p/q planet.m/query-all-id-and-chinese-name conn))
+        {:celestial/keys [scale] :or {scale 1}} target]
     [:div {:class "astronomy-righthand"}
      [:div {:class "astronomy-righthand-tool"}
       [:div.p-2
@@ -82,7 +84,7 @@
                                                                  :show? show?}}))))}]
           [:span "是"]]
 
-         
+
          [:> mt/Typography {:variant "subtitle1"} "显示名字："
           [:span "否"]
           [:> mt/Switch
@@ -96,7 +98,7 @@
                                                                  :show? show?}}))))}]
           [:span "是"]]
 
-         
+
          [:> mt/Typography {:variant "subtitle1"} "位置跟踪："
           [:span "否"]
           [:> mt/Switch
@@ -109,7 +111,7 @@
                                                         :detail {:planet target
                                                                  :track-position? value}}))))}]
           [:span "是"]]
-         
+
          [:> mt/Typography {:variant "subtitle1"} "显示轨迹："
           [:span "否"]
           [:> mt/Switch
@@ -122,7 +124,7 @@
                                                         :detail {:planet target
                                                                  :show-tracks? value}}))))}]
           [:span "是"]]
-         
+
 
          [:> mt/Typography {:variant "subtitle1"} "显示本轮和均轮："
           [:span "否"]
@@ -136,6 +138,23 @@
                                                         :detail {:planet target
                                                                  :show-epicycle? value}}))))}]
           [:span "是"]]
+
+
+         [:> mt/Grid {:item true :xs 10}
+          [:> mt/Typography {:variant "subtitle1"} (str "放大系数：" (gstring/format "%0.2f" scale))]]
+         [:> mt/Grid {:item true :xs 10}
+          ($ mt/Slider
+             {:style (clj->js {:color "#666"
+                               :width "200px"})
+              :value scale
+              :onChange (fn [e value]
+                          (go (>! service-chan #:event {:action :planet/change-scale
+                                                        :detail {:planet target
+                                                                 :scale value}})))
+              :step 1 :min 1 :max 30 :marks true
+              :getAriaValueText identity
+              :aria-labelledby "discrete-slider-restrict"
+              :valueLabelDisplay "auto"})]
          
 ;; 
          ]]]]]))
