@@ -54,7 +54,7 @@
     (d/transact! conn d.basic/dataset1)
     (d/transact! conn d.celestial/dataset1)
     (d/transact! conn d.celestial/dataset3)
-    (d/transact! conn d.celestial/dataset-1610)
+    (d/transact! conn d.celestial/dataset2)
     (d/transact! conn d.galaxy/dataset1)
     (d/transact! conn d.coordinate/dataset1)
 
@@ -68,6 +68,7 @@
     (kick-start! conn)
     conn))
 
+
 (defn async-run2! []
   (let [conn (init-conn!)]
     (println "async-run init-conn !!!!")
@@ -77,5 +78,6 @@
 (comment
 
   (async-run2!)
+  
 ;;   
   )

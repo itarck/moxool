@@ -44,7 +44,7 @@
                                       :inclination-in-degree 7.005
                                       :longitude-of-the-ascending-node-in-degree 48.331
                                       :argument-of-periapsis-in-degree 29.124
-                                      :mean-anomaly-in-degree 0
+                                      :mean-anomaly-in-degree 174.796
                                       :angular-velocity-in-degree (m.ellipse-orbit/period-to-angular-velocity-in-degree 87.97)
 
                                       :orbit/type :ellipse-orbit
@@ -649,16 +649,28 @@
     :star [:star/name "sun"]
     :celestial/radius 0.085196667
     :celestial/radius-string "4.01 地球半径"
-    :celestial/orbit #:circle-orbit {:star [:star/name "sun"]
-                                     :start-position (planet.m/random-position 9569.907333 m.const/ecliptic-axis)
-                                     :radius 9569.907333
-                                     :axis (vec ecliptic-axis)
-                                     :angular-velocity (shu.angle/period-to-angular-velocity-in-radians (* 84.02 365))
+    :celestial/orbit #:ellipse-orbit {:semi-major-axis 9595.568552
+                                      :eccentricity 0.044405586
+                                      :inclination-in-degree 0.772556
+                                      :longitude-of-the-ascending-node-in-degree 73.989821
+                                      :argument-of-periapsis-in-degree 96.541318
+                                      :mean-anomaly-in-degree 142.955717
+                                      :angular-velocity-in-degree (m.ellipse-orbit/period-to-angular-velocity-in-degree (* 75.3 365))
+                                      :orbit/type :ellipse-orbit
+                                      :orbit/period (* 84.02 365)
+                                      :orbit/color "deepskyblue"
+                                      :orbit/show? false
+                                      :orbit/radius 9569.907333}
+    #_#:circle-orbit {:star [:star/name "sun"]
+                    :start-position (planet.m/random-position 9569.907333 m.const/ecliptic-axis)
+                    :radius 9569.907333
+                    :axis (vec ecliptic-axis)
+                    :angular-velocity (shu.angle/period-to-angular-velocity-in-radians (* 84.02 365))
 
-                                     :orbit/type :circle-orbit
-                                     :orbit/period (* 84.02 365)
-                                     :orbit/color "deepskyblue"
-                                     :orbit/show? false}
+                    :orbit/type :circle-orbit
+                    :orbit/period (* 84.02 365)
+                    :orbit/color "deepskyblue"
+                    :orbit/show? false}
     :celestial/spin #:spin {:axis (m.spin/cal-spin-axis 257.311 -15.175)
                             :period 0.718
                             :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 0.718)}
@@ -682,16 +694,27 @@
     :star [:star/name "sun"]
     :celestial/radius 0.082546667
     :celestial/radius-string "3.88 地球半径"
-    :celestial/orbit #:circle-orbit {:star [:star/name "sun"]
-                                     :radius 14994.17633
-                                     :start-position (planet.m/random-position 14994.17633 ecliptic-axis)
-                                     :axis (vec ecliptic-axis)
-                                     :angular-velocity (shu.angle/period-to-angular-velocity-in-radians (* 164.79 365))
-
-                                     :orbit/type :circle-orbit
-                                     :orbit/period (* 164.79 365)
-                                     :orbit/color "dodgerblue"
-                                     :orbit/show? false}
+    :celestial/orbit #:ellipse-orbit {:semi-major-axis 15021.8711
+                                      :eccentricity 0.011214269
+                                      :inclination-in-degree 1.767975
+                                      :longitude-of-the-ascending-node-in-degree 131.79431
+                                      :argument-of-periapsis-in-degree 265.646853
+                                      :mean-anomaly-in-degree 267.767281
+                                      :angular-velocity-in-degree (m.ellipse-orbit/period-to-angular-velocity-in-degree (* 164.79 365.25))
+                                      :orbit/type :ellipse-orbit
+                                      :orbit/period (* 164.79 365)
+                                      :orbit/color "dodgerblue"
+                                      :orbit/show? false
+                                      :orbit/radius 14994.17633}
+    #_#:circle-orbit {:star [:star/name "sun"]
+                      :radius 14994.17633
+                      :start-position (planet.m/random-position 14994.17633 ecliptic-axis)
+                      :axis (vec ecliptic-axis)
+                      :angular-velocity (shu.angle/period-to-angular-velocity-in-radians (* 164.79 365))
+                      :orbit/type :circle-orbit
+                      :orbit/period (* 164.79 365)
+                      :orbit/color "dodgerblue"
+                      :orbit/show? false}
     :celestial/spin #:spin {:axis neptune-spin-axis
                             :period 0.67125
                             :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 0.67125)}
@@ -883,7 +906,7 @@
                                       :inclination-in-degree 162.26
                                       :longitude-of-the-ascending-node-in-degree 58.42
                                       :argument-of-periapsis-in-degree 111.33
-                                      :mean-anomaly-in-degree 100
+                                      :mean-anomaly-in-degree 38.38
                                       :angular-velocity-in-degree (m.ellipse-orbit/period-to-angular-velocity-in-degree (* 75.3 365))
                                       :orbit/type :ellipse-orbit
                                       :orbit/period (* 75.3 365)
