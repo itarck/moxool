@@ -79,7 +79,7 @@
                                       :inclination-in-degree 3.39458
                                       :longitude-of-the-ascending-node-in-degree 76.678
                                       :argument-of-periapsis-in-degree 55.186
-                                      :mean-anomaly-in-degree 0
+                                      :mean-anomaly-in-degree 50.115
                                       :angular-velocity-in-degree (m.ellipse-orbit/period-to-angular-velocity-in-degree 224.7)
 
                                       :orbit/type :ellipse-orbit

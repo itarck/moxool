@@ -71,8 +71,11 @@
   (def ac-1 @(p/pull conn '[*] [:coordinate/name "赤道天球坐标系"]))
 
   (def sun @(p/pull conn '[*] [:star/name "sun"]))
+  (def earth @(p/pull conn '[*] [:planet/name "earth"]))
 
   (def mercury @(p/pull conn '[*] [:planet/name "mercury"]))
+
+  (def venus @(p/pull conn '[*] [:planet/name "venus"]))
 
   (let [tx [{:db/id (get-in mercury [:celestial/orbit :db/id])
             :orbit/show? true}]]
@@ -86,6 +89,9 @@
                                 :center-object sun}}]
     (go (>! service-chan event)))
 
+  (let [tx [{:db/id (get-in venus [:db/id])
+             :object/show? true}]]
+    (p/transact! conn tx))
 
   )
 
