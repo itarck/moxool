@@ -151,7 +151,7 @@
                           (go (>! service-chan #:event {:action :planet/change-scale
                                                         :detail {:planet target
                                                                  :scale value}})))
-              :step 1 :min 1 :max 30 :marks true
+              :step 1 :min 1 :max 100 :marks true
               :getAriaValueText identity
               :aria-labelledby "discrete-slider-restrict"
               :valueLabelDisplay "auto"})]

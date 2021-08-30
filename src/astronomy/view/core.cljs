@@ -35,7 +35,7 @@
              [v.spaceship/SpaceshipCameraControlView {:spaceship-camera-control spaceship-camera-control
                                                       :astro-scene astro-scene-1} env])
 
-           [:ambientLight {:intensity 0.1}]
+           [:ambientLight {:intensity 0.05}]
            #_[:gridHelper {:args [10000 100 "gray" "gray"]}]]))]
 
      (when (m.person/sub-user-name-exist? conn user-name)
