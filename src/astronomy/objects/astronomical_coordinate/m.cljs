@@ -63,7 +63,7 @@
                     (:db/id ac))]
     (* (get-in tc1 [:astronomical-coordinate/center-object :celestial/radius])
        (get-in tc1 [:object/scene :scene/scale])
-       1.1)))
+       1.01)))
 
 
 (defn cal-origin-position-now

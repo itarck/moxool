@@ -89,8 +89,8 @@
                                 :center-object sun}}]
     (go (>! service-chan event)))
 
-  (let [tx [{:db/id (get-in venus [:db/id])
-             :object/show? true}]]
+  (let [tx [{:db/id (get-in sun [:db/id])
+             :celestial/scale 5}]]
     (p/transact! conn tx))
 
   )

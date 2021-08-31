@@ -48,9 +48,9 @@
   (let [star @(p/pull conn '[* {:planet/_star [:db/id]}] (get-in props [:object :db/id]))
         celestial-scale (get-in props [:astro-scene :astro-scene/celestial-scale])
         {:star/keys [color]} star
-        {:celestial/keys [gltf radius]} star
+        {:celestial/keys [gltf radius scale] :or {scale 1}} star
         {:object/keys [position quaternion]} star
-        scaled-radius (* radius celestial-scale)]
+        scaled-radius (* radius celestial-scale scale)]
     ;; (println "star view" (:planet/_star star))
     [:mesh {:position position}
 

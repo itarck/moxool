@@ -164,6 +164,10 @@
                      #:ppt {:pages [#:ppt-page{:image-url "/slides/27.kepler3/Slide1.jpeg"}
                                     #:ppt-page{:image-url "/slides/27.kepler3/Slide2.jpeg"}]
                             :chinese-name "27.开普勒第三定律"
+                            :current-page 0}
+                     #:ppt {:pages [#:ppt-page{:image-url "/slides/28.venus-transit/Slide1.jpeg"}
+                                    #:ppt-page{:image-url "/slides/28.venus-transit/Slide2.jpeg"}]
+                            :chinese-name "28.金星凌日"
                             :current-page 0}]
               :tool/name "ppt tool"
               :tool/chinese-name "脚本"
