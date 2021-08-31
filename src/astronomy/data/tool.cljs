@@ -40,7 +40,7 @@
 
 (def ppt-tool
   #:ppt-tool {:query-type :ppt-by-name
-              :query-args ["27.开普勒第三定律"]
+              :query-args ["28.金星凌日"]
               :ppts [#:ppt{:pages [#:ppt-page{:image-url "/slides/1.universe-distance/Slide1.jpeg"}
                                    #:ppt-page{:image-url "/slides/1.universe-distance/Slide2.jpeg"}
                                    #:ppt-page{:image-url "/slides/1.universe-distance/Slide3.jpeg"}
@@ -166,7 +166,8 @@
                             :chinese-name "27.开普勒第三定律"
                             :current-page 0}
                      #:ppt {:pages [#:ppt-page{:image-url "/slides/28.venus-transit/Slide1.jpeg"}
-                                    #:ppt-page{:image-url "/slides/28.venus-transit/Slide2.jpeg"}]
+                                    #:ppt-page{:image-url "/slides/28.venus-transit/Slide2.jpeg"}
+                                    #:ppt-page{:image-url "/slides/28.venus-transit/Slide3.jpeg"}]
                             :chinese-name "28.金星凌日"
                             :current-page 0}]
               :tool/name "ppt tool"
