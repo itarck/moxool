@@ -16,7 +16,8 @@
   #:celestial {:orbit {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one :db/isComponent true}
                :spin {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one :db/isComponent true}
                :clock {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
-               :gltf {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}})
+               :gltf {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
+               :group {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}})
 
 (s/def :astronomy/celestial
   (s/keys :req [:db/id :celestial/orbit :celestial/spin :celestial/clock]

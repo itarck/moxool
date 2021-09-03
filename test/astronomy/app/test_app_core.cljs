@@ -5,6 +5,7 @@
    [posh.reagent :as p]
    [film2.system.studio :as studio]
    [datascript.core :as d]
+   [astronomy.objects.celestial-group.m :as cg.m]
    [astronomy.objects.astronomical-coordinate.m :as ac.m]))
 
 
@@ -95,3 +96,11 @@
 
   )
 
+
+
+(def solar-system1 (:scene-system @(:studio/instance-atom app/studio)))
+(def conn (get-in solar-system1 [:system/conn]))
+
+(ac.m/sub-center-candidates-id-and-names conn)
+
+@(p/q cg.m/query-all-id-and-chinese-name conn)

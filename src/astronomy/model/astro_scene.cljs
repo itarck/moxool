@@ -3,6 +3,7 @@
    [datascript.core :as d]
    [posh.reagent :as p]
    [astronomy.model.celestial :as m.celestial]
+   [astronomy.objects.celestial-group.m :as celestial-group.m]
    [astronomy.model.coordinate :as m.coordinate]
    [astronomy.model.atmosphere :as m.atmosphere]))
 
@@ -96,11 +97,15 @@
   (let [clock-id (get-in astro-scene [:astro-scene/clock :db/id])
         celes (m.celestial/find-all-by-clock db1 clock-id)
         tx1 (mapcat #(m.celestial/update-current-position-and-quaternion-tx %) celes)
-        db2 (d/db-with db1 tx1)
-        coor-ids (m.coordinate/find-all-ids db2)
-        tx2 (mapcat (fn [id]
-                      (let [coor (d/pull db2 '[:db/id :entity/type] id)]
-                        (m.coordinate/update-position-and-quaternion-tx db2 coor)))
-                    coor-ids)]
-    (concat tx1 tx2)))
+        db3 (d/db-with db1 tx1)
 
+        ;; cgs (celestial-group.m/find-all db2)
+        ;; tx2 (mapcat (fn [e] (celestial-group.m/update-current-position-tx db2 e)) cgs)
+        ;; db3 (d/db-with db2 tx2)
+
+        coor-ids (m.coordinate/find-all-ids db3)
+        tx3 (mapcat (fn [id]
+                      (let [coor (d/pull db3 '[:db/id :entity/type] id)]
+                        (m.coordinate/update-position-and-quaternion-tx db3 coor)))
+                    coor-ids)]
+    (concat tx1 tx2 tx3)))

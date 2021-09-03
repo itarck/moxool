@@ -8,7 +8,8 @@
    [shu.three.quaternion :as q]
    [astronomy.model.coordinate :as m.coordinate]
    [astronomy.model.const :as m.const]
-   [astronomy.model.celestial :as m.celestial]))
+   [astronomy.model.celestial :as m.celestial]
+   [astronomy.objects.celestial-group.m :as celestial-group.m]))
 
 
 ;; 天球坐标系
@@ -103,8 +104,6 @@
     [?id :coordinate/name ?name]
     [?id :entity/type :astronomical-coordinate]])
 
-(def query-center-candidates-id-and-names
-  m.celestial/query-all-id-and-chinese-name)
 
 ;; find
 
@@ -117,7 +116,9 @@
   @(p/q query-coordinate-names conn))
 
 (defn sub-center-candidates-id-and-names [conn]
-  @(p/q m.celestial/query-all-id-and-chinese-name conn))
+  (concat
+   @(p/q m.celestial/query-all-id-and-chinese-name conn)
+   @(p/q celestial-group.m/query-all-id-and-chinese-name conn)))
 
 ;; tx
 

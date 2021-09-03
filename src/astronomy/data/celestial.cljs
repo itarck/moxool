@@ -113,6 +113,7 @@
     :color "blue"
     :star [:star/name "sun"]
     :celestial/radius 0.021
+    :celestial/mass 1
     :celestial/orbit #:ellipse-orbit{:semi-major-axis 499.0052919
                                      :eccentricity 0.01671022
                                      :inclination-in-degree 0.00005
@@ -158,6 +159,7 @@
     :chinese-name "月球"
     :color "green"
     :planet [:planet/name "earth"]
+    :celestial/mass 0.0123
     :celestial/radius 0.00579
     :celestial/orbit #:moon-orbit {:axis (seq lunar-axis-j2000)
                                    :axis-precession-center (vec ecliptic-axis)
@@ -936,6 +938,17 @@
                 :entity/type :atmosphere})
 
 
+(def cg-1
+  #:celestial-group
+   {:object/position [0 0 100]
+    :object/quaternion [0 0 0 1]
+    :celestial/clock [:clock/name "default"]
+    :celestial/_group [{:db/id [:planet/name "earth"]} {:db/id [:satellite/name "moon"]}]
+    :entity/chinese-name "地月系"
+    :entity/type :celestial-group})
+
+
+;; datasets
 
 (def dataset1 [sun earth moon])
 
@@ -958,3 +971,5 @@
                    jupiter
                    io europa ganymede callisto
                    saturn])
+
+(def dataset5 [cg-1])
