@@ -83,7 +83,7 @@
                                                 event #:event {:action :astronomical-coordinate-tool/change-center-object
                                                                :detail {:coordinate astronomical-coordinate
                                                                         :center-object {:db/id new-value}}}]
-                                            (println "$$$ astronomical coordinate tool view: " event)
+                                            ;; (println "$$$ astronomical coordinate tool view: " event)
                                             (go (>! service-chan event))))}
                 (for [[id name] center-candidates-id-and-names]
                   ^{:key id}

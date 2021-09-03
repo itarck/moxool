@@ -93,7 +93,7 @@
         event #:event{:action :astro-scene.pub/coordinate-changed
                       :detail {:astro-scene astro-scene
                                :coordinate coordinate}}]
-    (println "!!!astronomical-coordinate-tool/change-center-object: " tx)
+    ;; (println "!!!astronomical-coordinate-tool/change-center-object: " tx)
     (if (m.astro-scene/is-scene-coordinate? astro-scene-1 coordinate)
       (effects :tx tx :event event)
       (effects :tx tx))))
