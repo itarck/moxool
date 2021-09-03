@@ -108,4 +108,4 @@
                       (let [coor (d/pull db3 '[:db/id :entity/type] id)]
                         (m.coordinate/update-position-and-quaternion-tx db3 coor)))
                     coor-ids)]
-    (concat tx1 tx2 tx3)))
+    (concat tx1 tx3)))
