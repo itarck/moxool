@@ -29,6 +29,6 @@
 
   (d/pull test-db11 '[*] [:satellite/name "moon"])
 
-  (d/pull test-db11 '[*] [:satellite/name "newton-apple"])
+  (:celestial/orbit (d/pull test-db11 '[*] [:satellite/name "newton-apple"]))
 
   )

@@ -954,7 +954,7 @@
     :chinese-name "地球同步卫星"
     :color "gray"
     :planet [:planet/name "earth"]
-    :celestial/radius 0.00579
+    :celestial/radius (* 0.00579 0.11)
     :celestial/orbit #:circle-orbit {:start-position [0 0 0.1318]
                                      :radius 0.1318
                                      :axis [0 1 0]
@@ -965,7 +965,7 @@
                                      :orbit/period 0.99726968}
      
     :celestial/gltf #:gltf {:url "models/16-solar/Moon_1_3474.glb"
-                            :scale [0.0002 0.0002 0.0002]
+                            :scale [0.002 0.002 0.002]
                             :rotation [0 (/ Math/PI 2) 0]
                             :shadow? false}
     :celestial/clock [:clock/name "default"]
@@ -982,18 +982,18 @@
     :chinese-name "牛顿的苹果"
     :color "red"
     :planet [:planet/name "earth"]
-    :celestial/radius 0.00579
-    :celestial/orbit #:circle-orbit {:start-position [0 0 -0.023]
-                                     :radius 0.023
+    :celestial/radius (* 0.00579 0.017)
+    :celestial/orbit #:circle-orbit {:start-position [0 0 -0.021488]
+                                     :radius 0.021488
                                      :axis [0 1 0]
-                                     :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 0.05831613)
+                                     :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 0.059193)
                                      :orbit/type :circle-orbit
                                      :orbit/color "red"
                                      :orbit/show? true
-                                     :orbit/period 0.05831613}
+                                     :orbit/period 0.059193}
 
     :celestial/gltf #:gltf {:url "models/16-solar/Moon_1_3474.glb"
-                            :scale [0.0002 0.0002 0.0002]
+                            :scale [0.002 0.002 0.002]
                             :rotation [0 (/ Math/PI 2) 0]
                             :shadow? false}
     :celestial/clock [:clock/name "default"]
