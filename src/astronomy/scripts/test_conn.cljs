@@ -114,7 +114,7 @@
 
   (d/pull test-db11 '[*] [:satellite/name "moon"])
 
-  (d/pull test-db11 '[*] [:satellite/name "geosynchronous-satellite"])
+  (d/pull test-db11 '[*] [:satellite/name "newton-apple"])
 
 
   )

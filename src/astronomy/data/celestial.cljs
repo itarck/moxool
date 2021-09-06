@@ -957,10 +957,10 @@
     :celestial/radius 0.00579
     :celestial/orbit #:circle-orbit {:start-position [0 0 0.1318]
                                      :radius 0.1318
-                                     :axis (seq m.const/ecliptic-axis)
+                                     :axis [0 1 0]
                                      :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 0.99726968)
                                      :orbit/type :circle-orbit
-                                     :orbit/color "white"
+                                     :orbit/color "gray"
                                      :orbit/show? true
                                      :orbit/period 0.99726968}
      
@@ -973,6 +973,34 @@
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "地球同步卫星"
+    :entity/type :satellite})
+
+
+(def newton-apple
+  #:satellite
+   {:name "newton-apple"
+    :chinese-name "牛顿的苹果"
+    :color "red"
+    :planet [:planet/name "earth"]
+    :celestial/radius 0.00579
+    :celestial/orbit #:circle-orbit {:start-position [0 0 -0.023]
+                                     :radius 0.023
+                                     :axis [0 1 0]
+                                     :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 0.05831613)
+                                     :orbit/type :circle-orbit
+                                     :orbit/color "red"
+                                     :orbit/show? true
+                                     :orbit/period 0.05831613}
+
+    :celestial/gltf #:gltf {:url "models/16-solar/Moon_1_3474.glb"
+                            :scale [0.0002 0.0002 0.0002]
+                            :rotation [0 (/ Math/PI 2) 0]
+                            :shadow? false}
+    :celestial/clock [:clock/name "default"]
+    :object/scene [:scene/name "solar"]
+    :object/quaternion [0 0 0 1]
+    :object/show? true
+    :entity/chinese-name "牛顿的苹果"
     :entity/type :satellite})
 
 ;; datasets
@@ -1001,4 +1029,4 @@
 
 (def dataset5 [cg-1])
 
-(def dataset-newton [geosynchronous-satellite])
+(def dataset-newton [geosynchronous-satellite newton-apple])

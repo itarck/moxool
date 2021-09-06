@@ -103,5 +103,5 @@
 
 
 @(p/pull conn '[*] [:satellite/name "moon"])
-@(p/pull conn '[*] [:satellite/name "geosynchronous-satellite"])
+(:celestial/orbit @(p/pull conn '[*] [:satellite/name "newton-apple"]))
 
