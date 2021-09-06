@@ -270,7 +270,7 @@
 (def satellite-tool-1
   #:planet-tool {:tool/name "satellite-tool"
                  :tool/chinese-name "卫星"
-                 :tool/icon "/image/moxool/goto.jpg"
+                 :tool/icon "/image/moxool/moon.jpg"
                  :tool/target [:satellite/name "moon"]
                  :entity/type :satellite-tool})
 

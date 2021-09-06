@@ -52,6 +52,20 @@
            [:> mt/Typography {:variant "subtitle1"} (str "自转周期：" (gstring/format "%0.3f" p) "日")])]
 
         [:> mt/Grid {:item true :xs 12}
+         [:> mt/Typography {:variant "subtitle1"} "显示星体："
+          [:span "否"]
+          [:> mt/Switch
+           {:color "default"
+            :size "small"
+            :checked (or (get-in target [:object/show?]) false)
+            :onChange (fn [event]
+                        (let [show? (j/get-in event [:target :checked])]
+                          (go (>! service-chan #:event {:action :satellite/change-show-object
+                                                        :detail {:celestial target
+                                                                 :show? show?}}))))}]
+          [:span "是"]]]
+
+        [:> mt/Grid {:item true :xs 12}
          [:> mt/Typography {:variant "subtitle1"} "显示公转轨道："
           [:span "否"]
           [:> mt/Switch
@@ -60,13 +74,12 @@
             :checked (or (get-in target [:celestial/orbit :orbit/show?]) false)
             :onChange (fn [event]
                         (let [show? (j/get-in event [:target :checked])]
-                          (go (>! service-chan #:event {:action :satellite/show-orbit
+                          (go (>! service-chan #:event {:action :satellite/change-show-orbit
                                                         :detail {:celestial target
                                                                  :show? show?}}))))}]
-          [:span "是"]]
-
+          [:span "是"]]]
          
          
 
 ;; 
-         ]]]]]))
+         ]]]]))
