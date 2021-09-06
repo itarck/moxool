@@ -3,7 +3,7 @@
    [cljs.test :refer-macros [deftest is testing run-tests]]
    [datascript.core :as d]
    [astronomy.objects.satellite.m :as m.satellite]
-   [astronomy.scripts.test-conn :refer [test-db3 test-db11]]))
+   [astronomy.scripts.test-conn :refer [test-db11]]))
 
 
 
@@ -23,3 +23,12 @@
 
 
 (run-tests)
+
+
+(comment 
+
+  (d/pull test-db11 '[*] [:satellite/name "moon"])
+
+  (d/pull test-db11 '[*] [:satellite/name "geosynchronous-satellite"])
+
+  )

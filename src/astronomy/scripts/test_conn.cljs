@@ -76,6 +76,7 @@
     (d/transact! conn d.celestial/dataset3)
     (d/transact! conn d.celestial/dataset4)
     (d/transact! conn d.celestial/dataset5)
+    (d/transact! conn d.celestial/dataset-newton)
     (d/transact! conn d.galaxy/dataset1)
     (d/transact! conn d.coordinate/dataset1)
     (d/transact! conn d.constel/dataset1)
@@ -105,3 +106,15 @@
 
     (kick-start! conn)
     @conn))
+
+
+
+(comment
+
+
+  (d/pull test-db11 '[*] [:satellite/name "moon"])
+
+  (d/pull test-db11 '[*] [:satellite/name "geosynchronous-satellite"])
+
+
+  )

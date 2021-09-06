@@ -101,6 +101,7 @@
 (def solar-system1 (:scene-system @(:studio/instance-atom app/studio)))
 (def conn (get-in solar-system1 [:system/conn]))
 
-(ac.m/sub-center-candidates-id-and-names conn)
 
-@(p/q cg.m/query-all-id-and-chinese-name conn)
+@(p/pull conn '[*] [:satellite/name "moon"])
+@(p/pull conn '[*] [:satellite/name "geosynchronous-satellite"])
+

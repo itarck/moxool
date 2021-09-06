@@ -55,7 +55,7 @@
     (d/transact! conn d.celestial/dataset1)
     (d/transact! conn d.celestial/dataset3)
     (d/transact! conn d.celestial/dataset2)
-    (d/transact! conn d.celestial/dataset5)
+    (d/transact! conn d.celestial/dataset-newton)
     (d/transact! conn d.galaxy/dataset1)
     (d/transact! conn d.coordinate/dataset1)
 
@@ -77,8 +77,8 @@
 
 
 (comment
-
   (async-run2!)
-  
-;;   
+
+  ;; 
   )
+

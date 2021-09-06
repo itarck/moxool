@@ -948,6 +948,33 @@
     :entity/type :celestial-group})
 
 
+(def geosynchronous-satellite
+  #:satellite
+   {:name "geosynchronous-satellite"
+    :chinese-name "地球同步卫星"
+    :color "gray"
+    :planet [:planet/name "earth"]
+    :celestial/radius 0.00579
+    :celestial/orbit #:circle-orbit {:start-position [0 0 0.1318]
+                                     :radius 0.1318
+                                     :axis (seq m.const/ecliptic-axis)
+                                     :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 0.99726968)
+                                     :orbit/type :circle-orbit
+                                     :orbit/color "white"
+                                     :orbit/show? true
+                                     :orbit/period 0.99726968}
+     
+    :celestial/gltf #:gltf {:url "models/16-solar/Moon_1_3474.glb"
+                            :scale [0.0002 0.0002 0.0002]
+                            :rotation [0 (/ Math/PI 2) 0]
+                            :shadow? false}
+    :celestial/clock [:clock/name "default"]
+    :object/scene [:scene/name "solar"]
+    :object/quaternion [0 0 0 1]
+    :object/show? true
+    :entity/chinese-name "地球同步卫星"
+    :entity/type :satellite})
+
 ;; datasets
 
 (def dataset1 [sun earth moon])
@@ -973,3 +1000,5 @@
                    saturn])
 
 (def dataset5 [cg-1])
+
+(def dataset-newton [geosynchronous-satellite])
