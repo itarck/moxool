@@ -657,7 +657,7 @@
                                       :longitude-of-the-ascending-node-in-degree 73.989821
                                       :argument-of-periapsis-in-degree 96.541318
                                       :mean-anomaly-in-degree 142.955717
-                                      :angular-velocity-in-degree (m.ellipse-orbit/period-to-angular-velocity-in-degree (* 75.3 365))
+                                      :angular-velocity-in-degree (m.ellipse-orbit/period-to-angular-velocity-in-degree (* 84.02 365))
                                       :orbit/type :ellipse-orbit
                                       :orbit/period (* 84.02 365)
                                       :orbit/color "deepskyblue"
