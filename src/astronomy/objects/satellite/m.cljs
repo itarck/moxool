@@ -41,6 +41,14 @@
 
 ;; selector
 
+(def query-all-id-and-chinese-name
+  '[:find ?id ?chinese-name
+    :where
+    [?id :entity/type :satellite]
+    [?id :entity/chinese-name ?chinese-name]])
+
+
+;; transform
 
 (defn cal-system-position-now [db satellite]
   (let [planet (d/pull db '[*] (-> satellite :satellite/planet :db/id))

@@ -16,7 +16,6 @@
    [astronomy.view.user.spaceship-camera-control :as v.spaceship]
    [astronomy.view.user.info-tool :as v.info-tool]
    [astronomy.view.user.ppt-tool :as v.ppt-tool]
-   [astronomy.view.user.goto-celestial-tool :as v.goto]
    [astronomy.view.user.constellation-tool :as v.constellation-tool]
    [astronomy.view.user.atmosphere-tool :as v.atmosphere-tool]
    [astronomy.view.user.horizon-coordinate-tool :as horizon-coordinate.v-tool]
@@ -33,6 +32,7 @@
 
    [astronomy.tools.astronomical-coordinate-tool.v :as astronomical-coordinate-tool.v]
    [astronomy.tools.planet-tool.v :as planet-tool.v]
+   [astronomy.tools.satellite-tool.v :as satellite-tool.v]
 
 ;; service
 
@@ -47,7 +47,7 @@
    [astronomy.service.info-tool :as s.info-tool]
    [astronomy.service.spaceship-camera-control :as s.spaceship]
    [astronomy.service.ppt-tool :as s.ppt-tool]
-   [astronomy.service.goto-celestial-tool :as s.goto-tool]
+   
    [astronomy.service.contellation-tool :as s.constellation-tool]
    [astronomy.service.atmosphere-tool :as s.atmosphere-tool]
    [astronomy.service.horizon-coordinate-tool :as s.horizon-coordinate]
@@ -56,10 +56,12 @@
    [astronomy.service.ruler-tool :as s.ruler-tool]
 
    [astronomy.objects.planet.h :as planet.h]
+   [astronomy.objects.satellite.h :as satellite.h]
    [astronomy.objects.ecliptic.h :as ecliptic.h]
 
    [astronomy.tools.astronomical-coordinate-tool.h :as astronomical-coordinate-tool.h]
    [astronomy.tools.planet-tool.h :as planet-tool.h]
+   [astronomy.tools.satellite-tool.h :as satellite-tool.h]
   
    ;;  
    ))
@@ -72,7 +74,6 @@
    :info-tool v.info-tool/InfoToolView
    :universe-tool v.universe-tool/UniverseToolView
    :spaceship-camera-control v.spaceship/SpaceshipCameraToolView
-   :goto-celestial-tool v.goto/GotoCelestialToolView
    :constellation-tool v.constellation-tool/ConstellationToolView
    :atmosphere-tool v.atmosphere-tool/AtmosphereToolView
    :horizon-coordinate-tool horizon-coordinate.v-tool/HorizonCoordinateToolView
@@ -80,7 +81,8 @@
    :terrestrial-coordinate-tool v.terrestrial-coordinate-tool/TerrestrialCoordinateToolView
    :astronomical-point-tool v.astronomical-point-tool/AstronomicalPointToolView
    :ruler-tool v.ruler-tool/RulerToolView
-   :planet-tool planet-tool.v/PlanetToolView})
+   :planet-tool planet-tool.v/PlanetToolView
+   :satellite-tool satellite-tool.v/SatelliteToolView})
 
 
 (def object-libray 
@@ -118,6 +120,9 @@
    #:process{:name "planet"
              :listen ["planet" "clock.pub"]
              :handle-event-fn planet.h/handle-event}
+   #:process{:name "satellite"
+             :listen ["satellite"]
+             :handle-event-fn satellite.h/handle-event}
    #:process{:name "tool"
              :listen ["tool"]
              :handle-event-fn s.tool/handle-event}
@@ -136,9 +141,6 @@
    #:process{:name "ppt-tool"
              :listen ["ppt-tool"]
              :service-fn s.ppt-tool/init-service!}
-   #:process{:name "goto-celestial-tool"
-             :listen ["goto-celestial-tool"]
-             :service-fn s.goto-tool/init-service!}
    #:process{:name "constellation-tool"
              :listen ["constellation-tool"]
              :service-fn s.constellation-tool/init-service!}
@@ -166,6 +168,9 @@
    #:process{:name "planet-tool"
              :listen ["planet-tool"]
              :handle-event-fn planet-tool.h/handle-event}
+   #:process{:name "satellite-tool"
+             :listen ["satellite-tool"]
+             :handle-event-fn satellite-tool.h/handle-event}
    #:process{:name "camera"
              :listen []
              :service-fn s.camera/init-service!}

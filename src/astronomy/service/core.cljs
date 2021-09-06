@@ -1,37 +1,37 @@
 (ns astronomy.service.core
   (:require
    [cljs.core.async :as async :refer [go >! <! chan go-loop]]
-   [methodology.service.camera :as s.camera]
-   [methodology.service.mouse :as s.mouse]
-   [astronomy.service.keyboard-listener :as s.keyboard-listener]
-   [astronomy.service.tool :as s.tool]
    [astronomy.service.effect :as s.effect]
-   [astronomy.service.user :as s.user]
-   [astronomy.service.astro-scene :as s.astro-scene]
-   [astronomy.service.universe-tool :as s.universe-tool]
-   [astronomy.service.clock-tool :as s.clock-tool]
-   [astronomy.service.info-tool :as s.info-tool]
-   [astronomy.service.spaceship-camera-control :as s.spaceship]
-   [astronomy.service.ppt-tool :as s.ppt-tool]
-   [astronomy.service.goto-celestial-tool :as s.goto-tool]
-   [astronomy.service.contellation-tool :as s.constellation-tool]
-   [astronomy.service.atmosphere-tool :as s.atmosphere-tool]
-   [astronomy.service.horizon-coordinate-tool :as s.horizon-coordinate]
-   [astronomy.service.terrestrial-coordinate-tool :as s.terrestrial-coordinate-tool]
-   [astronomy.service.astronomical-point-tool :as s.astronomical-point-tool]
-   [astronomy.service.ruler-tool :as s.ruler-tool]
+  ;;  [methodology.service.camera :as s.camera]
+  ;;  [methodology.service.mouse :as s.mouse]
+  ;;  [astronomy.service.keyboard-listener :as s.keyboard-listener]
+  ;;  [astronomy.service.tool :as s.tool]
+  ;;  [astronomy.service.user :as s.user]
+  ;;  [astronomy.service.astro-scene :as s.astro-scene]
+  ;;  [astronomy.service.universe-tool :as s.universe-tool]
+  ;;  [astronomy.service.clock-tool :as s.clock-tool]
+  ;;  [astronomy.service.info-tool :as s.info-tool]
+  ;;  [astronomy.service.spaceship-camera-control :as s.spaceship]
+  ;;  [astronomy.service.ppt-tool :as s.ppt-tool]
+  ;;  [astronomy.service.goto-celestial-tool :as s.goto-tool]
+  ;;  [astronomy.service.contellation-tool :as s.constellation-tool]
+  ;;  [astronomy.service.atmosphere-tool :as s.atmosphere-tool]
+  ;;  [astronomy.service.horizon-coordinate-tool :as s.horizon-coordinate]
+  ;;  [astronomy.service.terrestrial-coordinate-tool :as s.terrestrial-coordinate-tool]
+  ;;  [astronomy.service.astronomical-point-tool :as s.astronomical-point-tool]
+  ;;  [astronomy.service.ruler-tool :as s.ruler-tool]
 
-   [astronomy.objects.planet.h :as planet.h]
-   [astronomy.objects.ecliptic.h :as ecliptic.h]
+  ;;  [astronomy.objects.planet.h :as planet.h]
+  ;;  [astronomy.objects.ecliptic.h :as ecliptic.h]
 
-   [astronomy.tools.astronomical-coordinate-tool.h :as astronomical-coordinate-tool.h]
-   [astronomy.tools.planet-tool.h :as planet-tool.h]
+  ;;  [astronomy.tools.astronomical-coordinate-tool.h :as astronomical-coordinate-tool.h]
+  ;;  [astronomy.tools.planet-tool.h :as planet-tool.h]
    
   ;;  
    ))
 
 
-(def processes
+#_(def processes
   [#:process{:name "keyboard"
              :listen []
              :service-fn s.keyboard-listener/init-service!}
@@ -119,7 +119,7 @@
 
 (defn init-service-center! [props env]
   ;; (println "!!!!! init service-center......")
-  (let [{:keys [service-chan]} env
+  (let [{:keys [service-chan processes]} env
         process-dispatch-fn (fn [event]
                               (namespace (:event/action event)))
         process-publication (async/pub service-chan process-dispatch-fn)]

@@ -60,9 +60,12 @@
      [v.geo/LineComponent {:points (moon-orbit.m/cal-orbit-points-vectors orbit days)
                            :color (:orbit/color orbit)}]
      [CelestialPositionLineView {:celestial celestial} env]
-     [v.geo/LineComponent {:points [(v3/from-seq [0 0 0])
-                                    (moon-orbit.m/cal-perigee-vector orbit epoch-day)]
-                           :color "#666"}]
+
+     (when (:moon-orbit/show-perigee? orbit)
+       [v.geo/LineComponent {:points [(v3/from-seq [0 0 0])
+                                      (moon-orbit.m/cal-perigee-vector orbit epoch-day)]
+                             :color "#666"}])
+     
      [NorthPoleView {:orbit orbit
                      :epoch-day epoch-day}]
      [NorthAxisView {:astro-scene astro-scene 

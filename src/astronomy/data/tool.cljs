@@ -266,7 +266,15 @@
                  :tool/target [:planet/name "earth"]
                  :entity/type :planet-tool})
 
+
+(def satellite-tool-1
+  #:planet-tool {:tool/name "satellite-tool"
+                 :tool/chinese-name "卫星"
+                 :tool/icon "/image/moxool/goto.jpg"
+                 :tool/target [:satellite/name "moon"]
+                 :entity/type :satellite-tool})
+
 (def dataset1 [universe-tool-1 clock-tool1 info-tool
                ppt-tool goto-tool-1 constellation-tool-1 atmosphere-tool-1
                horizon-coordinate-tool astronomical-coordinate-tool terrestrial-coordinate-tool-1
-               apt-tool-1 ruler-tool-1 planet-tool-1])
+               apt-tool-1 ruler-tool-1 planet-tool-1 satellite-tool-1])

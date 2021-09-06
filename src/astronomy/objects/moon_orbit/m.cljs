@@ -38,6 +38,9 @@
                 :anomaly-month 27.554549886
                 :nodical-month 27.21222082
 
+                :show-perigee? true
+                :show-axis? true
+
                 :orbit/type :moon-orbit
                 :orbit/color "white"
                 :orbit/show? false
