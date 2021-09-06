@@ -40,7 +40,7 @@
 
 (def ppt-tool
   #:ppt-tool {:query-type :ppt-by-name
-              :query-args ["28.金星凌日"]
+              :query-args ["29.牛顿的苹果"]
               :ppts [#:ppt{:pages [#:ppt-page{:image-url "/slides/1.universe-distance/Slide1.jpeg"}
                                    #:ppt-page{:image-url "/slides/1.universe-distance/Slide2.jpeg"}
                                    #:ppt-page{:image-url "/slides/1.universe-distance/Slide3.jpeg"}
@@ -169,6 +169,13 @@
                                     #:ppt-page{:image-url "/slides/28.venus-transit/Slide2.jpeg"}
                                     #:ppt-page{:image-url "/slides/28.venus-transit/Slide3.jpeg"}]
                             :chinese-name "28.金星凌日"
+                            :current-page 0}
+                     #:ppt {:pages [#:ppt-page{:image-url "/slides/29.newton/Slide1.jpeg"}
+                                    #:ppt-page{:image-url "/slides/29.newton/Slide2.jpeg"}
+                                    #:ppt-page{:image-url "/slides/29.newton/Slide3.jpeg"}
+                                    #:ppt-page{:image-url "/slides/29.newton/Slide4.jpeg"}
+                                    #:ppt-page{:image-url "/slides/29.newton/Slide5.jpeg"}]
+                            :chinese-name "29.牛顿的苹果"
                             :current-page 0}]
               :tool/name "ppt tool"
               :tool/chinese-name "脚本"
