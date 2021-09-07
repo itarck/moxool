@@ -957,7 +957,7 @@
     :celestial/radius (* 0.00579 0.11)
     :celestial/orbit #:circle-orbit {:start-position [0 0 0.1318]
                                      :radius 0.1318
-                                     :axis [0 1 0]
+                                     :axis (seq m.const/ecliptic-axis)
                                      :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 0.99726968)
                                      :orbit/type :circle-orbit
                                      :orbit/color "gray"
@@ -985,7 +985,7 @@
     :celestial/radius (* 0.00579 0.017)
     :celestial/orbit #:circle-orbit {:start-position [0 0 -0.021488]
                                      :radius 0.021488
-                                     :axis [0 1 0]
+                                     :axis (seq m.const/ecliptic-axis)
                                      :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 0.059193)
                                      :orbit/type :circle-orbit
                                      :orbit/color "red"
