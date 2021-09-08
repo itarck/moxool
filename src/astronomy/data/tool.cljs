@@ -174,7 +174,8 @@
                                     #:ppt-page{:image-url "/slides/29.newton/Slide2.jpeg"}
                                     #:ppt-page{:image-url "/slides/29.newton/Slide3.jpeg"}
                                     #:ppt-page{:image-url "/slides/29.newton/Slide4.jpeg"}
-                                    #:ppt-page{:image-url "/slides/29.newton/Slide5.jpeg"}]
+                                    #:ppt-page{:image-url "/slides/29.newton/Slide5.jpeg"}
+                                    #:ppt-page{:image-url "/slides/29.newton/Slide6.jpeg"}]
                             :chinese-name "29.牛顿的苹果"
                             :current-page 0}]
               :tool/name "ppt tool"
