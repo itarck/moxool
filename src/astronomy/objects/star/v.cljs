@@ -56,12 +56,12 @@
 
      (when (= (:star/name star) "sun")
        [:<>
-        #_($ DirectionalSunLight {:position #js [0 0 0]
-                                  :intensity 10
-                                  :shadow-camera-near 1
-                                  :shadow-camera-far 100000000
-                                  :shadow-camera-size 500})
-        ($ PointSunLight {})])
+        ($ DirectionalSunLight {:position #js [0 0 0]
+                                :intensity 10
+                                :shadow-camera-near 1
+                                :shadow-camera-far 100000000
+                                :shadow-camera-size 500})
+        #_($ PointSunLight {})])
 
      (when (:object/show? star)
        (if gltf

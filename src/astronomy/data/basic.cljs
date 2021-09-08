@@ -25,7 +25,7 @@
                  :celestial-scale 1
                  :scene/name "solar"
                  :scene/chinese-name "太阳系"
-                 :scene/scale 10
+                 :scene/scale 10000
                  :entity/type :scene})
 
 (def spaceship-camera-control
