@@ -7,17 +7,17 @@
   (:require-macros [methodology.lib.resource]))
 
 
-
 ;; mount point
 
-
 ;; (defonce studio (studio/create-app! {}))
+
+(def app
+  app.simple-solar/app-1)
 
 
 (defn update! []
   (rdom/render
-  ;;  (:studio/view studio)
-   (:system/view app.simple-solar/app-1)
+   (:system/view app)
    (j/call js/document :getElementById  "app")))
 
 
