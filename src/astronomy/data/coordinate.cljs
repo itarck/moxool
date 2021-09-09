@@ -100,8 +100,24 @@
                        :object/scene [:scene/name "solar"]})
 
 
+(def horizon-coordinate-3
+  #:horizon-coordinate{:entity/type :horizon-coordinate
+                       :center-object [:satellite/name "moon"]
+                       :center-radius (* 0.00579 1.01)
+                       :radius (* 0.00579 0.05)
+                       :longitude-0-offset 0
+                       :longitude 0
+                       :latitude 0
+                       :show-latitude? false
+                       :show-longitude? false
+                       :show-horizontal-plane? false
+                       :coordinate/name "月球某个坐标系"
+                       :coordinate/type :horizon-coordinate
+
+                       :object/scene [:scene/name "solar"]})
+
 ;; entry
 
 (def dataset1 [astronomical-coordinate-1 astronomical-coordinate-2 terrestrial-coordinate-1
-               horizon-coordinate-1 horizon-coordinate-2])
+               horizon-coordinate-1 horizon-coordinate-2 horizon-coordinate-3])
 
