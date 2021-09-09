@@ -32,3 +32,4 @@
            :scene-system (get-in app-instance [:app/scene-system])}))
 
 
+(defonce free-app-instance (create-app! #:app{:scene-db-url "/temp/free-mode.edn"}))

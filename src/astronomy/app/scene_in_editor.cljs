@@ -29,3 +29,6 @@
            :editor-system (:app/editor-system instance)
            :scene-system (:app/scene-system instance)}))
 
+
+(defonce editor-app-instance (create-app!
+                              #:app {:name "astronomy"}))

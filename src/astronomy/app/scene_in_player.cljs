@@ -27,3 +27,8 @@
     #:app {:view (get-in instance [:app/player-system :system/view])
            :scene-system (get-in instance [:app/scene-system])
            :player-system (get-in instance [:app/player-system])}))
+
+
+(defonce player-app-instance (create-app!
+                              #:app {:name "astronomy"
+                                     :db-url "/db/10-sphere-v2.edn"}))

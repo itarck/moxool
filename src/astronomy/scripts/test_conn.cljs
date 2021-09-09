@@ -13,7 +13,8 @@
    [astronomy.data.tool :as d.tool]
    [astronomy.data.stars :as d.stars]
    [astronomy.data.constellation :as d.constel]
-   [astronomy.data.misc :as d.misc]))
+   [astronomy.data.misc :as d.misc]
+   [astronomy.scripts.init-conn2 :as init-conn2]))
 
 ;; processes
 
@@ -69,6 +70,20 @@
 
 
 ;; 经过kickstar
+(def test-db10
+  (let [conn (create-empty-conn!)]
+    (d/transact! conn d.basic/dataset1)
+    (d/transact! conn d.celestial/dataset1)
+    (d/transact! conn d.celestial/dataset3)
+    (d/transact! conn d.celestial/dataset4)
+    (d/transact! conn d.celestial/dataset5)
+    (d/transact! conn d.coordinate/dataset1)
+    (d/transact! conn d.tool/dataset1)
+    (d/transact! conn d.misc/dataset1)
+
+    (kick-start! conn)
+    @conn))
+
 (def test-db11
   (let [conn (create-empty-conn!)]
     (d/transact! conn d.basic/dataset1)
@@ -107,6 +122,8 @@
     (kick-start! conn)
     @conn))
 
+
+(def real-db @(init-conn2/init-conn!))
 
 
 (comment
