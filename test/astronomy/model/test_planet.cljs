@@ -4,9 +4,9 @@
    [datascript.core :as d]
    [astronomy.objects.planet.m :as planet]
    [astronomy.objects.planet.h :as planet.h :refer [handle-event]]
-   [astronomy.test-db :refer [test-db-full]]))
+   [astronomy.scripts.test-conn :refer [test-db11]]))
 
-(def test-db test-db-full)
+(def test-db test-db11)
 
 ;; test model
 
