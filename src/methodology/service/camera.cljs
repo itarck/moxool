@@ -37,13 +37,15 @@
 
 (defn init-service! [props env]
   (let [{:keys [conn dom-atom meta-atom]} env]
-    (go-loop []
-      (<! (async/timeout 20))
-      (try
-        (case (:mode @meta-atom)
-          :read-and-write (record-camera! dom-atom conn)
-          :read-only (play-camera! dom-atom conn)
-          nil)
-        (catch js/Object e (.log js/console e)))
-      (recur))))
+    (when meta-atom
+      (go-loop []
+        (<! (async/timeout 20))
+        (try
+          (case (:mode @meta-atom)
+            :read-and-write (record-camera! dom-atom conn)
+            :read-only (play-camera! dom-atom conn)
+            nil)
+          (catch js/Object e (.log js/console e)))
+        (recur)))
+    ))
 

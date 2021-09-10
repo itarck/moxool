@@ -430,7 +430,7 @@
                                       :orbit/type :ellipse-orbit
                                       :orbit/period (* 11.856 365)
                                       :orbit/color "BurlyWood"
-                                      :orbit/show? false}
+                                      :orbit/show? true}
     #_#:circle-orbit {:star [:star/name "sun"]
                     :color "BurlyWood"
                     :show? true
@@ -444,7 +444,7 @@
                             :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 0.413)}
     :celestial/gltf #:gltf {:url "models/16-solar/Jupiter_1_142984.glb"
                             :scale [0.002 0.002 0.002]
-                            :shadow? false}
+                            :shadow? true}
     :celestial/clock [:clock/name "default"]
     :object/scene [:scene/name "solar"]
     :object/quaternion [0 0 0 1]
@@ -467,13 +467,13 @@
                                      :orbit/type :circle-orbit
                                      :orbit/period 1.769137786
                                      :orbit/color "gray"
-                                     :orbit/show? false}
+                                     :orbit/show? true}
     :celestial/spin #:spin {:axis jupiter-spin-axis
                             :period 1.769137786
                             :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 1.769137786)}
     :celestial/gltf #:gltf {:url "models/16-solar/Io_1_3643.glb"
                             :scale [0.002 0.002 0.002]
-                            :shadow? false}
+                            :shadow? true}
     :celestial/clock [:clock/name "default"]
     :object/scene [:scene/name "solar"]
     :object/quaternion [0 0 0 1]
@@ -496,7 +496,7 @@
                                      :orbit/type :circle-orbit
                                      :orbit/period 3.551181041
                                      :orbit/color "gray"
-                                     :orbit/show? false}
+                                     :orbit/show? true}
     :celestial/spin #:spin {:axis jupiter-spin-axis
                             :period 3.551181041
                             :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 3.551181041)}

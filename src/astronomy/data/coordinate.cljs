@@ -111,13 +111,30 @@
                        :show-latitude? false
                        :show-longitude? false
                        :show-horizontal-plane? false
-                       :coordinate/name "月球某个坐标系"
+                       :coordinate/name "月球表面"
                        :coordinate/type :horizon-coordinate
 
                        :object/scene [:scene/name "solar"]})
 
+
+(def horizon-coordinate-4
+  #:horizon-coordinate{:entity/type :horizon-coordinate
+                       :center-object [:satellite/name "europa"]
+                       :center-radius (* 0.005203 1.03)
+                       :radius (* 0.005203 0.05)
+                       :longitude-0-offset 0
+                       :longitude 90
+                       :latitude 30
+                       :show-latitude? false
+                       :show-longitude? false
+                       :show-horizontal-plane? false
+                       :coordinate/name "木卫二表面"
+                       :coordinate/type :horizon-coordinate
+
+                       :object/scene [:scene/name "solar"]})
 ;; entry
 
 (def dataset1 [astronomical-coordinate-1 astronomical-coordinate-2 terrestrial-coordinate-1
-               horizon-coordinate-1 horizon-coordinate-2 horizon-coordinate-3])
+               horizon-coordinate-1 horizon-coordinate-2 ])
 
+(def dataset2 [horizon-coordinate-3 horizon-coordinate-4])

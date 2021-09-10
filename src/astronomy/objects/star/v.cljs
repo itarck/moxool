@@ -57,10 +57,10 @@
      (when (= (:star/name star) "sun")
        [:<>
         ($ DirectionalSunLight {:position #js [0 0 0]
-                                :intensity 10
+                                :intensity 5
                                 :shadow-camera-near 1
                                 :shadow-camera-far 100000000
-                                :shadow-camera-size 500})
+                                :shadow-camera-size 2500})
         #_($ PointSunLight {})])
 
      (when (:object/show? star)

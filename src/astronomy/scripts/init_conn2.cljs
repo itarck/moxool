@@ -59,6 +59,7 @@
     ;; (d/transact! conn d.celestial/dataset-newton)
     (d/transact! conn d.galaxy/dataset1)
     (d/transact! conn d.coordinate/dataset1)
+    (d/transact! conn d.coordinate/dataset2)
 
     (p/transact! conn d.stars/dataset1)
     (d/transact! conn d.constel/dataset1)
