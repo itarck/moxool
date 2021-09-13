@@ -8,9 +8,6 @@
    [astronomy.model.core :refer [basic-db]]
 
   ;;  views
-   
-   
-   [astronomy.view.constellation :as v.constel]
    [astronomy.view.user.universe-tool :as v.universe-tool]
    [astronomy.view.user.clock-tool :as v.clock-tool]
    [astronomy.view.user.spaceship-camera-control :as v.spaceship]
@@ -24,6 +21,7 @@
    [astronomy.view.user.ruler-tool :as v.ruler-tool]
 
 
+   [astronomy.objects.constellation.v :as v.constel]
    [astronomy.objects.star.v :as star.v]
    [astronomy.objects.ecliptic.v :as ecliptic.v]
    [astronomy.objects.astronomical-coordinate.v :as astronomical-coordinate.v]

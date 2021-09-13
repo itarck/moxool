@@ -1,4 +1,4 @@
-(ns astronomy.view.constellation
+(ns astronomy.objects.constellation.v
   (:require
    [applied-science.js-interop :as j]
    [shu.goog.math :as gmath]
@@ -25,10 +25,10 @@
   (let [lineGeometry (three/BufferGeometry.)]
     (j/call lineGeometry :setFromPoints (gen-star-points star-line))
     [:line {:geometry lineGeometry}
-       [:lineBasicMaterial {:args {:linewidth 1
-                                   :color color
-                                   :linecap "butt"
-                                   :linejoin "butt"}}]]))
+     [:lineBasicMaterial {:args {:linewidth 1
+                                 :color color
+                                 :linecap "butt"
+                                 :linejoin "butt"}}]]))
 
 
 (defn ConstellationView [props {:keys [conn] :as env}]
@@ -50,8 +50,8 @@
 
 
 (defn ConstellationsView [_props {:keys [conn] :as env}]
-    (let [constellation-ids (m.constel/sub-all-constellation-ids conn)]
-      [:<>
-       (for [id constellation-ids]
-         ^{:key id}
-         [ConstellationView {:object {:db/id id}} env])]))
+  (let [constellation-ids (m.constel/sub-all-constellation-ids conn)]
+    [:<>
+     (for [id constellation-ids]
+       ^{:key id}
+       [ConstellationView {:object {:db/id id}} env])]))
