@@ -17,7 +17,6 @@
    [astronomy.model.user.clock-tool :as m.clock-tool]
    [astronomy.model.user.info-tool :as m.info-tool]
    [astronomy.model.user.spaceship-camera-control :as m.spaceship]
-   [astronomy.model.user.goto-celestial-tool :as m.goto-tool]
    [astronomy.model.user.ppt-tool :as m.ppt-tool]
    [astronomy.model.user.ruler-tool :as m.ruler-tool]
 
@@ -53,7 +52,6 @@
    m.clock-tool/schema
    m.spaceship/schema
    m.info-tool/schema
-   m.goto-tool/schema
    m.ppt-tool/schema
    m.ruler-tool/schema
    ))
