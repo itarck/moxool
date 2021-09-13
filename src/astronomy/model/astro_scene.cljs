@@ -1,5 +1,6 @@
 (ns astronomy.model.astro-scene
   (:require
+   [cljs.spec.alpha :as s]
    [datascript.core :as d]
    [posh.reagent :as p]
    [astronomy.objects.celestial.m :as m.celestial]
@@ -21,9 +22,14 @@
                 :camera {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}})
 
 
+(s/def :astronomy/astro-scene
+  (s/keys :req [:astro-scene/coordinate :astro-scene/clock :astro-scene/camera]))
+
+
 ;; transform 
 
 (defn is-scene-coordinate? [scene coordinate]
+  {:pre [(s/assert :astronomy/astro-scene scene)]}
   (= (get-in scene [:astro-scene/coordinate :db/id])
      (:db/id coordinate)))
 

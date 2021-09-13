@@ -1,5 +1,6 @@
 (ns astronomy.objects.coordinate.m
   (:require
+   [cljs.spec.alpha :as s]
    [datascript.core :as d]
    [posh.reagent :as p]
    [shu.three.vector3 :as v3]
@@ -17,7 +18,12 @@
 
 ;; transform 
 
-;; now
+(defn is-scene-coordinate? [scene coordinate]
+  {:pre [(s/assert :astronomy/astro-scene scene)]}
+  (= (get-in scene [:astro-scene/coordinate :db/id])
+     (:db/id coordinate)))
+
+;; transform now
 
 (defmulti cal-origin-position-now
   "原点在系统坐标内的位置"
@@ -46,8 +52,7 @@
 (defmulti update-position-and-quaternion-tx
   (fn [_db coor] (:entity/type coor)))
 
-;; at epoch days
-
+;; transform  at epoch days
 
 (defmulti from-system-position-at-epoch
   "从系统坐标转移到坐标系坐标，坐标系随时间变化"

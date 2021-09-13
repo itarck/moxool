@@ -1,7 +1,7 @@
 (ns astronomy.objects.astronomical-coordinate.h
   (:require
    [datascript.core :as d]
-   [astronomy.model.astro-scene :as m.astro-scene]
+   [astronomy.objects.coordinate.m :as coordinate.m]
    [astronomy.objects.astronomical-coordinate.m :as ac.m]
    [astronomy.service.effect :as s.effect :refer [create-effect effects]]))
 
@@ -83,6 +83,6 @@
         event #:event{:action :astro-scene.pub/coordinate-changed
                       :detail {:astro-scene astro-scene
                                :coordinate coordinate}}]
-    (if (m.astro-scene/is-scene-coordinate? astro-scene-1 coordinate)
+    (if (coordinate.m/is-scene-coordinate? astro-scene-1 coordinate)
       (effects :tx tx :event event)
       (effects :tx tx))))
