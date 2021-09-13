@@ -1,4 +1,4 @@
-(ns astronomy.view.galaxy
+(ns astronomy.objects.galaxy.v
   (:require
    [posh.reagent :as p]
    [methodology.view.gltf :as v.gltf]))
@@ -9,7 +9,7 @@
    {:name "milky way"
     :chinese-name "银河"
     :radius (* 150000 365 86400)
-    
+
     :celestial/gltf #:gltf{:url "models/13-galaxy/scene.gltf"
                            :scale [1 0.5 1]
                            :position [-112 -57 112]}

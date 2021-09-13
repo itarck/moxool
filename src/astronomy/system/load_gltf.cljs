@@ -6,7 +6,7 @@
    [integrant.core :as ig]
    [methodology.lib.circuit]
    [methodology.view.gltf :as v.gltf]
-   [astronomy.view.galaxy :as v.galaxy]
+   [astronomy.objects.galaxy.v :as v.galaxy]
    [astronomy.view.background :as v.background]
    [methodology.view.camera :as v.camera]
    [astronomy.model.core :refer [basic-db]]))

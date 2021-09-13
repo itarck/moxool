@@ -1,4 +1,4 @@
-(ns astronomy.model.galaxy)
+(ns astronomy.objects.galaxy.m)
 
 
 (def schema {:galaxy/name {:db/unique :db.unique/identity}})

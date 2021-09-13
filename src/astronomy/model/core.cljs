@@ -4,7 +4,7 @@
    [methodology.model.core :as mtd-model]
    [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.model.clock :as m.clock]
-   [astronomy.model.galaxy :as m.galaxy]
+   
    [astronomy.model.constellation :as m.constellation]
    [astronomy.model.atmosphere :as m.atmosphere]
    [astronomy.model.astronomical-point :as m.astronomical-point]
@@ -16,11 +16,12 @@
    [astronomy.model.user.ruler-tool :as m.ruler-tool]
 
    [astronomy.objects.celestial.m :as m.celestial]
+   [astronomy.objects.coordinate.m :as m.coordinate]
+   [astronomy.objects.circle-orbit.m :as circle-orbit.m]
+   [astronomy.objects.galaxy.m :as m.galaxy]
    [astronomy.objects.star.m :as m.star]
    [astronomy.objects.planet.m :as planet.m]
    [astronomy.objects.satellite.m :as satellite.m]
-   [astronomy.objects.circle-orbit.m :as circle-orbit.m]
-   [astronomy.objects.coordinate.m :as m.coordinate]
    [astronomy.objects.spin.m :as m.spin]
    [astronomy.objects.horizon-coordinate.m :as horizon-coordinate.m]
    [astronomy.objects.astronomical-coordinate.m :as astronomical-coordinate.m]

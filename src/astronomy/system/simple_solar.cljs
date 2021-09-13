@@ -8,7 +8,7 @@
 
   ;;  views
 
-   [astronomy.view.galaxy :as v.galaxy]
+   
    [astronomy.view.constellation :as v.constel]
    [astronomy.view.user.universe-tool :as v.universe-tool]
    [astronomy.view.user.clock-tool :as v.clock-tool]
@@ -28,6 +28,7 @@
    [astronomy.objects.astronomical-coordinate.v :as astronomical-coordinate.v]
    [astronomy.objects.terrestrial-coordinate.v :as terrestrial-coordinate.v]
    [astronomy.objects.horizon-coordinate.v :as horizon-coordinate.v]
+   [astronomy.objects.galaxy.v :as v.galaxy]
 
    [astronomy.tools.astronomical-coordinate-tool.v :as astronomical-coordinate-tool.v]
    [astronomy.tools.planet-tool.v :as planet-tool.v]
