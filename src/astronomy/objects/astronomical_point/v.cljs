@@ -1,4 +1,4 @@
-(ns astronomy.view.astronomical-point
+(ns astronomy.objects.astronomical-point.v
   (:require
    [applied-science.js-interop :as j]
    [cljs.core.async :refer [go >! <! go-loop] :as a]
@@ -17,5 +17,4 @@
        :onClick (fn [e] (go (>! service-chan
                                 #:event {:action :user/object-clicked
                                          :detail {:astronomical-point astronomical-point
-                                                  :meta-key (j/get-in e [:metaKey])}})))}]])
-  )
+                                                  :meta-key (j/get-in e [:metaKey])}})))}]]))

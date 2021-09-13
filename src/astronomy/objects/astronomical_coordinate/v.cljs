@@ -6,7 +6,7 @@
    [shu.astronomy.celestial-coordinate :as shu.cc]
    [astronomy.objects.astronomical-point.m :as m.apt]
    [astronomy.component.celestial-sphere :as c.celestial-sphere]
-   [astronomy.view.astronomical-point :as v.apt]
+   [astronomy.objects.astronomical-point.v :as v.apt]
    [astronomy.objects.moon-orbit.v :as moon-orbit.v]))
 
 
