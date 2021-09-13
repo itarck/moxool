@@ -4,7 +4,7 @@
    [datascript.core :as d]
    [posh.reagent :as p]
    [shu.three.vector3 :as v3]
-   [astronomy.model.astronomical-point :as m.astro-point]
+   [astronomy.objects.astronomical-point.m :as m.astro-point]
    [astronomy.conn.core :as conn]))
 
 

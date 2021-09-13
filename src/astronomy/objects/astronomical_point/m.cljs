@@ -1,4 +1,4 @@
-(ns astronomy.model.astronomical-point
+(ns astronomy.objects.astronomical-point.m
   (:require
    [cljs.spec.alpha :as s]
    [datascript.core :as d]
@@ -56,7 +56,7 @@
                          :coordinate {:db/id [:coordinate/name "赤道天球坐标系"]}}))
 
 
-(defn from-position 
+(defn from-position
   "把给定的位置投射到天球上，给出天球点"
   [position]
   (let [{:celestial-coordinate/keys [latitude longitude]} (shu.cc/from-vector position)]
@@ -137,6 +137,5 @@
   [[:db.fn/retractEntity (:db/id apt1)]])
 
 
-(comment 
-  (s/valid? :astronomy/astronomical-point (astronomical-point 30 40))
-  )
+(comment
+  (s/valid? :astronomy/astronomical-point (astronomical-point 30 40)))

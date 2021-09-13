@@ -9,7 +9,7 @@
    ["@react-three/drei" :refer [Html]]
    [astronomy.component.tool :as c.tool]
    [methodology.model.user.person :as m.person]
-   [astronomy.model.astronomical-point :as m.apt]))
+   [astronomy.objects.astronomical-point.m :as m.apt]))
 
 ;; data
 

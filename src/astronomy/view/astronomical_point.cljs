@@ -3,7 +3,7 @@
    [applied-science.js-interop :as j]
    [cljs.core.async :refer [go >! <! go-loop] :as a]
    ["react" :as react :refer [Suspense]]
-   [astronomy.model.astronomical-point :as m.apt]
+   [astronomy.objects.astronomical-point.m :as m.apt]
    [astronomy.component.cross-hair :as c.cross-hair]))
 
 

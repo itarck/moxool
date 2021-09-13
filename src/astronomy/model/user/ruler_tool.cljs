@@ -1,7 +1,7 @@
 (ns astronomy.model.user.ruler-tool
   (:require
    [shu.astronomy.celestial-coordinate :as shu.cc]
-   [astronomy.model.astronomical-point :as m.apt]))
+   [astronomy.objects.astronomical-point.m :as m.apt]))
 
 
 ;; 尺子只能量天球点的距离，距离用角度表示

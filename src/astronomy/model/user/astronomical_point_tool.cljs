@@ -1,6 +1,6 @@
 (ns astronomy.model.user.astronomical-point-tool
   (:require
-   [astronomy.model.astronomical-point :as m.apt]))
+   [astronomy.objects.astronomical-point.m :as m.apt]))
 
 
 ;; 标记点工具，缩写apt-tool

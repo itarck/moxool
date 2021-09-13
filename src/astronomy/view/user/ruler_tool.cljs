@@ -10,7 +10,7 @@
    [astronomy.component.line :as c.line]
    [methodology.model.user.person :as m.person]
    [astronomy.model.astro-scene :as m.astro-scene]
-   [astronomy.model.astronomical-point :as m.apt]))
+   [astronomy.objects.astronomical-point.m :as m.apt]))
 
 
 
