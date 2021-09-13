@@ -1,4 +1,4 @@
-(ns astronomy.view.astro-scene
+(ns astronomy.objects.astro-scene.v
   (:require
    [posh.reagent :as p]
    [astronomy.objects.astro-scene.m :as m.astro-scene]
@@ -15,7 +15,7 @@
   (let [astro-scene @(p/pull conn '[* {:object/_scene [*]
                                        :astro-scene/coordinate [*]}]
                              (get-in props [:astro-scene :db/id]))
-        {scale :scene/scale 
+        {scale :scene/scale
          coordiante :astro-scene/coordinate
          objects :object/_scene} astro-scene
         user @(p/pull conn '[*] (get-in props [:user :db/id]))
@@ -36,8 +36,7 @@
        [:<>
         ;; [v.constel/ConstellationsView {} env]
         ;; [v.background/BackgroundView {} env]
-        [v.star/SavedStarsSphereView {} env]
-        ]
+        [v.star/SavedStarsSphereView {} env]]
 
 
        (for [object objects]

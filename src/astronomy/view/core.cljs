@@ -4,7 +4,7 @@
    [posh.reagent :as p]
    [methodology.model.user.person :as m.person]
    [astronomy.objects.astro-scene.m :as m.astro-scene]
-   [astronomy.view.astro-scene :as v.astro-scene]
+   [astronomy.objects.astro-scene.v :as v.astro-scene]
    [methodology.view.camera :as v.camera]
    [astronomy.view.user.core :as v.user]
    [astronomy.view.user.spaceship-camera-control :as v.spaceship]))
