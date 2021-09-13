@@ -3,7 +3,6 @@
    [applied-science.js-interop :as j]
    [cljs.core.async :refer [go >! <! go-loop] :as a]
    [posh.reagent :as p]
-   [astronomy.model.constellation :as m.constel]
    [astronomy.model.user.constellation-tool :as m.constel-tool]
    ["@material-ui/core" :as mt]))
 

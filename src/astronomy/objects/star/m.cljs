@@ -62,6 +62,20 @@
     (mapv (fn [id] (d/pull db '[*] id)) ids)))
 
 
+(defn visual-magnitude->length [vm]
+  (* (* 100 shu.light/light-year-unit) (Math/pow 10 (/ vm 8))))
+
+
+(defn cal-star-position-vector [star]
+  (let [{:star/keys [visual-magnitude right-ascension declination]} star
+        radius (visual-magnitude->length visual-magnitude)]
+    (v3/from-spherical-coords
+     radius
+     (gmath/to-radians (- 90 declination))
+     (gmath/to-radians right-ascension))))
+
+
+
 ;; 实现接口
 
 (defmethod m.celestial/cal-system-position-now :star
@@ -78,23 +92,20 @@
   (let [star @(p/pull conn '[* {:planet/_star [*]}] (:db/id star))]
     (:planet/_star star)))
 
+(defn sub-all-constellation-star-ids [conn]
+  (let [star-lines @(p/q '[:find [?star-lines ...]
+                           :where [?id :constellation/star-lines ?star-lines]]
+                         conn)]
+    (->> star-lines
+         (apply concat)
+         (apply concat)
+         distinct)))
 
-(defn show-all-planet-orbits-tx [star show?]
-  (let [planets (:planet/_star star)]
-    (mapcat #(m.celestial/update-show-orbit-tx % show?) planets)))
+(defn sub-all-constellation-stars [conn]
+  (let [ids (sub-all-constellation-star-ids conn)]
+    (doall
+     (mapv (fn [id] @(p/pull conn '[*] id)) ids))))
 
-
-(defn visual-magnitude->length [vm]
-  (* (* 100 shu.light/light-year-unit) (Math/pow 10 (/ vm 8))))
-
-
-(defn cal-star-position-vector [star]
-  (let [{:star/keys [visual-magnitude right-ascension declination]} star
-        radius (visual-magnitude->length visual-magnitude)]
-    (v3/from-spherical-coords
-     radius
-     (gmath/to-radians (- 90 declination))
-     (gmath/to-radians right-ascension))))
 
 
 (comment

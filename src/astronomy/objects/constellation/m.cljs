@@ -1,4 +1,4 @@
-(ns astronomy.model.constellation
+(ns astronomy.objects.constellation.m
   (:require
    [datascript.core :as d]
    [shu.three.vector3 :as v3]

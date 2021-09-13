@@ -9,8 +9,7 @@
    ["three" :as three]
    ["react" :as react :refer [useRef Suspense]]
    [methodology.view.gltf :as v.gltf]
-   [astronomy.objects.star.m :as m.star]
-   [astronomy.model.constellation :as m.constel]
+   [astronomy.objects.star.m :as star.m]
    [astronomy.objects.planet.v :as planet.v]
    [astronomy.component.gltf :as c.gltf]))
 
@@ -90,7 +89,7 @@
         positions (use-memo [star-count]
                             (let [positions #js []]
                               (doseq [star stars]
-                                (let [[x y z] (m.star/cal-star-position-vector star)]
+                                (let [[x y z] (star.m/cal-star-position-vector star)]
                                   (j/push! positions x)
                                   (j/push! positions y)
                                   (j/push! positions z)))
@@ -110,8 +109,7 @@
 
 
 (defn StarsSphereView [_props {:keys [conn]}]
-  (let [stars (m.constel/sub-all-constellation-stars conn)]
-    ;; (println "StarsSphereView: " stars)
+  (let [stars (star.m/sub-all-constellation-stars conn)]
     ($ StarsSphereComponent {:stars stars})))
 
 

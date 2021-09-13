@@ -1,6 +1,6 @@
 (ns astronomy.model.user.constellation-tool
   (:require
-   [astronomy.model.constellation :as m.constel]))
+   [astronomy.objects.constellation.m :as m.constel]))
 
 
 (defn get-query-types []

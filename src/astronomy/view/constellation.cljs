@@ -5,10 +5,8 @@
    [shu.three.vector3 :as v3]
    ["@react-three/drei" :refer [Html]]
    ["three" :as three]
-   [posh.reagent :as p]
    [shu.astronomy.light :as shu.light]
-   [astronomy.model.astro-scene :as m.astro-scene]
-   [astronomy.model.constellation :as m.constel]))
+   [astronomy.objects.constellation.m :as m.constel]))
 
 
 (defn gen-star-points [stars]

@@ -2,7 +2,7 @@
   (:require
    [datascript.core :as d]
    [posh.reagent :as p]
-   [astronomy.model.constellation :as m.constel]
+   [astronomy.objects.constellation.m :as m.constel]
    [cljs.core.async :refer [go-loop go >! <! timeout] :as a]))
 
 
