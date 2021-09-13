@@ -1,4 +1,4 @@
-(ns astronomy.view.atmosphere
+(ns astronomy.objects.atmosphere.v
   (:require
    [helix.core :refer [$]]
    [posh.reagent :as p]
