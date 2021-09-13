@@ -6,7 +6,7 @@
    [astronomy.model.clock :as m.clock]
    
    [astronomy.model.constellation :as m.constellation]
-   [astronomy.model.atmosphere :as m.atmosphere]
+   
    [astronomy.model.astronomical-point :as m.astronomical-point]
    [astronomy.model.user.universe-tool :as m.universe-tool]
    [astronomy.model.user.clock-tool :as m.clock-tool]
@@ -15,6 +15,7 @@
    [astronomy.model.user.ppt-tool :as m.ppt-tool]
    [astronomy.model.user.ruler-tool :as m.ruler-tool]
 
+   [astronomy.objects.atmosphere.m :as m.atmosphere]
    [astronomy.objects.celestial.m :as m.celestial]
    [astronomy.objects.coordinate.m :as m.coordinate]
    [astronomy.objects.circle-orbit.m :as circle-orbit.m]

@@ -5,7 +5,7 @@
    ["@react-three/drei" :refer [Sky]]
    [shu.three.vector3 :as v3]
    [astronomy.model.astro-scene :as m.astro-scene]
-   [astronomy.model.atmosphere :as m.atmosphere]
+   [astronomy.objects.atmosphere.m :as m.atmosphere]
    [astronomy.objects.horizon-coordinate.m :as hc.m]))
 
 

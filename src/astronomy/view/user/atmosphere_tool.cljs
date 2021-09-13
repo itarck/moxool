@@ -4,7 +4,7 @@
    [cljs.core.async :refer [go >! <! go-loop] :as a]
    [posh.reagent :as p]
    ["@material-ui/core" :as mt]
-   [astronomy.model.atmosphere :as m.atmosphere]))
+   [astronomy.objects.atmosphere.m :as m.atmosphere]))
 
 
 (defn AtmosphereToolView [props {:keys [service-chan conn]}]

@@ -4,7 +4,7 @@
    [posh.reagent :as p]
    [astronomy.objects.celestial.m :as m.celestial]
    [astronomy.objects.coordinate.m :as m.coordinate]
-   [astronomy.model.atmosphere :as m.atmosphere]))
+   [astronomy.objects.atmosphere.m :as m.atmosphere]))
 
 
 (def sample

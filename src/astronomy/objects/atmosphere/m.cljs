@@ -1,4 +1,4 @@
-(ns astronomy.model.atmosphere
+(ns astronomy.objects.atmosphere.m
   (:require
    [posh.reagent :as p]
    [astronomy.objects.coordinate.m :as m.coordinate]
@@ -30,7 +30,7 @@
 
 
 (def whole-selector
-  '[* 
+  '[*
     {:atmosphere/coordinate [*]}])
 
 (def unique-id

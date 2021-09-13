@@ -4,7 +4,7 @@
    [posh.reagent :as p]
    [astronomy.conn.core :refer [create-basic-conn!]]
    [astronomy.data.celestial :as d.celestial]
-   [astronomy.model.atmosphere :as m.atm]))
+   [astronomy.objects.atmosphere.m :as m.atm]))
 
 
 (def test-conn
