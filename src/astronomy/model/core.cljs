@@ -5,7 +5,6 @@
    [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.model.clock :as m.clock]
    [astronomy.model.galaxy :as m.galaxy]
-   [astronomy.model.spin :as m.spin]
    [astronomy.model.constellation :as m.constellation]
    [astronomy.model.atmosphere :as m.atmosphere]
    [astronomy.model.astronomical-point :as m.astronomical-point]
@@ -22,6 +21,7 @@
    [astronomy.objects.satellite.m :as satellite.m]
    [astronomy.objects.circle-orbit.m :as circle-orbit.m]
    [astronomy.objects.coordinate.m :as m.coordinate]
+   [astronomy.objects.spin.m :as m.spin]
    [astronomy.objects.horizon-coordinate.m :as horizon-coordinate.m]
    [astronomy.objects.astronomical-coordinate.m :as astronomical-coordinate.m]
    [astronomy.objects.terrestrial-coordinate.m :as terrestrial-coordinate.m]))

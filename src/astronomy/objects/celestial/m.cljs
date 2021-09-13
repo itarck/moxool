@@ -6,7 +6,7 @@
    [astronomy.objects.ellipse-orbit.m :as ellipse-orbit.m]
    [astronomy.objects.circle-orbit.m :as circle-orbit.m]
    [astronomy.objects.moon-orbit.m :as moon-orbit.m]
-   [astronomy.model.spin :as m.spin]))
+   [astronomy.objects.spin.m :as m.spin]))
 
 
 ;; schema

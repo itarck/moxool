@@ -1,4 +1,4 @@
-(ns astronomy.model.spin
+(ns astronomy.objects.spin.m
   (:require
    [shu.goog.math :as gmath]
    [shu.three.vector3 :as v3]
@@ -89,7 +89,7 @@
 
 
 (comment
-  
+
   (cal-quaternion-old sample2 0.1)
   ;; => #object[Quaternion [-0.06160807986834395 0.30281338693568693 0.1896101731677802 0.9319637758082436]]
 
@@ -106,10 +106,4 @@
 
   (cal-spin-axis 270 66.6)
   ;; => (-0.3971478906347807 0.9177546256839811 -7.295488395810108E-17)
-
-
-
-
-
-  
   )
