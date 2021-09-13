@@ -3,7 +3,7 @@
    [cljs.spec.alpha :as s]
    [posh.reagent :as p]
    [datascript.core :as d]
-   [astronomy.model.celestial :as m.celestial]
+   [astronomy.objects.celestial.m :as m.celestial]
    [astronomy.objects.planet.m :as planet.m]))
 
 ;; 包含ns: planet

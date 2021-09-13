@@ -1,9 +1,6 @@
 (ns astronomy.model.user.clock-tool
   (:require
-   [datascript.core :as d]
-   [posh.reagent :as p]
-   [astronomy.model.clock :as m.clock]
-   [astronomy.model.celestial :as m.celestial]))
+   [datascript.core :as d]))
 
 
 

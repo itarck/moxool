@@ -1,6 +1,5 @@
 (ns astronomy.tools.planet-tool.h
   (:require
-   [astronomy.model.celestial :as m.celestial]
    [astronomy.tools.planet-tool.m :as planet-tool.m]
    [astronomy.service.effect :refer [effects]]))
 

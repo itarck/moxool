@@ -6,7 +6,7 @@
    [shu.three.quaternion :as q]
    [posh.reagent :as p]
    [astronomy.model.coordinate :as m.coordinate]
-   [astronomy.model.celestial :as m.celestial]))
+   [astronomy.objects.celestial.m :as m.celestial]))
 
 ;; 包含ns: planet
 

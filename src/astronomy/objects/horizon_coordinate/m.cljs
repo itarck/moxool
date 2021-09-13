@@ -8,7 +8,7 @@
    [shu.three.spherical :as sph]
    [shu.three.matrix4 :as mat4]
    [shu.astronomy.celestial-coordinate :as shu.cc]
-   [astronomy.model.celestial :as m.celestial]
+   [astronomy.objects.celestial.m :as m.celestial]
    [astronomy.model.coordinate :as m.coordinate]))
 
 

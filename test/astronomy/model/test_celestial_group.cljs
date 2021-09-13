@@ -1,10 +1,7 @@
 (ns astronomy.model.test-celestial-group
   (:require
-   [cljs.spec.alpha :as s]
    [cljs.test :refer-macros [deftest is testing run-tests]]
    [datascript.core :as d]
-   [shu.three.vector3 :as v3]
-   [astronomy.model.celestial :as m.celestial]
    [astronomy.objects.planet.m]
    [astronomy.objects.celestial-group.m :as celestial-group.m]
    [astronomy.scripts.test-conn :refer [test-db11]]))

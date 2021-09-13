@@ -8,7 +8,7 @@
    [shu.three.quaternion :as q]
    [astronomy.model.coordinate :as m.coordinate]
    [astronomy.model.const :as m.const]
-   [astronomy.model.celestial :as m.celestial]
+   [astronomy.objects.celestial.m :as m.celestial]
    [astronomy.objects.celestial-group.m :as celestial-group.m]))
 
 

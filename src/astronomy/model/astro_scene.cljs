@@ -2,8 +2,7 @@
   (:require
    [datascript.core :as d]
    [posh.reagent :as p]
-   [astronomy.model.celestial :as m.celestial]
-   [astronomy.objects.celestial-group.m :as celestial-group.m]
+   [astronomy.objects.celestial.m :as m.celestial]
    [astronomy.model.coordinate :as m.coordinate]
    [astronomy.model.atmosphere :as m.atmosphere]))
 

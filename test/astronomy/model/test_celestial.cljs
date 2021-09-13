@@ -4,9 +4,9 @@
    [cljs.test :refer-macros [deftest is testing run-tests]]
    [datascript.core :as d]
    [shu.three.vector3 :as v3]
-   [astronomy.model.celestial :as m.celestial]
+   [astronomy.objects.celestial.m :as m.celestial]
    [astronomy.objects.planet.m]
-   [astronomy.scripts.test-conn :refer [test-db3 test-db11]]))
+   [astronomy.scripts.test-conn :refer [test-db11]]))
 
 
 ;; test model

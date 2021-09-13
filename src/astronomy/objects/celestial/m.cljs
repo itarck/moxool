@@ -1,8 +1,7 @@
-(ns astronomy.model.celestial
+(ns astronomy.objects.celestial.m
   (:require
    [cljs.spec.alpha :as s]
    [datascript.core :as d]
-   [shu.three.quaternion :as q]
    [shu.three.matrix4 :as m4]
    [astronomy.objects.ellipse-orbit.m :as ellipse-orbit.m]
    [astronomy.objects.circle-orbit.m :as circle-orbit.m]

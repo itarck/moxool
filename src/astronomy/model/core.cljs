@@ -3,7 +3,7 @@
    [datascript.core :as d]
    [methodology.model.core :as mtd-model]
    [astronomy.model.astro-scene :as m.astro-scene]
-   [astronomy.model.celestial :as m.celestial]
+   
    [astronomy.model.clock :as m.clock]
    [astronomy.model.galaxy :as m.galaxy]
    [astronomy.model.spin :as m.spin]
@@ -20,10 +20,11 @@
    [astronomy.model.user.ppt-tool :as m.ppt-tool]
    [astronomy.model.user.ruler-tool :as m.ruler-tool]
 
-   [astronomy.objects.circle-orbit.m :as circle-orbit.m]
+   [astronomy.objects.celestial.m :as m.celestial]
    [astronomy.objects.star.m :as m.star]
    [astronomy.objects.planet.m :as planet.m]
    [astronomy.objects.satellite.m :as satellite.m]
+   [astronomy.objects.circle-orbit.m :as circle-orbit.m]
    [astronomy.objects.horizon-coordinate.m :as horizon-coordinate.m]
    [astronomy.objects.astronomical-coordinate.m :as astronomical-coordinate.m]
    [astronomy.objects.terrestrial-coordinate.m :as terrestrial-coordinate.m]))

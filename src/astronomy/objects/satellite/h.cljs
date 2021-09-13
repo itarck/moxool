@@ -1,6 +1,6 @@
 (ns astronomy.objects.satellite.h
   (:require
-   [astronomy.model.celestial :as m.celestial]
+   [astronomy.objects.celestial.m :as m.celestial]
    [astronomy.service.effect :refer [effects]]))
 
 

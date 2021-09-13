@@ -5,7 +5,7 @@
    [shu.three.vector3 :as v3]
    [shu.goog.math :as gmath]
    [shu.astronomy.light :as shu.light]
-   [astronomy.model.celestial :as m.celestial]))
+   [astronomy.objects.celestial.m :as m.celestial]))
 
 
 

@@ -4,7 +4,7 @@
    [datascript.core :as d]
    [posh.reagent :as p]
    [shu.three.vector3 :as v3]
-   [astronomy.model.celestial :as m.celestial]))
+   [astronomy.objects.celestial.m :as m.celestial]))
 
 
 ;; sample
