@@ -2,7 +2,7 @@
   (:require
    [posh.reagent :as p]
    [cljs.core.async :refer [go-loop go >! <! timeout] :as a]
-   [astronomy.model.astro-scene :as m.astro-scene]))
+   [astronomy.objects.astro-scene.m :as m.astro-scene]))
 
 
 (defmulti handle-event! (fn [props env event] (:event/action event)))

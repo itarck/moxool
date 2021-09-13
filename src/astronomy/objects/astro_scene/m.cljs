@@ -1,4 +1,4 @@
-(ns astronomy.model.astro-scene
+(ns astronomy.objects.astro-scene.m
   (:require
    [cljs.spec.alpha :as s]
    [datascript.core :as d]

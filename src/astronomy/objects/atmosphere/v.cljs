@@ -4,7 +4,7 @@
    [posh.reagent :as p]
    ["@react-three/drei" :refer [Sky]]
    [shu.three.vector3 :as v3]
-   [astronomy.model.astro-scene :as m.astro-scene]
+   [astronomy.objects.astro-scene.m :as m.astro-scene]
    [astronomy.objects.atmosphere.m :as m.atmosphere]
    [astronomy.objects.horizon-coordinate.m :as hc.m]))
 

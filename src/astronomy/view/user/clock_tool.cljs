@@ -8,7 +8,7 @@
    [goog.string :as gstring]
    [posh.reagent :as p]
    ["@material-ui/core" :as mt]
-   [astronomy.model.astro-scene :as m.astro-scene]
+   [astronomy.objects.astro-scene.m :as m.astro-scene]
    [astronomy.objects.clock.m :as m.clock]
    [astronomy.objects.horizon-coordinate.m :as m.hc]))
 

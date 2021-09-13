@@ -1,7 +1,7 @@
 (ns astronomy.view.astro-scene
   (:require
    [posh.reagent :as p]
-   [astronomy.model.astro-scene :as m.astro-scene]
+   [astronomy.objects.astro-scene.m :as m.astro-scene]
    [astronomy.objects.coordinate.m :as m.coordinate]
    [astronomy.objects.atmosphere.m :as m.atmosphere]
    [astronomy.view.background :as v.background]

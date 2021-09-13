@@ -5,8 +5,7 @@
    [helix.hooks :refer [use-memo]]
    [shu.arithmetic.number :as shu.number]
    [shu.three.vector3 :as v3]
-   [shu.astronomy.light :as shu.light]
-   [astronomy.model.astro-scene :as m.astro-scene]))
+   [shu.astronomy.light :as shu.light]))
 
 
 

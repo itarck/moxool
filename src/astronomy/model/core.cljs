@@ -2,7 +2,6 @@
   (:require
    [datascript.core :as d]
    [methodology.model.core :as mtd-model]
-   [astronomy.model.astro-scene :as m.astro-scene]
    
    [astronomy.model.user.universe-tool :as m.universe-tool]
    [astronomy.model.user.clock-tool :as m.clock-tool]
@@ -11,6 +10,7 @@
    [astronomy.model.user.ppt-tool :as m.ppt-tool]
    [astronomy.model.user.ruler-tool :as m.ruler-tool]
 
+   [astronomy.objects.astro-scene.m :as m.astro-scene]
    [astronomy.objects.atmosphere.m :as m.atmosphere]
    [astronomy.objects.astronomical-point.m :as m.astronomical-point]
    [astronomy.objects.clock.m :as m.clock]

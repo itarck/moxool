@@ -6,7 +6,7 @@
    [posh.reagent :as p]
    [astronomy.data.celestial :as d.celestial]
    [astronomy.data.coordinate :as d.coordinate]
-   [astronomy.model.astro-scene :as m.astro-scene]
+   [astronomy.objects.astro-scene.m :as m.astro-scene]
    [methodology.model.object :as m.object]
    [astronomy.objects.clock.m :as m.clock]
    [astronomy.objects.horizon-coordinate.m :as horizon.m]))

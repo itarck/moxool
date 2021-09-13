@@ -2,9 +2,7 @@
   (:require
    [cljs.test :refer-macros [deftest is testing run-tests]]
    [datascript.core :as d]
-   [posh.reagent :as p]
    [astronomy.scripts.test-conn :as test-conn]
-   [astronomy.model.astro-scene :as m.astro-scene]
    [astronomy.objects.terrestrial-coordinate.m :as m.tc]))
 
 

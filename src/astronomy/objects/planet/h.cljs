@@ -1,6 +1,6 @@
 (ns astronomy.objects.planet.h
   (:require
-   [astronomy.model.astro-scene :as m.astro-scene]
+   [astronomy.objects.astro-scene.m :as m.astro-scene]
    [astronomy.objects.celestial.m :as m.celestial]
    [astronomy.objects.planet.m :as planet]
    [astronomy.service.effect :refer [effects]]))

@@ -3,7 +3,7 @@
    ["react-three-fiber" :refer [Canvas]]
    [posh.reagent :as p]
    [methodology.model.user.person :as m.person]
-   [astronomy.model.astro-scene :as m.astro-scene]
+   [astronomy.objects.astro-scene.m :as m.astro-scene]
    [astronomy.view.astro-scene :as v.astro-scene]
    [methodology.view.camera :as v.camera]
    [astronomy.view.user.core :as v.user]

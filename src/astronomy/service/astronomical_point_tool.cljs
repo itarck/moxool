@@ -1,6 +1,6 @@
 (ns astronomy.service.astronomical-point-tool
   (:require
-   [astronomy.model.astro-scene :as m.astro-scene]
+   [astronomy.objects.astro-scene.m :as m.astro-scene]
    [astronomy.objects.astronomical-point.m :as m.apt]
    [astronomy.model.user.astronomical-point-tool :as m.apt-tool]
    [astronomy.service.effect :as s.effect :refer [create-effect effects]]))

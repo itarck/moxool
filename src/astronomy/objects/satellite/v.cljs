@@ -5,7 +5,7 @@
    [cljs.core.async :refer [go >! <!]]
    [posh.reagent :as p]
    [methodology.view.gltf :as v.gltf]
-   [astronomy.model.astro-scene :as m.astro-scene]
+   [astronomy.objects.astro-scene.m :as m.astro-scene]
    [astronomy.objects.moon-orbit.v :as moon-orbit.v]
    [astronomy.objects.circle-orbit.v :as circle-orbit.v]
    [astronomy.objects.ellipse-orbit.v :as ellipse-orbit.v]))
