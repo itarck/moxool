@@ -1,7 +1,7 @@
 (ns astronomy.model.atmosphere
   (:require
    [posh.reagent :as p]
-   [astronomy.model.coordinate :as m.coordinate]
+   [astronomy.objects.coordinate.m :as m.coordinate]
    [astronomy.objects.horizon-coordinate.m :as hc.m]))
 
 

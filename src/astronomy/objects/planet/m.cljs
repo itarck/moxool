@@ -4,8 +4,7 @@
    [shu.three.vector3 :as v3]
    [shu.three.spherical :as sph]
    [shu.three.quaternion :as q]
-   [posh.reagent :as p]
-   [astronomy.model.coordinate :as m.coordinate]
+   [astronomy.objects.coordinate.m :as m.coordinate]
    [astronomy.objects.celestial.m :as m.celestial]))
 
 ;; 包含ns: planet

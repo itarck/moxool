@@ -5,7 +5,7 @@
    [posh.reagent :as p]
    [shu.three.vector3 :as v3]
    [shu.astronomy.celestial-coordinate :as shu.cc]
-   [astronomy.model.coordinate :as m.coordinate]
+   [astronomy.objects.coordinate.m :as m.coordinate]
    [astronomy.model.const :as const]))
 
 

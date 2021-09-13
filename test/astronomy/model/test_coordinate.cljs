@@ -5,7 +5,7 @@
    [posh.reagent :as p]
    [astronomy.data.celestial :as d.celestial]
    [astronomy.data.coordinate :as d.coordinate]
-   [astronomy.model.coordinate :as m.coordinate]))
+   [astronomy.objects.coordinate.m :as m.coordinate]))
 
 
 (def test-conn

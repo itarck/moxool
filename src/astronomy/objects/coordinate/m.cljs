@@ -1,4 +1,4 @@
-(ns astronomy.model.coordinate
+(ns astronomy.objects.coordinate.m
   (:require
    [datascript.core :as d]
    [posh.reagent :as p]
@@ -13,9 +13,7 @@
     #:coordinate {:name "赤道天球坐标系"
                   :object/position [0 0 0]
                   :object/quaternion [0 0 0 1]
-                  :type :astronomical-coordinate})
-  
-  )
+                  :type :astronomical-coordinate}))
 
 ;; transform 
 
@@ -28,7 +26,7 @@
 (def cal-origin-matrix-now
   m.object/cal-matrix)
 
-(def cal-origin-invert-matrix-now 
+(def cal-origin-invert-matrix-now
   m.object/cal-invert-matrix)
 
 (defn from-system-position-now
@@ -45,7 +43,7 @@
         pt (v3/from-seq local-vector)]
     (vec (v3/apply-matrix4 pt matrix))))
 
-(defmulti update-position-and-quaternion-tx 
+(defmulti update-position-and-quaternion-tx
   (fn [_db coor] (:entity/type coor)))
 
 ;; at epoch days
@@ -65,7 +63,7 @@
 (defn find-all-ids [db]
   (d/q '[:find [?id ...]
          :where [?id :coordinate/name _]]
-        db))
+       db))
 
 ;; sub
 

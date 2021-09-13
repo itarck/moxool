@@ -9,7 +9,7 @@
    [shu.three.matrix4 :as mat4]
    [shu.astronomy.celestial-coordinate :as shu.cc]
    [astronomy.objects.celestial.m :as m.celestial]
-   [astronomy.model.coordinate :as m.coordinate]))
+   [astronomy.objects.coordinate.m :as m.coordinate]))
 
 
 (def schema

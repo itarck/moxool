@@ -6,7 +6,7 @@
    [shu.three.matrix4 :as m4]
    [shu.three.vector3 :as v3]
    [shu.three.quaternion :as q]
-   [astronomy.model.coordinate :as m.coordinate]
+   [astronomy.objects.coordinate.m :as m.coordinate]
    [astronomy.model.const :as m.const]
    [astronomy.objects.celestial.m :as m.celestial]
    [astronomy.objects.celestial-group.m :as celestial-group.m]))

@@ -4,7 +4,7 @@
    [shu.three.vector3 :as v3]
    [methodology.lib.geometry :as v.geo]
    [astronomy.model.const :as const]
-   [astronomy.model.coordinate :as m.coordinate]
+   [astronomy.objects.coordinate.m :as m.coordinate]
    [astronomy.objects.moon-orbit.m :as moon-orbit.m]))
 
 

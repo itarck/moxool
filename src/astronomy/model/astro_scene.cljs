@@ -3,7 +3,7 @@
    [datascript.core :as d]
    [posh.reagent :as p]
    [astronomy.objects.celestial.m :as m.celestial]
-   [astronomy.model.coordinate :as m.coordinate]
+   [astronomy.objects.coordinate.m :as m.coordinate]
    [astronomy.model.atmosphere :as m.atmosphere]))
 
 

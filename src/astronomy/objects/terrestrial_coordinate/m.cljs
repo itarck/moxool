@@ -7,7 +7,7 @@
    [shu.three.vector3 :as v3]
    [shu.geometry.angle :as shu.angle]
    [astronomy.objects.celestial.m :as m.celestial]
-   [astronomy.model.coordinate :as m.coordinate]))
+   [astronomy.objects.coordinate.m :as m.coordinate]))
 
 
 ;; * 地球坐标系：Terrestrial Coordinate

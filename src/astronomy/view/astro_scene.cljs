@@ -2,7 +2,7 @@
   (:require
    [posh.reagent :as p]
    [astronomy.model.astro-scene :as m.astro-scene]
-   [astronomy.model.coordinate :as m.coordinate]
+   [astronomy.objects.coordinate.m :as m.coordinate]
    [astronomy.model.atmosphere :as m.atmosphere]
    [astronomy.view.background :as v.background]
    [astronomy.view.constellation :as v.constel]

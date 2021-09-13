@@ -5,7 +5,7 @@
    [posh.reagent :as p]
    [helix.core :refer [$]]
    ["@material-ui/core" :as mt]
-   [astronomy.model.coordinate :as m.coordinate]))
+   [astronomy.objects.coordinate.m :as m.coordinate]))
 
 
 
