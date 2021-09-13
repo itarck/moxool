@@ -1,12 +1,10 @@
 (ns astronomy.view.user.core
   (:require
-   [applied-science.js-interop :as j]
    [posh.reagent :as p]
-   [methodology.model.mouse :as m.mouse]
    [methodology.view.backpack :as v.backpack]
    [shu.three.spherical :as sph]
    [shu.astronomy.light :as shu.light]
-   [astronomy.model.clock :as m.clock]))
+   [astronomy.objects.clock.m :as m.clock]))
 
 
 (defn LeftHandToolView [{:keys [clock] :as props} {:keys [conn]}]
@@ -17,9 +15,7 @@
      [:p {:style {:font-size "14px"
                   :color "#aaa"}}
       [:div (str "距离原点：" (shu.light/semantic-distance-in-light-seconds (/ r 10000)))]
-      [:div (str "世界时间：" (m.clock/utc-format-string (:clock/time-in-days clock)))]
-      #_[:div (str "鼠标：" (str (let [{:mouse/keys [page-x page-y]} mouse]
-                              [(int page-x) (int page-y)])))]]]))
+      [:div (str "世界时间：" (m.clock/utc-format-string (:clock/time-in-days clock)))]]]))
 
 
 (defn RightHandToolView [{:keys [tool camera-control] :as props} {:keys [conn tool-library] :as env}]

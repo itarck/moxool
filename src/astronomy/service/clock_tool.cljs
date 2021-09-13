@@ -3,7 +3,7 @@
    [datascript.core :as d]
    [posh.reagent :as p]
    [cljs.core.async :refer [go-loop go >! <! timeout] :as a]
-   [astronomy.model.clock :as m.clock]
+   [astronomy.objects.clock.m :as m.clock]
    [astronomy.model.user.clock-tool :as m.clock-tool]))
 
 

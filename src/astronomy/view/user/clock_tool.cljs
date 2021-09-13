@@ -9,7 +9,7 @@
    [posh.reagent :as p]
    ["@material-ui/core" :as mt]
    [astronomy.model.astro-scene :as m.astro-scene]
-   [astronomy.model.clock :as m.clock]
+   [astronomy.objects.clock.m :as m.clock]
    [astronomy.objects.horizon-coordinate.m :as m.hc]))
 
 

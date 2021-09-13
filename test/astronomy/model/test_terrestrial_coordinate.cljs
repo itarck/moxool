@@ -5,8 +5,6 @@
    [posh.reagent :as p]
    [astronomy.scripts.test-conn :as test-conn]
    [astronomy.model.astro-scene :as m.astro-scene]
-   [methodology.model.object :as m.object]
-   [astronomy.model.clock :as m.clock]
    [astronomy.objects.terrestrial-coordinate.m :as m.tc]))
 
 

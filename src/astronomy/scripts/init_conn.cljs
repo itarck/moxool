@@ -18,7 +18,7 @@
    [astronomy.model.const :refer [ecliptic-axis ecliptic-quaternion lunar-axis-j2000]]
    [astronomy.model.core :as ast-model]
    [astronomy.objects.ellipse-orbit.m :as m.ellipse-orbit]
-   [astronomy.model.clock :as m.clock]
+   [astronomy.objects.clock.m :as m.clock]
    [astronomy.objects.spin.m :as m.spin]
    [astronomy.objects.star.m :as m.star]
    [astronomy.objects.planet.m :as m.planet]))

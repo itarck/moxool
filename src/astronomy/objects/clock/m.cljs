@@ -1,9 +1,6 @@
-(ns astronomy.model.clock
+(ns astronomy.objects.clock.m
   (:require
-   [goog.string :as gstring]
    [cljs.spec.alpha :as s]
-   [shu.goog.math :as gmath]
-   [shu.three.spherical :as sph]
    [shu.calendar.date-time :as dt]
    [shu.calendar.epoch :as epoch]))
 

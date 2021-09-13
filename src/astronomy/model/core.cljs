@@ -3,11 +3,9 @@
    [datascript.core :as d]
    [methodology.model.core :as mtd-model]
    [astronomy.model.astro-scene :as m.astro-scene]
-   [astronomy.model.clock :as m.clock]
-   
    [astronomy.model.constellation :as m.constellation]
-   
    [astronomy.model.astronomical-point :as m.astronomical-point]
+   
    [astronomy.model.user.universe-tool :as m.universe-tool]
    [astronomy.model.user.clock-tool :as m.clock-tool]
    [astronomy.model.user.info-tool :as m.info-tool]
@@ -16,6 +14,7 @@
    [astronomy.model.user.ruler-tool :as m.ruler-tool]
 
    [astronomy.objects.atmosphere.m :as m.atmosphere]
+   [astronomy.objects.clock.m :as m.clock]
    [astronomy.objects.celestial.m :as m.celestial]
    [astronomy.objects.coordinate.m :as m.coordinate]
    [astronomy.objects.circle-orbit.m :as circle-orbit.m]

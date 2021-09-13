@@ -8,7 +8,7 @@
    [astronomy.data.coordinate :as d.coordinate]
    [astronomy.model.astro-scene :as m.astro-scene]
    [methodology.model.object :as m.object]
-   [astronomy.model.clock :as m.clock]
+   [astronomy.objects.clock.m :as m.clock]
    [astronomy.objects.horizon-coordinate.m :as horizon.m]))
 
 
