@@ -7,7 +7,6 @@
    [methodology.lib.circuit]
    [methodology.view.gltf :as v.gltf]
    [astronomy.objects.galaxy.v :as v.galaxy]
-   [astronomy.view.background :as v.background]
    [methodology.view.camera :as v.camera]
    [astronomy.model.core :refer [basic-db]]))
 

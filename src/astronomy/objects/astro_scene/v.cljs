@@ -4,7 +4,7 @@
    [astronomy.objects.astro-scene.m :as m.astro-scene]
    [astronomy.objects.coordinate.m :as m.coordinate]
    [astronomy.objects.atmosphere.m :as m.atmosphere]
-   [astronomy.view.background :as v.background]
+   [astronomy.objects.background.v :as v.background]
    [astronomy.objects.constellation.v :as v.constel]
    [astronomy.objects.star.v :as v.star]
    [astronomy.objects.atmosphere.v :as v.atmosphere]

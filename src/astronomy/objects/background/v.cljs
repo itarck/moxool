@@ -1,4 +1,4 @@
-(ns astronomy.view.background
+(ns astronomy.objects.background.v
   (:require
    [applied-science.js-interop :as j]
    [helix.core :refer [defnc $]]
