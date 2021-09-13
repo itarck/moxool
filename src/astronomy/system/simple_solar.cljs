@@ -46,7 +46,6 @@
    [astronomy.service.info-tool :as s.info-tool]
    [astronomy.service.spaceship-camera-control :as s.spaceship]
    [astronomy.service.ppt-tool :as s.ppt-tool]
-
    [astronomy.service.contellation-tool :as s.constellation-tool]
    [astronomy.service.atmosphere-tool :as s.atmosphere-tool]
    [astronomy.service.horizon-coordinate-tool :as s.horizon-coordinate]
@@ -57,6 +56,8 @@
    [astronomy.objects.planet.h :as planet.h]
    [astronomy.objects.satellite.h :as satellite.h]
    [astronomy.objects.ecliptic.h :as ecliptic.h]
+   [astronomy.objects.astronomical-coordinate.h :as astronomical-coordinate.h]
+
 
    [astronomy.tools.astronomical-coordinate-tool.h :as astronomical-coordinate-tool.h]
    [astronomy.tools.planet-tool.h :as planet-tool.h]
@@ -121,6 +122,9 @@
    #:process{:name "satellite"
              :listen ["satellite"]
              :handle-event-fn satellite.h/handle-event}
+   #:process{:name "astronomical-coordinate"
+             :listen ["astronomical-coordinate"]
+             :handle-event-fn astronomical-coordinate.h/handle-event}
    #:process{:name "tool"
              :listen ["tool"]
              :handle-event-fn s.tool/handle-event}
@@ -148,6 +152,7 @@
    #:process{:name "horizon-coordinate"
              :listen ["horizon-coordinate"]
              :service-fn s.horizon-coordinate/init-service!}
+   
    #:process{:name "astronomical-coordinate-tool"
              :listen ["astronomical-coordinate-tool"]
              :handle-event-fn astronomical-coordinate-tool.h/handle-event}
@@ -169,6 +174,7 @@
    #:process{:name "satellite-tool"
              :listen ["satellite-tool"]
              :handle-event-fn satellite-tool.h/handle-event}
+   
    #:process{:name "camera"
              :listen []
              :service-fn s.camera/init-service!}

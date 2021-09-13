@@ -80,7 +80,7 @@
                [:> mt/Select {:value (:db/id center-object)
                               :onChange (fn [e]
                                           (let [new-value (j/get-in e [:target :value])
-                                                event #:event {:action :astronomical-coordinate-tool/change-center-object
+                                                event #:event {:action :astronomical-coordinate/change-center-object
                                                                :detail {:coordinate astronomical-coordinate
                                                                         :center-object {:db/id new-value}}}]
                                             ;; (println "$$$ astronomical coordinate tool view: " event)
@@ -99,7 +99,7 @@
                              :checked (or show-longitude? false)
                              :onChange (fn [event]
                                          (let [show? (j/get-in event [:target :checked])]
-                                           (go (>! service-chan #:event {:action :astronomical-coordinate-tool/change-show-longitude
+                                           (go (>! service-chan #:event {:action :astronomical-coordinate/change-show-longitude
                                                                          :detail {:astronomical-coordinate astronomical-coordinate
                                                                                   :show? show?}}))))}]
               [:span "是"]]
@@ -113,7 +113,7 @@
                              :checked (or show-latitude? false)
                              :onChange (fn [event]
                                          (let [show? (j/get-in event [:target :checked])]
-                                           (go (>! service-chan #:event {:action :astronomical-coordinate-tool/change-show-latitude
+                                           (go (>! service-chan #:event {:action :astronomical-coordinate/change-show-latitude
                                                                          :detail {:astronomical-coordinate astronomical-coordinate
                                                                                   :show? show?}}))))}]
               [:span "是"]]
@@ -128,7 +128,7 @@
                              :checked show-latitude-0?
                              :onChange (fn [event]
                                          (let [show? (j/get-in event [:target :checked])]
-                                           (go (>! service-chan #:event {:action :astronomical-coordinate-tool/change-show-latitude-0
+                                           (go (>! service-chan #:event {:action :astronomical-coordinate/change-show-latitude-0
                                                                          :detail {:astronomical-coordinate astronomical-coordinate
                                                                                   :show? show?}}))))}]
               [:span "是"]]
@@ -144,7 +144,7 @@
                                 :checked show-regression-line?
                                 :onChange (fn [event]
                                             (let [show? (j/get-in event [:target :checked])]
-                                              (go (>! service-chan #:event {:action :astronomical-coordinate-tool/change-show-regression-line
+                                              (go (>! service-chan #:event {:action :astronomical-coordinate/change-show-regression-line
                                                                             :detail {:astronomical-coordinate astronomical-coordinate
                                                                                      :show? show?}}))))}]
                  [:span "是"]]])
@@ -159,7 +159,7 @@
                              :checked show-longitude-0?
                              :onChange (fn [event]
                                          (let [show? (j/get-in event [:target :checked])]
-                                           (go (>! service-chan #:event {:action :astronomical-coordinate-tool/change-show-longitude-0
+                                           (go (>! service-chan #:event {:action :astronomical-coordinate/change-show-longitude-0
                                                                          :detail {:astronomical-coordinate astronomical-coordinate
                                                                                   :show? show?}}))))}]
               [:span "是"]]
@@ -173,7 +173,7 @@
                              :checked show-marks?
                              :onChange (fn [event]
                                          (let [show? (j/get-in event [:target :checked])]
-                                           (go (>! service-chan #:event {:action :astronomical-coordinate-tool/change-show-marks
+                                           (go (>! service-chan #:event {:action :astronomical-coordinate/change-show-marks
                                                                          :detail {:astronomical-coordinate astronomical-coordinate
                                                                                   :show? show?}}))))}]
               [:span "是"]]
@@ -201,7 +201,7 @@
                              :checked show-lunar-orbit?
                              :onChange (fn [event]
                                          (let [show? (j/get-in event [:target :checked])]
-                                           (go (>! service-chan #:event {:action :astronomical-coordinate-tool/change-show-lunar-orbit
+                                           (go (>! service-chan #:event {:action :astronomical-coordinate/change-show-lunar-orbit
                                                                          :detail {:astronomical-coordinate astronomical-coordinate
                                                                                   :show? show?}}))))}]
               [:span "是"]]
@@ -218,7 +218,7 @@
                                    :width "200px"})
                   :value (number/log 10 radius)
                   :onChange (fn [e value]
-                              (go (>! service-chan #:event {:action :astronomical-coordinate-tool/change-radius
+                              (go (>! service-chan #:event {:action :astronomical-coordinate/change-radius
                                                             :detail {:astronomical-coordinate astronomical-coordinate
                                                                      :radius (number/pow 10 value)}})))
                   :step 0.1 :min -3 :max 8 :marks true
