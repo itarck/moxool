@@ -1,10 +1,8 @@
-(ns astronomy.service.universe-tool
+(ns astronomy.tools.universe-tool.s
   (:require
    [applied-science.js-interop :as j]
-   [datascript.core :as d]
    [posh.reagent :as p]
-   [cljs.core.async :refer [go-loop go >! <! timeout] :as a]
-   [astronomy.model.user.universe-tool :as m.universe-tool]))
+   [cljs.core.async :refer [go-loop go >! <! timeout] :as a]))
 
 
 (defmulti handle-event! (fn [props env event] (:event/action event)))

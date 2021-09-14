@@ -10,7 +10,7 @@
    [astronomy.service.tool :as s.tool]
    [astronomy.service.user :as s.user]
    [astronomy.service.astro-scene :as s.astro-scene]
-   [astronomy.service.universe-tool :as s.universe-tool]
+   [astronomy.tools.universe-tool.s :as s.universe-tool]
    [astronomy.tools.info-tool.s :as s.info-tool]
    
    [astronomy.tools.constellation-tool.s :as s.constellation-tool]

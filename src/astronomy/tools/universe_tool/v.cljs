@@ -1,9 +1,8 @@
-(ns astronomy.view.user.universe-tool
+(ns astronomy.tools.universe-tool.v
   (:require
    [applied-science.js-interop :as j]
    [cljs.core.async :refer [go >! <! go-loop] :as a]
    [posh.reagent :as p]
-   [helix.core :refer [$]]
    ["@material-ui/core" :as mt]
    [astronomy.objects.coordinate.m :as m.coordinate]))
 
@@ -55,5 +54,4 @@
                  :step 10 :min 1 :max 100 :marks true
                  :getAriaValueText identity
                  :aria-labelledby "discrete-slider-restrict"
-                 :valueLabelDisplay "auto"})])]]]]
-    ))
+                 :valueLabelDisplay "auto"})])]]]]))

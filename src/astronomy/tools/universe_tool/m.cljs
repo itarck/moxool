@@ -1,4 +1,4 @@
-(ns astronomy.model.user.universe-tool
+(ns astronomy.tools.universe-tool.m
   (:require
    [posh.reagent :as p]))
 

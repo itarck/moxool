@@ -9,13 +9,6 @@
    [astronomy.ig.root-view :refer [RootView]]
 
   ;;  views
-   [astronomy.view.user.universe-tool :as v.universe-tool]
-   [astronomy.tools.info-tool.v :as v.info-tool]
-   [astronomy.tools.constellation-tool.v :as v.constellation-tool]
-   [astronomy.tools.horizon-coordinate-tool.v :as horizon-coordinate.v-tool]
-   [astronomy.tools.terrestrial-coordinate-tool.v :as v.terrestrial-coordinate-tool]
-   [astronomy.tools.ruler-tool.v :as v.ruler-tool]
-
    [astronomy.objects.constellation.v :as v.constel]
    [astronomy.objects.star.v :as star.v]
    [astronomy.objects.ecliptic.v :as ecliptic.v]
@@ -24,6 +17,12 @@
    [astronomy.objects.horizon-coordinate.v :as horizon-coordinate.v]
    [astronomy.objects.galaxy.v :as galaxy.v]
 
+   [astronomy.tools.universe-tool.v :as v.universe-tool]
+   [astronomy.tools.info-tool.v :as v.info-tool]
+   [astronomy.tools.constellation-tool.v :as v.constellation-tool]
+   [astronomy.tools.horizon-coordinate-tool.v :as horizon-coordinate.v-tool]
+   [astronomy.tools.terrestrial-coordinate-tool.v :as v.terrestrial-coordinate-tool]
+   [astronomy.tools.ruler-tool.v :as v.ruler-tool]
    [astronomy.tools.ppt-tool.v :as v.ppt-tool]
    [astronomy.tools.clock-tool.v :as v.clock-tool]
    [astronomy.tools.atmosphere-tool.v :as v.atmosphere-tool]
@@ -41,7 +40,7 @@
    [astronomy.service.tool :as s.tool]
    [astronomy.service.user :as s.user]
    [astronomy.service.astro-scene :as s.astro-scene]
-   [astronomy.service.universe-tool :as s.universe-tool]
+   [astronomy.tools.universe-tool.s :as s.universe-tool]
    [astronomy.tools.info-tool.s :as s.info-tool]
    [astronomy.tools.constellation-tool.s :as s.constellation-tool]
    [astronomy.tools.atmosphere-tool.s :as s.atmosphere-tool]
@@ -60,7 +59,7 @@
    [astronomy.tools.planet-tool.h :as planet-tool.h]
    [astronomy.tools.satellite-tool.h :as satellite-tool.h]
    [astronomy.tools.ppt-tool.h :as s.ppt-tool]
-  
+
    ;;  
    ))
 

@@ -2,7 +2,7 @@
   (:require
    [methodology.model.core :as mtd-model]
 
-   [astronomy.model.user.universe-tool :as m.universe-tool]
+   [astronomy.tools.universe-tool.m :as m.universe-tool]
    [astronomy.tools.clock-tool.m :as m.clock-tool]
    [astronomy.tools.info-tool.m :as m.info-tool]
    [astronomy.tools.spaceship-camera-control.m :as m.spaceship]
