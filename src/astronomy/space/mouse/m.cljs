@@ -1,4 +1,4 @@
-(ns methodology.model.mouse)
+(ns astronomy.space.mouse.m)
 
 
 (def schema {})
@@ -21,6 +21,4 @@
     :mouse/direction direction}])
 
 
-(comment
-  
-  )
+(comment)

@@ -6,7 +6,7 @@
 
    [astronomy.space.user.s :as s.user]
    [astronomy.space.camera.s :as s.camera]
-   [methodology.service.mouse :as s.mouse]
+   [astronomy.space.mouse.s :as s.mouse]
    [astronomy.service.keyboard-listener :as s.keyboard-listener]
    [astronomy.space.tool.h :as s.tool]
 

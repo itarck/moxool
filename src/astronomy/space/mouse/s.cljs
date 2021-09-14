@@ -1,9 +1,9 @@
-(ns methodology.service.mouse
+(ns astronomy.space.mouse.s
   (:require
    [applied-science.js-interop :as j]
    [cljs.core.async :as async :refer [go >! <! go-loop]]
    [datascript.core :as d]
-   [methodology.model.mouse :as m.mouse]
+   [astronomy.space.mouse.m :as m.mouse]
    [astronomy.component.mouse :as c.mouse]
    [posh.reagent :as p]))
 
@@ -28,7 +28,7 @@
                                                      :alt-key (j/get-in e [:altKey])
                                                      :meta-key (j/get-in e [:metaKey])
                                                      :shift-key (j/get-in e [:shiftKey])}})))))
-  
+
   (j/call js/document :addEventListener "wheel"
           (fn [e]
             (let [delta (j/get-in e [:wheelDelta])]
