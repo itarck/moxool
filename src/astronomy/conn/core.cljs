@@ -4,7 +4,7 @@
    [posh.reagent :as p]
    [astronomy.conn.schema :refer [schema]]
 
-   [methodology.model.user.backpack :as m.backpack]
+   [astronomy.space.backpack.m :as m.backpack]
    [astronomy.objects.astro-scene.m :as m.astro-scene]
    [astronomy.objects.clock.m :as m.clock]))
 

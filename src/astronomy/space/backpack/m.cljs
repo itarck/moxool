@@ -1,4 +1,4 @@
-(ns methodology.model.user.backpack
+(ns astronomy.space.backpack.m
   (:require
    [posh.reagent :as p]))
 

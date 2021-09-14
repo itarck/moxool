@@ -5,7 +5,7 @@
    [integrant.core :as ig]
    [astronomy.app.free-mode :as free-app]
    [astronomy.objects.star.m :as m.star]
-   [methodology.model.user.backpack :as m.backpack]))
+   [astronomy.space.backpack.m :as m.backpack]))
 
 
 (def system (ig/init free-app/config))

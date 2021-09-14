@@ -4,7 +4,7 @@
    [posh.reagent :as p]
    [cljs.core.async :refer [go-loop go >! <! timeout]]
    [astronomy.space.user.m :as m.user]
-   [methodology.model.user.backpack :as m.backpack]))
+   [astronomy.space.backpack.m :as m.backpack]))
 
 
 (defmulti handle-event! (fn [props env event] (:event/action event)))

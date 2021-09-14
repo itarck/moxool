@@ -3,6 +3,7 @@
    [methodology.model.core :as mtd-model]
 
    [astronomy.space.user.m :as user.m]
+   [astronomy.space.backpack.m :as m.backpack]
 
    [astronomy.tools.universe-tool.m :as m.universe-tool]
    [astronomy.tools.clock-tool.m :as m.clock-tool]
@@ -34,6 +35,7 @@
    mtd-model/schema
 
    user.m/schema
+   m.backpack/schema
    
    m.astro-scene/schema
    m.celestial/schema

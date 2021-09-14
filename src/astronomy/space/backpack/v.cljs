@@ -1,8 +1,8 @@
-(ns methodology.view.backpack
+(ns astronomy.space.backpack.v
   (:require
    [posh.reagent :as p]
    [cljs.core.async :refer [go >!]]
-   [methodology.model.user.backpack :as m.backpack]))
+   [astronomy.space.backpack.m :as m.backpack]))
 
 
 (defn BackPackView [{:keys [backpack user]} {:keys [service-chan conn]}]

@@ -1,7 +1,7 @@
 (ns astronomy.space.user.v
   (:require
    [posh.reagent :as p]
-   [methodology.view.backpack :as v.backpack]
+   [astronomy.space.backpack.v :as v.backpack]
    [shu.three.spherical :as sph]
    [shu.astronomy.light :as shu.light]
    [astronomy.objects.clock.m :as m.clock]))

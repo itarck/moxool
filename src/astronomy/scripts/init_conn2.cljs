@@ -3,7 +3,7 @@
    [datascript.core :as d]
    [posh.reagent :as p]
    [methodology.lib.client :as client]
-   [methodology.model.user.backpack :as m.backpack]
+   [astronomy.space.backpack.m :as m.backpack]
    [astronomy.conn.core :refer [create-empty-conn!]]
    [astronomy.tools.spaceship-camera-control.m :as m.spaceship]
    [astronomy.objects.astro-scene.m :as m.astro-scene]

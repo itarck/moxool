@@ -2,7 +2,7 @@
   (:require
    [datascript.core :as d]
    [posh.reagent :as p]
-   [methodology.model.user.backpack :as m.backpack]
+   [astronomy.space.backpack.m :as m.backpack]
    [astronomy.conn.core :refer [create-empty-conn!] :as conn.core]
    [astronomy.objects.astro-scene.m :as m.astro-scene]
    [astronomy.objects.clock.m :as m.clock]

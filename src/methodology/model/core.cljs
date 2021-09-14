@@ -5,8 +5,6 @@
    [methodology.model.object :as m.object]
    [methodology.model.scene :as m.scene]
    [methodology.model.camera :as m.camera]
-
-   [methodology.model.user.backpack :as m.backpack]
    [methodology.model.user.tool :as m.tool]))
 
 
@@ -17,7 +15,5 @@
          m.object/schema
          m.scene/schema
          m.camera/schema
-         
-         m.backpack/schema
          m.tool/schema))
 
