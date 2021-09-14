@@ -1,6 +1,5 @@
-(ns astronomy.service.clock-tool
+(ns astronomy.tools.clock-tool.s
   (:require
-   [datascript.core :as d]
    [posh.reagent :as p]
    [cljs.core.async :refer [go-loop go >! <! timeout] :as a]
    [astronomy.objects.clock.m :as m.clock]

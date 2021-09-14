@@ -1,9 +1,7 @@
 (ns astronomy.app.test-service-only
   (:require
    [posh.reagent :as p]
-   [cljs.core.async :refer [go >! <!]]
-   [integrant.core :as ig]
-   [astronomy.service.clock-tool :as s.clock-tool]
+   [astronomy.tools.clock-tool.s :as s.clock-tool]
    [astronomy.app.scene-free :as scene-free]))
 
 

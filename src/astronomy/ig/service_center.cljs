@@ -11,7 +11,6 @@
    [astronomy.service.user :as s.user]
    [astronomy.service.astro-scene :as s.astro-scene]
    [astronomy.service.universe-tool :as s.universe-tool]
-   [astronomy.service.clock-tool :as s.clock-tool]
    [astronomy.service.info-tool :as s.info-tool]
    [astronomy.service.spaceship-camera-control :as s.spaceship]
    [astronomy.service.contellation-tool :as s.constellation-tool]
@@ -27,6 +26,7 @@
    [astronomy.objects.astronomical-coordinate.h :as astronomical-coordinate.h]
 
    [astronomy.tools.ppt-tool.h :as s.ppt-tool]
+   [astronomy.tools.clock-tool.s :as s.clock-tool]
    [astronomy.tools.astronomical-coordinate-tool.h :as astronomical-coordinate-tool.h]
    [astronomy.tools.planet-tool.h :as planet-tool.h]
    [astronomy.tools.satellite-tool.h :as satellite-tool.h]
