@@ -3,7 +3,6 @@
   (:require
    [applied-science.js-interop :as j]
    [reagent.dom :as rdom]
-   #_[astronomy.system.sun-earth :as sun-earth]
    [astronomy.system.mini :as mini]
    #_[astronomy.system.solar2 :as solar2]))
 
