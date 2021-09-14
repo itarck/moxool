@@ -30,7 +30,7 @@
                                        :state-atom (ig/ref :astronomy/state-atom)}}
               :service-center #:service {:processes #{:user :astro-scene :keyboard :camera :planet :tool
                                                       :clock-tool :spaceship-camera-control}
-                                         :props {:user {:db/id [:person/name "dr who"]}
+                                         :props {:user {:db/id [:user/name "dr who"]}
                                                  :astro-scene {:db/id [:scene/name "solar"]}
                                                  :camera {:db/id [:camera/name "default"]}
                                                  :spaceship-camera-control {:db/id [:spaceship-camera-control/name "default"]}}

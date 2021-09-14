@@ -3,11 +3,11 @@
    ["react-three-fiber" :refer [Canvas]]
    [posh.reagent :as p]
    [integrant.core :as ig]
-   [astronomy.space.person.m :as m.person]
+   [astronomy.space.user.m :as m.person]
    [astronomy.objects.astro-scene.m :as m.astro-scene]
    [astronomy.objects.astro-scene.v :as v.astro-scene]
    [methodology.view.camera :as v.camera]
-   [astronomy.space.person.v :as v.person]
+   [astronomy.space.user.v :as v.user]
 
      ;;  views
 
@@ -75,7 +75,7 @@
 (defn RootView [props env]
   (let [{:keys [user-name scene-name]} props
         astro-scene {:db/id [:scene/name scene-name]}
-        user {:db/id [:person/name user-name]}
+        user {:db/id [:user/name user-name]}
         {:keys [meta-atom conn]} env
         mode (if meta-atom (:mode @meta-atom) :read-and-write)]
     ;; (println "load root view ???")
@@ -87,7 +87,7 @@
       (when (m.astro-scene/sub-scene-name-exist? conn scene-name)
         (let [astro-scene-1 @(p/pull conn '[*] [:scene/name scene-name])
               user-1 @(p/pull conn '[*] (:db/id user))
-              spaceship-camera-control (:person/camera-control user-1)]
+              spaceship-camera-control (:user/camera-control user-1)]
           [:<>
            [v.camera/CameraView (:astro-scene/camera astro-scene-1) env]
            [v.astro-scene/AstroSceneView {:astro-scene astro-scene
@@ -103,8 +103,8 @@
      (when (m.person/sub-user-name-exist? conn user-name)
        (let [user-1 @(p/pull conn '[*] (:db/id user))
              astro-scene-1 @(p/pull conn '[*] [:scene/name scene-name])
-             spaceship-camera-control (:person/camera-control user-1)]
-         [v.person/UserView {:user user
+             spaceship-camera-control (:user/camera-control user-1)]
+         [v.user/UserView {:user user
                              :astro-scene astro-scene-1
                              :camera-control spaceship-camera-control} env]))]))
 

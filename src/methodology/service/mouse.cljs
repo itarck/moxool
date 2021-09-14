@@ -49,9 +49,9 @@
 (defmethod handle-event! :mouse/move
   [props {:keys [conn meta-atom]} {:event/keys [detail]}]
   (when (and meta-atom (= (:mode @meta-atom) :read-and-write))
-    (let [user (d/pull @conn '[{:person/mouse [*]}] (get-in props [:user :db/id]))
+    (let [user (d/pull @conn '[{:user/mouse [*]}] (get-in props [:user :db/id]))
           {:keys [page-x page-y]} detail
-          tx (m.mouse/update-mouse-position-tx (:person/mouse user) page-x page-y)]
+          tx (m.mouse/update-mouse-position-tx (:user/mouse user) page-x page-y)]
       (p/transact! conn tx))))
 
 (defmethod handle-event! :mouse/on-click

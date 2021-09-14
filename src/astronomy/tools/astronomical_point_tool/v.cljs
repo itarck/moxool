@@ -8,7 +8,7 @@
    ["@material-ui/core" :as mt]
    ["@react-three/drei" :refer [Html]]
    [astronomy.component.tool :as c.tool]
-   [astronomy.space.person.m :as m.person]
+   [astronomy.space.user.m :as m.person]
    [astronomy.objects.astronomical-point.m :as m.apt]))
 
 ;; data

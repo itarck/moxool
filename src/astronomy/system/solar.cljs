@@ -34,11 +34,12 @@
 
 ;; service
 
+   [astronomy.space.user.s :as s.user]
+
    [methodology.service.camera :as s.camera]
    [methodology.service.mouse :as s.mouse]
    [astronomy.service.keyboard-listener :as s.keyboard-listener]
    [astronomy.service.tool :as s.tool]
-   [astronomy.space.person.s :as s.user]
 
    [astronomy.objects.astro-scene.s :as s.astro-scene]
    [astronomy.objects.planet.h :as planet.h]
@@ -218,7 +219,7 @@
                                      :tool-library tool-library
                                      :hud-library hud-library}}
                 ::service #:service {:service-fn init-service-center!
-                                     :props {:user {:db/id [:person/name "dr who"]}
+                                     :props {:user {:db/id [:user/name "dr who"]}
                                              :astro-scene {:db/id [:scene/name "solar"]}
                                              :camera {:db/id [:camera/name "default"]}
                                              :spaceship-camera-control {:db/id [:spaceship-camera-control/name "default"]}}

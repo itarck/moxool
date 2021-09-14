@@ -8,7 +8,7 @@
    [shu.three.vector3 :as v3]
    [astronomy.component.mouse :as c.mouse]
    [astronomy.component.line :as c.line]
-   [astronomy.space.person.m :as m.person]
+   [astronomy.space.user.m :as m.person]
    [astronomy.objects.astro-scene.m :as m.astro-scene]
    [astronomy.objects.astronomical-point.m :as m.apt]))
 
@@ -53,7 +53,7 @@
                                     :astronomical-point2 point2
                                     :color "green"
                                     :show-distance? true}]
-        :select1 (let [mouse @(p/pull conn '[*] (get-in user [:person/mouse :db/id]))
+        :select1 (let [mouse @(p/pull conn '[*] (get-in user [:user/mouse :db/id]))
                        mouse-direction (c.mouse/get-mouse-direction-vector3 (:three-instance @dom-atom))
                        camera-position (c.mouse/get-camera-position (:three-instance @dom-atom))
                        scene-coordinate (m.astro-scene/sub-scene-coordinate conn astro-scene)

@@ -27,7 +27,7 @@
                                        :service-chan (ig/ref :astronomy/service-chan)
                                        :dom-atom (ig/ref :astronomy/dom-atom)
                                        :state-atom (ig/ref :astronomy/state-atom)}}
-              :service-center #:service {:props {:user {:db/id [:person/name "dr who"]}
+              :service-center #:service {:props {:user {:db/id [:user/name "dr who"]}
                                                  :astro-scene {:db/id [:scene/name "solar"]}
                                                  :camera {:db/id [:camera/name "default"]}
                                                  :spaceship-camera-control {:db/id [:spaceship-camera-control/name "default"]}}

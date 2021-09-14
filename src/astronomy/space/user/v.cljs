@@ -1,4 +1,4 @@
-(ns astronomy.space.person.v
+(ns astronomy.space.user.v
   (:require
    [posh.reagent :as p]
    [methodology.view.backpack :as v.backpack]
@@ -38,8 +38,8 @@
 (defn MouseView [props {:keys [meta-atom conn]}]
   (let [mode (if meta-atom (:mode @meta-atom) :read-and-write)]
     (when (= mode :read-only)
-      (let [user @(p/pull conn '[{:person/mouse [*]}] (get-in props [:user :db/id]))
-            {:mouse/keys [page-x page-y]} (get user :person/mouse)]
+      (let [user @(p/pull conn '[{:user/mouse [*]}] (get-in props [:user :db/id]))
+            {:mouse/keys [page-x page-y]} (get user :user/mouse)]
         [:div {:class "methodology-mouse"}
          [:div {:style {:position "absolute"
                         :left page-x
@@ -50,7 +50,7 @@
 
 (defn UserView [{:keys [user camera-control astro-scene] :as props} {:keys [conn] :as env}]
   (let [user @(p/pull conn '[*] (:db/id user))
-        backpack (:person/backpack user)]
+        backpack (:user/backpack user)]
     [:<>
 
      [LeftHandToolView {:astro-scene astro-scene
@@ -58,15 +58,15 @@
                         :clock (:astro-scene/clock astro-scene)} env]
      [v.backpack/BackPackView {:user user
                                :backpack backpack} env]
-     (when (:person/right-tool user)
+     (when (:user/right-tool user)
        [:<>
         [RightHandToolView {:user user
                             :astro-scene astro-scene
-                            :tool (:person/right-tool user)
+                            :tool (:user/right-tool user)
                             :camera-control camera-control} env]
         [HUDView {:user user
                   :astro-scene astro-scene
-                  :tool (:person/right-tool user)} env]])
+                  :tool (:user/right-tool user)} env]])
 
      [MouseView props env]]))
 

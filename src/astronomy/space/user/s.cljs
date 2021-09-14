@@ -1,9 +1,9 @@
-(ns astronomy.space.person.s
+(ns astronomy.space.user.s
   (:require
    [datascript.core :as d]
    [posh.reagent :as p]
    [cljs.core.async :refer [go-loop go >! <! timeout]]
-   [astronomy.space.person.m :as m.person]
+   [astronomy.space.user.m :as m.user]
    [methodology.model.user.backpack :as m.backpack]))
 
 
@@ -16,17 +16,17 @@
         tx (if (= (:db/id active-cell) (:db/id cell))
              (concat
               (m.backpack/deactive-cell-tx backpack)
-              (m.person/drop-tool-tx user))
+              (m.user/drop-tool-tx user))
              (concat
               (m.backpack/active-cell-tx backpack (:db/id cell))
-              (m.person/select-tool-tx user (-> cell :backpack-cell/tool :db/id))))]
+              (m.user/select-tool-tx user (-> cell :backpack-cell/tool :db/id))))]
     (p/transact! conn tx)))
 
 
 (defmethod handle-event! :user/object-clicked
   [{:keys [user]} {:keys [conn service-chan]} {:event/keys [detail]}]
-  (let [person (m.person/pull2 @conn (:db/id user))
-        current-tool (:person/right-tool person)
+  (let [user (m.user/pull2 @conn (:db/id user))
+        current-tool (:user/right-tool user)
         event #:event {:action (keyword (:entity/type current-tool) :object-clicked)
                        :detail (assoc detail :current-tool current-tool)}]
     ;; (println "in service :user/object-clicked" event)
@@ -35,8 +35,8 @@
 
 (defmethod handle-event! :user/mouse-clicked
   [{:keys [user]} {:keys [conn service-chan]} {:event/keys [detail]}]
-  (let [person (m.person/pull2 @conn (:db/id user))
-        current-tool (:person/right-tool person)
+  (let [user (m.user/pull2 @conn (:db/id user))
+        current-tool (:user/right-tool user)
         event #:event {:action (keyword (:entity/type current-tool) :mouse-clicked)
                        :detail (assoc detail :current-tool current-tool)}]
     ;; (println "in service :user/mouse-clicked")
@@ -44,8 +44,8 @@
 
 (defmethod handle-event! :user/keyboard-down
   [{:keys [user]} {:keys [conn service-chan]} {:event/keys [detail]}]
-  (let [person (m.person/pull2 @conn (:db/id user))
-        current-tool (:person/right-tool person)
+  (let [user (m.user/pull2 @conn (:db/id user))
+        current-tool (:user/right-tool user)
         event #:event {:action (keyword (:entity/type current-tool) :keyboard-down)
                        :detail (assoc detail :current-tool current-tool)}]
     ;; (println "in service :user/keyboard-down" detail)
@@ -53,8 +53,8 @@
 
 (defmethod handle-event! :user/mouse-wheeled
   [{:keys [user]} {:keys [conn service-chan]} {:event/keys [detail]}]
-  (let [person (m.person/pull2 @conn (:db/id user))
-        spaceship-camera-control (d/pull @conn '[*] (get-in person [:person/camera-control :db/id])) 
+  (let [user (m.user/pull2 @conn (:db/id user))
+        spaceship-camera-control (d/pull @conn '[*] (get-in user [:user/camera-control :db/id])) 
         {:keys [delta]} detail
         {:spaceship-camera-control/keys [mode zoom]} spaceship-camera-control]
     (when (= :static-mode mode)

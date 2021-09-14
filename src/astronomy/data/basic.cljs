@@ -44,19 +44,19 @@
                               :tool/icon "/image/moxool/spaceship.jpg"
                               :entity/type :spaceship-camera-control})
 
-(def person1
-  #:person {:db/id -1
-            :name "dr who"
-            :mouse #:mouse{:page-x 0
-                           :page-y 0
-                           :entity/name "default mouse"}
-            :camera-control [:spaceship-camera-control/name "default"]
-            :backpack #:backpack {:db/id -3
-                                  :name "default"
-                                  :owner -1
-                                  :cell (vec (for [i (range 12)]
-                                               #:backpack-cell{:index i}))}
-            :entity/type :person})
+(def user1
+  #:user {:db/id -1
+          :name "dr who"
+          :mouse #:mouse{:page-x 0
+                         :page-y 0
+                         :entity/name "default mouse"}
+          :camera-control [:spaceship-camera-control/name "default"]
+          :backpack #:backpack {:db/id -3
+                                :name "default"
+                                :owner -1
+                                :cell (vec (for [i (range 12)]
+                                             #:backpack-cell{:index i}))}
+          :entity/type :user})
 
 
-(def dataset1 [camera clock scene spaceship-camera-control person1])
+(def dataset1 [camera clock scene spaceship-camera-control user1])

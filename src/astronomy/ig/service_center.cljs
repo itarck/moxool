@@ -4,7 +4,7 @@
    [integrant.core :as ig]
    [astronomy.service.effect :as s.effect]
 
-   [astronomy.space.person.s :as s.user]
+   [astronomy.space.user.s :as s.user]
 
    [methodology.service.camera :as s.camera]
    [methodology.service.mouse :as s.mouse]

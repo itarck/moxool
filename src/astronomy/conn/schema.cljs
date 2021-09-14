@@ -2,7 +2,7 @@
   (:require
    [methodology.model.core :as mtd-model]
 
-   [astronomy.space.person.m :as person.m]
+   [astronomy.space.user.m :as user.m]
 
    [astronomy.tools.universe-tool.m :as m.universe-tool]
    [astronomy.tools.clock-tool.m :as m.clock-tool]
@@ -33,7 +33,7 @@
   (merge
    mtd-model/schema
 
-   person.m/schema
+   user.m/schema
    
    m.astro-scene/schema
    m.celestial/schema

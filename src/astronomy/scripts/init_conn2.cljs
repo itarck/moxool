@@ -40,8 +40,8 @@
 (defn kick-start! [conn]
   (let [clock-id [:clock/name "default"]
         astro-scene (d/pull @conn '[*] [:scene/name "solar"])
-        person (d/pull @conn '[*] [:person/name "dr who"])
-        backpack (d/pull @conn '[*] (-> person :person/backpack :db/id))
+        person (d/pull @conn '[*] [:user/name "dr who"])
+        backpack (d/pull @conn '[*] (-> person :user/backpack :db/id))
         scc (d/pull @conn '[*] [:spaceship-camera-control/name "default"])
         coordinate {:db/id [:coordinate/name "地球坐标系"]}]
     (p/transact! conn (m.clock/set-clock-time-in-days-tx clock-id 0))
