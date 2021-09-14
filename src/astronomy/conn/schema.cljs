@@ -5,7 +5,7 @@
    [astronomy.model.user.universe-tool :as m.universe-tool]
    [astronomy.tools.clock-tool.m :as m.clock-tool]
    [astronomy.model.user.info-tool :as m.info-tool]
-   [astronomy.model.user.spaceship-camera-control :as m.spaceship]
+   [astronomy.tools.spaceship-camera-control.m :as m.spaceship]
    [astronomy.tools.ppt-tool.m :as m.ppt-tool]
    [astronomy.model.user.ruler-tool :as m.ruler-tool]
 

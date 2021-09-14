@@ -1,7 +1,7 @@
 (ns astronomy.model.test-spaceship-camera-control
   (:require
    [cljs.test :refer-macros [deftest is run-tests]]
-   [astronomy.model.user.spaceship-camera-control :as m.spaceship]
+   [astronomy.tools.spaceship-camera-control.m :as m.spaceship]
    [astronomy.data.basic :as d.basic]))
 
 

@@ -12,7 +12,7 @@
      ;;  views
 
    [astronomy.view.user.universe-tool :as v.universe-tool]
-   [astronomy.view.user.spaceship-camera-control :as v.spaceship]
+   
    [astronomy.view.user.info-tool :as v.info-tool]
    [astronomy.view.user.constellation-tool :as v.constellation-tool]
    [astronomy.view.user.atmosphere-tool :as v.atmosphere-tool]
@@ -32,6 +32,7 @@
    [astronomy.tools.clock-tool.v :as v.clock-tool]
    [astronomy.tools.astronomical-coordinate-tool.v :as astronomical-coordinate-tool.v]
    [astronomy.tools.astronomical-point-tool.v :as v.astronomical-point-tool]
+   [astronomy.tools.spaceship-camera-control.v :as v.spaceship]
    [astronomy.tools.planet-tool.v :as planet-tool.v]
    [astronomy.tools.satellite-tool.v :as satellite-tool.v]
 

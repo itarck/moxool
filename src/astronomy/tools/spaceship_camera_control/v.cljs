@@ -1,4 +1,4 @@
-(ns astronomy.view.user.spaceship-camera-control
+(ns astronomy.tools.spaceship-camera-control.v
   (:require
    [applied-science.js-interop :as j]
    [cljs.core.async :refer [go >!]]
@@ -6,7 +6,7 @@
    [posh.reagent :as p]
    [goog.string :as gstring]
    ["@material-ui/core" :as mt]
-   [astronomy.model.user.spaceship-camera-control :as m.spaceship]
+   [astronomy.tools.spaceship-camera-control.m :as m.spaceship]
    [astronomy.component.camera-controls :as c.camera-controls]))
 
 
@@ -67,7 +67,7 @@
             :getAriaValueText identity
             :aria-labelledby "discrete-slider-restrict"
             :valueLabelDisplay "auto"})]
-       
+
       ;;  
        ]]]))
 

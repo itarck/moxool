@@ -5,7 +5,7 @@
    [methodology.lib.client :as client]
    [methodology.model.user.backpack :as m.backpack]
    [astronomy.conn.core :refer [create-empty-conn!]]
-   [astronomy.model.user.spaceship-camera-control :as m.spaceship]
+   [astronomy.tools.spaceship-camera-control.m :as m.spaceship]
    [astronomy.objects.astro-scene.m :as m.astro-scene]
    [astronomy.objects.clock.m :as m.clock]
    [astronomy.data.basic :as d.basic]

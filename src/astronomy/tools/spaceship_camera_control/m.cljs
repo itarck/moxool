@@ -1,11 +1,10 @@
-(ns astronomy.model.user.spaceship-camera-control
+(ns astronomy.tools.spaceship-camera-control.m
   (:require
    [cljs.spec.alpha :as s]
    [datascript.core :as d]
    [shu.three.vector3 :as v3]
    [astronomy.objects.astronomical-coordinate.m :as astronomical-coordinate]
-   [astronomy.objects.terrestrial-coordinate.m :as terrestrial-coordinate]
-   ))
+   [astronomy.objects.terrestrial-coordinate.m :as terrestrial-coordinate]))
 
 
 ;; 模型介绍：spaceship-camera-control，缩写scc

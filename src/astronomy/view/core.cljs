@@ -7,7 +7,7 @@
    [astronomy.objects.astro-scene.v :as v.astro-scene]
    [methodology.view.camera :as v.camera]
    [astronomy.view.user.core :as v.user]
-   [astronomy.view.user.spaceship-camera-control :as v.spaceship]))
+   [astronomy.tools.spaceship-camera-control.v :as v.spaceship]))
 
 
 (defn RootView [props env]

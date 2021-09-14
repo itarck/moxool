@@ -10,7 +10,7 @@
 
   ;;  views
    [astronomy.view.user.universe-tool :as v.universe-tool]
-   [astronomy.view.user.spaceship-camera-control :as v.spaceship]
+   [astronomy.tools.spaceship-camera-control.v :as v.spaceship]
    [astronomy.view.user.info-tool :as v.info-tool]
    [astronomy.view.user.constellation-tool :as v.constellation-tool]
    [astronomy.view.user.atmosphere-tool :as v.atmosphere-tool]
@@ -43,7 +43,6 @@
    [astronomy.service.astro-scene :as s.astro-scene]
    [astronomy.service.universe-tool :as s.universe-tool]
    [astronomy.service.info-tool :as s.info-tool]
-   [astronomy.service.spaceship-camera-control :as s.spaceship]
    [astronomy.service.contellation-tool :as s.constellation-tool]
    [astronomy.service.atmosphere-tool :as s.atmosphere-tool]
    [astronomy.service.horizon-coordinate-tool :as s.horizon-coordinate]
@@ -56,6 +55,7 @@
 
    [astronomy.tools.astronomical-coordinate-tool.h :as astronomical-coordinate-tool.h]
    [astronomy.tools.astronomical-point-tool.h :as s.astronomical-point-tool]
+   [astronomy.tools.spaceship-camera-control.s :as s.spaceship]
    [astronomy.tools.clock-tool.s :as s.clock-tool]
    [astronomy.tools.planet-tool.h :as planet-tool.h]
    [astronomy.tools.satellite-tool.h :as satellite-tool.h]

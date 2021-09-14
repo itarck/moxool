@@ -1,8 +1,8 @@
-(ns astronomy.service.spaceship-camera-control
+(ns astronomy.tools.spaceship-camera-control.s
   (:require
    [datascript.core :as d]
    [astronomy.service.effect :as s.effect :refer [create-effect effects]]
-   [astronomy.model.user.spaceship-camera-control :as m.spaceship]
+   [astronomy.tools.spaceship-camera-control.m :as m.spaceship]
    [astronomy.component.camera-controls :as c.camera-controls]))
 
 
