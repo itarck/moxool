@@ -3,7 +3,7 @@
    [methodology.model.core :as mtd-model]
 
    [astronomy.model.user.universe-tool :as m.universe-tool]
-   [astronomy.model.user.clock-tool :as m.clock-tool]
+   [astronomy.tools.clock-tool.m :as m.clock-tool]
    [astronomy.model.user.info-tool :as m.info-tool]
    [astronomy.model.user.spaceship-camera-control :as m.spaceship]
    [astronomy.tools.ppt-tool.m :as m.ppt-tool]

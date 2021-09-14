@@ -4,7 +4,7 @@
    [posh.reagent :as p]
    [cljs.core.async :refer [go-loop go >! <! timeout] :as a]
    [astronomy.objects.clock.m :as m.clock]
-   [astronomy.model.user.clock-tool :as m.clock-tool]))
+   [astronomy.tools.clock-tool.m :as m.clock-tool]))
 
 
 (defmulti handle-event! (fn [props env event] (:event/action event)))

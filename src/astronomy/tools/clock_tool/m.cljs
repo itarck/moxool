@@ -1,4 +1,4 @@
-(ns astronomy.model.user.clock-tool
+(ns astronomy.tools.clock-tool.m
   (:require
    [datascript.core :as d]))
 
