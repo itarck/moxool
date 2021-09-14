@@ -8,6 +8,7 @@
    [astronomy.conn.mini-factory :as mini-factory]
    ))
 
+;; 只有太阳、地球、月球的一个系统
 
 (derive :astronomy/dom-atom :circuit/atom)
 (derive :astronomy/state-atom :circuit/ratom)
@@ -20,9 +21,7 @@
   #:astronomy{:dom-atom #:atom {}
               :state-atom #:ratom {}
               :service-chan #:chan {}
-              :conn #:conn {
-                            ;; :db-url "/temp/frame/solar-1.fra"
-                            :initial-db db1}
+              :conn #:conn {:initial-db db1}
               :root-view #:view {:props {:user-name "dr who"
                                          :scene-name "solar"}
                                  :env {:conn (ig/ref :astronomy/conn)
