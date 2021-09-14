@@ -1,4 +1,4 @@
-(ns astronomy.model.user.astronomical-point-tool
+(ns astronomy.tools.astronomical-point-tool.m
   (:require
    [astronomy.objects.astronomical-point.m :as m.apt]))
 
@@ -20,7 +20,7 @@
 
 (defn pull-point-tx [tool point]
   [{:db/id (:db/id tool)
-    :astronomical-point-tool/pull-id (:db/id point) }])
+    :astronomical-point-tool/pull-id (:db/id point)}])
 
 (defn pull-lastest-point-tx [db tool]
   (let [point-id (m.apt/get-latest-id db)]

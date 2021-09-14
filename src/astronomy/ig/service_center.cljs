@@ -17,7 +17,6 @@
    [astronomy.service.atmosphere-tool :as s.atmosphere-tool]
    [astronomy.service.horizon-coordinate-tool :as s.horizon-coordinate]
    [astronomy.service.terrestrial-coordinate-tool :as s.terrestrial-coordinate-tool]
-   [astronomy.service.astronomical-point-tool :as s.astronomical-point-tool]
    [astronomy.service.ruler-tool :as s.ruler-tool]
 
    [astronomy.objects.planet.h :as planet.h]
@@ -28,6 +27,7 @@
    [astronomy.tools.ppt-tool.h :as s.ppt-tool]
    [astronomy.tools.clock-tool.s :as s.clock-tool]
    [astronomy.tools.astronomical-coordinate-tool.h :as astronomical-coordinate-tool.h]
+   [astronomy.tools.astronomical-point-tool.h :as s.astronomical-point-tool]
    [astronomy.tools.planet-tool.h :as planet-tool.h]
    [astronomy.tools.satellite-tool.h :as satellite-tool.h]
 ;; 
