@@ -5,6 +5,7 @@
    [astronomy.ig.conn]
    [astronomy.ig.root-view]
    [astronomy.ig.service-center]
+   [astronomy.conn.mini-factory :as mini-factory]
    ))
 
 
@@ -13,15 +14,15 @@
 (derive :astronomy/service-chan :circuit/chan)
 
 
-;; (def db (db-factory/create-test-db10))
+(def db1 (mini-factory/create-db1))
 
 (def config
   #:astronomy{:dom-atom #:atom {}
               :state-atom #:ratom {}
               :service-chan #:chan {}
-              :conn #:conn {:db-url "/temp/frame/solar-1.fra"
-                            ;; :initial-db db
-                            }
+              :conn #:conn {
+                            ;; :db-url "/temp/frame/solar-1.fra"
+                            :initial-db db1}
               :root-view #:view {:props {:user-name "dr who"
                                          :scene-name "solar"}
                                  :env {:conn (ig/ref :astronomy/conn)
