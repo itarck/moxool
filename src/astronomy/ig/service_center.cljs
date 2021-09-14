@@ -169,6 +169,7 @@
   (let [{:service/keys [processes props env]} (merge default-config config)
         service-chan (get-in env [:service-chan])]
 
+    (println "init service center start: " (js/Date))
     (init-service-center! processes props env)
-
+    (println "init service center end: " (js/Date))
     {:service-chan service-chan}))

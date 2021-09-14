@@ -1,16 +1,17 @@
 (ns astronomy.app.core
-  (:require-macros [methodology.lib.resource])
+  ;; (:require-macros [methodology.lib.resource])
   (:require
    [applied-science.js-interop :as j]
    [reagent.dom :as rdom]
-   [astronomy.system.solar2 :as solar2]))
+   [astronomy.system.sun-earth :as sun-earth]
+   #_[astronomy.system.solar2 :as solar2]))
 
 
 ;; mount point
 
 (defn update! []
   (rdom/render
-   (:astronomy/root-view solar2/app)
+   (:astronomy/root-view sun-earth/app)
    (j/call js/document :getElementById  "app")))
 
 

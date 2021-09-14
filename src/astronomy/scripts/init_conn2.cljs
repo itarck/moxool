@@ -79,6 +79,9 @@
 
 
 (comment
+  
+  (time (count @(init-conn!)))
+
   (async-run2!)
 
   (time (count @(init-conn!)))

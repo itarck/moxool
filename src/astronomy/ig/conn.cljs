@@ -65,6 +65,7 @@
 
 
 (defmethod ig/init-key :astronomy/conn [_k config]
+  (println "astronomy/conn start: " (js/Date))
   (let [{:conn/keys [db-url initial-db]} config
         conn (d/create-conn schema)]
     (when initial-db
@@ -75,4 +76,5 @@
                 stored-db (when stored-data (dt/read-transit-str stored-data))]
             (d/reset-conn! conn stored-db))))
     (p/posh! conn)
+    (println "astronomy/conn end: " (js/Date))
     conn))
