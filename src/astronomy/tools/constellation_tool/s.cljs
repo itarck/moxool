@@ -1,6 +1,5 @@
-(ns astronomy.service.contellation-tool
+(ns astronomy.tools.constellation-tool.s
   (:require
-   [datascript.core :as d]
    [posh.reagent :as p]
    [astronomy.objects.constellation.m :as m.constel]
    [cljs.core.async :refer [go-loop go >! <! timeout] :as a]))
@@ -20,7 +19,7 @@
         tx [{:db/id (:db/id constellation-tool)
              :constellation-tool/query-type new-query-type}]]
     (p/transact! conn tx)))
-    
+
 (defmethod handle-event! :constellation-tool/change-query-args
   [props {:keys [conn]} {:event/keys [detail]}]
   (let [{:keys [constellation-tool query-args]} detail

@@ -1,9 +1,9 @@
-(ns astronomy.view.user.constellation-tool
+(ns astronomy.tools.constellation-tool.v
   (:require
    [applied-science.js-interop :as j]
    [cljs.core.async :refer [go >! <! go-loop] :as a]
    [posh.reagent :as p]
-   [astronomy.model.user.constellation-tool :as m.constel-tool]
+   [astronomy.tools.constellation-tool.m :as m.constel-tool]
    ["@material-ui/core" :as mt]))
 
 
@@ -54,33 +54,29 @@
                  ^{:key name}
                  [:> mt/MenuItem {:value name} name])]])])]
 
-        [:> mt/Grid {:container true :spacing 1}
-         [:> mt/Grid {:item true :xs 6}
-          [:> mt/Typography {:variant "subtitle1"} "显示星座线"]]
-         [:> mt/Grid {:item true :xs 6}
-          [:> mt/ButtonGroup {:size "small"}
-           [:> mt/Button {:onClick #(go (>! service-chan #:event{:action :constellation-tool/show-lines
-                                                                 :detail {:tool tool
-                                                                          :constellation-ids selected-constellation-ids
-                                                                          :show? true}}))} "显示"]
-           [:> mt/Button {:onClick #(go (>! service-chan #:event{:action :constellation-tool/show-lines
-                                                                 :detail {:tool tool
-                                                                          :constellation-ids selected-constellation-ids
-                                                                          :show? false}}))} "隐藏"]]]
-         [:> mt/Grid {:item true :xs 6}
-          [:> mt/Typography {:variant "subtitle1"} "显示星座名"]]
-         [:> mt/Grid {:item true :xs 6}
-          [:> mt/ButtonGroup {:size "small"}
-           [:> mt/Button {:onClick #(go (>! service-chan #:event{:action :constellation-tool/show-name
-                                                                 :detail {:tool tool
-                                                                          :constellation-ids selected-constellation-ids
-                                                                          :show? true}}))} "显示"]
-           [:> mt/Button {:onClick #(go (>! service-chan #:event{:action :constellation-tool/show-name
-                                                                 :detail {:tool tool
-                                                                          :constellation-ids selected-constellation-ids
-                                                                          :show? false}}))} "隐藏"]]]]
-        
-
- 
-        ]]]))
+       [:> mt/Grid {:container true :spacing 1}
+        [:> mt/Grid {:item true :xs 6}
+         [:> mt/Typography {:variant "subtitle1"} "显示星座线"]]
+        [:> mt/Grid {:item true :xs 6}
+         [:> mt/ButtonGroup {:size "small"}
+          [:> mt/Button {:onClick #(go (>! service-chan #:event{:action :constellation-tool/show-lines
+                                                                :detail {:tool tool
+                                                                         :constellation-ids selected-constellation-ids
+                                                                         :show? true}}))} "显示"]
+          [:> mt/Button {:onClick #(go (>! service-chan #:event{:action :constellation-tool/show-lines
+                                                                :detail {:tool tool
+                                                                         :constellation-ids selected-constellation-ids
+                                                                         :show? false}}))} "隐藏"]]]
+        [:> mt/Grid {:item true :xs 6}
+         [:> mt/Typography {:variant "subtitle1"} "显示星座名"]]
+        [:> mt/Grid {:item true :xs 6}
+         [:> mt/ButtonGroup {:size "small"}
+          [:> mt/Button {:onClick #(go (>! service-chan #:event{:action :constellation-tool/show-name
+                                                                :detail {:tool tool
+                                                                         :constellation-ids selected-constellation-ids
+                                                                         :show? true}}))} "显示"]
+          [:> mt/Button {:onClick #(go (>! service-chan #:event{:action :constellation-tool/show-name
+                                                                :detail {:tool tool
+                                                                         :constellation-ids selected-constellation-ids
+                                                                         :show? false}}))} "隐藏"]]]]]]]))
 

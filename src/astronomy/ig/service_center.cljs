@@ -13,7 +13,7 @@
    [astronomy.service.universe-tool :as s.universe-tool]
    [astronomy.service.info-tool :as s.info-tool]
    
-   [astronomy.service.contellation-tool :as s.constellation-tool]
+   [astronomy.tools.constellation-tool.s :as s.constellation-tool]
    [astronomy.tools.atmosphere-tool.s :as s.atmosphere-tool]
    [astronomy.service.horizon-coordinate-tool :as s.horizon-coordinate]
    [astronomy.service.terrestrial-coordinate-tool :as s.terrestrial-coordinate-tool]

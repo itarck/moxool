@@ -11,7 +11,7 @@
   ;;  views
    [astronomy.view.user.universe-tool :as v.universe-tool]
    [astronomy.view.user.info-tool :as v.info-tool]
-   [astronomy.view.user.constellation-tool :as v.constellation-tool]
+   [astronomy.tools.constellation-tool.v :as v.constellation-tool]
    [astronomy.view.user.horizon-coordinate-tool :as horizon-coordinate.v-tool]
    [astronomy.view.user.terrestrial-coordinate-tool :as v.terrestrial-coordinate-tool]
    [astronomy.view.user.ruler-tool :as v.ruler-tool]
@@ -43,7 +43,7 @@
    [astronomy.service.astro-scene :as s.astro-scene]
    [astronomy.service.universe-tool :as s.universe-tool]
    [astronomy.service.info-tool :as s.info-tool]
-   [astronomy.service.contellation-tool :as s.constellation-tool]
+   [astronomy.tools.constellation-tool.s :as s.constellation-tool]
    [astronomy.tools.atmosphere-tool.s :as s.atmosphere-tool]
    [astronomy.service.horizon-coordinate-tool :as s.horizon-coordinate]
    [astronomy.service.terrestrial-coordinate-tool :as s.terrestrial-coordinate-tool]

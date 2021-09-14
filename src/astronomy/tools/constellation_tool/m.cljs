@@ -1,4 +1,4 @@
-(ns astronomy.model.user.constellation-tool
+(ns astronomy.tools.constellation-tool.m
   (:require
    [astronomy.objects.constellation.m :as m.constel]))
 
