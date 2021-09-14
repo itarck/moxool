@@ -5,7 +5,7 @@
    [methodology.lib.circuit]
    [astronomy.conn.schema :refer [schema]]
    [astronomy.service.meta :refer [init-meta-service!]]
-   [astronomy.service.core :refer [init-service-center!]]
+   [astronomy.ig.service-center :refer [init-service-center!]]
    [astronomy.ig.root-view :refer [RootView]]
 
   ;;  views
