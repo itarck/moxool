@@ -1,4 +1,4 @@
-(ns astronomy.model.user.ruler-tool
+(ns astronomy.tools.ruler-tool.m
   (:require
    [shu.astronomy.celestial-coordinate :as shu.cc]
    [astronomy.objects.astronomical-point.m :as m.apt]))

@@ -1,4 +1,4 @@
-(ns astronomy.view.user.ruler-tool
+(ns astronomy.tools.ruler-tool.v
   (:require
    [posh.reagent :as p]
    ["@react-three/drei" :refer [Html]]

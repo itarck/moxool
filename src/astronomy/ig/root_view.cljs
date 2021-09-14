@@ -17,7 +17,7 @@
    [astronomy.tools.atmosphere-tool.v :as v.atmosphere-tool]
    [astronomy.tools.horizon-coordinate-tool.v :as horizon-coordinate.v-tool]
    [astronomy.view.user.terrestrial-coordinate-tool :as v.terrestrial-coordinate-tool]
-   [astronomy.view.user.ruler-tool :as v.ruler-tool]
+   [astronomy.tools.ruler-tool.v :as v.ruler-tool]
 
    [astronomy.objects.star.v :as star.v]
    [astronomy.objects.constellation.v :as v.constel]

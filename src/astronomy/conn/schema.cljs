@@ -7,7 +7,7 @@
    [astronomy.tools.info-tool.m :as m.info-tool]
    [astronomy.tools.spaceship-camera-control.m :as m.spaceship]
    [astronomy.tools.ppt-tool.m :as m.ppt-tool]
-   [astronomy.model.user.ruler-tool :as m.ruler-tool]
+   [astronomy.tools.ruler-tool.m :as m.ruler-tool]
 
    [astronomy.objects.astro-scene.m :as m.astro-scene]
    [astronomy.objects.atmosphere.m :as m.atmosphere]

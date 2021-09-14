@@ -17,7 +17,7 @@
    [astronomy.tools.atmosphere-tool.s :as s.atmosphere-tool]
    [astronomy.tools.horizon-coordinate-tool.s :as s.horizon-coordinate]
    [astronomy.service.terrestrial-coordinate-tool :as s.terrestrial-coordinate-tool]
-   [astronomy.service.ruler-tool :as s.ruler-tool]
+   [astronomy.tools.ruler-tool.h :as s.ruler-tool]
 
    [astronomy.objects.planet.h :as planet.h]
    [astronomy.objects.satellite.h :as satellite.h]

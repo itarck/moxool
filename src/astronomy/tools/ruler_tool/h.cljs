@@ -1,8 +1,8 @@
-(ns astronomy.service.ruler-tool
+(ns astronomy.tools.ruler-tool.h
   (:require
    [astronomy.objects.astronomical-point.m :as m.apt]
    [astronomy.objects.astro-scene.m :as m.astro-scene]
-   [astronomy.model.user.ruler-tool :as m.ruler-tool]
+   [astronomy.tools.ruler-tool.m :as m.ruler-tool]
    [astronomy.service.effect :as s.effect :refer [create-effect]]))
 
 
