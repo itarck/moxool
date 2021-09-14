@@ -3,7 +3,7 @@
    [posh.reagent :as p]
    [shu.three.vector3 :as v3]
    [methodology.lib.geometry :as v.geo]
-   [astronomy.model.const :as const]
+   [astronomy.lib.const :as const]
    [astronomy.objects.coordinate.m :as m.coordinate]
    [astronomy.objects.moon-orbit.m :as moon-orbit.m]))
 

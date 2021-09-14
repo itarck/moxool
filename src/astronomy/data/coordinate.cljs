@@ -1,7 +1,7 @@
 (ns astronomy.data.coordinate
   (:require
    [shu.astronomy.light :as shu.light]
-   [astronomy.model.const :as m.const]))
+   [astronomy.lib.const :as m.const]))
 
 
 (def astronomical-coordinate-1

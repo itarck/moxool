@@ -6,7 +6,7 @@
    [shu.three.vector3 :as v3]
    [shu.astronomy.celestial-coordinate :as shu.cc]
    [astronomy.objects.coordinate.m :as m.coordinate]
-   [astronomy.model.const :as const]))
+   [astronomy.lib.const :as const]))
 
 
 ;; 天球点，缩写 apt

@@ -1,4 +1,4 @@
-(ns astronomy.model.const
+(ns astronomy.lib.const
   (:require
    [cljs-time.core :as t]
    [shu.geometry.angle :as shu.angle]

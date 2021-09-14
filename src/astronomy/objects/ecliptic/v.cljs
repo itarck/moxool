@@ -3,7 +3,7 @@
    [shu.three.vector3 :as v3]
    [posh.reagent :as p]
    ["@react-three/drei" :refer [Html]]
-   [astronomy.model.const :as m.const]
+   [astronomy.lib.const :as m.const]
    [methodology.lib.geometry :as v.geo]
    [astronomy.component.celestial-sphere :as c.celestial-sphere]))
 

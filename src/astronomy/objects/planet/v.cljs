@@ -7,7 +7,7 @@
    [helix.core :refer [$]]
    ["@react-three/drei" :refer [Html]]
    [shu.three.vector3 :as v3]
-   [astronomy.model.const :as m.const]
+   [astronomy.lib.const :as m.const]
    [astronomy.objects.ellipse-orbit.m :as m.ellipse-orbit]
    [methodology.lib.geometry :as v.geo]
    [methodology.view.gltf :as v.gltf]

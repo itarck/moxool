@@ -4,7 +4,7 @@
    [shu.three.vector3 :as v3]
    [shu.goog.math :as gmath]
    [shu.geometry.angle :as shu.angle]
-   [astronomy.model.const :as const :refer [ecliptic-angle ecliptic-axis lunar-axis-j2000]]))
+   [astronomy.lib.const :as const :refer [ecliptic-angle ecliptic-axis lunar-axis-j2000]]))
 
 ;; 带轴进动的圆形轨道
 ;; 按照参考点 2010-7-2，黄经 192度，黄纬 84.85度。轴进动的周期是6798天，顺时针方向

@@ -2,7 +2,7 @@
   (:require
    [shu.goog.math :as gmath]
    [shu.geometry.angle :as shu.angle]
-   [astronomy.model.const :as m.const :refer [ecliptic-axis ecliptic-quaternion lunar-axis-j2000]]
+   [astronomy.lib.const :as m.const :refer [ecliptic-axis ecliptic-quaternion lunar-axis-j2000]]
    [astronomy.objects.ellipse-orbit.m :as m.ellipse-orbit]
    [astronomy.objects.spin.m :as m.spin]
    [astronomy.objects.planet.m :as planet.m]))
