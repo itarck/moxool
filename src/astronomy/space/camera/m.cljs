@@ -1,7 +1,5 @@
-(ns methodology.model.camera
-  (:require
-   [datascript.core :as d]))
-
+(ns astronomy.space.camera.m
+  (:require))
 
 
 (def schema {:camera/name  {:db/unique :db.unique/identity}})

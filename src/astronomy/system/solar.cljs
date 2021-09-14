@@ -39,7 +39,7 @@
    [methodology.service.camera :as s.camera]
    [methodology.service.mouse :as s.mouse]
    [astronomy.service.keyboard-listener :as s.keyboard-listener]
-   [astronomy.service.tool :as s.tool]
+   [astronomy.space.tool.h :as s.tool]
 
    [astronomy.objects.astro-scene.s :as s.astro-scene]
    [astronomy.objects.planet.h :as planet.h]
