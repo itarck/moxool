@@ -4,13 +4,10 @@
    [posh.reagent :as p]
    [methodology.model.core :as mtd-model]
    [astronomy.model.core :as ast-model]
-   [astronomy.data.basic :as d.basic]
-   [astronomy.data.celestial :as d.celestial]
-   [astronomy.data.galaxy :as d.galaxy]
-   [astronomy.data.coordinate :as d.coordinate]
-   [astronomy.data.tool :as d.tool]
-   [astronomy.data.stars :as d.stars]
-   [astronomy.data.constellation :as d.constel]))
+
+   [methodology.model.user.backpack :as m.backpack]
+   [astronomy.objects.astro-scene.m :as m.astro-scene]
+   [astronomy.objects.clock.m :as m.clock]))
 
 
 (def schema (merge ast-model/schema
@@ -23,22 +20,14 @@
     conn))
 
 
-(defn create-basic-conn! []
-  (let [conn (create-empty-conn!)]
-    (p/transact! conn d.basic/dataset1)
-    conn))
-
-
-(defn create-narrow-conn-1!
-  "具有一部分基础的数据，包括基础、星体、坐标、工具等"
-  []
-  (let [conn (create-empty-conn!)]
-    (p/transact! conn d.basic/dataset1)
-    (p/transact! conn d.celestial/dataset1)
-    (p/transact! conn d.celestial/dataset3)
-    (p/transact! conn d.coordinate/dataset1)
-    (p/transact! conn d.tool/dataset1)
-    conn))
+(defn kick-start! [conn tools]
+  (let [clock-id [:clock/name "default"]
+        astro-scene (d/pull @conn '[*] [:scene/name "solar"])
+        person (d/pull @conn '[*] [:person/name "dr who"])
+        backpack (d/pull @conn '[*] (-> person :person/backpack :db/id))]
+    (p/transact! conn (m.clock/set-clock-time-in-days-tx clock-id 0))
+    (p/transact! conn (m.astro-scene/refresh-tx @conn astro-scene))
+    (p/transact! conn (m.backpack/put-in-backpack-tx backpack tools))))
 
 
 (comment 

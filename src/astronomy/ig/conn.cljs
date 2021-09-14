@@ -6,7 +6,6 @@
    [cljs.core.async :refer [go >! <!]]
    [cljs-http.client :as http]
    [integrant.core :as ig]
-   
 
    [methodology.model.core :as mtd-model]
 
@@ -32,7 +31,9 @@
    [astronomy.objects.spin.m :as m.spin]
    [astronomy.objects.horizon-coordinate.m :as horizon-coordinate.m]
    [astronomy.objects.astronomical-coordinate.m :as astronomical-coordinate.m]
-   [astronomy.objects.terrestrial-coordinate.m :as terrestrial-coordinate.m]))
+   [astronomy.objects.terrestrial-coordinate.m :as terrestrial-coordinate.m]
+   
+   ))
 
 
 (def schema

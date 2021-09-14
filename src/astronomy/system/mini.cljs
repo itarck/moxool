@@ -1,28 +1,27 @@
-(ns astronomy.system.sun-earth
+(ns astronomy.system.mini
   (:require
    [integrant.core :as ig]
    [methodology.lib.circuit]
-   [astronomy.conn.db-factory :as db-factory]
    [astronomy.ig.conn]
    [astronomy.ig.root-view]
-   [astronomy.ig.service-center]))
+   [astronomy.ig.service-center]
+   ))
 
-
-(println "sun-earth system!!!!!!" (js/Date))
 
 (derive :astronomy/dom-atom :circuit/atom)
 (derive :astronomy/state-atom :circuit/ratom)
 (derive :astronomy/service-chan :circuit/chan)
 
 
-(def db (db-factory/create-test-db10))
+;; (def db (db-factory/create-test-db10))
 
 (def config
   #:astronomy{:dom-atom #:atom {}
               :state-atom #:ratom {}
               :service-chan #:chan {}
-              :conn #:conn {;; :db-url "/temp/frame/solar-1.fra"
-                            :initial-db db}
+              :conn #:conn {:db-url "/temp/frame/solar-1.fra"
+                            ;; :initial-db db
+                            }
               :root-view #:view {:props {:user-name "dr who"
                                          :scene-name "solar"}
                                  :env {:conn (ig/ref :astronomy/conn)
@@ -39,5 +38,10 @@
                                                :dom-atom (ig/ref :astronomy/dom-atom)}}})
 
 (def app
-  (ig/init config))
+  (ig/init config
+           #_[:astronomy/dom-atom
+              :astronomy/state-atom
+              :astronomy/service-chan
+              :astronomy/conn
+              :astronomy/root-view]))
 

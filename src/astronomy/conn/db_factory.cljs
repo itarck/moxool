@@ -125,6 +125,6 @@
 
 (comment 
   
-  (time (count (create-test-db11)))
+  ;; (time (count (create-test-db11)))
 
   )

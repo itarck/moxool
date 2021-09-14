@@ -61,7 +61,7 @@
     (d/transact! conn d.coordinate/dataset1)
     (d/transact! conn d.coordinate/dataset2)
 
-    (p/transact! conn d.stars/dataset1)
+    (d/transact! conn d.stars/dataset1)
     (d/transact! conn d.constel/dataset1)
     (d/transact! conn d.constel/dataset2)
     (d/transact! conn d.constel/dataset3)
@@ -80,8 +80,6 @@
 
 (comment
   
-  (time (count @(init-conn!)))
-
   (async-run2!)
 
   (time (count @(init-conn!)))
