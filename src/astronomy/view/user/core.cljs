@@ -12,8 +12,8 @@
         clock @(p/pull conn '[*] (:db/id clock))
         [r phi theta]  (apply sph/from-cartesian-coords (get-in astro-scene-1 [:astro-scene/camera :camera/position]))]
     [:div {:class "astronomy-lefthand"}
-     [:p {:style {:font-size "14px"
-                  :color "#aaa"}}
+     [:div {:style {:font-size "14px"
+                    :color "#aaa"}}
       [:div (str "距离原点：" (shu.light/semantic-distance-in-light-seconds (/ r 10000)))]
       [:div (str "世界时间：" (m.clock/utc-format-string (:clock/time-in-days clock)))]]]))
 
