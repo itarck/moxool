@@ -3,11 +3,11 @@
    ["react-three-fiber" :refer [Canvas]]
    [posh.reagent :as p]
    [integrant.core :as ig]
-   [methodology.model.user.person :as m.person]
+   [astronomy.space.person.m :as m.person]
    [astronomy.objects.astro-scene.m :as m.astro-scene]
    [astronomy.objects.astro-scene.v :as v.astro-scene]
    [methodology.view.camera :as v.camera]
-   [astronomy.view.user.core :as v.user]
+   [astronomy.space.person.v :as v.person]
 
      ;;  views
 
@@ -104,9 +104,9 @@
        (let [user-1 @(p/pull conn '[*] (:db/id user))
              astro-scene-1 @(p/pull conn '[*] [:scene/name scene-name])
              spaceship-camera-control (:person/camera-control user-1)]
-         [v.user/UserView {:user user
-                           :astro-scene astro-scene-1
-                           :camera-control spaceship-camera-control} env]))]))
+         [v.person/UserView {:user user
+                             :astro-scene astro-scene-1
+                             :camera-control spaceship-camera-control} env]))]))
 
 
 

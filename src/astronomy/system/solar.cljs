@@ -38,7 +38,7 @@
    [methodology.service.mouse :as s.mouse]
    [astronomy.service.keyboard-listener :as s.keyboard-listener]
    [astronomy.service.tool :as s.tool]
-   [astronomy.service.user :as s.user]
+   [astronomy.space.person.s :as s.user]
 
    [astronomy.objects.astro-scene.s :as s.astro-scene]
    [astronomy.objects.planet.h :as planet.h]

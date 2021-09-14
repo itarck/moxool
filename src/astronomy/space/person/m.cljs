@@ -1,4 +1,4 @@
-(ns methodology.model.user.person
+(ns astronomy.space.person.m
   (:require
    [datascript.core :as d]
    [posh.reagent :as p]))

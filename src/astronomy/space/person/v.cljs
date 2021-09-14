@@ -1,4 +1,4 @@
-(ns astronomy.view.user.core
+(ns astronomy.space.person.v
   (:require
    [posh.reagent :as p]
    [methodology.view.backpack :as v.backpack]
@@ -24,7 +24,7 @@
     (when view-fn
       [view-fn (merge props
                       {:tool tool
-                       :spaceship-camera-control camera-control}) 
+                       :spaceship-camera-control camera-control})
        env])))
 
 (defn HUDView [props {:keys [conn hud-library] :as env}]
@@ -66,12 +66,7 @@
                             :camera-control camera-control} env]
         [HUDView {:user user
                   :astro-scene astro-scene
-                  :tool (:person/right-tool user)} env]
-        ]
-       
-       
-       
-       )
+                  :tool (:person/right-tool user)} env]])
 
      [MouseView props env]]))
 

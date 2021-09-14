@@ -6,7 +6,6 @@
    [methodology.model.scene :as m.scene]
    [methodology.model.camera :as m.camera]
 
-   [methodology.model.user.person :as m.person]
    [methodology.model.user.backpack :as m.backpack]
    [methodology.model.user.tool :as m.tool]))
 
@@ -19,7 +18,6 @@
          m.scene/schema
          m.camera/schema
          
-         m.person/schema
          m.backpack/schema
          m.tool/schema))
 

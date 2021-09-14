@@ -1,9 +1,9 @@
-(ns astronomy.service.user
+(ns astronomy.space.person.s
   (:require
    [datascript.core :as d]
    [posh.reagent :as p]
    [cljs.core.async :refer [go-loop go >! <! timeout]]
-   [methodology.model.user.person :as m.person]
+   [astronomy.space.person.m :as m.person]
    [methodology.model.user.backpack :as m.backpack]))
 
 
