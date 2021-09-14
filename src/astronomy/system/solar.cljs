@@ -13,14 +13,12 @@
    [astronomy.view.user.clock-tool :as v.clock-tool]
    [astronomy.view.user.spaceship-camera-control :as v.spaceship]
    [astronomy.view.user.info-tool :as v.info-tool]
-   [astronomy.view.user.ppt-tool :as v.ppt-tool]
    [astronomy.view.user.constellation-tool :as v.constellation-tool]
    [astronomy.view.user.atmosphere-tool :as v.atmosphere-tool]
    [astronomy.view.user.horizon-coordinate-tool :as horizon-coordinate.v-tool]
    [astronomy.view.user.terrestrial-coordinate-tool :as v.terrestrial-coordinate-tool]
    [astronomy.view.user.astronomical-point-tool :as v.astronomical-point-tool]
    [astronomy.view.user.ruler-tool :as v.ruler-tool]
-
 
    [astronomy.objects.constellation.v :as v.constel]
    [astronomy.objects.star.v :as star.v]
@@ -30,6 +28,7 @@
    [astronomy.objects.horizon-coordinate.v :as horizon-coordinate.v]
    [astronomy.objects.galaxy.v :as galaxy.v]
 
+   [astronomy.tools.ppt-tool.v :as v.ppt-tool]
    [astronomy.tools.astronomical-coordinate-tool.v :as astronomical-coordinate-tool.v]
    [astronomy.tools.planet-tool.v :as planet-tool.v]
    [astronomy.tools.satellite-tool.v :as satellite-tool.v]

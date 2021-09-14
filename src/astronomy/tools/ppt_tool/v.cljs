@@ -1,4 +1,4 @@
-(ns astronomy.view.user.ppt-tool
+(ns astronomy.tools.ppt-tool.v
   (:require
    [applied-science.js-interop :as j]
    [cljs.core.async :refer [go >! <! go-loop] :as a]
@@ -16,7 +16,7 @@
         current-page-index (:ppt/current-page current-ppt)
         count-pages (m.ppt-tool/count-pages current-ppt)
         current-page (m.ppt-tool/current-page current-ppt)]
-    
+
     [:div {:class "astronomy-hud"}
      [:div {:class "astronomy-hud-content"}
       [:div.p-2
@@ -62,5 +62,4 @@
            [:> mt/Button {:onClick #(go (>! service-chan #:event{:action :ppt-tool/next-page
                                                                  :detail {:current-ppt current-ppt}}))
                           :variant "outlined"}
-            "下一页"]]]]]]]]
-    ))
+            "下一页"]]]]]]]]))
