@@ -1,4 +1,4 @@
-(ns astronomy.view.user.atmosphere-tool
+(ns astronomy.tools.atmosphere-tool.v
   (:require
    [applied-science.js-interop :as j]
    [cljs.core.async :refer [go >! <! go-loop] :as a]
@@ -21,7 +21,7 @@
          (:tool/chinese-name tool)]]
 
        [:> mt/Grid {:container true :spacing 1}
-        
+
         [:> mt/Grid {:item true :xs 6}
          [:> mt/Typography {:variant "subtitle2"} "显示大气层"]]
         [:> mt/Grid {:item true :xs 6}

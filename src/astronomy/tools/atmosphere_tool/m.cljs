@@ -1,6 +1,4 @@
-(ns astronomy.model.user.atmosphere-tool
-  
-  )
+(ns astronomy.tools.atmosphere-tool.m)
 
 
 

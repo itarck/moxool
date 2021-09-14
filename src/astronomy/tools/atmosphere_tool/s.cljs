@@ -1,4 +1,4 @@
-(ns astronomy.service.atmosphere-tool
+(ns astronomy.tools.atmosphere-tool.s
   (:require
    [posh.reagent :as p]
    [cljs.core.async :refer [go-loop go >! <! timeout] :as a]))
