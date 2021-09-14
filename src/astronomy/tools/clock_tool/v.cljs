@@ -1,7 +1,6 @@
-(ns astronomy.view.user.clock-tool
+(ns astronomy.tools.clock-tool.v
   (:require
    [applied-science.js-interop :as j]
-   [cljs-bean.core :refer [->js]]
    [cljs.core.async :refer [go >! <! go-loop] :as a]
    [cljs.reader :refer [read-string]]
    [helix.core :refer [$]]
