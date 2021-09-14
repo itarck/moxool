@@ -1,6 +1,7 @@
-(ns astronomy.model.user.ppt-tool
+(ns astronomy.tools.ppt-tool.m
   (:require
    [posh.reagent :as p]))
+
 
 (def schema {:ppt/chinese-name {:db/unique :db.unique/identity}
              :ppt-tool/ppts {:db/valueType :db.type/ref

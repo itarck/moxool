@@ -13,7 +13,7 @@
    [astronomy.model.user.clock-tool :as m.clock-tool]
    [astronomy.model.user.info-tool :as m.info-tool]
    [astronomy.model.user.spaceship-camera-control :as m.spaceship]
-   [astronomy.model.user.ppt-tool :as m.ppt-tool]
+   [astronomy.tools.ppt-tool.m :as m.ppt-tool]
    [astronomy.model.user.ruler-tool :as m.ruler-tool]
 
    [astronomy.objects.astro-scene.m :as m.astro-scene]

@@ -4,7 +4,7 @@
    [cljs.core.async :refer [go >! <! go-loop] :as a]
    [posh.reagent :as p]
    ["@material-ui/core" :as mt]
-   [astronomy.model.user.ppt-tool :as m.ppt-tool]))
+   [astronomy.tools.ppt-tool.m :as m.ppt-tool]))
 
 
 

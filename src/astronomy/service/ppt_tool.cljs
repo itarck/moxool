@@ -3,7 +3,7 @@
    [datascript.core :as d]
    [posh.reagent :as p]
    [cljs.core.async :refer [go-loop go >! <! timeout] :as a]
-   [astronomy.model.user.ppt-tool :as m.ppt-tool]))
+   [astronomy.tools.ppt-tool.m :as m.ppt-tool]))
 
 
 (defmulti handle-event! (fn [props env event] (:event/action event)))
