@@ -1,11 +1,12 @@
 (ns astronomy.system.solar
   (:require
+   [datascript.core :as d]
    [integrant.core :as ig]
    [methodology.lib.circuit]
+   [astronomy.conn.schema :refer [schema]]
    [astronomy.service.meta :refer [init-meta-service!]]
    [astronomy.service.core :refer [init-service-center!]]
    [astronomy.view.core :refer [RootView]]
-   [astronomy.model.core :refer [basic-db]]
 
   ;;  views
    [astronomy.view.user.universe-tool :as v.universe-tool]
@@ -191,6 +192,11 @@
 (derive ::meta-atom :circuit/ratom)
 (derive ::meta-chan :circuit/chan)
 (derive ::meta-service :circuit/service)
+
+
+(def basic-db
+  (let [conn (d/create-conn schema)]
+    @conn))
 
 
 (defn create-system! [props]

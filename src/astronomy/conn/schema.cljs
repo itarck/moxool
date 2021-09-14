@@ -1,8 +1,7 @@
-(ns astronomy.model.core
+(ns astronomy.conn.schema
   (:require
-   [datascript.core :as d]
    [methodology.model.core :as mtd-model]
-   
+
    [astronomy.model.user.universe-tool :as m.universe-tool]
    [astronomy.model.user.clock-tool :as m.clock-tool]
    [astronomy.model.user.info-tool :as m.info-tool]
@@ -30,6 +29,8 @@
 
 (def schema
   (merge
+   mtd-model/schema
+
    m.astro-scene/schema
    m.celestial/schema
    circle-orbit.m/schema
@@ -41,7 +42,7 @@
    m.star/schema
    m.constellation/schema
    m.atmosphere/schema
-   m.coordinate/schema 
+   m.coordinate/schema
    astronomical-coordinate.m/schema
    terrestrial-coordinate.m/schema
    horizon-coordinate.m/schema
@@ -52,16 +53,5 @@
    m.spaceship/schema
    m.info-tool/schema
    m.ppt-tool/schema
-   m.ruler-tool/schema
-   ))
+   m.ruler-tool/schema))
 
-
-(def basic-db
-  (let [conn (d/create-conn (merge mtd-model/schema schema))]
-    @conn))
-
-
-(comment
-  (d/pull basic-db '[*] [:person/name "dr who"])
-  (count (merge mtd-model/schema schema)) 
-  )
