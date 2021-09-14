@@ -20,8 +20,7 @@
   #:astronomy{:dom-atom #:atom {}
               :state-atom #:ratom {:init-value {:app-state :init}}
               :service-chan #:chan {}
-              :conn #:conn {:props {:db-url "/temp/frame/solar-1.fra"}
-                            :env {:state-atom (ig/ref :astronomy/state-atom)}}
+              :conn #:conn {:db-url "/temp/frame/solar-1.fra"}
               :root-view #:view {:props {:user-name "dr who"
                                          :scene-name "solar"}
                                  :env {:conn (ig/ref :astronomy/conn)

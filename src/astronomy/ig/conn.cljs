@@ -64,9 +64,8 @@
    m.ruler-tool/schema))
 
 
-(defmethod ig/init-key :astronomy/conn [_k {:conn/keys [props env]}]
-  (let [{:keys [db-url initial-db]} props
-        {:keys [state-atom]} env
+(defmethod ig/init-key :astronomy/conn [_k config]
+  (let [{:conn/keys [db-url initial-db]} config
         conn (d/create-conn schema)]
     (when initial-db
       (d/reset-conn! conn initial-db))
@@ -74,8 +73,6 @@
       (go (let [response (<! (http/get db-url))
                 stored-data (:body response)
                 stored-db (when stored-data (dt/read-transit-str stored-data))]
-            ;; (println stored-db)
-            (d/reset-conn! conn stored-db)
-            (swap! state-atom assoc :app-state :db-loaded))))
+            (d/reset-conn! conn stored-db))))
     (p/posh! conn)
     conn))
