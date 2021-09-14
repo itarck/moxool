@@ -1,4 +1,4 @@
-(ns astronomy.view.user.astronomical-point-tool
+(ns astronomy.tools.astronomical-point-tool.v
   (:require
    [cljs.core.async :refer [go >! <! go-loop] :as a]
    [cljs.spec.alpha :as s]
