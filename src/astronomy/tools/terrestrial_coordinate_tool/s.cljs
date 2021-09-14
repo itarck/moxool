@@ -1,8 +1,8 @@
-(ns astronomy.service.terrestrial-coordinate-tool
+(ns astronomy.tools.terrestrial-coordinate-tool.s
   (:require
    [posh.reagent :as p]
    [astronomy.objects.terrestrial-coordinate.m :as terrestrial-coordinate]
-   [astronomy.model.user.terrestrial-coordinate-tool :as terrestrial-coordinate-tool]
+   [astronomy.tools.terrestrial-coordinate-tool.m :as terrestrial-coordinate-tool]
    [cljs.core.async :refer [go-loop go >! <! timeout] :as a]))
 
 

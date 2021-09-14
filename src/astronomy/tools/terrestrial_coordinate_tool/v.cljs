@@ -1,4 +1,4 @@
-(ns astronomy.view.user.terrestrial-coordinate-tool
+(ns astronomy.tools.terrestrial-coordinate-tool.v
   (:require
    [applied-science.js-interop :as j]
    [cljs.core.async :refer [go >! <! go-loop] :as a]
@@ -7,7 +7,7 @@
    ["@material-ui/core" :as mt]
    [helix.core :refer [$]]
    [shu.arithmetic.number :as number]
-   [astronomy.model.user.terrestrial-coordinate-tool :as m.terrestrial-coordinate-tool]))
+   [astronomy.tools.terrestrial-coordinate-tool.m :as m.terrestrial-coordinate-tool]))
 
 
 (defn radius-format [n]
@@ -146,10 +146,10 @@
                                                                      :radius (number/pow 10 value)}})))
                   :step 0.02 :min -3 :max 5 :marks true
                   :getAriaValueText #(number/pow 10 %)
-                  :valueLabelFormat (fn [n] (radius-format (number/pow 10 n))) 
+                  :valueLabelFormat (fn [n] (radius-format (number/pow 10 n)))
                   :aria-labelledby "discrete-slider-restrict"
                   :valueLabelDisplay "auto"})]
-             
+
 
             ;;  
              ]))]]]]))

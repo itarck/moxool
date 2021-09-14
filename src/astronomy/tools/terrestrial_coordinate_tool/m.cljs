@@ -1,4 +1,4 @@
-(ns astronomy.model.user.terrestrial-coordinate-tool
+(ns astronomy.tools.terrestrial-coordinate-tool.m
   (:require
    [astronomy.objects.terrestrial-coordinate.m :as terrestrial-coordinate.m]))
 
