@@ -36,15 +36,22 @@
 
 
 (def process-lib
-  {:keyboard #:process{:name "keyboard"
-                       :listen []
-                       :service-fn s.keyboard-listener/init-service!}
-   :user #:process{:name "user"
+  {:user #:process{:name "user"
                    :listen ["user"]
                    :service-fn s.user/init-service!}
    :astro-scene #:process{:name "astro-scene"
                           :listen ["astro-scene"]
                           :service-fn s.astro-scene/init-service!}
+   :keyboard #:process{:name "keyboard"
+                       :listen []
+                       :service-fn s.keyboard-listener/init-service!}
+   :camera #:process{:name "camera"
+                     :listen []
+                     :service-fn s.camera/init-service!}
+   :mouse #:process{:name "mouse"
+                    :listen ["mouse"]
+                    :service-fn s.mouse/init-service!}
+
    :planet #:process{:name "planet"
                      :listen ["planet" "clock.pub"]
                      :handle-event-fn planet.h/handle-event}
@@ -54,6 +61,7 @@
    :astronomical-coordinate #:process{:name "astronomical-coordinate"
                                       :listen ["astronomical-coordinate"]
                                       :handle-event-fn astronomical-coordinate.h/handle-event}
+   
    :tool #:process{:name "tool"
                    :listen ["tool"]
                    :handle-event-fn s.tool/handle-event}
@@ -102,13 +110,7 @@
                           :handle-event-fn planet-tool.h/handle-event}
    :satellite-tool #:process{:name "satellite-tool"
                              :listen ["satellite-tool"]
-                             :handle-event-fn satellite-tool.h/handle-event}
-   :camera #:process{:name "camera"
-                     :listen []
-                     :service-fn s.camera/init-service!}
-   :mouse #:process{:name "mouse"
-                    :listen ["mouse"]
-                    :service-fn s.mouse/init-service!}})
+                             :handle-event-fn satellite-tool.h/handle-event}})
 
 
 (defn init-service! [props env]
