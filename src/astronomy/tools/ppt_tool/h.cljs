@@ -1,4 +1,4 @@
-(ns astronomy.service.ppt-tool
+(ns astronomy.tools.ppt-tool.h
   (:require
    [datascript.core :as d]
    [posh.reagent :as p]
