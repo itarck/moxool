@@ -39,7 +39,13 @@
    [astronomy.service.keyboard-listener :as s.keyboard-listener]
    [astronomy.service.tool :as s.tool]
    [astronomy.service.user :as s.user]
-   [astronomy.service.astro-scene :as s.astro-scene]
+
+   [astronomy.objects.astro-scene.s :as s.astro-scene]
+   [astronomy.objects.planet.h :as planet.h]
+   [astronomy.objects.satellite.h :as satellite.h]
+   [astronomy.objects.ecliptic.h :as ecliptic.h]
+
+
    [astronomy.tools.universe-tool.s :as s.universe-tool]
    [astronomy.tools.info-tool.s :as s.info-tool]
    [astronomy.tools.constellation-tool.s :as s.constellation-tool]
@@ -47,11 +53,6 @@
    [astronomy.tools.horizon-coordinate-tool.s :as s.horizon-coordinate]
    [astronomy.tools.terrestrial-coordinate-tool.s :as s.terrestrial-coordinate-tool]
    [astronomy.tools.ruler-tool.h :as s.ruler-tool]
-
-   [astronomy.objects.planet.h :as planet.h]
-   [astronomy.objects.satellite.h :as satellite.h]
-   [astronomy.objects.ecliptic.h :as ecliptic.h]
-
    [astronomy.tools.astronomical-coordinate-tool.h :as astronomical-coordinate-tool.h]
    [astronomy.tools.astronomical-point-tool.h :as s.astronomical-point-tool]
    [astronomy.tools.spaceship-camera-control.s :as s.spaceship]

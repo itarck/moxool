@@ -9,7 +9,7 @@
    [astronomy.service.keyboard-listener :as s.keyboard-listener]
    [astronomy.service.tool :as s.tool]
    [astronomy.service.user :as s.user]
-   [astronomy.service.astro-scene :as s.astro-scene]
+   [astronomy.objects.astro-scene.s :as s.astro-scene]
    [astronomy.tools.universe-tool.s :as s.universe-tool]
    [astronomy.tools.info-tool.s :as s.info-tool]
    
