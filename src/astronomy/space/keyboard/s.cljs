@@ -1,4 +1,4 @@
-(ns astronomy.service.keyboard-listener
+(ns astronomy.space.keyboard.s
   (:require
    [applied-science.js-interop :as j]
    [cljs.core.async :refer [go >!]]))
@@ -13,7 +13,7 @@
                                           :alt-key (j/get-in e [:altKey])
                                           :meta-key (j/get-in e [:metaKey])
                                           :shift-key (j/get-in e [:shiftKey])}}]
-              
+
               (go (>! service-chan event))))))
 
 

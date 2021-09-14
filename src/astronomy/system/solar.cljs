@@ -38,7 +38,7 @@
 
    [astronomy.space.camera.s :as s.camera]
    [astronomy.space.mouse.s :as s.mouse]
-   [astronomy.service.keyboard-listener :as s.keyboard-listener]
+   [astronomy.space.keyboard.s :as s.keyboard-listener]
    [astronomy.space.tool.h :as s.tool]
 
    [astronomy.objects.astro-scene.s :as s.astro-scene]
