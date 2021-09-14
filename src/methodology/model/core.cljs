@@ -3,8 +3,7 @@
    [methodology.model.entity :as m.entity]
    [methodology.model.gltf :as m.gltf]
    [methodology.model.object :as m.object]
-   [methodology.model.scene :as m.scene]
-   [methodology.model.user.tool :as m.tool]))
+   [methodology.model.scene :as m.scene]))
 
 
 
@@ -12,6 +11,5 @@
   (merge m.entity/schema
          m.gltf/schema
          m.object/schema
-         m.scene/schema
-         m.tool/schema))
+         m.scene/schema))
 

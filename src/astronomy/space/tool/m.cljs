@@ -1,4 +1,4 @@
-(ns methodology.model.user.tool)
+(ns astronomy.space.tool.m)
 
 ;; 抽象类
 

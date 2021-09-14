@@ -5,6 +5,7 @@
    [astronomy.space.user.m :as user.m]
    [astronomy.space.backpack.m :as m.backpack]
    [astronomy.space.camera.m :as camera.m]
+   [astronomy.space.tool.m :as tool.m]
 
    [astronomy.tools.universe-tool.m :as m.universe-tool]
    [astronomy.tools.clock-tool.m :as m.clock-tool]
@@ -38,6 +39,7 @@
    user.m/schema
    m.backpack/schema
    camera.m/schema
+   tool.m/schema
 
    m.astro-scene/schema
    m.celestial/schema
