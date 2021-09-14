@@ -12,7 +12,7 @@
      ;;  views
 
    [astronomy.view.user.universe-tool :as v.universe-tool]
-   [astronomy.view.user.info-tool :as v.info-tool]
+   [astronomy.tools.info-tool.v :as v.info-tool]
    [astronomy.tools.constellation-tool.v :as v.constellation-tool]
    [astronomy.tools.atmosphere-tool.v :as v.atmosphere-tool]
    [astronomy.tools.horizon-coordinate-tool.v :as horizon-coordinate.v-tool]

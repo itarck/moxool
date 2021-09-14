@@ -1,4 +1,4 @@
-(ns astronomy.service.info-tool
+(ns astronomy.tools.info-tool.s
   (:require
    [posh.reagent :as p]
    [cljs.core.async :refer [go-loop go >! <! timeout] :as a]))

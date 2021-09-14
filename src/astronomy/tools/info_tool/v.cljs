@@ -1,14 +1,10 @@
-(ns astronomy.view.user.info-tool
+(ns astronomy.tools.info-tool.v
   (:require
-   [applied-science.js-interop :as j]
-   [cljs.core.async :refer [go >! <! go-loop] :as a]
-   [posh.reagent :as p]
-   [astronomy.model.user.info-tool :as m.info-tool]
-   ))
+   [astronomy.tools.info-tool.m :as m.info-tool]))
 
 
 
-(defn InfoToolView [{:keys [tool]} {:keys [service-chan conn]}]
+(defn InfoToolView [{:keys [tool]} {:keys [conn]}]
   (let [info-tool (m.info-tool/sub-info-tool conn (:db/id tool))]
     [:div {:class "astronomy-righthand"}
      [:div {:class "astronomy-righthand-tool"}
