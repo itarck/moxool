@@ -36,6 +36,6 @@
                                                :state-atom (ig/ref :astronomy/state-atom)
                                                :dom-atom (ig/ref :astronomy/dom-atom)}}})
 
-(def system
+(def app
   (ig/init config))
 
