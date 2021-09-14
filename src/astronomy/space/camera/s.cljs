@@ -1,4 +1,4 @@
-(ns methodology.service.camera
+(ns astronomy.space.camera.s
   (:require
    [applied-science.js-interop :as j]
    [cljs.core.async :as async :refer [go >! <! go-loop]]
@@ -46,6 +46,5 @@
             :read-only (play-camera! dom-atom conn)
             nil)
           (catch js/Object e (.log js/console e)))
-        (recur)))
-    ))
+        (recur)))))
 

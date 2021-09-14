@@ -36,7 +36,7 @@
 
    [astronomy.space.user.s :as s.user]
 
-   [methodology.service.camera :as s.camera]
+   [astronomy.space.camera.s :as s.camera]
    [methodology.service.mouse :as s.mouse]
    [astronomy.service.keyboard-listener :as s.keyboard-listener]
    [astronomy.space.tool.h :as s.tool]
