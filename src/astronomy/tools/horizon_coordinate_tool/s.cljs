@@ -1,8 +1,8 @@
-(ns astronomy.service.horizon-coordinate-tool
+(ns astronomy.tools.horizon-coordinate-tool.s
   (:require
    [posh.reagent :as p]
    [astronomy.objects.horizon-coordinate.m :as horizon.m]
-   [astronomy.model.user.horizon-coordinate-tool :as horizon.m-coordinate-tool]
+   [astronomy.tools.horizon-coordinate-tool.m :as horizon.m-coordinate-tool]
    [cljs.core.async :refer [go-loop go >! <! timeout] :as a]))
 
 

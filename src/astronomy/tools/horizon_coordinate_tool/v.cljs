@@ -1,11 +1,11 @@
-(ns astronomy.view.user.horizon-coordinate-tool
+(ns astronomy.tools.horizon-coordinate-tool.v
   (:require
    [applied-science.js-interop :as j]
    [helix.core :refer [$]]
    [cljs.core.async :refer [go >! <! go-loop] :as a]
    [posh.reagent :as p]
    ["@material-ui/core" :as mt]
-   [astronomy.model.user.horizon-coordinate-tool :as m.horizon-coordinate-tool]))
+   [astronomy.tools.horizon-coordinate-tool.m :as m.horizon-coordinate-tool]))
 
 
 

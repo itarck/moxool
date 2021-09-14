@@ -1,4 +1,4 @@
-(ns astronomy.model.user.horizon-coordinate-tool
+(ns astronomy.tools.horizon-coordinate-tool.m
   (:require
    [astronomy.objects.horizon-coordinate.m :as horizon-coordinate.m]))
 

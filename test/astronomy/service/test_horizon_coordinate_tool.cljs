@@ -3,7 +3,7 @@
    [cljs.test :refer-macros [deftest is run-tests]]
    [posh.reagent :as p]
    [astronomy.scripts.test-conn :as test-conn]
-   [astronomy.service.horizon-coordinate-tool :as s.horizon-coordinate-tool]))
+   [astronomy.tools.horizon-coordinate-tool.s :as s.horizon-coordinate-tool]))
 
 
 (def conn (test-conn/init-conn!))
