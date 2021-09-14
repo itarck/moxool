@@ -6,7 +6,7 @@
    [astronomy.space.user.m :as m.person]
    [astronomy.objects.astro-scene.m :as m.astro-scene]
    [astronomy.objects.astro-scene.v :as v.astro-scene]
-   [methodology.view.camera :as v.camera]
+   [astronomy.space.camera.v :as v.camera]
    [astronomy.space.user.v :as v.user]
 
      ;;  views

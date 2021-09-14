@@ -1,4 +1,4 @@
-(ns methodology.view.camera
+(ns astronomy.space.camera.v
   (:require
    [applied-science.js-interop :as j]
    [cljs-bean.core :refer [->clj ->js]]
@@ -11,7 +11,7 @@
 
 (defnc CameraComponent [props]
   (let [three-instance (useThree)
-    {:keys [camera scene]} (->clj three-instance)
+        {:keys [camera scene]} (->clj three-instance)
         {:keys [domAtom position quaternion far near]} (->clj props)]
     (when domAtom
       (swap! domAtom assoc :camera camera)
