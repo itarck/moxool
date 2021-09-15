@@ -44,7 +44,7 @@
                 (:db/id one))])]]
 
        [:> mt/Grid {:item true :xs 12}
-        [:> mt/Typography {:variant "subtitle2"} "半长轴：" semi-major-axis " 光秒"]
+        [:> mt/Typography {:variant "subtitle2"} "轨道半长轴：" semi-major-axis " 光秒"]
         [:> mt/Slider
          {:style (clj->js {:color "#666"
                            :width "200px"})
@@ -60,7 +60,7 @@
           :valueLabelDisplay "auto"}]]
 
        [:> mt/Grid {:item true :xs 12}
-        [:> mt/Typography {:variant "subtitle2"} "离心率: " eccentricity ]
+        [:> mt/Typography {:variant "subtitle2"} "轨道离心率: " eccentricity ]
         [:> mt/Slider
          {:style (clj->js {:color "#666"
                            :width "200px"})
@@ -76,7 +76,7 @@
           :valueLabelDisplay "auto"}]]
 
        [:> mt/Grid {:item true :xs 12}
-        [:> mt/Typography {:variant "subtitle2"} "倾角: " inclination-in-degree " 度"]
+        [:> mt/Typography {:variant "subtitle2"} "轨道倾角: " inclination-in-degree " 度"]
         [:> mt/Slider
          {:style (clj->js {:color "#666"
                            :width "200px"})
@@ -124,7 +124,7 @@
           :valueLabelDisplay "auto"}]]
        
        [:> mt/Grid {:item true :xs 12}
-        [:> mt/Typography {:variant "subtitle2"} "平近点角（JS2000）: " mean-anomaly-in-degree " 度"]
+        [:> mt/Typography {:variant "subtitle2"} "平近点角（J2000）: " mean-anomaly-in-degree " 度"]
         [:> mt/Slider
          {:style (clj->js {:color "#666"
                            :width "200px"})
