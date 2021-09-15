@@ -11,11 +11,10 @@
           :object/quaternion [0 0 0 1]
           :object/scene [:scene/name "solar"]
           :coordinate/name "赤道天球坐标系"
-          :coordinate/type :astronomical-coordinate
-          :astro-scene/_coordinate [:scene/name "solar"]}
+          :coordinate/type :astronomical-coordinate}
          #:astronomical-coordinate{:radius shu.light/light-year-unit
-                                   :show-latitude? true
-                                   :show-longitude? true
+                                   :show-latitude? false
+                                   :show-longitude? false
                                    :show-latitude-0? false
                                    :show-lunar-orbit? false
                                    :center-candidates [{:db/id [:planet/name "earth"]}
@@ -33,13 +32,14 @@
           :object/quaternion (seq m.const/ecliptic-quaternion)
           :object/scene [:scene/name "solar"]
           :coordinate/name "黄道天球坐标系"
-          :coordinate/type :astronomical-coordinate}
+          :coordinate/type :astronomical-coordinate
+          :astro-scene/_coordinate [:scene/name "solar"]}
          #:astronomical-coordinate {:show-latitude? false
                                     :show-longitude? false
                                     :radius shu.light/light-year-unit
                                     :center-candidates [{:db/id [:planet/name "earth"]}
                                                         {:db/id [:planet/name "sun"]}]
-                                    :center-object [:planet/name "earth"]
+                                    :center-object [:star/name "sun"]
                                     :quaternion (seq m.const/ecliptic-quaternion)
                                     :default-color "#885500"
                                     :highlight-color "orange"}))

@@ -145,7 +145,7 @@
                                                    :detail {:ellipse-orbit-tool eot
                                                             :attr :ellipse-orbit/argument-of-periapsis-in-degree
                                                             :value value}})))
-          :step 5 :min -180 :max 180 :marks true
+          :step 5 :min 0 :max 360 :marks true
           :getAriaValueText identity
           :aria-labelledby "discrete-slider-restrict"
           :valueLabelDisplay "auto"}]]
@@ -161,7 +161,7 @@
                                                    :detail {:ellipse-orbit-tool eot
                                                             :attr :ellipse-orbit/mean-anomaly-in-degree
                                                             :value value}})))
-          :step 5 :min -180 :max 180 :marks true
+          :step 5 :min 0 :max 360 :marks true
           :getAriaValueText identity
           :aria-labelledby "discrete-slider-restrict"
           :valueLabelDisplay "auto"}]]]]]))
