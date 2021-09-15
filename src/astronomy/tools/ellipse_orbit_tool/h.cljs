@@ -10,7 +10,14 @@
 
 (defmethod handle-event :ellipse-orbit-tool/log
   [_props _env {:event/keys [detail]}]
+  (println ":ellipse-orbit-tool/log")
   #:effect {:action :log :detail detail})
+
+(defmethod handle-event :ellipse-orbit-tool/change-show-helper-lines
+  [_props _env {:event/keys [detail]}]
+  (let [{:keys [ellipse-orbit show?]} detail
+        tx [[:db/add (:db/id ellipse-orbit) :orbit/show-helper-lines? show?]]]
+    (effects :tx tx)))
 
 (defmethod handle-event :ellipse-orbit-tool/set-attr
   [_props {:keys [db]} {:event/keys [detail]}]
@@ -20,3 +27,4 @@
         tx [[:db/add id attr value]]]
     (effects :tx tx
              :event #:event{:action :astro-scene/refresh})))
+
