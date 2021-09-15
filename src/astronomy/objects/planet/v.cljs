@@ -14,7 +14,8 @@
    [astronomy.objects.planet.m :as planet]
    [astronomy.objects.satellite.v :as satellite.v]
    [astronomy.component.animate :as a]
-   [astronomy.component.celestial-sphere :as c.celestial-sphere]))
+   [astronomy.component.celestial-sphere :as c.celestial-sphere]
+   [astronomy.objects.ellipse-orbit.v :as ellipse-orbit.v]))
 
 
 (def earth-1
@@ -37,7 +38,6 @@
             :entity/type :planet})
 
 
-
 (defn PlanetPositionLineView [{:keys [planet color]} env]
   (let [merged-color (or color 
                   (get-in planet [:celestial/orbit :orbit/color])
@@ -51,9 +51,8 @@
   (let [new-color (or color (:orbit/color orbit))]
     (cond
       (= (:orbit/type orbit) :ellipse-orbit)
-      [v.geo/LineComponent {:points (m.ellipse-orbit/cal-orbit-points-vectors orbit (* 10 360))
-                            :color new-color}]
-
+      [ellipse-orbit.v/EllipseOrbitView {:orbit orbit} env]
+      
       :else
       [v.geo/CircleComponent {:center [0 0 0]
                               :radius (:circle-orbit/radius orbit)
@@ -201,8 +200,8 @@
      (when (and (:object/show? planet) gltf)
        [PlanetCelestialView props env]
        #_(if (= (:db/id planet) (:db/id center-entity))
-         [PlanetCelestialView props env]
-         [AnimatedPlanetCelestialView props env]))
+           [PlanetCelestialView props env]
+           [AnimatedPlanetCelestialView props env]))
 
      (when show-epicycle?
        [DeferentEpicycleView {:planet planet} env])
@@ -222,8 +221,10 @@
          [satellite.v/SatelliteView {:satellite satellite
                                      :astro-scene astro-scene} env])]]
 
-     (when (:orbit/show? orbit) [PlanetOrbitView {:orbit orbit} env])
-     (when (:orbit/show? orbit) [PlanetPositionLineView {:planet planet} env])
+     (when (:orbit/show? orbit)
+       [:<>
+        [PlanetOrbitView {:orbit orbit} env]
+        [PlanetPositionLineView {:planet planet} env]])
      
      ]))
 

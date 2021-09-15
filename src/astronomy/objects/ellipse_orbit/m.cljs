@@ -107,6 +107,35 @@
     (let [days (* (:orbit/period ellipse-orbit) i (/ 1 points-number))]
       (cal-position-vector ellipse-orbit days))))
 
+(defn cal-periapsis-vector3 [ellipse-orbit]
+  (let [{:ellipse-orbit/keys [semi-major-axis eccentricity]} ellipse-orbit
+        periapsis-length (* semi-major-axis (- 1 eccentricity))
+        p (v3/from-spherical-coords periapsis-length (/ Math/PI 2) 0)
+        {:ellipse-orbit/keys [inclination-in-degree
+                              longitude-of-the-ascending-node-in-degree
+                              argument-of-periapsis-in-degree]} ellipse-orbit
+        q1 (q/from-axis-angle (v3/vector3 0 1 0) (gmath/to-radians argument-of-periapsis-in-degree))
+        q2 (q/from-axis-angle (v3/vector3 0 0 1) (gmath/to-radians inclination-in-degree))
+        q3 (q/from-axis-angle (v3/vector3 0 1 0) (gmath/to-radians longitude-of-the-ascending-node-in-degree))
+        q4 (q/from-axis-angle (v3/vector3 0 0 1) (gmath/to-radians 23.4))]
+    (-> (v3/from-seq p)
+        (v3/apply-quaternion q1)
+        (v3/apply-quaternion q2)
+        (v3/apply-quaternion q3)
+        (v3/apply-quaternion q4))))
+
+(defn cal-ascending-node-vector3 [ellipse-orbit]
+  (let [{:ellipse-orbit/keys [semi-major-axis]} ellipse-orbit
+        p (v3/from-spherical-coords semi-major-axis (/ Math/PI 2) 0)
+        {:ellipse-orbit/keys [inclination-in-degree
+                              longitude-of-the-ascending-node-in-degree]} ellipse-orbit
+        q2 (q/from-axis-angle (v3/vector3 0 0 1) (gmath/to-radians inclination-in-degree))
+        q3 (q/from-axis-angle (v3/vector3 0 1 0) (gmath/to-radians longitude-of-the-ascending-node-in-degree))
+        q4 (q/from-axis-angle (v3/vector3 0 0 1) (gmath/to-radians 23.4))]
+    (-> (v3/from-seq p)
+        (v3/apply-quaternion q2)
+        (v3/apply-quaternion q3)
+        (v3/apply-quaternion q4))))
 
 (comment
 
@@ -149,5 +178,6 @@
 
   (cal-position earth-sample 0)
 
+  
   ;; 
   )

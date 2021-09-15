@@ -430,7 +430,7 @@
                                       :orbit/type :ellipse-orbit
                                       :orbit/period (* 11.856 365)
                                       :orbit/color "BurlyWood"
-                                      :orbit/show? true}
+                                      :orbit/show? false}
     #_#:circle-orbit {:star [:star/name "sun"]
                     :color "BurlyWood"
                     :show? true
@@ -961,7 +961,7 @@
                                      :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 0.99726968)
                                      :orbit/type :circle-orbit
                                      :orbit/color "gray"
-                                     :orbit/show? true
+                                     :orbit/show? false
                                      :orbit/period 0.99726968}
      
     :celestial/gltf #:gltf {:url "models/16-solar/Moon_1_3474.glb"
@@ -989,7 +989,7 @@
                                      :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 0.059193)
                                      :orbit/type :circle-orbit
                                      :orbit/color "red"
-                                     :orbit/show? true
+                                     :orbit/show? false
                                      :orbit/period 0.059193}
 
     :celestial/gltf #:gltf {:url "models/16-solar/Moon_1_3474.glb"
