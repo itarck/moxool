@@ -23,3 +23,4 @@
          :tool/icon "/image/pirate/earth.jpg"
          :tool/type :constellation-tool
          :entity/type :constellation-tool})
+

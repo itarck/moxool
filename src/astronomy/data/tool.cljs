@@ -282,7 +282,20 @@
                  :tool/target [:satellite/name "moon"]
                  :entity/type :satellite-tool})
 
+(def ellipse-orbit-tool-1
+  #:ellipse-orbit-tool{:selector/candinates #{{:db/id [:planet/name "earth"]}
+                                              {:db/id [:star/name "sun"]}}
+                       :selector/selected [:planet/name "earth"]
+                       :selector/type :static-candinates
+                       :tool/name "ellipse-orbit-tool"
+                       :tool/chinese-name "椭圆轨道工具"
+                       :tool/icon "/image/pirate/earth.jpg"
+                       :tool/type :ellipse-orbit-tool
+                       :entity/type :ellipse-orbit-tool})
+
+
 (def dataset1 [universe-tool-1 clock-tool1 info-tool
                ppt-tool goto-tool-1 constellation-tool-1 atmosphere-tool-1
                horizon-coordinate-tool astronomical-coordinate-tool terrestrial-coordinate-tool-1
-               apt-tool-1 ruler-tool-1 planet-tool-1 satellite-tool-1])
+               apt-tool-1 ruler-tool-1 planet-tool-1 satellite-tool-1
+               ellipse-orbit-tool-1])

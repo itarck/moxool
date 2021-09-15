@@ -32,7 +32,8 @@
    [astronomy.tools.astronomical-point-tool.v :as v.astronomical-point-tool]
    [astronomy.tools.spaceship-camera-control.v :as v.spaceship]
    [astronomy.tools.planet-tool.v :as planet-tool.v]
-   [astronomy.tools.satellite-tool.v :as satellite-tool.v]))
+   [astronomy.tools.satellite-tool.v :as satellite-tool.v]
+   [astronomy.tools.ellipse-orbit-tool.v :as ellipse-orbit-tool.v]))
 
 
 ;; view library
@@ -50,7 +51,8 @@
    :astronomical-point-tool v.astronomical-point-tool/AstronomicalPointToolView
    :ruler-tool v.ruler-tool/RulerToolView
    :planet-tool planet-tool.v/PlanetToolView
-   :satellite-tool satellite-tool.v/SatelliteToolView})
+   :satellite-tool satellite-tool.v/SatelliteToolView
+   :ellipse-orbit-tool ellipse-orbit-tool.v/EllipseOrbitToolView})
 
 
 (def object-libray

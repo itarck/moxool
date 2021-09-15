@@ -20,7 +20,8 @@
    {:db/id [:tool/name "terrestrial-coordinate-tool"]}
    {:db/id [:tool/name "constellation-tool"]}
    {:db/id [:tool/name "atmosphere-tool"]}
-   {:db/id [:tool/name "astronomical-coordinate-tool"]}])
+   {:db/id [:tool/name "astronomical-coordinate-tool"]}
+   {:db/id [:tool/name "ellipse-orbit-tool"]}])
 
 
 

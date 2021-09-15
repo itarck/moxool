@@ -4,7 +4,7 @@
 (def sample
   {:selector/candinates #{{:db/id [:planet/name "earth"]}
                           {:db/id [:planet/name "mars"]}}
-   :selector/target [:planet/name "earth"]
+   :selector/selected [:planet/name "earth"]
    :tool/name "planet-tool"
    :tool/chinese-name "行星"
    :tool/icon "/image/pirate/earth.jpg"
