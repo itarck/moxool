@@ -31,6 +31,7 @@
    [astronomy.tools.spaceship-camera-control.s :as s.spaceship]
    [astronomy.tools.planet-tool.h :as planet-tool.h]
    [astronomy.tools.satellite-tool.h :as satellite-tool.h]
+   [astronomy.tools.ellipse-orbit-tool.h :as ellipse-orbit-tool.h]
 ;; 
    ))
 
@@ -114,7 +115,10 @@
                           :handle-event-fn planet-tool.h/handle-event}
    :satellite-tool #:process{:name "satellite-tool"
                              :listen ["satellite-tool"]
-                             :handle-event-fn satellite-tool.h/handle-event}})
+                             :handle-event-fn satellite-tool.h/handle-event}
+   :ellipse-orbit-tool #:process{:name "ellipse-orbit-tool"
+                                 :listen ["ellipse-orbit-tool"]
+                                 :handle-event-fn ellipse-orbit-tool.h/handle-event}})
 
 
 (defn init-service! [props env]

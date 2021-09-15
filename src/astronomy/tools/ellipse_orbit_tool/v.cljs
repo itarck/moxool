@@ -3,8 +3,7 @@
    [applied-science.js-interop :as j]
    [cljs.core.async :refer [go >!]]
    [posh.reagent :as p]
-   ["@material-ui/core" :as mt]
-   ))
+   ["@material-ui/core" :as mt]))
 
 
 
@@ -13,7 +12,11 @@
         ids @(p/q '[:find [?id ...]
                     :where [?id :entity/type :planet]]
                   conn)
-        candidates (doall (mapv (fn [id] @(p/pull conn '[:db/id :planet/chinese-name] id)) ids))]
+        candidates (doall (mapv (fn [id] @(p/pull conn '[:db/id :planet/chinese-name] id)) ids))
+        planet @(p/pull conn '[*] (get-in eot [:selector/selected :db/id]))
+        {:ellipse-orbit/keys [semi-major-axis eccentricity inclination-in-degree
+                              longitude-of-the-ascending-node-in-degree argument-of-periapsis-in-degree
+                              mean-anomaly-in-degree]} (get-in planet [:celestial/orbit])]
     
     [:div {:class "astronomy-righthand"}
      [:div {:class "astronomy-righthand-tool"}
@@ -25,7 +28,8 @@
                         :font-weight "bold"}}
          (:tool/chinese-name eot)]]
 
-       [:> mt/Grid {:item true :xs 12}
+       [:> mt/Grid {:item true :xs 12
+                    :style {:margin-bottom "10px"}}
         [:> mt/Select {:value (get-in eot [:selector/selected :db/id])
                        :onChange (fn [e]
                                    (let [new-value (j/get-in e [:target :value])]
@@ -37,4 +41,102 @@
            ^{:key (:db/id one)}
            [:> mt/MenuItem {:value (:db/id one)}
             (or (:planet/chinese-name one)
-                (:db/id one))])]]]]]))
+                (:db/id one))])]]
+
+       [:> mt/Grid {:item true :xs 12}
+        [:> mt/Typography {:variant "subtitle2"} "半长轴：" semi-major-axis " 光秒"]
+        [:> mt/Slider
+         {:style (clj->js {:color "#666"
+                           :width "200px"})
+          :value semi-major-axis
+          :onChange (fn [e value]
+                      (go (>! service-chan #:event{:action :ellipse-orbit-tool/set-attr
+                                                   :detail {:ellipse-orbit-tool eot
+                                                            :attr :ellipse-orbit/semi-major-axis
+                                                            :value value}})))
+          :step 40 :min 1 :max 1000 :marks true
+          :getAriaValueText identity
+          :aria-labelledby "discrete-slider-restrict"
+          :valueLabelDisplay "auto"}]]
+
+       [:> mt/Grid {:item true :xs 12}
+        [:> mt/Typography {:variant "subtitle2"} "离心率: " eccentricity ]
+        [:> mt/Slider
+         {:style (clj->js {:color "#666"
+                           :width "200px"})
+          :value eccentricity
+          :onChange (fn [e value]
+                      (go (>! service-chan #:event{:action :ellipse-orbit-tool/set-attr
+                                                   :detail {:ellipse-orbit-tool eot
+                                                            :attr :ellipse-orbit/eccentricity
+                                                            :value value}})))
+          :step 0.05 :min 0 :max 1 :marks true
+          :getAriaValueText identity
+          :aria-labelledby "discrete-slider-restrict"
+          :valueLabelDisplay "auto"}]]
+
+       [:> mt/Grid {:item true :xs 12}
+        [:> mt/Typography {:variant "subtitle2"} "倾角: " inclination-in-degree " 度"]
+        [:> mt/Slider
+         {:style (clj->js {:color "#666"
+                           :width "200px"})
+          :value inclination-in-degree
+          :onChange (fn [e value]
+                      (go (>! service-chan #:event{:action :ellipse-orbit-tool/set-attr
+                                                   :detail {:ellipse-orbit-tool eot
+                                                            :attr :ellipse-orbit/inclination-in-degree
+                                                            :value value}})))
+          :step 5 :min 0 :max 90 :marks true
+          :getAriaValueText identity
+          :aria-labelledby "discrete-slider-restrict"
+          :valueLabelDisplay "auto"}]]
+       
+       [:> mt/Grid {:item true :xs 12}
+        [:> mt/Typography {:variant "subtitle2"} "升交点黄经: " longitude-of-the-ascending-node-in-degree " 度"]
+        [:> mt/Slider
+         {:style (clj->js {:color "#666"
+                           :width "200px"})
+          :value longitude-of-the-ascending-node-in-degree
+          :onChange (fn [e value]
+                      (go (>! service-chan #:event{:action :ellipse-orbit-tool/set-attr
+                                                   :detail {:ellipse-orbit-tool eot
+                                                            :attr :ellipse-orbit/longitude-of-the-ascending-node-in-degree
+                                                            :value value}})))
+          :step 5 :min -180 :max 180 :marks true
+          :getAriaValueText identity
+          :aria-labelledby "discrete-slider-restrict"
+          :valueLabelDisplay "auto"}]]
+       
+       [:> mt/Grid {:item true :xs 12}
+        [:> mt/Typography {:variant "subtitle2"} "近日点幅角: " argument-of-periapsis-in-degree " 度"]
+        [:> mt/Slider
+         {:style (clj->js {:color "#666"
+                           :width "200px"})
+          :value argument-of-periapsis-in-degree
+          :onChange (fn [e value]
+                      (go (>! service-chan #:event{:action :ellipse-orbit-tool/set-attr
+                                                   :detail {:ellipse-orbit-tool eot
+                                                            :attr :ellipse-orbit/argument-of-periapsis-in-degree
+                                                            :value value}})))
+          :step 5 :min -180 :max 180 :marks true
+          :getAriaValueText identity
+          :aria-labelledby "discrete-slider-restrict"
+          :valueLabelDisplay "auto"}]]
+       
+       [:> mt/Grid {:item true :xs 12}
+        [:> mt/Typography {:variant "subtitle2"} "平近点角（JS2000）: " mean-anomaly-in-degree " 度"]
+        [:> mt/Slider
+         {:style (clj->js {:color "#666"
+                           :width "200px"})
+          :value mean-anomaly-in-degree
+          :onChange (fn [e value]
+                      (go (>! service-chan #:event{:action :ellipse-orbit-tool/set-attr
+                                                   :detail {:ellipse-orbit-tool eot
+                                                            :attr :ellipse-orbit/mean-anomaly-in-degree
+                                                            :value value}})))
+          :step 5 :min -180 :max 180 :marks true
+          :getAriaValueText identity
+          :aria-labelledby "discrete-slider-restrict"
+          :valueLabelDisplay "auto"}]]
+       
+       ]]]))
