@@ -125,7 +125,8 @@
                                      :orbit/type :ellipse-orbit
                                      :orbit/period 365.256363004
                                      :orbit/color "green"
-                                     :orbit/show? false}
+                                     :orbit/show? false
+                                     :orbit/show-helper-lines? false}
     #_#:circle-orbit {:star [:star/name "sun"]
                       :radius 498.6596333
                       :start-position [0 0 -498.6596333]

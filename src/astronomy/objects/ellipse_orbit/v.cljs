@@ -33,6 +33,8 @@
    [v.geo/LineComponent {:points (m.ellipse-orbit/cal-orbit-points-vectors orbit (* 10 360))
                          :color (:orbit/color orbit)}]
 
-   [PeriapsisLineView props env]
-   [AscendingNodeLineView props env]])
+   (when (:orbit/show-helper-lines? orbit)
+     [:<>
+      [PeriapsisLineView props env]
+      [AscendingNodeLineView props env]])])
 

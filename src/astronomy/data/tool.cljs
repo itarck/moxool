@@ -288,7 +288,7 @@
                        :selector/selected [:planet/name "earth"]
                        :tool/name "ellipse-orbit-tool"
                        :tool/chinese-name "椭圆轨道工具"
-                       :tool/icon "/image/pirate/earth.jpg"
+                       :tool/icon "/image/moxool/ellipse-orbit.jpg"
                        :tool/type :ellipse-orbit-tool
                        :entity/type :ellipse-orbit-tool})
 
