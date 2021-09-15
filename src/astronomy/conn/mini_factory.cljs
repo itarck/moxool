@@ -38,6 +38,19 @@
     @conn))
 
 
+(defn create-db2 []
+  (let [conn (create-empty-conn!)]
+    (d/transact! conn d.basic/dataset1)
+    (d/transact! conn d.celestial/dataset1)
+    (d/transact! conn d.celestial/dataset2)
+    (d/transact! conn d.celestial/dataset3)
+    (d/transact! conn d.coordinate/dataset1)
+    (d/transact! conn d.tool/dataset1)
+    (d/transact! conn d.misc/dataset1)
+
+    (kick-start! conn tools)
+    @conn))
+
 
 (comment 
   (create-db1)

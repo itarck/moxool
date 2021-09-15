@@ -19,7 +19,7 @@
 
 
 (def test-db
-  (d/db-with (mini-factory/create-db1) [sample]))
+  (d/db-with (mini-factory/create-db2) [sample]))
 
 
 (:selector/selected (d/pull test-db '[*] [:tool/name "selector-tool"]))
@@ -27,3 +27,8 @@
 
 (:selector/candinates (d/pull test-db '[*] [:tool/name "selector-tool"]))
 ;; => [#:db{:id 20} #:db{:id 23}]
+
+
+(d/q '[:find [(pull ?id [:db/id :planet/name]) ...]
+       :where [?id :planet/name ?name]]
+     test-db)

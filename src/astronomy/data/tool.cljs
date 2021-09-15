@@ -283,10 +283,9 @@
                  :entity/type :satellite-tool})
 
 (def ellipse-orbit-tool-1
-  #:ellipse-orbit-tool{:selector/candinates #{{:db/id [:planet/name "earth"]}
-                                              {:db/id [:star/name "sun"]}}
+  #:ellipse-orbit-tool{:selector/query '[:find [(pull ?id [:db/id :planet/name]) ...]
+                                         :where [?id :planet/name ?name]]
                        :selector/selected [:planet/name "earth"]
-                       :selector/type :static-candinates
                        :tool/name "ellipse-orbit-tool"
                        :tool/chinese-name "椭圆轨道工具"
                        :tool/icon "/image/pirate/earth.jpg"

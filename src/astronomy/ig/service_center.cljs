@@ -9,6 +9,7 @@
    [astronomy.space.mouse.s :as s.mouse]
    [astronomy.space.keyboard.s :as s.keyboard-listener]
    [astronomy.space.tool.h :as s.tool]
+   [astronomy.space.selector.h :as selector.h]
 
    [astronomy.objects.astro-scene.s :as s.astro-scene]
    [astronomy.objects.planet.h :as planet.h]
@@ -51,6 +52,9 @@
    :mouse #:process{:name "mouse"
                     :listen ["mouse"]
                     :service-fn s.mouse/init-service!}
+   :selector #:process {:name "selector"
+                        :listen ["selector"]
+                        :handle-event-fn selector.h/handle-event}
 
    :planet #:process{:name "planet"
                      :listen ["planet" "clock.pub"]
@@ -61,7 +65,7 @@
    :astronomical-coordinate #:process{:name "astronomical-coordinate"
                                       :listen ["astronomical-coordinate"]
                                       :handle-event-fn astronomical-coordinate.h/handle-event}
-   
+
    :tool #:process{:name "tool"
                    :listen ["tool"]
                    :handle-event-fn s.tool/handle-event}

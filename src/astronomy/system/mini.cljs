@@ -15,7 +15,7 @@
 (derive :astronomy/service-chan :circuit/chan)
 
 
-(def db1 (mini-factory/create-db1))
+(def db1 (mini-factory/create-db2))
 
 (def config
   #:astronomy{:dom-atom #:atom {}
@@ -28,9 +28,7 @@
                                        :service-chan (ig/ref :astronomy/service-chan)
                                        :dom-atom (ig/ref :astronomy/dom-atom)
                                        :state-atom (ig/ref :astronomy/state-atom)}}
-              :service-center #:service {:processes #{:user :astro-scene :keyboard :camera :planet :tool
-                                                      :clock-tool :spaceship-camera-control}
-                                         :props {:user {:db/id [:user/name "dr who"]}
+              :service-center #:service {:props {:user {:db/id [:user/name "dr who"]}
                                                  :astro-scene {:db/id [:scene/name "solar"]}
                                                  :camera {:db/id [:camera/name "default"]}
                                                  :spaceship-camera-control {:db/id [:spaceship-camera-control/name "default"]}}

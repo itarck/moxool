@@ -2,8 +2,8 @@
 
 
 (def sample
-  {:selector/candinates #{{:db/id [:planet/name "earth"]}
-                          {:db/id [:planet/name "mars"]}}
+  {:selector/query '[:find [(pull ?id [:db/id :planet/name]) ...]
+                     :where [?id :planet/name ?name]]
    :selector/selected [:planet/name "earth"]
    :tool/name "planet-tool"
    :tool/chinese-name "行星"
