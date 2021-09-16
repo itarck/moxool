@@ -12,7 +12,7 @@
                    :width "100%"}}
      (case status
        :init [:p "init"]
-       :ready (get-in @instance-atom [:scene-system :system/view]))]))
+       :ready (get-in @instance-atom [:scene-system :ioframe-system/view]))]))
 
 
 (defn EditorView [{:keys [editor]} {:keys [conn instance-atom service-chan] :as env}]
@@ -36,4 +36,4 @@
                     :width "1280px"}}
       (case status
         :init [:p "init"]
-        :ready (get-in @instance-atom [:scene-system :system/view]))]]))
+        :ready (get-in @instance-atom [:scene-system :ioframe-system/view]))]]))

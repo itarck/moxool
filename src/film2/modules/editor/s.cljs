@@ -6,12 +6,12 @@
    [posh.reagent :as p]
    [cljs-http.client :as http]
    [methodology.lib.circuit]
-   [astronomy.system.solar :as system.solar]))
+   [film2.modules.ioframe.m :as ioframe.m]))
 
 
 (defmulti handle-event! (fn [_ _ event] (:event/action event)))
 
-(defmethod handle-event! :editor/pull-current-frame
+#_(defmethod handle-event! :editor/pull-current-frame
   [{:keys [editor]} {:keys [conn]} event]
   (let [editor-1 (d/pull @conn '[*] (:db/id editor))
         frame-1 (d/pull @conn '[*] (get-in editor-1 [:editor/current-frame :db/id]))
@@ -25,9 +25,8 @@
 (defmethod handle-event! :editor/load-current-frame
   [{:keys [editor]} {:keys [conn instance-atom]} event]
   (go (let [editor-1 (d/pull @conn '[*] (:db/id editor))
-            frame-1 (d/pull @conn '[*] (get-in editor-1 [:editor/current-frame :db/id]))
-            stored-db (:frame/db frame-1)
-            scene-system (system.solar/create-system! {:initial-db stored-db})]
+            ioframe-1 (d/pull @conn '[*] (get-in editor-1 [:editor/current-frame :db/id]))
+            scene-system (ioframe.m/create-ioframe-system ioframe-1)]
         (swap! instance-atom assoc :scene-system scene-system)
         (p/transact! conn  [{:db/id (:db/id editor-1)
                              :editor/status :ready

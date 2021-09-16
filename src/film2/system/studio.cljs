@@ -4,7 +4,7 @@
    [methodology.lib.circuit]
 
    [film2.modules.editor.m :as editor.m]
-   [film2.modules.frame.m :as frame.m]
+   [film2.modules.ioframe.m :as ioframe.m]
 
    [film2.modules.editor.v :as editor.v]
 
@@ -17,15 +17,17 @@
 
 (def schema
   (merge editor.m/schema
-         frame.m/schema))
+         ioframe.m/schema))
+
 
 (def initial-tx
-  [#:frame{:name "/temp/frame/solar-1.fra"
-           :db-string ""
-           :scene-type :solar}
+  [#:ioframe {:type :mini
+              :name "mini-1"
+              :db-url "/temp/frame/solar-1.fra"
+              :description "只有太阳和地球的小型系统"}
    #:editor{:name "default"
             :status :init
-            :current-frame [:frame/name "/temp/frame/solar-1.fra"]}])
+            :current-frame [:ioframe/name "mini-1"]}])
 
 
 ;; ig
@@ -53,9 +55,7 @@
                              :instance-atom (ig/ref :studio/instance-atom)
                              :service-chan (ig/ref :studio/service-chan)
                              :scene-lib (ig/ref :studio/scene-lib)}
-                       :initial-events [#:event{:action :editor/pull-current-frame}
-                                        #:event{:action :editor/load-current-frame}]
-                       }
+                       :initial-events [#:event{:action :editor/load-current-frame}]}
     :view #:view{:view-fn editor.v/EditorView
                  :props {:editor {:db/id [:editor/name "default"]}}
                  :env {:conn (ig/ref :studio/conn)
