@@ -21,14 +21,21 @@
                :type "mini"
                :description "只有太阳和地球的小型系统"}))
 
-(def ioframe-system1 (mini/create-ioframe-system ioframe-config1))
+
+(def ioframe-config2
+  #:ioframe {:db-url "/temp/frame/solar-1.fra"
+             :name "mini-1"
+             :type "mini"
+             :description "只有太阳和地球的小型系统"})
+
+(def ioframe-system (mini/create-ioframe-system ioframe-config2))
 
 
 (defn update! []
   (rdom/render
   ;;  (:astronomy/root-view mini/app)
   ;;  (:studio/view system)
-   (:ioframe-system/view ioframe-system1)
+   (:ioframe-system/view ioframe-system)
   ;;  (:astronomy/root-view solar2/app)
    (j/call js/document :getElementById  "app")))
 

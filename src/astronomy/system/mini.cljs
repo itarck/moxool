@@ -54,8 +54,12 @@
 
 
 (defn create-ioframe-system [ioframe-config]
-  (let [{:ioframe/keys [db]} ioframe-config
-        merged-config (merge default-config #:astronomy {:conn #:conn {:initial-db db}})
+  (let [{:ioframe/keys [db db-url]} ioframe-config
+        conn-config (cond 
+                      db-url #:conn {:db-url db-url}
+                      db #:conn {:initial-db db}
+                      :else #:conn {:initial-db default-db})
+        merged-config (merge default-config #:astronomy {:conn conn-config})
         astronomy-instance (ig/init merged-config)]
     #:ioframe-system {:view (:astronomy/root-view astronomy-instance)}))
 
