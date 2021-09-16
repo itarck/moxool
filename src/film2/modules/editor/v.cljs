@@ -1,6 +1,7 @@
 (ns film2.modules.editor.v
   (:require
    [cljs.core.async :refer [go >!]]
+   ["@material-ui/core" :as mt]
    [posh.reagent :as p]))
 
 
