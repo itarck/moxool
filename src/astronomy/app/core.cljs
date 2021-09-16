@@ -3,8 +3,8 @@
   (:require
    [applied-science.js-interop :as j]
    [reagent.dom :as rdom]
-  ;;  [astronomy.system.mini :as mini]
-   [astronomy.system.solar2 :as solar2]
+   [astronomy.system.mini :as mini]
+  ;;  [astronomy.system.solar2 :as solar2]
    ))
 
 
@@ -12,8 +12,8 @@
 
 (defn update! []
   (rdom/render
-  ;;  (:astronomy/root-view mini/app)
-   (:astronomy/root-view solar2/app)
+   (:astronomy/root-view mini/app)
+  ;;  (:astronomy/root-view solar2/app)
    (j/call js/document :getElementById  "app")))
 
 

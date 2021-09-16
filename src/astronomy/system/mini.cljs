@@ -15,7 +15,7 @@
 (derive :astronomy/service-chan :circuit/chan)
 
 
-(def db1 (mini-factory/create-db2))
+(def db1 (mini-factory/create-db1))
 
 (def config
   #:astronomy{:dom-atom #:atom {}
