@@ -6,7 +6,8 @@
    [astronomy.data.celestial :as d.celestial]
    [astronomy.data.coordinate :as d.coordinate]
    [astronomy.data.tool :as d.tool]
-   [astronomy.data.misc :as d.misc]))
+   [astronomy.data.misc :as d.misc]
+   [methodology.lib.client :as client]))
 
 
 ;; processes
@@ -52,6 +53,10 @@
     @conn))
 
 
-(comment 
-  (create-db1)
+(comment
+  
+  (->
+   (create-db1)
+   (client/save-db-file "/temp/frame/solar-2.fra"))
+
   )

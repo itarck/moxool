@@ -7,7 +7,6 @@
    [film2.modules.ioframe.m :as ioframe.m]
 
    [film2.modules.editor.v :as editor.v]
-
    [film2.modules.editor.s :as editor.s]
 
    [astronomy.system.solar :as system.solar]))
@@ -25,9 +24,13 @@
               :name "mini-1"
               :db-url "/temp/frame/solar-1.fra"
               :description "只有太阳和地球的小型系统"}
+   #:ioframe {:type :mini
+              :name "mini-2"
+              :db-url "/temp/frame/solar-2.fra"
+              :description "只有太阳和地球的小型系统"}
    #:editor{:name "default"
             :status :init
-            :current-frame [:ioframe/name "mini-1"]}])
+            :current-frame [:ioframe/name "mini-2"]}])
 
 
 ;; ig
