@@ -13,11 +13,6 @@
              :description "只有太阳和地球的小型系统"})
 
 
-(def ioframe-1
-  #:ioframe{:name "/temp/frame/solar-1.fra"
-            :db-string ""
-            :scene-type :solar})
-
 
 ;; schema
 
@@ -39,6 +34,9 @@
   '[:find [?name ...]
     :where [?id :ioframe/name ?name]])
 
+(def all-id-and-names-query
+  '[:find ?id ?name
+    :where [?id :ioframe/name ?name]])
 
 (defn find-all-names [db]
   (d/q all-names-query db))

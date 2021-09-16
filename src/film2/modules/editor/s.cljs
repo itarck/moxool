@@ -22,6 +22,16 @@
                               :frame/db-string stored-data
                               :frame/db (dt/read-transit-str stored-data)}])))))
 
+
+(defmethod handle-event! :editor/change-current-ioframe
+  [{:keys [editor]} {:keys [conn service-chan]} {:event/keys [detail]}]
+  (let [{:keys [editor ioframe]} detail
+        tx [{:db/id (:db/id editor)
+             :editor/current-frame (:db/id ioframe)}]]
+    (p/transact! conn tx)
+    (go (>! service-chan #:event{:action :editor/load-current-frame}))))
+
+
 (defmethod handle-event! :editor/load-current-frame
   [{:keys [editor]} {:keys [conn instance-atom]} event]
   (go (let [editor-1 (d/pull @conn '[*] (:db/id editor))
