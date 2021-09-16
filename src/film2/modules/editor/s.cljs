@@ -29,7 +29,7 @@
         tx [{:db/id (:db/id editor)
              :editor/current-frame (:db/id ioframe)}]]
     (p/transact! conn tx)
-    (go (>! service-chan #:event{:action :editor/load-current-frame}))))
+    #_(go (>! service-chan #:event{:action :editor/load-current-frame}))))
 
 
 (defmethod handle-event! :editor/load-current-frame
@@ -37,7 +37,7 @@
   (go (let [editor-1 (d/pull @conn '[*] (:db/id editor))
             ioframe-1 (d/pull @conn '[*] (get-in editor-1 [:editor/current-frame :db/id]))
             scene-system (ioframe.m/create-ioframe-system ioframe-1)]
-        (swap! instance-atom assoc :scene-system scene-system)
+        (swap! instance-atom assoc-in [:ioframe (:db/id ioframe-1)] scene-system)
         (p/transact! conn  [{:db/id (:db/id editor-1)
                              :editor/status :ready
                              :editor/last-updated (js/Date.)}]))))

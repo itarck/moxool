@@ -20,6 +20,7 @@
 
 (defn EditorView [{:keys [editor]} {:keys [conn instance-atom service-chan] :as env}]
   (let [editor-1 @(p/pull conn '[*] (:db/id editor))
+        current-ioframe-id (get-in editor-1 [:editor/current-frame :db/id])
         status (:editor/status editor-1)
         ioframes @(p/q ioframe.m/all-id-and-names-query conn)]
     [:<>
@@ -29,7 +30,7 @@
                     :height "80px"}}
       [:p (str editor-1)]
 
-      [:> mt/Select {:value (get-in editor-1 [:editor/current-frame :db/id])
+      [:> mt/Select {:value current-ioframe-id
                      :onChange (fn [e]
                                  (let [new-value (j/get-in e [:target :value])]
                                    (go (>! service-chan
@@ -52,4 +53,4 @@
                     :width "1280px"}}
       (case status
         :init [:p "init"]
-        :ready (get-in @instance-atom [:scene-system :ioframe-system/view]))]]))
+        :ready (get-in @instance-atom [:ioframe current-ioframe-id :ioframe-system/view]))]]))
