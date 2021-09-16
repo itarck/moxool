@@ -24,7 +24,7 @@
   (let [ascending-node-vector3 (m.ellipse-orbit/cal-ascending-node-vector3 orbit)]
     [v.geo/LineComponent {:points [(v3/from-seq [0 0 0])
                                    ascending-node-vector3]
-                          :color "gray"}]))
+                          :color "#ccc"}]))
 
 
 (defn EllipseOrbitView

@@ -23,8 +23,8 @@
               :state-atom #:ratom {:init-value {:app-state :init}}
               :service-chan #:chan {}
               :conn #:conn {
-                            :initial-db db
-                            ;; :db-url "/temp/frame/solar-1.fra"
+                            ;; :initial-db db
+                            :db-url "/temp/frame/solar-1.fra"
                             }
               :root-view #:view {:props {:user-name "dr who"
                                          :scene-name "solar"}
