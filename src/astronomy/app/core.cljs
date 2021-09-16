@@ -4,15 +4,31 @@
    [applied-science.js-interop :as j]
    [reagent.dom :as rdom]
    [astronomy.system.mini :as mini]
+   [film2.system.studio :as studio]
+   [astronomy.conn.mini-factory :as mini-factory]
   ;;  [astronomy.system.solar2 :as solar2]
    ))
 
 
 ;; mount point
 
+;; (def system (studio/create-app! {}))
+
+(def ioframe-config1
+  (let [db (mini-factory/create-db1)]
+    #:ioframe {:db db
+               :name "mini-1"
+               :type "mini"
+               :description "只有太阳和地球的小型系统"}))
+
+(def ioframe-system1 (mini/create-ioframe-system ioframe-config1))
+
+
 (defn update! []
   (rdom/render
-   (:astronomy/root-view mini/app)
+  ;;  (:astronomy/root-view mini/app)
+  ;;  (:studio/view system)
+   (:ioframe-system/view ioframe-system1)
   ;;  (:astronomy/root-view solar2/app)
    (j/call js/document :getElementById  "app")))
 

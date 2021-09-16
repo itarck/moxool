@@ -34,7 +34,7 @@
                               :mode :orbit-mode
                               :min-distance 0
                               :max-distance max-distance
-                              :position [2000 2000 2000]
+                              :position [40000 40000 40000]
                               :direction [-1 -1 -1]
                               :zoom 1
                               :up [0 1 0]
