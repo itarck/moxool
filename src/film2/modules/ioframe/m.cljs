@@ -1,7 +1,8 @@
 (ns film2.modules.ioframe.m
-  (:require 
+  (:require
    [datascript.core :as d]
-   [astronomy.system.mini :as mini]))
+   [astronomy.system.mini :as mini]
+   [astronomy.system.slider :as slider]))
 
 
 ;; sample 
@@ -12,6 +13,12 @@
              :db-url "/temp/frame/solar-1.fra"
              :description "只有太阳和地球的小型系统"})
 
+
+#_(def ioframe-config-sample
+  #:ioframe {:db db
+             :name "slider1-1"
+             :type :slider
+             :description "一个进度条"})
 
 
 ;; schema
@@ -26,6 +33,10 @@
 (defmethod create-ioframe-system :mini
   [ioframe]
   (mini/create-ioframe-system ioframe))
+
+(defmethod create-ioframe-system :slider
+  [ioframe]
+  (slider/create-ioframe-system ioframe))
 
 
 ;; find

@@ -1,4 +1,3 @@
-
 (ns astronomy.system.slider
   (:require
    [applied-science.js-interop :as j]
@@ -8,7 +7,8 @@
    [reagent.dom :as dom]
    [integrant.core :as ig]
    [posh.reagent :as p]
-   [methodology.lib.circuit :as circuit]))
+   [methodology.lib.circuit :as circuit]
+   ))
 
 
 ;; scene bmi
@@ -40,7 +40,7 @@
 
 (defn Slider [value min max on-change]
   [:input {:type "range" :value value :min min :max max
-           :style {:width "100%"}
+           :style {:width "80%"}
            :on-change on-change}])
 
 (defn RootPage [props env]
@@ -50,7 +50,6 @@
      (for [slider sliders]
        ^{:key (:db/id slider)}
        [:div
-        [:p (:db/id slider)]
         [Slider (:slider/value slider) 0 100
          (fn [e] (let [new-value (.. e -target -value)]
                    (go (>! service-chan
@@ -86,7 +85,7 @@
 
 (defn create-ioframe-system [ioframe-config]
   (let [{:ioframe/keys [db]} ioframe-config
-        
+
         config {::conn #:conn {:schema schema
                                :initial-db db}
 
@@ -101,9 +100,9 @@
                                :env {:service-chan (ig/ref ::chan)
                                      :scene-conn (ig/ref ::conn)}}}
         instance (ig/init config)]
-    #:system {:view (::view instance)
-              :conn (::conn instance)
-              :service-chan (::service-chan instance)}))
+    #:ioframe-system {:view (::view instance)
+                      :conn (::conn instance)
+                      :service-chan (::service-chan instance)}))
 
 
 ;; mount point

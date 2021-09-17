@@ -5,9 +5,9 @@
         :output-dir "public/js"
         :asset-path "/js"
         :modules
-        {:app {:entries [astronomy.system.slider]
-               :init-fn astronomy.system.slider/init!}}
-        :devtools {:after-load astronomy.system.slider/update!}}}
+        {:app {:entries [film2.app.core]
+               :init-fn film2.app.core/init!}}
+        :devtools {:after-load film2.app.core/update!}}}
 ;  
 }
 
