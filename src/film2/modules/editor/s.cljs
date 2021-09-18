@@ -42,9 +42,9 @@
                              :editor/last-updated (js/Date.)}]))))
 
 
-(defn init-service! [props {:keys [service-chan] :as env}]
+(defn init-service! [props {:keys [process-chan] :as env}]
   (go-loop []
-    (let [event (<! service-chan)]
+    (let [event (<! process-chan)]
       (try
         (cond
           (vector? event) (go-loop [[e & rs] event]

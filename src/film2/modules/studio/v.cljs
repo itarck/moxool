@@ -26,11 +26,12 @@
         [:div "模式： " 
          [:> mt/Select {:value (:studio/mode studio-1)
                         :onChange (fn [e]
-                                    (let [new-value (j/get-in e [:target :value])]
-                                      (go (>! service-chan
-                                              #:event {:action :studio/change-mode
-                                                       :detail {:studio studio-1
-                                                                :new-mode (keyword new-value)}}))))}
+                                    (let [new-value (j/get-in e [:target :value])
+                                          event #:event {:action :studio/change-mode
+                                                         :detail {:studio studio-1
+                                                                  :new-mode (keyword new-value)}}]
+                                      (println event)
+                                      (go (>! service-chan event))))}
           (for [mode modes]
             ^{:key mode}
             [:> mt/MenuItem {:value mode} mode])]]]

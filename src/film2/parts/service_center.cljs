@@ -18,9 +18,9 @@
    :editor #:process{:name "editor"
                      :listen ["editor"]
                      :service-fn editor.s/init-service!}
-   :player #:player {:name "player"
-                     :listen ["player"]
-                     :handle-event-fn player.h/handle-event}})
+   :player #:process {:name "player"
+                      :listen ["player"]
+                      :handle-event-fn player.h/handle-event}})
 
 
 (defn init-service! [props env]
@@ -48,6 +48,7 @@
 
     (doseq [{:process/keys [service-fn handle-event-fn listen] process-name :process/name} processes]
       (let [process-chan (chan)]
+        (println (str "process: " process-name " started....."))
         (doseq [l listen]
           (async/sub process-publication (name l) process-chan))
         (when service-fn
