@@ -5,7 +5,7 @@
    [astronomy.service.effect :as s.effect]
    [film2.modules.studio.h :as studio.h]
    [film2.modules.editor.s :as editor.s]
-   [film2.modules.player.h :as player.h]
+   [film2.modules.player.s :as player.s]
    
 ;; 
    ))
@@ -20,7 +20,7 @@
                      :service-fn editor.s/init-service!}
    :player #:process {:name "player"
                       :listen ["player"]
-                      :handle-event-fn player.h/handle-event}})
+                      :service-fn player.s/init-service!}})
 
 
 (defn init-service! [props env]

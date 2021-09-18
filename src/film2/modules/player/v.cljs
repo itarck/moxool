@@ -7,12 +7,10 @@
    [posh.reagent :as p]))
 
 
-
 (defn PlayerView [{:keys [player]} {:keys [conn service-chan] :as env}]
   (let [player-1 @(p/pull conn '[*] (:db/id player))
         current-iovideo-id (get-in player-1 [:player/current-iovideo :db/id])
         id-names @(p/q iovideo.m/all-id-and-names-query conn)]
-    (println "PlayerView: " id-names)
     [:<>
      [:> mt/Select {:value current-iovideo-id
                     :onChange (fn [e]
