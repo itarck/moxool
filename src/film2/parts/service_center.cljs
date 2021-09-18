@@ -4,6 +4,7 @@
    [integrant.core :as ig]
    [astronomy.service.effect :as s.effect]
    [film2.modules.editor.s :as editor.s]
+   [film2.modules.studio.h :as studio.h]
 ;; 
    ))
 
@@ -12,15 +13,17 @@
   {:editor #:process{:name "editor"
                      :listen ["editor"]
                      :service-fn editor.s/init-service!}
+   :studio #:process {:name "studio"
+                      :listen ["studio"]
+                      :handle-event-fn studio.h/handle-event}
   })
 
 
 (defn init-service! [props env]
-  (let [{:keys [process-name process-chan handle-event-fn conn dom-atom]} env]
+  (let [{:keys [process-name process-chan handle-event-fn conn]} env]
     (go-loop []
       (let [event (<! process-chan)
-            handler-env {:db @conn
-                         :dom @dom-atom}]
+            handler-env {:db @conn}]
         (try
           (let [effect (handle-event-fn props handler-env event)]
             (if (or (seq? effect) (vector? effect))
