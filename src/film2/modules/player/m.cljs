@@ -10,20 +10,20 @@
             :current-video -202})
 
 (def schema {:player/name {:db/unique :db.unique/identity}
-             :player/current-video {:db/cardinality :db.cardinality/one :db/valueType :db.type/ref}})
+             :player/current-ioframe {:db/cardinality :db.cardinality/one :db/valueType :db.type/ref}})
 
 
 ;; model
 
 (defn pull-whole [db id]
-  (d/pull db '[* {:player/current-video [*]}] id))
+  (d/pull db '[* {:player/current-ioframe [*]}] id))
 
 (defn cal-current-time [player-session current-timestamp]
   (let [{:keys [start-time start-timestamp]} player-session]
     (+ (- current-timestamp start-timestamp) start-time)))
 
 (defn should-session-stop? [player video]
-  (let [total-time (get-in video [:video/total-time])
+  (let [total-time (get-in video [:iovideo/total-time])
         current-time (get-in player [:player/session :current-time])]
     (> current-time total-time)))
 
@@ -88,5 +88,5 @@
   @(p/pull system-conn '[*] id))
 
 (defn sub-whole-player [system-conn player-id]
-  @(p/pull system-conn '[{:player/current-video [*]} *] player-id))
+  @(p/pull system-conn '[{:player/current-ioframe [*]} *] player-id))
 

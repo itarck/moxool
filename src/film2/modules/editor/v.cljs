@@ -10,7 +10,7 @@
 
 (defn IOFrameToolView [{:keys [editor]} {:keys [conn service-chan] :as env}]
   (let [editor-1 @(p/pull conn '[*] (:db/id editor))
-        current-ioframe-id (get-in editor-1 [:editor/current-frame :db/id])
+        current-ioframe-id (get-in editor-1 [:editor/current-ioframe :db/id])
         ioframes @(p/q ioframe.m/all-id-and-names-query conn)]
     [:<>
      [:> mt/Select {:value current-ioframe-id
@@ -31,7 +31,7 @@
 
 (defn EditorView [{:keys [editor] :as props} {:keys [conn instance-atom] :as env}]
   (let [editor-1 @(p/pull conn '[*] (:db/id editor))
-        current-ioframe-id (get-in editor-1 [:editor/current-frame :db/id])]
+        current-ioframe-id (get-in editor-1 [:editor/current-ioframe :db/id])]
     [:<>
      [:div {:style {:position :absolute
                     :top "0px"

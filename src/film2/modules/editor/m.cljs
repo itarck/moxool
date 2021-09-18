@@ -2,7 +2,7 @@
 
 
 (def schema {:editor/name {:db/unique :db.unique/identity}
-             :editor/current-frame {:db/cardinality :db.cardinality/one :db/valueType :db.type/ref}})
+             :editor/current-ioframe {:db/cardinality :db.cardinality/one :db/valueType :db.type/ref}})
 
 
 (def editor-1
