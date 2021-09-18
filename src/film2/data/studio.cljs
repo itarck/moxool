@@ -51,7 +51,7 @@
                                :current-ioframe [:ioframe/name "mini-2"]}
              :player #:player {:name "default"
                                :doc "播放iovideo的工具"
-                               :current-video [:iovideo/name "video-1"]}
+                               :current-iovideo [:iovideo/name "slider move"]}
              :recorder #:recorder {:name "default"
-                                   :current-video [:iovideo/name "video-1"]}}])
+                                   :current-iovideo [:iovideo/name "slider move"]}}])
 

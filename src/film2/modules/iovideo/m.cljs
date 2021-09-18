@@ -27,10 +27,15 @@
 
 ;; model
 
-(def find-all-iovideo-ids-query
+(def all-iovideo-ids-query
   '[:find [?vid ...]
     :where
     [?vid :iovideo/name]])
+
+(def all-id-and-names-query
+  '[:find ?id ?name
+    :where
+    [?id :iovideo/name ?name]])
 
 (defn pull-one [db id]
   (d/pull db '[*] id))

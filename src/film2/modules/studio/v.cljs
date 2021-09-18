@@ -5,6 +5,7 @@
    ["@material-ui/core" :as mt]
    [film2.modules.ioframe.m :as ioframe.m]
    [film2.modules.editor.v :as editor.v]
+   [film2.modules.player.v :as player.v]
    [posh.reagent :as p]))
 
 
@@ -37,7 +38,7 @@
        [:> mt/Grid {:item true :xs 10}
         (case (:studio/mode studio-1)
           :editor [editor.v/EditorView {:editor (:studio/editor studio-1)} env]
-          :player [:div "player"]
+          :player [player.v/PlayerView {:player (:studio/player studio-1)} env]
           :recorder [:div "recorder"])]]]
      [:div {:style {:position :absolute
                     :top "80px"

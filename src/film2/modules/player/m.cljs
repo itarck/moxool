@@ -10,13 +10,13 @@
             :current-video -202})
 
 (def schema {:player/name {:db/unique :db.unique/identity}
-             :player/current-ioframe {:db/cardinality :db.cardinality/one :db/valueType :db.type/ref}})
+             :player/current-iovideo {:db/cardinality :db.cardinality/one :db/valueType :db.type/ref}})
 
 
 ;; model
 
 (defn pull-whole [db id]
-  (d/pull db '[* {:player/current-ioframe [*]}] id))
+  (d/pull db '[* {:player/current-iovideo [*]}] id))
 
 (defn cal-current-time [player-session current-timestamp]
   (let [{:keys [start-time start-timestamp]} player-session]

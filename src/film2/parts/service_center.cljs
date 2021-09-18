@@ -3,20 +3,24 @@
    [cljs.core.async :as async :refer [go >! <! chan go-loop]]
    [integrant.core :as ig]
    [astronomy.service.effect :as s.effect]
-   [film2.modules.editor.s :as editor.s]
    [film2.modules.studio.h :as studio.h]
+   [film2.modules.editor.s :as editor.s]
+   [film2.modules.player.h :as player.h]
+   
 ;; 
    ))
 
 
 (def process-lib
-  {:editor #:process{:name "editor"
-                     :listen ["editor"]
-                     :service-fn editor.s/init-service!}
-   :studio #:process {:name "studio"
+  {:studio #:process {:name "studio"
                       :listen ["studio"]
                       :handle-event-fn studio.h/handle-event}
-  })
+   :editor #:process{:name "editor"
+                     :listen ["editor"]
+                     :service-fn editor.s/init-service!}
+   :player #:player {:name "player"
+                     :listen ["player"]
+                     :handle-event-fn player.h/handle-event}})
 
 
 (defn init-service! [props env]
