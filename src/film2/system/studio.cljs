@@ -5,22 +5,19 @@
 
    [film2.parts.schema :refer [schema]]
    [film2.data.studio :as data.studio]
-   [film2.modules.editor.v :as editor.v]
-   [film2.modules.editor.s :as editor.s]
+   [film2.parts.root-view]
+   [film2.parts.service-center]
 
-   [astronomy.system.solar :as system.solar]))
+   ))
 
 
 
 ;; ig
 
 
-(derive :studio/scene-lib :circuit/value)
 (derive :studio/conn :circuit/conn)
 (derive :studio/instance-atom :circuit/atom)
-(derive :studio/view :circuit/view)
 (derive :studio/service-chan :circuit/chan)
-(derive :studio/service :circuit/service)
 
 
 
@@ -30,14 +27,11 @@
                   :initial-tx data.studio/dataset}
     :instance-atom #:atom{:init-value {}}
     :service-chan #:chan{}
-    :service #:service{:service-fn editor.s/init-service!
-                       :props {:editor {:db/id [:editor/name "default"]}}
-                       :env {:conn (ig/ref :studio/conn)
-                             :instance-atom (ig/ref :studio/instance-atom)
-                             :service-chan (ig/ref :studio/service-chan)}
-                       :initial-events [#:event{:action :editor/load-current-ioframe}]}
-    :view #:view{:view-fn editor.v/EditorView
-                 :props {:editor {:db/id [:editor/name "default"]}}
+    :service-center #:service{:props {:studio {:db/id [:studio/name "default"]}}
+                              :env {:conn (ig/ref :studio/conn)
+                                    :instance-atom (ig/ref :studio/instance-atom)
+                                    :service-chan (ig/ref :studio/service-chan)}}
+    :view #:view{:props {:studio {:db/id [:studio/name "default"]}}
                  :env {:conn (ig/ref :studio/conn)
                        :service-chan (ig/ref :studio/service-chan)
                        :instance-atom (ig/ref :studio/instance-atom)}}})

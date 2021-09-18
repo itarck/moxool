@@ -8,7 +8,7 @@
 
 
 
-(defn IOFrameToolView [{:keys [editor]} {:keys [conn service-chan] :as env}]
+(defn EditorView [{:keys [editor]} {:keys [conn service-chan] :as env}]
   (let [editor-1 @(p/pull conn '[*] (:db/id editor))
         current-ioframe-id (get-in editor-1 [:editor/current-ioframe :db/id])
         ioframes @(p/q ioframe.m/all-id-and-names-query conn)]
@@ -26,27 +26,5 @@
 
      [:input {:type :button
               :value "load"
-              :on-click #(go (>! service-chan #:event{:action :editor/load-current-ioframe}))}]]))
-
-
-(defn EditorView [{:keys [editor] :as props} {:keys [conn instance-atom] :as env}]
-  (let [editor-1 @(p/pull conn '[*] (:db/id editor))
-        current-ioframe-id (get-in editor-1 [:editor/current-ioframe :db/id])]
-    [:<>
-     [:div {:style {:position :absolute
-                    :top "0px"
-                    :width "100%"
-                    :height "80px"}}
-      [:> mt/Grid {:container true :spacing 0}
-       [:> mt/Grid {:item true :xs 2}
-        [:div "模式"]
-        ]
-       [:> mt/Grid {:item true :xs 10}
-        [IOFrameToolView props env]]]]
-     [:div {:style {:position :absolute
-                    :top "80px"
-                    :height "720px"
-                    :width "1280px"}}
-      (case (:editor/status editor-1)
-        :init [:p "init"]
-        :ready (get-in @instance-atom [:ioframe current-ioframe-id :ioframe-system/view]))]]))
+              :on-click #(go (>! service-chan #:event{:action :editor/load-current-ioframe
+                                                      :detail {:editor editor-1}}))}]]))

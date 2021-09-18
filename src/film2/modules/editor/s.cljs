@@ -32,8 +32,8 @@
 
 
 (defmethod handle-event! :editor/load-current-ioframe
-  [{:keys [editor]} {:keys [conn instance-atom]} event]
-  (go (let [editor-1 (d/pull @conn '[*] (:db/id editor))
+  [_props {:keys [conn instance-atom]} {:event/keys [detail]}]
+  (go (let [editor-1 (d/pull @conn '[*] (get-in detail [:editor :db/id]))
             ioframe-1 (d/pull @conn '[*] (get-in editor-1 [:editor/current-ioframe :db/id]))
             scene-system (ioframe.m/create-ioframe-system ioframe-1)]
         (swap! instance-atom assoc-in [:ioframe (:db/id ioframe-1)] scene-system)

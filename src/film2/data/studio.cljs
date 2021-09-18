@@ -48,7 +48,7 @@
              :mode :editor
              :editor #:editor {:name "default"
                                :doc "编辑ioframe的工具"
-                               :current-frame [:ioframe/name "mini-2"]}
+                               :current-ioframe [:ioframe/name "mini-2"]}
              :player #:player {:name "default"
                                :doc "播放iovideo的工具"
                                :current-video [:iovideo/name "video-1"]}
