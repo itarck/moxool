@@ -26,8 +26,7 @@
 
 (def default-config
   #:studio
-   {:scene-lib {:solar system.solar/create-system!}
-    :conn #:conn {:schema schema
+   {:conn #:conn {:schema schema
                   :initial-tx data.studio/dataset}
     :instance-atom #:atom{:init-value {}}
     :service-chan #:chan{}
@@ -35,15 +34,13 @@
                        :props {:editor {:db/id [:editor/name "default"]}}
                        :env {:conn (ig/ref :studio/conn)
                              :instance-atom (ig/ref :studio/instance-atom)
-                             :service-chan (ig/ref :studio/service-chan)
-                             :scene-lib (ig/ref :studio/scene-lib)}
-                       :initial-events [#:event{:action :editor/load-current-frame}]}
+                             :service-chan (ig/ref :studio/service-chan)}
+                       :initial-events [#:event{:action :editor/load-current-ioframe}]}
     :view #:view{:view-fn editor.v/EditorView
                  :props {:editor {:db/id [:editor/name "default"]}}
                  :env {:conn (ig/ref :studio/conn)
                        :service-chan (ig/ref :studio/service-chan)
-                       :instance-atom (ig/ref :studio/instance-atom)
-                       :scene-lib (ig/ref :studio/scene-lib)}}})
+                       :instance-atom (ig/ref :studio/instance-atom)}}})
 
 
 (defn create-app! [config]

@@ -28,11 +28,10 @@
   (let [{:keys [editor ioframe]} detail
         tx [{:db/id (:db/id editor)
              :editor/current-frame (:db/id ioframe)}]]
-    (p/transact! conn tx)
-    #_(go (>! service-chan #:event{:action :editor/load-current-frame}))))
+    (p/transact! conn tx)))
 
 
-(defmethod handle-event! :editor/load-current-frame
+(defmethod handle-event! :editor/load-current-ioframe
   [{:keys [editor]} {:keys [conn instance-atom]} event]
   (go (let [editor-1 (d/pull @conn '[*] (:db/id editor))
             ioframe-1 (d/pull @conn '[*] (get-in editor-1 [:editor/current-frame :db/id]))

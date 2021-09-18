@@ -26,7 +26,7 @@
 
      [:input {:type :button
               :value "load"
-              :on-click #(go (>! service-chan #:event{:action :editor/load-current-frame}))}]]))
+              :on-click #(go (>! service-chan #:event{:action :editor/load-current-ioframe}))}]]))
 
 
 (defn EditorView [{:keys [editor] :as props} {:keys [conn instance-atom] :as env}]

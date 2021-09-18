@@ -11,4 +11,4 @@
 
 service-chan
 
-(go (>! service-chan #:event {:action :editor/load-current-frame}))
+(go (>! service-chan #:event {:action :editor/load-current-ioframe}))
