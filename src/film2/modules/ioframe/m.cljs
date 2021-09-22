@@ -14,12 +14,6 @@
              :description "只有太阳和地球的小型系统"})
 
 
-#_(def ioframe-config-sample
-  #:ioframe {:db db
-             :name "slider1-1"
-             :type :slider
-             :description "一个进度条"})
-
 
 ;; schema
 

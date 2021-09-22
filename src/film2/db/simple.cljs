@@ -1,6 +1,7 @@
 (ns film2.db.simple
-  (:require 
+  (:require
    [datascript.core :as d]
+   [datascript.transit :as dt]
    [film2.data.studio :as d.studio]
    [film2.parts.schema :refer [schema]]))
 
@@ -18,6 +19,6 @@
   
   (def db (create-studio-db-1))
 
-  db
+  (= (dt/read-transit-str (dt/write-transit-str db)) db)
 
   )

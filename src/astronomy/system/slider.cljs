@@ -84,10 +84,9 @@
 
 
 (defn create-ioframe-system [ioframe-config]
-  (let [{:ioframe/keys [db]} ioframe-config
+  (let [{:ioframe/keys [db-transit-str]} ioframe-config
 
-        config {::conn #:conn {:schema schema
-                               :initial-db db}
+        config {::conn #:conn {:db-transit-str db-transit-str}
 
                 ::chan #:chan {}
                 ::service #:service {:service-fn init-view-service!

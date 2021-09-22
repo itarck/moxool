@@ -1,18 +1,24 @@
 (ns film2.data.studio
   (:require 
-   [astronomy.system.slider :as slider]))
+   [datascript.transit :as dt]
+   [astronomy.system.slider :as slider]
+   [astronomy.conn.mini-factory :as mini-factory]))
 
+
+(def mini-db-str (dt/write-transit-str (mini-factory/create-db2)))
+
+(def slider-db-str (dt/write-transit-str slider/db))
 
 (def dataset 
   [#:ioframe {:type :mini
               :name "mini-1"
-              :db-url "/temp/frame/solar-1.fra"
+              :db-transit-str mini-db-str
               :description "只有太阳和地球的小型系统"}
    #:ioframe {:type :mini
               :name "mini-2"
-              :db-url "/temp/frame/solar-2.fra"
+              :db-transit-str mini-db-str
               :description "只有太阳和地球的小型系统"}
-   #:ioframe {:db slider/db
+   #:ioframe {:db-transit-str slider-db-str
               :type :slider
               :name "slider-1"
               :description "一个进度条"}

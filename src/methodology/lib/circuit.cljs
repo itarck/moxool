@@ -46,12 +46,14 @@
 ;; instance 
 
 (defmethod ig/init-key :circuit/conn [_k config]
-  (let [{:conn/keys [schema initial-tx db-url initial-db]} config
+  (let [{:conn/keys [schema initial-tx db-url initial-db db-transit-str]} config
         conn (create-conn! schema)]
     (when initial-tx
       (d/transact! conn initial-tx))
     (when initial-db
       (d/reset-conn! conn initial-db))
+    (when db-transit-str
+      (d/reset-conn! conn (dt/read-transit-str db-transit-str)))
     (when db-url
       (go (let [response (<! (http/get db-url))
                 stored-data (:body response)
