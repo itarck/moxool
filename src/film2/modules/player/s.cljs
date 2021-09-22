@@ -82,7 +82,7 @@
     (p/transact! conn (player/pause-session-tx player1))))
 
 
-(defmethod handle-event! :player/seek-play
+#_(defmethod handle-event! :player/seek-play
   [{:keys [player-id seek-time]} {:keys [system-conn scene-conn meta-chan]} event]
   (let [player1 (player/pull-whole @system-conn player-id)
         video1 (:player/current-video player1)]

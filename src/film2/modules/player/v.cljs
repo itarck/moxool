@@ -10,7 +10,8 @@
 (defn PlayerToolView [{:keys [player]} {:keys [conn service-chan] :as env}]
   (let [player-1 @(p/pull conn '[*] (:db/id player))
         current-iovideo-id (get-in player-1 [:player/current-iovideo :db/id])
-        id-names @(p/q iovideo.m/all-id-and-names-query conn)]
+        id-names @(p/q iovideo.m/all-id-and-names-query conn)
+        current-time (get-in player-1 [:player/session :current-time])]
     [:<>
      [:> mt/Grid {:container true :spacing 0}
       [:> mt/Grid {:item true :xs 3}
@@ -25,10 +26,10 @@
         (for [[id name] id-names]
           ^{:key id}
           [:> mt/MenuItem {:value id} name])]]
-      
+
       [:> mt/Grid {:item true :xs 1} [:span "3.动作"]]
       [:> mt/Grid {:item true :xs 8}
-       
+
        [:input {:type :button
                 :value "load"
                 :on-click #(go (>! service-chan #:event{:action :player/load-current-iovideo
@@ -40,9 +41,8 @@
        [:input {:type :button
                 :value "play"
                 :on-click #(go (>! service-chan #:event{:action :player/start-play
-                                                        :detail {:player player-1}}))}]]
-      
-      ]
+                                                        :detail {:player player-1}}))}]
+       [:p (str "当前时间： " current-time)]]]
    
 
      
