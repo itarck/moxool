@@ -76,9 +76,10 @@
 
 
 (defmethod handle-event! :player/pause-play
-  [{:keys [player-id]} {:keys [system-conn]} event]
-  (let [player1 (d/pull @system-conn '[*] player-id)]
-    (p/transact! system-conn (player/pause-session-tx player1))))
+  [_props {:keys [conn]} {:event/keys [detail]}]
+  (let [player-id (get-in detail [:player :db/id])
+        player1 (d/pull @conn '[*] player-id)]
+    (p/transact! conn (player/pause-session-tx player1))))
 
 
 (defmethod handle-event! :player/seek-play
@@ -88,18 +89,7 @@
     (p/transact! system-conn (player/seek-session-tx player1 seek-time))
     ;; (d/reset-conn! scene-conn (dt/read-transit-str (:video/initial-db-transit video1)))
     (p/transact! scene-conn
-                 (iovideo.m/get-tx-logs-in-range video1 0 seek-time))
-    (go (>! meta-chan #:event{:action :meta/change-to-free-mode}))))
-
-(defmethod handle-event! :player/reload-play
-  [{:keys [player-id ]} {:keys [system-conn scene-conn]} event]
-  (let [player1 (player/pull-whole @system-conn player-id)
-        video1 (:player/current-video player1)
-        tx (concat
-            [[:db/add player-id :player/current-video (:db/id video1)]]
-            (player/create-session-tx player1 video1))]
-    (d/reset-conn! scene-conn (dt/read-transit-str (:video/initial-db-transit video1)))
-    (p/transact! system-conn tx)))
+                 (iovideo.m/get-tx-logs-in-range video1 0 seek-time))))
 
 
 (defn init-service! [props {:keys [process-chan] :as env}]

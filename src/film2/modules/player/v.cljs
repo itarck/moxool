@@ -34,6 +34,10 @@
                 :on-click #(go (>! service-chan #:event{:action :player/load-current-iovideo
                                                         :detail {:player player-1}}))}]
        [:input {:type :button
+                :value "pause"
+                :on-click #(go (>! service-chan #:event{:action :player/pause-play
+                                                        :detail {:player player-1}}))}]
+       [:input {:type :button
                 :value "play"
                 :on-click #(go (>! service-chan #:event{:action :player/start-play
                                                         :detail {:player player-1}}))}]]
