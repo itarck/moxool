@@ -11,10 +11,8 @@
 
 
 
-(defn StudioView [{:keys [studio] :as props} {:keys [conn instance-atom service-chan] :as env}]
+(defn StudioView [{:keys [studio] :as props} {:keys [conn service-chan] :as env}]
   (let [studio-1 @(p/pull conn '[*] (:db/id studio))
-        editor-1 @(p/pull conn '[*] (get-in studio-1 [:studio/editor :db/id]))
-        current-ioframe-id (get-in editor-1 [:editor/current-ioframe :db/id])
         modes [:editor :player :recorder]]
     [:<>
      [:div {:style {:position :absolute
@@ -38,18 +36,17 @@
        
        [:> mt/Grid {:item true :xs 10}
         (case (:studio/mode studio-1)
-          :editor [editor.v/EditorView {:editor (:studio/editor studio-1)} env]
+          :editor [editor.v/EditorToolView {:editor (:studio/editor studio-1)} env]
           :player [player.v/PlayerView {:player (:studio/player studio-1)} env]
           :recorder [:div "recorder"])]]]
+     
+     
      [:div {:style {:position :absolute
                     :top "80px"
                     :height "720px"
                     :width "1280px"}}
       (case (:studio/mode studio-1)
-        :editor (let [view-instance (get-in @instance-atom [:ioframe current-ioframe-id :ioframe-system/view])]
-                  (if view-instance
-                    view-instance
-                    [:p "editor default view"]))
+        :editor [editor.v/EditorSceneView {:editor (:studio/editor studio-1)} env]
         :player [:div "player scene"]
         :recorder [:div "recorder scene"])]]))
 

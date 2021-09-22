@@ -8,7 +8,7 @@
 
 
 
-(defn EditorView [{:keys [editor]} {:keys [conn service-chan] :as env}]
+(defn EditorToolView [{:keys [editor]} {:keys [conn service-chan] :as env}]
   (let [editor-1 @(p/pull conn '[*] (:db/id editor))
         current-ioframe-id (get-in editor-1 [:editor/current-ioframe :db/id])
         ioframes @(p/q ioframe.m/all-id-and-names-query conn)]
@@ -28,3 +28,13 @@
               :value "load"
               :on-click #(go (>! service-chan #:event{:action :editor/load-current-ioframe
                                                       :detail {:editor editor-1}}))}]]))
+
+
+(defn EditorSceneView [props env]
+  (let [{:keys [instance-atom conn]} env
+        editor-1 @(p/pull conn '[*] (get-in props [:editor :db/id]))
+        current-ioframe-id (get-in editor-1 [:editor/current-ioframe :db/id])
+        view-instance (get-in @instance-atom [:ioframe current-ioframe-id :ioframe-system/view])]
+    (if view-instance
+      view-instance
+      [:p "editor default view"])))

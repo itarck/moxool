@@ -26,7 +26,7 @@
               :start-time 124234
               :stop-time 534543
               :total-time 3000
-              :ioframe #:ioframe {:db slider/db
+              :ioframe #:ioframe {:db-transit-str slider-db-str
                                   :type :slider
                                   :name "slider-1"
                                   :description "一个进度条"}
