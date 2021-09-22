@@ -76,10 +76,9 @@
 
 
 (defmethod handle-event! :player/pause-play
-  [{:keys [player-id]} {:keys [system-conn meta-chan]} event]
+  [{:keys [player-id]} {:keys [system-conn]} event]
   (let [player1 (d/pull @system-conn '[*] player-id)]
-    (p/transact! system-conn (player/pause-session-tx player1))
-    (go (>! meta-chan #:event{:action :meta/change-to-free-mode}))))
+    (p/transact! system-conn (player/pause-session-tx player1))))
 
 
 (defmethod handle-event! :player/seek-play

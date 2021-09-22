@@ -18,7 +18,8 @@
      [:div {:style {:position :absolute
                     :top "0px"
                     :width "100%"
-                    :height "80px"}}
+                    :height "80px"
+                    :padding "5px"}}
       [:> mt/Grid {:container true :spacing 0}
        [:> mt/Grid {:item true :xs 2}
         [:div "1.工作模式： " ]

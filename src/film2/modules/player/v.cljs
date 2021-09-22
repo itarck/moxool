@@ -12,21 +12,36 @@
         current-iovideo-id (get-in player-1 [:player/current-iovideo :db/id])
         id-names @(p/q iovideo.m/all-id-and-names-query conn)]
     [:<>
-     [:> mt/Select {:value current-iovideo-id
-                    :onChange (fn [e]
-                                (let [new-value (j/get-in e [:target :value])]
-                                  (go (>! service-chan
-                                          #:event {:action :player/change-current-iovideo
-                                                   :detail {:player player-1
-                                                            :iovideo {:db/id new-value}}}))))}
-      (for [[id name] id-names]
-        ^{:key id}
-        [:> mt/MenuItem {:value id} name])]
+     [:> mt/Grid {:container true :spacing 0}
+      [:> mt/Grid {:item true :xs 3}
+       [:div "2.选择文件"]
+       [:> mt/Select {:value current-iovideo-id
+                      :onChange (fn [e]
+                                  (let [new-value (j/get-in e [:target :value])]
+                                    (go (>! service-chan
+                                            #:event {:action :player/change-current-iovideo
+                                                     :detail {:player player-1
+                                                              :iovideo {:db/id new-value}}}))))}
+        (for [[id name] id-names]
+          ^{:key id}
+          [:> mt/MenuItem {:value id} name])]]
+      
+      [:> mt/Grid {:item true :xs 9}
+       [:input {:type :button
+                :value "load"
+                :on-click #(go (>! service-chan #:event{:action :player/load-current-iovideo
+                                                        :detail {:player player-1}}))}]
+       [:input {:type :button
+                :value "play"
+                :on-click #(go (>! service-chan #:event{:action :player/start-play
+                                                        :detail {:player player-1}}))}]]
+      
+      ]
+   
 
-     [:input {:type :button
-              :value "play"
-              :on-click #(go (>! service-chan #:event{:action :player/start-play
-                                                      :detail {:player player-1}}))}]]))
+     
+     
+     ]))
 
 
 (defn PlayerSceneView [{:keys [player]} {:keys [conn instance-atom] :as env}]
