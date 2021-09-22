@@ -26,7 +26,9 @@
           ^{:key id}
           [:> mt/MenuItem {:value id} name])]]
       
-      [:> mt/Grid {:item true :xs 9}
+      [:> mt/Grid {:item true :xs 1} [:span "3.动作"]]
+      [:> mt/Grid {:item true :xs 8}
+       
        [:input {:type :button
                 :value "load"
                 :on-click #(go (>! service-chan #:event{:action :player/load-current-iovideo
