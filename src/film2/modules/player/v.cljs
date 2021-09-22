@@ -7,7 +7,7 @@
    [posh.reagent :as p]))
 
 
-(defn PlayerView [{:keys [player]} {:keys [conn service-chan] :as env}]
+(defn PlayerToolView [{:keys [player]} {:keys [conn service-chan] :as env}]
   (let [player-1 @(p/pull conn '[*] (:db/id player))
         current-iovideo-id (get-in player-1 [:player/current-iovideo :db/id])
         id-names @(p/q iovideo.m/all-id-and-names-query conn)]
@@ -27,3 +27,12 @@
               :value "play"
               :on-click #(go (>! service-chan #:event{:action :player/play-current-iovideo
                                                       :detail {:player player-1}}))}]]))
+
+
+(defn PlayerSceneView [{:keys [player]} {:keys [conn instance-atom] :as env}]
+  (let [player-1 @(p/pull conn '[*] (:db/id player))
+        current-iovideo-id (get-in player-1 [:player/current-iovideo :db/id])
+        view-instance (get-in @instance-atom [:iovideo current-iovideo-id :ioframe-system/view])]
+    (if view-instance
+      view-instance
+      [:div "default iovideo scene: " current-iovideo-id])))

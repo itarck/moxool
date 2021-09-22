@@ -21,14 +21,13 @@
                     :height "80px"}}
       [:> mt/Grid {:container true :spacing 0}
        [:> mt/Grid {:item true :xs 2}
-        [:div "模式： " 
+        [:div "1.工作模式： " 
          [:> mt/Select {:value (:studio/mode studio-1)
                         :onChange (fn [e]
                                     (let [new-value (j/get-in e [:target :value])
                                           event #:event {:action :studio/change-mode
                                                          :detail {:studio studio-1
                                                                   :new-mode (keyword new-value)}}]
-                                      (println event)
                                       (go (>! service-chan event))))}
           (for [mode modes]
             ^{:key mode}
@@ -37,7 +36,7 @@
        [:> mt/Grid {:item true :xs 10}
         (case (:studio/mode studio-1)
           :editor [editor.v/EditorToolView {:editor (:studio/editor studio-1)} env]
-          :player [player.v/PlayerView {:player (:studio/player studio-1)} env]
+          :player [player.v/PlayerToolView {:player (:studio/player studio-1)} env]
           :recorder [:div "recorder"])]]]
      
      
@@ -47,7 +46,7 @@
                     :width "1280px"}}
       (case (:studio/mode studio-1)
         :editor [editor.v/EditorSceneView {:editor (:studio/editor studio-1)} env]
-        :player [:div "player scene"]
+        :player [player.v/PlayerSceneView {:player (:studio/player studio-1)} env]
         :recorder [:div "recorder scene"])]]))
 
 

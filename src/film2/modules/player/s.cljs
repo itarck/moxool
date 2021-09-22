@@ -6,24 +6,39 @@
    [datascript.transit :as dt]
    [shu.calendar.timestamp :as timestamp]
    [methodology.lib.chest :as chest]
+   [film2.modules.ioframe.m :as ioframe.m]
    [film.model.player :as player]
    [film.model.video :as video]))
 
 
-
-
 ;; service 
 
-(defmulti handle-event! (fn [action _event _env] action))
+(defmulti handle-event! (fn [props env event] (:event/action event)))
 
-(defmethod handle-event! :player/change-current-iovideo [_p {:keys [conn]} {:event/keys [detail]}]
+
+(defmethod handle-event! :player/change-current-iovideo
+  [_props {:keys [conn service-chan]} {:event/keys [detail]}]
   (let [{:keys [player iovideo]} detail
         tx [{:db/id (:db/id player)
              :player/current-iovideo (:db/id iovideo)}]]
-    (p/transact! conn tx)))
+    (p/transact! conn tx)
+    (go (>! service-chan #:event{:action :player/load-current-iovideo
+                                 :detail {:player player}}))))
+
+(defmethod handle-event! :player/load-current-iovideo
+  [_props {:keys [conn instance-atom]} {:event/keys [detail]}]
+  (let [player-1 (d/pull @conn '[*] (get-in detail [:player :db/id]))
+        iovideo-1 (d/pull @conn '[*] (get-in player-1 [:player/current-iovideo :db/id]))
+        ioframe-1 (:iovideo/ioframe iovideo-1)
+        ioframe-system (ioframe.m/create-ioframe-system ioframe-1)]
+    (println "player/load-current-iovideo: " ioframe-1)
+    (swap! instance-atom assoc-in [:iovideo (:db/id iovideo-1)] ioframe-system)
+    (p/transact! conn  [{:db/id (:db/id player-1)
+                         :player/last-updated (js/Date.)}])))
+
 
 (defmethod handle-event! :player/open-video
-  [_action {:keys [player-id video-id]} {:keys [system-conn scene-conn]}]
+  [{:keys [player-id video-id]} {:keys [system-conn scene-conn]} event]
   (let [player1 (chest/pull-one @system-conn player-id)
         video1 (chest/pull-one @system-conn video-id)
         tx (concat
@@ -45,7 +60,7 @@
 
 
 (defmethod handle-event! :player/start-play
-  [_action {:keys [player-id]} {:keys [system-conn scene-conn meta-chan]}]
+  [{:keys [player-id]} {:keys [system-conn scene-conn meta-chan]} event]
   (go
     (let [full-player (player/sub-whole-player system-conn player-id)
           video1 (:player/current-video full-player)]
@@ -72,14 +87,14 @@
 
 
 (defmethod handle-event! :player/pause-play
-  [_ {:keys [player-id]} {:keys [system-conn meta-chan]}]
+  [{:keys [player-id]} {:keys [system-conn meta-chan]} event]
   (let [player1 (d/pull @system-conn '[*] player-id)]
     (p/transact! system-conn (player/pause-session-tx player1))
     (go (>! meta-chan #:event{:action :meta/change-to-free-mode}))))
 
 
 (defmethod handle-event! :player/seek-play
-  [_ {:keys [player-id seek-time]} {:keys [system-conn scene-conn meta-chan]}]
+  [{:keys [player-id seek-time]} {:keys [system-conn scene-conn meta-chan]} event]
   (let [player1 (player/pull-whole @system-conn player-id)
         video1 (:player/current-video player1)]
     (p/transact! system-conn (player/seek-session-tx player1 seek-time))
@@ -89,7 +104,7 @@
     (go (>! meta-chan #:event{:action :meta/change-to-free-mode}))))
 
 (defmethod handle-event! :player/reload-play
-  [_ {:keys [player-id ]} {:keys [system-conn scene-conn]}]
+  [{:keys [player-id ]} {:keys [system-conn scene-conn]} event]
   (let [player1 (player/pull-whole @system-conn player-id)
         video1 (:player/current-video player1)
         tx (concat
@@ -99,17 +114,19 @@
     (p/transact! system-conn tx)))
 
 
-(defn init-service! [props env]
-  (let [{:keys [in-chan system-conn scene-system]} env
-        process-props {:player-id (get-in props [:player :db/id])}
-        process-env {:system-conn system-conn
-                     :meta-chan (:system/meta-chan scene-system)
-                     :scene-conn (:system/conn scene-system)}]
-    (go-loop []
-      (let [[_service signal event] (<! in-chan)
-            hprops (merge process-props event)]
-        (handle-event! signal hprops process-env))
-      (recur))))
+(defn init-service! [props {:keys [process-chan] :as env}]
+  (go-loop []
+    (let [event (<! process-chan)]
+      (try
+        (cond
+          (vector? event) (go-loop [[e & rs] event]
+                            (when (seq e)
+                              (let [_rst (<! (handle-event! props env e))]
+                                (recur rs))))
+          :else (handle-event! props env event))
+        (catch js/Error e
+          (println "player service error: " e))))
+    (recur)))
 
 
 
