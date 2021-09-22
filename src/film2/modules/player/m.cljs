@@ -43,7 +43,7 @@
     :player/session {:mode :stop
                      :start-time 0
                      :current-time 0
-                     :total-time (:video/total-time video)}}])
+                     :total-time (:iovideo/total-time video)}}])
 
 (defn start-session-tx [player current-timestamp]
   (let [session (-> (:player/session player)
@@ -88,5 +88,5 @@
   @(p/pull system-conn '[*] id))
 
 (defn sub-whole-player [system-conn player-id]
-  @(p/pull system-conn '[{:player/current-ioframe [*]} *] player-id))
+  @(p/pull system-conn '[{:player/current-iovideo [*]} *] player-id))
 

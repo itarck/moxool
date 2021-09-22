@@ -21,7 +21,8 @@
                     :height "80px"}}
       [:> mt/Grid {:container true :spacing 0}
        [:> mt/Grid {:item true :xs 2}
-        [:div "1.工作模式： " 
+        [:div "1.工作模式： " ]
+        [:div 
          [:> mt/Select {:value (:studio/mode studio-1)
                         :onChange (fn [e]
                                     (let [new-value (j/get-in e [:target :value])

@@ -23,8 +23,8 @@
               :name "slider-1"
               :description "一个进度条"}
    #:iovideo {:name "slider move"
-              :start-time 124234
-              :stop-time 534543
+              :start-timestamp 124234
+              :stop-timestamp 534543
               :total-time 3000
               :ioframe #:ioframe {:db-transit-str slider-db-str
                                   :type :slider
@@ -37,8 +37,8 @@
                          :tx-data [#:slider{:name "bmi"
                                             :value 20}]}]}
    #:iovideo {:name "camera move"
-              :start-time 124234
-              :stop-time 534543
+              :start-timestamp 124234
+              :stop-timestamp 534543
               :total-time 3000
               :ioframe [:ioframe/name "slider-1"]
               :tx-logs [{:relative-time 1000

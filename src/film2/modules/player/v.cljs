@@ -25,7 +25,7 @@
 
      [:input {:type :button
               :value "play"
-              :on-click #(go (>! service-chan #:event{:action :player/play-current-iovideo
+              :on-click #(go (>! service-chan #:event{:action :player/start-play
                                                       :detail {:player player-1}}))}]]))
 
 

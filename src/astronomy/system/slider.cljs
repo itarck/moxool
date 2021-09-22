@@ -40,7 +40,7 @@
 
 (defn Slider [value min max on-change]
   [:input {:type "range" :value value :min min :max max
-           :style {:width "80%"}
+           :style {:width "50%"}
            :on-change on-change}])
 
 (defn RootPage [props env]

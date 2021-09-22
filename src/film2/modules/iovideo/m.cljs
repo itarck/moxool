@@ -8,8 +8,8 @@
 
 (def iovideo-sample
   #:iovideo {:name "slider move"
-             :start-time 124234
-             :stop-time 534543
+             :start-timestamp 124234
+             :stop-timestamp 534543
              :total-time 3000
              :ioframe #:ioframe {:db slider/db
                                  :type :slider
