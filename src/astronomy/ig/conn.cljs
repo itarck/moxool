@@ -12,10 +12,12 @@
 
 (defmethod ig/init-key :astronomy/conn [_k config]
   (println "astronomy/conn start: " (js/Date))
-  (let [{:conn/keys [db-url initial-db]} config
+  (let [{:conn/keys [db-url initial-db db-transit-str]} config
         conn (d/create-conn schema)]
     (when initial-db
       (d/reset-conn! conn initial-db))
+    (when db-transit-str
+      (d/reset-conn! conn (dt/read-transit-str db-transit-str)))
     (when db-url
       (go (let [response (<! (http/get db-url))
                 stored-data (:body response)

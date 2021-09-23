@@ -105,7 +105,8 @@
         iovideo (d/pull @conn '[*] iovideo-id)
         scene-conn (get-in @instance-atom [:iovideo iovideo-id :ioframe-system/conn])]
     (p/transact! conn [(iovideo.m/update-stop-timestamp iovideo)])
-    (d/unlisten! scene-conn (str "record" (:db/id iovideo)))))
+    (d/unlisten! scene-conn (str "record" (:db/id iovideo)))
+    (println "service:recorder/stop-record: " (d/pull @conn '[*] (get-in recorder-1 [:recorder/current-iovideo :db/id])))))
 
 
 

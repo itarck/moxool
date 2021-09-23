@@ -53,9 +53,13 @@
     (let [player-id (get-in detail [:player :db/id])
           full-player (player/sub-whole-player conn player-id)
           video1 (d/pull @conn '[*] (get-in full-player [:player/current-iovideo :db/id]))
-          scene-conn (get-in @instance-atom [:iovideo (:db/id video1) :ioframe-system/conn])]
+          scene-conn (get-in @instance-atom [:iovideo (:db/id video1) :ioframe-system/conn])
+          meta-atom (get-in @instance-atom [:iovideo (:db/id video1) :ioframe-system/meta-atom])]
       (when-not (player/check-session-starting? full-player)
         (p/transact! conn (player/start-session-tx full-player (timestamp/current-timestamp!)))
+        (println "player/start-play" meta-atom)
+        (swap! meta-atom assoc :mode :read-only)
+        (println "player/start-play" meta-atom)
         (loop []
           (<! (timeout 20))
           (let [system-db @conn
