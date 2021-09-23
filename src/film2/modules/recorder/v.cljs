@@ -71,7 +71,7 @@
     "加载初始帧"]
 
    [:> mt/Button {:variant "outlined"
-                  :on-click #(let [event #:event{:action :recorder/save-ioframe
+                  :on-click #(let [event #:event{:action :recorder/save-initial-ioframe
                                                  :detail {:recorder recorder}}]
                                (go (>! service-chan event)))}
     "保存"]])
