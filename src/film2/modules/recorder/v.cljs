@@ -2,11 +2,11 @@
   (:require
    [applied-science.js-interop :as j]
    [cljs.core.async :refer [go >!]]
-   [reagent.core :as r]
    [posh.reagent :as p]
    ["@material-ui/core" :as mt]
    [film2.modules.iovideo.m :as iovideo.m]
-   [film2.modules.recorder.m :as recorder.m]))
+   [film2.modules.recorder.m :as recorder.m]
+   [film2.modules.ioframe.m :as ioframe.m]))
 
 
 
@@ -41,7 +41,20 @@
 
 (defmethod RecorderMenuView :copy-ioframe
   [{:keys [recorder]} {:keys [conn service-chan]}]
-  [:div "copy-ioframe"])
+  (let [ioframes (concat [[:none "未选择"]]  @(p/q ioframe.m/all-id-and-names-query conn))
+        ioframe-id (:recorder/ioframe-copy-source recorder)]
+    [:span "选择导入的ioframe"]
+    [:> mt/Select {:value (or ioframe-id :none)
+                   :onChange (fn [e]
+                               (let [new-value (j/get-in e [:target :value])]
+                                 (go (>! service-chan
+                                         #:event {:action :recorder/change-ioframe-copy-source
+                                                  :detail {:recorder recorder
+                                                           :ioframe {:db/id new-value}}}))))}
+     (for [[id name] ioframes]
+       ^{:key id}
+       [:> mt/MenuItem {:value id} name])])
+  )
 
 
 (defn RecorderToolView [{:keys [recorder]} {:keys [conn service-chan] :as env}]

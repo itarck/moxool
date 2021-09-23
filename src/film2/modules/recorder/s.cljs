@@ -39,6 +39,13 @@
     (p/transact! conn tx)))
 
 
+(defmethod handle-event! :recorder/change-ioframe-copy-source
+  [props {:keys [conn]} {:event/keys [detail]}]
+  (let [{:keys [recorder ioframe]} detail
+        tx [{:db/id (:db/id recorder)
+             :recorder/ioframe-copy-source (:db/id ioframe)}]]
+    (when-not (= :none (:db/id ioframe))
+      (p/transact! conn tx))))
 
 
 #_(defn download-system-conn [value export-name]

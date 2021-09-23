@@ -45,9 +45,6 @@
                :recorder/current-iovideo -1}])
 
 
-(defn open-video-tx [editor video-id]
-  [[:db/add (:db/id editor) :editor/current-video video-id]])
-
 
 ;; process 
 
