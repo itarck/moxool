@@ -3,7 +3,6 @@
    [cljs.core.async :as async :refer [go >! <! go-loop timeout chan]]
    [posh.reagent :as p]
    [datascript.core :as d]
-   [datascript.transit :as dt]
    [shu.calendar.timestamp :as timestamp]
    [film2.modules.ioframe.m :as ioframe.m]
    [film2.modules.iovideo.m :as iovideo.m]
@@ -27,7 +26,7 @@
 (defmethod handle-event! :player/load-current-iovideo
   [_props {:keys [conn instance-atom]} {:event/keys [detail]}]
   (let [player-1 (d/pull @conn '[*] (get-in detail [:player :db/id]))
-        iovideo-1 (d/pull @conn '[*] (get-in player-1 [:player/current-iovideo :db/id]))
+        iovideo-1 (d/pull @conn '[* {:iovideo/initial-ioframe [*]}] (get-in player-1 [:player/current-iovideo :db/id]))
         ioframe-1 (:iovideo/initial-ioframe iovideo-1)
         ioframe-system (ioframe.m/create-ioframe-system ioframe-1)]
     (swap! instance-atom assoc-in [:iovideo (:db/id iovideo-1)] ioframe-system)
