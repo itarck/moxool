@@ -7,7 +7,9 @@
    [posh.reagent :as p]
    [film.model.player :as m.player]
    [film.model.video :as m.video]
-   [film.model.editor :as m.editor]))
+   [film.model.editor :as m.editor]
+
+   [film2.modules.recorder.m :as recorder.m]))
 
 
 ;; service 
@@ -24,7 +26,16 @@
     (p/transact! conn tx)))
   
 
-(defn download-system-conn [value export-name]
+(defmethod handle-event! :recorder/create-iovideo
+  [props {:keys [conn]} {:event/keys [detail]}]
+  (let [{:keys [recorder iovideo-name]} detail
+        tx (recorder.m/create-iovideo-tx recorder iovideo-name)]
+    (p/transact! conn tx)))
+
+
+
+
+#_(defn download-system-conn [value export-name]
   (let [data-blob (js/Blob. #js [(str value)] #js {:type "application/edn"})
         link (.createElement js/document "a")]
     (set! (.-href link) (.createObjectURL js/URL data-blob))

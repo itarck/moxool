@@ -17,9 +17,10 @@
   [{:keys [recorder]} {:keys [conn service-chan]}]
   [:<>
    [:input {:type :button
-            :value "load"
-            :on-click #(go (>! service-chan #:event{:action :recorder/load-current-iovideo
-                                                    :detail {:recorder recorder}}))}]])
+            :value "创建iovideo"
+            :on-click #(go (>! service-chan #:event{:action :recorder/create-iovideo
+                                                    :detail {:recorder recorder
+                                                             :iovideo-name (str "new-name-" (rand))}}))}]])
 
 (defmethod RecorderMenuView :copy-ioframe
   [{:keys [recorder]} {:keys [conn service-chan]}]

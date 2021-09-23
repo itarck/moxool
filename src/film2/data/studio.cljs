@@ -51,7 +51,7 @@
                                             :rotation [0 0 0]}]}]}
    
    #:studio {:name "default"
-             :mode :editor
+             :mode :recorder
              :editor #:editor {:name "default"
                                :doc "编辑ioframe的工具"
                                :current-ioframe [:ioframe/name "mini-2"]}

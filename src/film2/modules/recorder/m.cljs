@@ -23,8 +23,8 @@
 (defn pull-one [db id]
   (d/pull db '[*] id))
 
-(defn sub-recorder [system-conn id]
-  @(p/pull system-conn '[* {:editor/player [*]}] id))
+(defn sub-recorder [conn id]
+  @(p/pull conn '[*] id))
 
 
 (def menu-ident-and-names
@@ -37,27 +37,18 @@
 
 ;; txs
 
-(defn create-video-tx [editor initial-db-str]
-  [#:video {:db/id -1
-            :scene (-> editor :editor/scene :db/id)
-            :name (str "clip-" (shu.date-time/current-date-time-string!))
-            :start-timestamp (shu.timestamp/current-timestamp!)
-            :total-time 0
-            :initial-db-str initial-db-str
-            :tx-logs []}
-   [:db/add (:db/id editor) :editor/current-video -1]])
+(defn create-iovideo-tx [recorder new-name]
+  [#:iovideo {:db/id -1
+              :name new-name
+              :tx-logs []}
+   [:db/add (:db/id recorder) :recorder/current-iovideo -1]])
+
 
 (defn open-video-tx [editor video-id]
   [[:db/add (:db/id editor) :editor/current-video video-id]])
 
 
 ;; process 
-
-
-(defn create-video! [system-conn editor-id initial-db-str]
-  (let [editor (pull-one @system-conn editor-id)
-        tx (create-video-tx editor initial-db-str)]
-    (p/transact! system-conn tx)))
 
 
 (defn start-record! [system-conn scene-conn editor-id]
