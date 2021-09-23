@@ -57,9 +57,8 @@
           meta-atom (get-in @instance-atom [:iovideo (:db/id video1) :ioframe-system/meta-atom])]
       (when-not (player/check-session-starting? full-player)
         (p/transact! conn (player/start-session-tx full-player (timestamp/current-timestamp!)))
-        (println "player/start-play" meta-atom)
-        (swap! meta-atom assoc :mode :read-only)
-        (println "player/start-play" meta-atom)
+        (when meta-atom
+          (swap! meta-atom assoc :mode :read-only))
         (loop []
           (<! (timeout 20))
           (let [system-db @conn
@@ -79,9 +78,13 @@
 
 
 (defmethod handle-event! :player/pause-play
-  [_props {:keys [conn]} {:event/keys [detail]}]
+  [_props {:keys [conn instance-atom]} {:event/keys [detail]}]
   (let [player-id (get-in detail [:player :db/id])
-        player1 (d/pull @conn '[*] player-id)]
+        player1 (d/pull @conn '[*] player-id)
+        video1 (d/pull @conn '[*] (get-in player1 [:player/current-iovideo :db/id]))
+        meta-atom (get-in @instance-atom [:iovideo (:db/id video1) :ioframe-system/meta-atom])]
+    (when meta-atom
+      (swap! meta-atom assoc :mode :read-and-write))
     (p/transact! conn (player/pause-session-tx player1))))
 
 
