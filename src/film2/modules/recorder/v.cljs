@@ -8,11 +8,28 @@
    [posh.reagent :as p]))
 
 
+(defmulti RecorderMenuView
+  (fn [{:keys [recorder]} env]
+    (:recorder/current-menu recorder)))
+
+
+(defmethod RecorderMenuView :create-iovideo
+  [{:keys [recorder]} {:keys [conn service-chan]}]
+  [:<>
+   [:input {:type :button
+            :value "load"
+            :on-click #(go (>! service-chan #:event{:action :recorder/load-current-iovideo
+                                                    :detail {:recorder recorder}}))}]])
+
+(defmethod RecorderMenuView :copy-ioframe
+  [{:keys [recorder]} {:keys [conn service-chan]}]
+  [:div "copy-ioframe"])
+
+
 (defn RecorderToolView [{:keys [recorder]} {:keys [conn service-chan] :as env}]
   (let [recorder-1 @(p/pull conn '[*] (:db/id recorder))
         current-iovideo-id (get-in recorder-1 [:recorder/current-iovideo :db/id])
-        id-names @(p/q iovideo.m/all-id-and-names-query conn)
-        current-time (get-in recorder-1 [:recorder/session :current-time])]
+        iovideo-id-names @(p/q iovideo.m/all-id-and-names-query conn)]
     [:<>
      [:> mt/Grid {:container true :spacing 0}
       [:> mt/Grid {:item true :xs 2}
@@ -24,7 +41,7 @@
                                             #:event {:action :recorder/change-current-iovideo
                                                      :detail {:recorder recorder-1
                                                               :iovideo {:db/id new-value}}}))))}
-        (for [[id name] id-names]
+        (for [[id name] iovideo-id-names]
           ^{:key id}
           [:> mt/MenuItem {:value id} name])]]
 
@@ -36,26 +53,13 @@
                                     (go (>! service-chan
                                             #:event {:action :recorder/change-menu
                                                      :detail {:recorder recorder-1
-                                                              :menu-ident new-value}}))))}
+                                                              :menu-ident (keyword new-value)}}))))}
         (for [[id name] recorder.m/menu-ident-and-names]
           ^{:key id}
           [:> mt/MenuItem {:value id} name])]]
       
       [:> mt/Grid {:item true :xs 8}
-
-       [:input {:type :button
-                :value "load"
-                :on-click #(go (>! service-chan #:event{:action :recorder/load-current-iovideo
-                                                        :detail {:recorder recorder-1}}))}]
-       [:input {:type :button
-                :value "pause"
-                :on-click #(go (>! service-chan #:event{:action :recorder/pause-play
-                                                        :detail {:recorder recorder-1}}))}]
-       [:input {:type :button
-                :value "play"
-                :on-click #(go (>! service-chan #:event{:action :recorder/start-play
-                                                        :detail {:recorder recorder-1}}))}]
-       [:p (str "当前时间： " current-time)]]]]))
+       [RecorderMenuView {:recorder recorder-1} env]]]]))
 
 
 (defn RecorderSceneView [{:keys [recorder]} {:keys [conn instance-atom] :as env}]
