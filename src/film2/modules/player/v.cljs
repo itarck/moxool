@@ -43,12 +43,7 @@
                 :value "play"
                 :on-click #(go (>! service-chan #:event{:action :player/start-play
                                                         :detail {:player player-1}}))}]
-       [:p (str "当前时间： " current-time)]]]
-   
-
-     
-     
-     ]))
+       [:p (str "当前时间： " current-time)]]]]))
 
 
 (defn PlayerSceneView [{:keys [player]} {:keys [conn instance-atom] :as env}]

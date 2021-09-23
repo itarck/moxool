@@ -17,7 +17,7 @@
       (swap! domAtom assoc :camera camera)
       (swap! domAtom assoc :three-instance three-instance)
       (swap! domAtom assoc :scene scene))
-    (println "camera mounted" )
+    (println "camera mounted" (keys @domAtom))
     ($ PerspectiveCamera {:makeDefault true
                           ;; :args #js [50]
                           :near (or near 0.001)
@@ -26,10 +26,10 @@
                           :quaternion (clj->js quaternion)})))
 
 (defn CameraView [props env]
-  (let [{:keys [conn dom-atom]} env
+  (let [{:keys [conn]} env
         camera @(p/pull conn '[*] (:db/id props))
         {:camera/keys [position quaternion far near]} camera]
-    (fn [props env]
+    (fn [props {:keys [dom-atom]}]
       (println "! camera remonted")
       ($ CameraComponent {:position position
                           :quaternion quaternion

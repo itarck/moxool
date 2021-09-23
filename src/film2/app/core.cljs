@@ -7,7 +7,7 @@
 
 ;; mount point
 
-(def system (studio/create-app! {}))
+(defonce system (studio/create-app! {}))
 
 
 (defn update! []
