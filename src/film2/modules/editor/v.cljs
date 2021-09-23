@@ -13,21 +13,30 @@
         current-ioframe-id (get-in editor-1 [:editor/current-ioframe :db/id])
         ioframes @(p/q ioframe.m/all-id-and-names-query conn)]
     [:<>
-     [:> mt/Select {:value current-ioframe-id
-                    :onChange (fn [e]
-                                (let [new-value (j/get-in e [:target :value])]
-                                  (go (>! service-chan
-                                          #:event {:action :editor/change-current-ioframe
-                                                   :detail {:editor editor-1
-                                                            :ioframe {:db/id new-value}}}))))}
-      (for [[id name] ioframes]
-        ^{:key id}
-        [:> mt/MenuItem {:value id} name])]
+     [:> mt/Grid {:container true :spacing 0}
+      [:> mt/Grid {:item true :xs 2}
+       [:div "2.选择ioframe"]
+       [:> mt/Select {:value current-ioframe-id
+                      :onChange (fn [e]
+                                  (let [new-value (j/get-in e [:target :value])]
+                                    (go (>! service-chan
+                                            #:event {:action :editor/change-current-ioframe
+                                                     :detail {:editor editor-1
+                                                              :ioframe {:db/id new-value}}}))))}
+        (for [[id name] ioframes]
+          ^{:key id}
+          [:> mt/MenuItem {:value id} name])]]
+      
+      [:> mt/Grid {:item true :xs 10}
+       [:div "3.动作"]
+       [:input {:type :button
+                :value "load"
+                :on-click #(go (>! service-chan #:event{:action :editor/load-current-ioframe
+                                                        :detail {:editor editor-1}}))}]]
+      ]
+     
 
-     [:input {:type :button
-              :value "load"
-              :on-click #(go (>! service-chan #:event{:action :editor/load-current-ioframe
-                                                      :detail {:editor editor-1}}))}]]))
+     ]))
 
 
 (defn EditorSceneView [props env]
