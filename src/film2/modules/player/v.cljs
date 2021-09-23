@@ -14,7 +14,7 @@
         current-time (get-in player-1 [:player/session :current-time])]
     [:<>
      [:> mt/Grid {:container true :spacing 0}
-      [:> mt/Grid {:item true :xs 3}
+      [:> mt/Grid {:item true :xs 2}
        [:div "2.选择文件"]
        [:> mt/Select {:value current-iovideo-id
                       :onChange (fn [e]
@@ -28,7 +28,7 @@
           [:> mt/MenuItem {:value id} name])]]
 
       [:> mt/Grid {:item true :xs 1} [:span "3.动作"]]
-      [:> mt/Grid {:item true :xs 8}
+      [:> mt/Grid {:item true :xs 9}
 
        [:input {:type :button
                 :value "load"
