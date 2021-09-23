@@ -40,8 +40,10 @@
 (defn create-iovideo-tx [recorder new-name]
   [#:iovideo {:db/id -1
               :name new-name
+              :ioframe #:ioframe {:name (str new-name "-initial")}
               :tx-logs []}
-   [:db/add (:db/id recorder) :recorder/current-iovideo -1]])
+   #:recorder {:db/id (:db/id recorder)
+               :recorder/current-iovideo -1}])
 
 
 (defn open-video-tx [editor video-id]

@@ -22,7 +22,8 @@
                         :tx-data [#:slider{:name "bmi"
                                            :value 20}]}]})
 
-(def schema {:iovideo/name {:db/unique :db.unique/identity}})
+(def schema {:iovideo/name {:db/unique :db.unique/identity}
+             :iovideo/ioframe {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}})
 
 
 ;; model
