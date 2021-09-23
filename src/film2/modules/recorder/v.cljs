@@ -44,7 +44,7 @@
   (let [ioframes (concat [[:none "未选择"]]  @(p/q ioframe.m/all-id-and-names-query conn))
         ioframe-id (:recorder/ioframe-copy-source-id recorder)]
     [:<>
-     [:span "选择导入的ioframe:"]
+     [:span {:style {:margin-right "10px"}} "选择导入的ioframe:"]
      [:> mt/Select {:value (or ioframe-id :none)
                     :onChange (fn [e]
                                 (let [new-value (j/get-in e [:target :value])]
