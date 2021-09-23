@@ -25,6 +25,12 @@
              :recorder/current-menu menu-ident}]]
     (p/transact! conn tx)))
   
+(defmethod handle-event! :recorder/change-iovideo-temp-name
+  [props {:keys [conn]} {:event/keys [detail]}]
+  (let [{:keys [recorder temp-name]} detail
+        tx [{:db/id (:db/id recorder)
+             :recorder/iovideo-temp-name temp-name}]]
+    (p/transact! conn tx)))
 
 (defmethod handle-event! :recorder/create-iovideo
   [props {:keys [conn]} {:event/keys [detail]}]

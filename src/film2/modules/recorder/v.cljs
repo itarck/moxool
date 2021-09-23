@@ -9,8 +9,6 @@
    [film2.modules.recorder.m :as recorder.m]))
 
 
-(def local-ref (r/atom {:name ""}))
-
 
 (defmulti RecorderMenuView
   (fn [{:keys [recorder]} env]
@@ -18,18 +16,21 @@
 
 
 (defmethod RecorderMenuView :create-iovideo
-  [{:keys [recorder]} {:keys [conn service-chan]}]
-  (let [new-name (:name @local-ref)]
+  [{:keys [recorder]} {:keys [service-chan]}]
+  (let [new-name (or (:recorder/iovideo-temp-name recorder) "")]
     [:> mt/Box {:component "form"}
      [:> mt/FormControl {:variant "standard"}
       [:> mt/InputLabel {:htmlFor "iovideo-name"} "iovideo文件名"]
       [:> mt/Input {:id "iovideo-name"
                     :value new-name
                     :on-change (fn [e]
-                                 (let [v (j/get-in e [:target :value])]
-                                   (swap! local-ref assoc :name v)))}]]
+                                 (let [v (j/get-in e [:target :value])
+                                       event #:event {:action :recorder/change-iovideo-temp-name
+                                                      :detail {:recorder recorder
+                                                               :temp-name v}}]
+                                   (go (>! service-chan event))))}]]
      [:> mt/FormControl
-      [:> mt/Button {:variant "contained"
+      [:> mt/Button {:variant "outlined"
                      :on-click (fn [e]
                                  (let [event #:event{:action :recorder/create-iovideo
                                                      :detail {:recorder recorder
