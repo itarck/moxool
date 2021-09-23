@@ -2,10 +2,14 @@
   (:require
    [applied-science.js-interop :as j]
    [cljs.core.async :refer [go >!]]
+   [reagent.core :as r]
+   [posh.reagent :as p]
    ["@material-ui/core" :as mt]
    [film2.modules.iovideo.m :as iovideo.m]
-   [film2.modules.recorder.m :as recorder.m]
-   [posh.reagent :as p]))
+   [film2.modules.recorder.m :as recorder.m]))
+
+
+(def local-ref (r/atom {:name ""}))
 
 
 (defmulti RecorderMenuView
@@ -15,12 +19,24 @@
 
 (defmethod RecorderMenuView :create-iovideo
   [{:keys [recorder]} {:keys [conn service-chan]}]
-  [:<>
-   [:input {:type :button
-            :value "创建iovideo"
-            :on-click #(go (>! service-chan #:event{:action :recorder/create-iovideo
-                                                    :detail {:recorder recorder
-                                                             :iovideo-name (str "new-name-" (rand))}}))}]])
+  (let [new-name (:name @local-ref)]
+    [:> mt/Box {:component "form"}
+     [:> mt/FormControl {:variant "standard"}
+      [:> mt/InputLabel {:htmlFor "iovideo-name"} "iovideo文件名"]
+      [:> mt/Input {:id "iovideo-name"
+                    :value new-name
+                    :on-change (fn [e]
+                                 (let [v (j/get-in e [:target :value])]
+                                   (swap! local-ref assoc :name v)))}]]
+     [:> mt/FormControl
+      [:> mt/Button {:variant "contained"
+                     :on-click (fn [e]
+                                 (let [event #:event{:action :recorder/create-iovideo
+                                                     :detail {:recorder recorder
+                                                              :iovideo-name new-name}}]
+                                   (go (>! service-chan event))))}
+       "新建"]]]))
+
 
 (defmethod RecorderMenuView :copy-ioframe
   [{:keys [recorder]} {:keys [conn service-chan]}]
