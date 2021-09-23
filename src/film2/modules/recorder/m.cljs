@@ -4,7 +4,6 @@
    [datascript.transit :as dt]
    [posh.reagent :as p]
    [shu.calendar.timestamp :as shu.timestamp]
-   [shu.calendar.date-time :as shu.date-time]
    [film2.modules.iovideo.m :as iovideo.m]))
 
 
@@ -40,7 +39,7 @@
 (defn create-iovideo-tx [recorder new-name]
   [#:iovideo {:db/id -1
               :name new-name
-              :ioframe #:ioframe {:name (str new-name "-initial")}
+              :initial-ioframe #:ioframe {:name (str new-name "-initial")}
               :tx-logs []}
    #:recorder {:db/id (:db/id recorder)
                :recorder/current-iovideo -1}])

@@ -28,7 +28,7 @@
   [_props {:keys [conn instance-atom]} {:event/keys [detail]}]
   (let [player-1 (d/pull @conn '[*] (get-in detail [:player :db/id]))
         iovideo-1 (d/pull @conn '[*] (get-in player-1 [:player/current-iovideo :db/id]))
-        ioframe-1 (:iovideo/ioframe iovideo-1)
+        ioframe-1 (:iovideo/initial-ioframe iovideo-1)
         ioframe-system (ioframe.m/create-ioframe-system ioframe-1)]
     (swap! instance-atom assoc-in [:iovideo (:db/id iovideo-1)] ioframe-system)
     (p/transact! conn  [{:db/id (:db/id player-1)

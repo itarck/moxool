@@ -11,10 +11,10 @@
              :start-timestamp 124234
              :stop-timestamp 534543
              :total-time 3000
-             :ioframe #:ioframe {:db slider/db
-                                 :type :slider
-                                 :name "slider-1"
-                                 :description "一个进度条"}
+             :initial-ioframe #:ioframe {:db slider/db
+                                         :type :slider
+                                         :name "slider-1"
+                                         :description "一个进度条"}
              :tx-logs [{:relative-time 1000
                         :tx-data [#:slider{:name "bmi"
                                            :value 80}]}
@@ -23,7 +23,7 @@
                                            :value 20}]}]})
 
 (def schema {:iovideo/name {:db/unique :db.unique/identity}
-             :iovideo/ioframe {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}})
+             :iovideo/initial-ioframe {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}})
 
 
 ;; model
