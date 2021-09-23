@@ -62,6 +62,21 @@
       "复制"]]))
 
 
+(defmethod RecorderMenuView :record
+  [{:keys [recorder]} {:keys [conn service-chan]}]
+  [:<>
+   [:> mt/Button {:variant "outlined"
+                  :on-click #(let [event #:event{:action :recorder/start-record
+                                                 :detail {:recorder recorder}}]
+                               (go (>! service-chan event)))}
+    "开始录制"]
+   [:> mt/Button {:variant "outlined"
+                  :on-click #(let [event #:event{:action :recorder/stop-record
+                                                 :detail {:recorder recorder}}]
+                               (go (>! service-chan event)))}
+    "停止录制"]])
+
+
 (defn RecorderToolView [{:keys [recorder]} {:keys [conn service-chan] :as env}]
   (let [recorder-1 @(p/pull conn '[*] (:db/id recorder))
         current-iovideo-id (get-in recorder-1 [:recorder/current-iovideo :db/id])

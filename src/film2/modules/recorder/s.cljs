@@ -5,8 +5,9 @@
    [datascript.core :as d]
    [datascript.transit :as dt]
    [posh.reagent :as p]
-
+   [shu.calendar.timestamp :as shu.timestamp]
    [film2.modules.ioframe.m :as ioframe.m]
+   [film2.modules.iovideo.m :as iovideo.m]
    [film2.modules.recorder.m :as recorder.m]))
 
 
@@ -71,6 +72,33 @@
     (swap! instance-atom assoc-in [:iovideo (:db/id iovideo-1)] ioframe-system)
     (p/transact! conn [{:db/id (:db/id recorder-1)
                         :recorder/last-updated (js/Date.)}])))
+
+
+(defmethod handle-event! :recorder/start-record
+  [_props {:keys [conn instance-atom]} {:event/keys [detail]}]
+  (let [recorder-1 (d/pull @conn '[*] (get-in detail [:recorder :db/id]))
+        iovideo-id (get-in recorder-1 [:recorder/current-iovideo :db/id])
+        scene-conn (get-in @instance-atom [:iovideo iovideo-id :ioframe-system/conn])]
+    (p/transact! conn [#:iovideo {:db/id iovideo-id
+                                  :start-timestamp (shu.timestamp/current-timestamp!)
+                                  :total-time 0
+                                  :tx-logs []}])
+    (d/listen! scene-conn (str "record" iovideo-id)
+               (fn [log]
+                 (let [iovideo @(p/pull conn '[*] iovideo-id)
+                       new-iovideo (iovideo.m/append-tx-log iovideo (:tx-data log))]
+                   (p/transact! conn [new-iovideo]))))))
+
+
+(defmethod handle-event! :recorder/stop-record
+  [_props {:keys [conn instance-atom]} {:event/keys [detail]}]
+  (let [recorder-1 (d/pull @conn '[*] (get-in detail [:recorder :db/id]))
+        iovideo-id (get-in recorder-1 [:recorder/current-iovideo :db/id])
+        iovideo (d/pull @conn '[*] iovideo-id)
+        scene-conn (get-in @instance-atom [:iovideo iovideo-id :ioframe-system/conn])]
+    (p/transact! conn [(iovideo.m/update-stop-timestamp iovideo)])
+    (d/unlisten! scene-conn (str "record" (:db/id iovideo)))))
+
 
 
 #_(defn download-system-conn [value export-name]

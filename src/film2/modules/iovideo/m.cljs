@@ -76,11 +76,3 @@
 (defn sub-entity [system-conn id]
   @(p/pull system-conn '[*] id))
 
-
-;; process
-
-(defn iovideo-append-tx-log! [system-conn iovideo-id tx-data]
-  (let [iovideo @(p/pull system-conn '[*] iovideo-id)
-        new-iovideo (append-tx-log iovideo tx-data)]
-    (p/transact! system-conn [new-iovideo])))
-
