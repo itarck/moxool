@@ -20,15 +20,15 @@
               :description "只有太阳和地球的小型系统"}
    #:ioframe {:db-transit-str slider-db-str
               :type :slider
-              :name "slider-1"
+              :name "slider-0"
               :description "一个进度条"}
    #:iovideo {:name "slider move"
               :start-timestamp 124234
               :stop-timestamp 534543
               :total-time 3000
               :initial-ioframe #:ioframe {:db-transit-str slider-db-str
+                                          :name "video-1-initial"
                                           :type :slider
-                                          :name "slider-1"
                                           :description "一个进度条"}
               :tx-logs [{:relative-time 1000
                          :tx-data [#:slider{:name "bmi"
@@ -36,19 +36,20 @@
                         {:relative-time 2000
                          :tx-data [#:slider{:name "bmi"
                                             :value 20}]}]}
-   #:iovideo {:name "camera move"
+   #:iovideo {:name "another slider move"
               :start-timestamp 124234
               :stop-timestamp 534543
               :total-time 3000
-              :initial-ioframe [:ioframe/name "slider-1"]
+              :initial-ioframe #:ioframe {:db-transit-str slider-db-str
+                                          :name "video-2-initial"
+                                          :type :slider
+                                          :description "一个进度条"}
               :tx-logs [{:relative-time 1000
-                         :tx-data [#:camera{:name "default"
-                                            :position [1000 900 1000]
-                                            :rotation [0 0 0]}]}
+                         :tx-data [#:slider{:name "bmi"
+                                            :value 5}]}
                         {:relative-time 2000
-                         :tx-data [#:camera{:name "default"
-                                            :position [1000 2000 1000]
-                                            :rotation [0 0 0]}]}]}
+                         :tx-data [#:slider{:name "bmi"
+                                            :value 90}]}]}
    
    #:studio {:name "default"
              :mode :recorder

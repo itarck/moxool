@@ -104,4 +104,6 @@
         view-instance (get-in @instance-atom [:iovideo current-iovideo-id :ioframe-system/view])]
     (if view-instance
       view-instance
-      [:div "default iovideo scene: " current-iovideo-id])))
+      [:div "default iovideo scene: "
+       current-iovideo-id
+       recorder-1])))
