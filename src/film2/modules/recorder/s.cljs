@@ -43,9 +43,23 @@
   [props {:keys [conn]} {:event/keys [detail]}]
   (let [{:keys [recorder ioframe]} detail
         tx [{:db/id (:db/id recorder)
-             :recorder/ioframe-copy-source (:db/id ioframe)}]]
+             :recorder/ioframe-copy-source-id (:db/id ioframe)}]]
     (when-not (= :none (:db/id ioframe))
       (p/transact! conn tx))))
+
+
+(defmethod handle-event! :recorder/copy-ioframe
+  [props {:keys [conn]} {:event/keys [detail]}]
+  (let [{:keys [recorder]} detail
+        ioframe-source (d/pull @conn '[*] (get-in recorder [:recorder/ioframe-copy-source-id]))
+        current-iovideo (d/pull @conn '[* {:iovideo/initial-ioframe [*]}] (get-in recorder [:recorder/current-iovideo :db/id]))
+        old-initial-ioframe (:iovideo/initial-ioframe current-iovideo)
+        ioframe-target (-> ioframe-source
+                           (assoc :db/id (:db/id old-initial-ioframe))
+                           (assoc :ioframe/name (:ioframe/name old-initial-ioframe)))
+        tx [{:db/id (:db/id current-iovideo)
+             :iovideo/initial-ioframe ioframe-target}]]
+    (p/transact! conn tx)))
 
 
 #_(defn download-system-conn [value export-name]
@@ -107,5 +121,5 @@
                                 (recur rs))))
           :else (handle-event! props env event))
         (catch js/Error e
-          (println "player service error: " e))))
+          (println "recorder service error: " e))))
     (recur)))

@@ -42,19 +42,24 @@
 (defmethod RecorderMenuView :copy-ioframe
   [{:keys [recorder]} {:keys [conn service-chan]}]
   (let [ioframes (concat [[:none "未选择"]]  @(p/q ioframe.m/all-id-and-names-query conn))
-        ioframe-id (:recorder/ioframe-copy-source recorder)]
-    [:span "选择导入的ioframe"]
-    [:> mt/Select {:value (or ioframe-id :none)
-                   :onChange (fn [e]
-                               (let [new-value (j/get-in e [:target :value])]
-                                 (go (>! service-chan
-                                         #:event {:action :recorder/change-ioframe-copy-source
-                                                  :detail {:recorder recorder
-                                                           :ioframe {:db/id new-value}}}))))}
-     (for [[id name] ioframes]
-       ^{:key id}
-       [:> mt/MenuItem {:value id} name])])
-  )
+        ioframe-id (:recorder/ioframe-copy-source-id recorder)]
+    [:<>
+     [:span "选择导入的ioframe:"]
+     [:> mt/Select {:value (or ioframe-id :none)
+                    :onChange (fn [e]
+                                (let [new-value (j/get-in e [:target :value])]
+                                  (go (>! service-chan
+                                          #:event {:action :recorder/change-ioframe-copy-source
+                                                   :detail {:recorder recorder
+                                                            :ioframe {:db/id new-value}}}))))}
+      (for [[id name] ioframes]
+        ^{:key id}
+        [:> mt/MenuItem {:value id} name])]
+     [:> mt/Button {:variant "outlined"
+                    :on-click #(let [event #:event{:action :recorder/copy-ioframe
+                                                   :detail {:recorder recorder}}]
+                                (go (>! service-chan event)))}
+      "复制"]]))
 
 
 (defn RecorderToolView [{:keys [recorder]} {:keys [conn service-chan] :as env}]
