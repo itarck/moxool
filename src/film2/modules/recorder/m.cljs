@@ -12,13 +12,12 @@
 (def sample
   #:recorder {:db/id -2
               :name "default"
+              :current-menu :create-iovideo
               :current-iovideo -202})
 
 
 (def schema {:recorder/name {:db/unique :db.unique/identity}
              :recorder/current-iovideo {:db/cardinality :db.cardinality/one :db/valueType :db.type/ref}})
-
-
 
 
 (defn pull-one [db id]
@@ -27,6 +26,14 @@
 (defn sub-recorder [system-conn id]
   @(p/pull system-conn '[* {:editor/player [*]}] id))
 
+
+(def menu-ident-and-names
+  [[:create-iovideo "新建iovideo"]
+   [:copy-ioframe "复制ioframe"]
+   [:edit-ioframe "编辑ioframe"]
+   [:record "录制iovideo"]
+   [:upload-mp3 "上传map3"]
+   [:export-iovideo "打包iovideo"]])
 
 ;; txs
 

@@ -9,5 +9,4 @@
   (let [{:keys [studio new-mode]} detail
         tx [{:db/id (:db/id studio)
              :studio/mode new-mode}]]
-    (effects :tx tx
-             :log tx)))
+    (effects :tx tx)))

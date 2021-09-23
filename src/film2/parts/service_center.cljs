@@ -6,6 +6,7 @@
    [film2.modules.studio.h :as studio.h]
    [film2.modules.editor.s :as editor.s]
    [film2.modules.player.s :as player.s]
+   [film2.modules.recorder.s :as recorder.s]
    
 ;; 
    ))
@@ -20,7 +21,10 @@
                      :service-fn editor.s/init-service!}
    :player #:process {:name "player"
                       :listen ["player"]
-                      :service-fn player.s/init-service!}})
+                      :service-fn player.s/init-service!}
+   :recorder #:process {:name "recorder"
+                        :listen ["recorder"]
+                        :service-fn recorder.s/init-service!}})
 
 
 (defn init-service! [props env]

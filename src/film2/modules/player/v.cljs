@@ -27,7 +27,8 @@
           ^{:key id}
           [:> mt/MenuItem {:value id} name])]]
 
-      [:> mt/Grid {:item true :xs 1} [:span "3.动作"]]
+      [:> mt/Grid {:item true :xs 1}
+       [:span "3.动作"]]
       [:> mt/Grid {:item true :xs 9}
 
        [:input {:type :button

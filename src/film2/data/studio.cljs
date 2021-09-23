@@ -59,5 +59,7 @@
                                :doc "播放iovideo的工具"
                                :current-iovideo [:iovideo/name "slider move"]}
              :recorder #:recorder {:name "default"
+                                   :doc "编辑和录制iovideo的工具"
+                                   :current-menu :create-iovideo
                                    :current-iovideo [:iovideo/name "slider move"]}}])
 
