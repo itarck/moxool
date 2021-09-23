@@ -61,6 +61,20 @@
                                 (go (>! service-chan event)))}
       "复制"]]))
 
+(defmethod RecorderMenuView :edit-ioframe
+  [{:keys [recorder]} {:keys [conn service-chan]}]
+  [:<>
+   [:> mt/Button {:variant "outlined"
+                  :on-click #(let [event #:event{:action :recorder/load-current-iovideo
+                                                 :detail {:recorder recorder}}]
+                               (go (>! service-chan event)))}
+    "加载初始帧"]
+
+   [:> mt/Button {:variant "outlined"
+                  :on-click #(let [event #:event{:action :recorder/save-ioframe
+                                                 :detail {:recorder recorder}}]
+                               (go (>! service-chan event)))}
+    "保存"]])
 
 (defmethod RecorderMenuView :record
   [{:keys [recorder]} {:keys [conn service-chan]}]

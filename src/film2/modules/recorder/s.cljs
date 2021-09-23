@@ -73,6 +73,14 @@
     (p/transact! conn [{:db/id (:db/id recorder-1)
                         :recorder/last-updated (js/Date.)}])))
 
+(defmethod handle-event! :recorder/save-ioframe
+  [_props {:keys [conn instance-atom]} {:event/keys [detail]}]
+  (let [recorder-1 (d/pull @conn '[*] (get-in detail [:recorder :db/id]))
+        iovideo-1 (d/pull @conn '[*] (get-in recorder-1 [:recorder/current-iovideo :db/id]))
+        ioframe-1 (d/pull @conn '[*] (get-in iovideo-1 [:iovideo/initial-ioframe :db/id]))
+        scene-conn (get-in @instance-atom [:iovideo (:db/id iovideo-1) :ioframe-system/conn])]
+    (p/transact! conn [{:db/id (:db/id ioframe-1)
+                        :ioframe/db-transit-str (dt/write-transit-str @scene-conn)}])))
 
 (defmethod handle-event! :recorder/start-record
   [_props {:keys [conn instance-atom]} {:event/keys [detail]}]

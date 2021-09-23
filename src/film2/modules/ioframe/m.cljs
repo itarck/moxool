@@ -10,9 +10,8 @@
 (def ioframe-config2
   #:ioframe {:type :mini
              :name "mini-1"
-             :db-url "/temp/frame/solar-1.fra"
+             :db-transit-str ""
              :description "只有太阳和地球的小型系统"})
-
 
 
 ;; schema
