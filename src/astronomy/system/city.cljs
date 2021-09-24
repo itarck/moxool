@@ -56,6 +56,7 @@
    ($ OrbitControls)])
 
 
+
 ;; ig
 
 (derive ::conn :circuit/conn)
@@ -109,13 +110,13 @@
                       :service-chan (::service-chan instance)}))
 
 
+(comment
 
-(def system (create-ioframe-system ioframe-config-sample))
+  (def system (create-ioframe-system ioframe-config-sample))
 
-(defn update! []
-  (reagent.dom/render (:ioframe-system/view system)
-                      (.getElementById js/document "app")))
+  (defn update! []
+    (reagent.dom/render (:ioframe-system/view system)
+                        (.getElementById js/document "app")))
 
-(defn init! []
-  (update!))
-
+  (defn init! []
+    (update!)))

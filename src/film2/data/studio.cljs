@@ -1,13 +1,16 @@
 (ns film2.data.studio
   (:require 
    [datascript.transit :as dt]
-   [astronomy.system.slider :as slider]
+   [astronomy.system.slider :as sys.slider]
+   [astronomy.system.city :as sys.city]
    [astronomy.conn.mini-factory :as mini-factory]))
 
 
 (def mini-db-str (dt/write-transit-str (mini-factory/create-db2)))
 
-(def slider-db-str (dt/write-transit-str slider/db))
+(def slider-db-str (dt/write-transit-str sys.slider/db))
+
+(def city-db-str (dt/write-transit-str sys.city/db))
 
 (def dataset 
   [#:ioframe {:type :mini
@@ -18,6 +21,10 @@
               :name "slider-0"
               :db-transit-str slider-db-str
               :description "一个进度条"}
+   #:ioframe {:type :city
+              :name "city-1"
+              :db-transit-str city-db-str
+              :description "一个城市"}
    #:iovideo {:name "slider move"
               :start-timestamp 124234
               :stop-timestamp 534543
@@ -50,7 +57,7 @@
                                             :quaternion [0 0 0 1]}]}]}
    
    #:studio {:name "default"
-             :mode :recorder
+             :mode :editor
              :editor #:editor {:name "default"
                                :doc "编辑ioframe的工具"
                                :current-ioframe [:ioframe/name "mini-1"]}
