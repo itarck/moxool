@@ -13,10 +13,13 @@
         {:camera/keys [position quaternion]} camera-data
         [px py pz] position
         [qx qy qz qw] quaternion]
-    ;; (println "astronomy.space.camera.s: play camera: " position)
+    ;; (println "[play] astronomy.space.camera.s, play camera:  " position)
+    ;; (js/console.log "[play] astronomy.space.camera.s, play camera before:  " (j/get-in camera [:position]))
     (when camera
       (j/call-in camera [:position :set] px py pz)
-      (j/call-in camera [:quaternion :set] qx qy qz qw))))
+      (j/call-in camera [:quaternion :set] qx qy qz qw))
+    ;; (js/console.log "[play] astronomy.space.camera.s, play camera after:  " (j/get-in camera [:position]))
+    ))
 
 
 (defn record-camera! [three-atom scene-conn]
@@ -26,6 +29,7 @@
     (when camera
       (let [position (vec (j/call position-v3 :toArray))
             quaternion (vec (j/call quaternion-q :toArray))]
+        ;; (println "[record] astronomy.space.camera.s!!!!: " position)
         (p/transact! scene-conn [{:camera/name "default"
                                   :camera/position position
                                   :camera/quaternion quaternion}])))))

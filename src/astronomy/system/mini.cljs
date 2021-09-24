@@ -10,7 +10,7 @@
 
 ;; 只有太阳、地球、月球的一个系统
 
-(derive :astronomy/meta-atom :circuit/atom)  ;; 记录控制整个系统的atom
+(derive :astronomy/meta-atom :circuit/ratom)  ;; 记录控制整个系统的atom
 (derive :astronomy/dom-atom :circuit/atom)   ;; 记录dom的状态
 (derive :astronomy/state-atom :circuit/ratom)   ;; 不同服务间共享一些数据
 (derive :astronomy/service-chan :circuit/chan)
@@ -21,7 +21,7 @@
 (def default-config
   #:astronomy{:conn #:conn {:initial-db default-db}
               :service-chan #:chan {}
-              :meta-atom  #:atom {:init-value {:mode :read-and-write}}
+              :meta-atom  #:ratom {:init-value {:mode :read-and-write}}
               :state-atom #:ratom {}
               :dom-atom #:atom {}
               :root-view #:view {:props {:user-name "dr who"

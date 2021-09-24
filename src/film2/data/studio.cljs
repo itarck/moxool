@@ -63,11 +63,11 @@
                                           :description "只有太阳和地球的小型系统"}
               :tx-logs [{:relative-time 1000
                          :tx-data [#:camera{:name "default"
-                                            :position [2000 2000 2000]
+                                            :position [40000 40000 40000]
                                             :quaternion [0 0 0 1]}]}
                         {:relative-time 2000
                          :tx-data [#:camera{:name "default"
-                                            :position [2000 0 0]
+                                            :position [80000 80000 80000]
                                             :quaternion [0 0 0 1]}]}]}
    
    #:studio {:name "default"
