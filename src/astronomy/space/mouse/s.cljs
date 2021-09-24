@@ -23,7 +23,6 @@
           (fn [e]
             (let [x (j/get e :clientX)
                   y (- (j/get e :clientY) 80)]
-              (js/console.log e)
               (go (>! service-chan #:event {:action :mouse/on-click
                                             :detail {:mouse-position [x y]
                                                      :alt-key (j/get-in e [:altKey])
