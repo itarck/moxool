@@ -1,7 +1,7 @@
 (ns astronomy.space.camera.s
   (:require
    [applied-science.js-interop :as j]
-   [cljs.core.async :as async :refer [go >! <! go-loop]]
+   [cljs.core.async :as async :refer [chan go >! <! go-loop]]
    [datascript.core :as d]
    [posh.reagent :as p]))
 
@@ -38,16 +38,23 @@
 ;; service
 
 (defn init-service! [props env]
-  (let [{:keys [conn dom-atom meta-atom]} env]
+  (let [{:keys [conn dom-atom meta-atom]} env
+        signal-chan (chan)]
     (when meta-atom
       (println "astronomy.space.camera.s: camera service started")
       (go-loop []
-        (<! (async/timeout 20))
-        (try
-          (case (:mode @meta-atom)
-            :read-and-write (record-camera! dom-atom conn)
-            :read-only (play-camera! dom-atom conn)
-            nil)
-          (catch js/Object e (.log js/console e)))
-        (recur)))))
+        (let [[v p] (async/alts! [(async/timeout 20) signal-chan])]
+          (if (= p signal-chan)
+            (do
+              (println "camera service killed")
+              :killed)
+            (do
+              (try
+                (case (:mode @meta-atom)
+                  :read-and-write (record-camera! dom-atom conn)
+                  :read-only (play-camera! dom-atom conn)
+                  nil)
+                (catch js/Object e (.log js/console e)))
+              (recur)))))
+      signal-chan)))
 
