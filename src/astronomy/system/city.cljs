@@ -63,7 +63,7 @@
 (derive ::chan :circuit/chan)
 (derive ::service :circuit/service)
 (derive ::view :circuit/view)
-(derive ::meta-atom :circuit/atom)  ;; 记录控制整个系统的atom
+(derive ::meta-atom :circuit/ratom)  ;; 记录控制整个系统的atom
 (derive ::dom-atom :circuit/atom)   ;; 记录dom的状态
 (derive ::state-atom :circuit/ratom)   ;; 不同服务间共享一些数据
 
@@ -85,7 +85,7 @@
   (let [{:ioframe/keys [db-transit-str]} ioframe-config
 
         config {::conn #:conn {:db-transit-str db-transit-str}
-                ::meta-atom  #:atom {:init-value {:mode :read-and-write}}
+                ::meta-atom  #:ratom {:init-value {:mode :read-and-write}}
                 ::state-atom #:ratom {}
                 ::dom-atom #:atom {}
                 ::chan #:chan {}
