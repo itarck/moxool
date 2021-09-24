@@ -13,6 +13,7 @@
         {:camera/keys [position quaternion]} camera-data
         [px py pz] position
         [qx qy qz qw] quaternion]
+    (println "astronomy.space.camera.s: play camera: " position)
     (when camera
       (j/call-in camera [:position :set] px py pz)
       (j/call-in camera [:quaternion :set] qx qy qz qw))))
@@ -38,6 +39,7 @@
 (defn init-service! [props env]
   (let [{:keys [conn dom-atom meta-atom]} env]
     (when meta-atom
+      (println "astronomy.space.camera.s: camera service started")
       (go-loop []
         (<! (async/timeout 20))
         (try

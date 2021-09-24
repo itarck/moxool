@@ -39,6 +39,20 @@
                         {:relative-time 2000
                          :tx-data [#:slider{:name "bmi"
                                             :value 20}]}]}
+   #:iovideo {:name "city camera move"
+              :start-timestamp 124234
+              :stop-timestamp 534543
+              :total-time 3000
+              :initial-ioframe #:ioframe {:type :city
+                                          :name "city-1"
+                                          :db-transit-str city-db-str
+                                          :description "一个城市"}
+              :tx-logs [{:relative-time 1000
+                         :tx-data [#:camera{:name "default"
+                                            :position [2000 2000 1000]}]}
+                        {:relative-time 2000
+                         :tx-data [#:camera{:name "default"
+                                            :position [3000 2000 1000]}]}]}
    #:iovideo {:name "mini move"
               :start-timestamp 124234
               :stop-timestamp 534543

@@ -107,6 +107,7 @@
         instance (ig/init config)]
     #:ioframe-system {:view (::view instance)
                       :conn (::conn instance)
+                      :meta-atom (::meta-atom instance)
                       :service-chan (::service-chan instance)}))
 
 
