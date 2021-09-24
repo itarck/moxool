@@ -3,6 +3,7 @@
    [cljs.core.async :refer [go go-loop >! <!]]
    [datascript.core :as d]
    [datascript.transit :as dt]
+   [integrant.core :as ig]
    [posh.reagent :as p]
    [cljs-http.client :as http]
    [methodology.lib.circuit]
@@ -10,17 +11,6 @@
 
 
 (defmulti handle-event! (fn [_ _ event] (:event/action event)))
-
-#_(defmethod handle-event! :editor/pull-current-frame
-  [{:keys [editor]} {:keys [conn]} event]
-  (let [editor-1 (d/pull @conn '[*] (:db/id editor))
-        frame-1 (d/pull @conn '[*] (get-in editor-1 [:editor/current-ioframe :db/id]))
-        db-url (get-in frame-1 [:frame/name])]
-    (go (let [response (<! (http/get db-url))
-              stored-data (:body response)]
-          (p/transact! conn [{:db/id (:db/id frame-1)
-                              :frame/db-string stored-data
-                              :frame/db (dt/read-transit-str stored-data)}])))))
 
 
 (defmethod handle-event! :editor/change-current-ioframe
@@ -35,7 +25,10 @@
   [_props {:keys [conn instance-atom]} {:event/keys [detail]}]
   (go (let [editor-1 (d/pull @conn '[*] (get-in detail [:editor :db/id]))
             ioframe-1 (d/pull @conn '[*] (get-in editor-1 [:editor/current-ioframe :db/id]))
-            scene-system (ioframe.m/create-ioframe-system ioframe-1)]
+            scene-system (ioframe.m/create-ioframe-system ioframe-1)
+            old-scene-system (get-in @instance-atom [:ioframe (:db/id ioframe-1)])]
+        (when old-scene-system 
+          (ig/halt! (:ioframe-system/ig-instance old-scene-system)))
         (swap! instance-atom assoc-in [:ioframe (:db/id ioframe-1)] scene-system)
         (p/transact! conn  [{:db/id (:db/id editor-1)
                              :editor/status :ready

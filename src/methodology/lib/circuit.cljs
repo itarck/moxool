@@ -25,10 +25,15 @@
   (let [{:atom/keys [init-value]} config]
     (atom init-value)))
 
+(defmethod ig/halt-key! :circuit/atom [_k value]
+  (println "halt circuit/atom!"))
 
 (defmethod ig/init-key :circuit/ratom [_k config]
   (let [{:ratom/keys [init-value]} config]
     (r/atom init-value)))
+
+(defmethod ig/halt-key! :circuit/ratom [_k value]
+  (println "halt circuit/atom!"))
 
 ;; chan 模块: 不可配置，就是常用的chan
 ;; config: {}
@@ -36,6 +41,10 @@
 
 (defmethod ig/init-key :circuit/chan [_k _config]
   (chan))
+
+(defmethod ig/halt-key! :circuit/chan [_k ch]
+  (println "halt circuit/chan")
+  (async/close! ch))
 
 
 ;; conn 模块：datascript数据库，并加了 reagent posh
@@ -63,6 +72,8 @@
     (p/posh! conn)
     conn))
 
+(defmethod ig/halt-key! :circuit/conn [_k conn]
+  (println "halt circuit/conn"))
 
 ;; service 模块
 ;; {:service-fn init-service!
@@ -72,14 +83,15 @@
 
 (defmethod ig/init-key :circuit/service [_key config]
   (let [{:service/keys [props env service-fn initial-events]} config
-        service-chan (get-in env [:service-chan])]
-
-    (service-fn props env)
-    
+        service-chan (get-in env [:service-chan])
+        meta-chan (service-fn props env)]
     (when initial-events
       (go (>! service-chan initial-events)))
-    {:service-chan service-chan}))
+    meta-chan))
 
+(defmethod ig/halt-key! :circuit/service [_key meta-chan]
+  (go (>! meta-chan :killed))
+  (println "halt :circuit/service"))
 
 ;; view 模块
 
@@ -87,6 +99,8 @@
   (let [{:view/keys [props view-fn env]} config]
     [view-fn props env]))
 
+(defmethod ig/halt-key! :circuit/view [_k view]
+  (println "halt circuit/view: do nothing"))
 
 ;; publisher 模块
 ;; #_#:publisher {:dispatch-fn (fn [event] (:event/service event))

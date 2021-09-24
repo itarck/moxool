@@ -26,14 +26,23 @@
 ;; service
 
 (defn init-view-service! [props env]
-  (let [{:keys [service-chan scene-conn]} env]
+  (let [{:keys [service-chan scene-conn]} env
+        meta-chan (chan)]
     (go-loop []
-      (let [event (<! service-chan)]
-        (case (:event/action event)
-          :slider/on-change (let [{:keys [slider new-value]} (:event/detail event)]
-                              (p/transact! scene-conn [[:db/add (:db/id slider) :slider/value new-value]]))
-          (println event)))
-      (recur))))
+      (let [[event ch1] (async/alts! [meta-chan service-chan])]
+        (cond
+          (= ch1 meta-chan) (do 
+                              (println "slider service killed")
+                              :stop)
+          (= ch1 service-chan)
+          (do
+            (case (:event/action event)
+              :slider/on-change (let [{:keys [slider new-value]} (:event/detail event)]
+                                  (p/transact! scene-conn [[:db/add (:db/id slider) :slider/value new-value]]))
+              (println event))
+            (recur))
+          :else (recur))))
+    meta-chan))
 
 
 ;; view
@@ -101,7 +110,8 @@
         instance (ig/init config)]
     #:ioframe-system {:view (::view instance)
                       :conn (::conn instance)
-                      :service-chan (::service-chan instance)}))
+                      :service-chan (::service-chan instance)
+                      :ig-instance instance}))
 
 
 ;; mount point
