@@ -22,9 +22,8 @@
   (let [{:keys [recorder iovideo]} detail
         tx [{:db/id (:db/id recorder)
              :recorder/current-iovideo (:db/id iovideo)}]]
-    (p/transact! conn tx)
-    (go (>! service-chan #:event{:action :recorder/load-current-iovideo
-                                 :detail {:recorder recorder}}))))
+    (p/transact! conn tx)))
+
 
 (defmethod handle-event! :recorder/change-menu
   [props {:keys [conn]} {:event/keys [detail]}]

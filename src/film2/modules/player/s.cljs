@@ -19,9 +19,8 @@
   (let [{:keys [player iovideo]} detail
         tx [{:db/id (:db/id player)
              :player/current-iovideo (:db/id iovideo)}]]
-    (p/transact! conn tx)
-    (go (>! service-chan #:event{:action :player/load-current-iovideo
-                                 :detail {:player player}}))))
+    (p/transact! conn tx)))
+
 
 (defmethod handle-event! :player/load-current-iovideo
   [_props {:keys [conn instance-atom]} {:event/keys [detail]}]
