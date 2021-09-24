@@ -134,5 +134,4 @@
     (if view-instance
       view-instance
       [:div "default iovideo scene: "
-       current-iovideo-id
-       recorder-1])))
+       current-iovideo-id])))

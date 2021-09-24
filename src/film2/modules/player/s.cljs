@@ -3,6 +3,7 @@
    [cljs.core.async :as async :refer [go >! <! go-loop timeout chan]]
    [posh.reagent :as p]
    [datascript.core :as d]
+   [integrant.core :as ig]
    [shu.calendar.timestamp :as timestamp]
    [film2.modules.ioframe.m :as ioframe.m]
    [film2.modules.iovideo.m :as iovideo.m]
@@ -15,7 +16,7 @@
 
 
 (defmethod handle-event! :player/change-current-iovideo
-  [_props {:keys [conn service-chan]} {:event/keys [detail]}]
+  [_props {:keys [conn]} {:event/keys [detail]}]
   (let [{:keys [player iovideo]} detail
         tx [{:db/id (:db/id player)
              :player/current-iovideo (:db/id iovideo)}]]
@@ -27,7 +28,10 @@
   (let [player-1 (d/pull @conn '[*] (get-in detail [:player :db/id]))
         iovideo-1 (d/pull @conn '[* {:iovideo/initial-ioframe [*]}] (get-in player-1 [:player/current-iovideo :db/id]))
         ioframe-1 (:iovideo/initial-ioframe iovideo-1)
-        ioframe-system (ioframe.m/create-ioframe-system ioframe-1)]
+        ioframe-system (ioframe.m/create-ioframe-system ioframe-1)
+        old-scene-system (get-in @instance-atom [:iovideo (:db/id iovideo-1)])]
+    (when old-scene-system
+      (ig/halt! (:ioframe-system/ig-instance old-scene-system)))
     (swap! instance-atom assoc-in [:iovideo (:db/id iovideo-1)] ioframe-system)
     (p/transact! conn  [{:db/id (:db/id player-1)
                          :player/last-updated (js/Date.)}])

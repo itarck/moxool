@@ -5,6 +5,7 @@
    [datascript.core :as d]
    [datascript.transit :as dt]
    [posh.reagent :as p]
+   [integrant.core :as ig]
    [shu.calendar.timestamp :as shu.timestamp]
    [film2.modules.ioframe.m :as ioframe.m]
    [film2.modules.iovideo.m :as iovideo.m]
@@ -18,7 +19,7 @@
 
 
 (defmethod handle-event! :recorder/change-current-iovideo
-  [_props {:keys [conn service-chan]} {:event/keys [detail]}]
+  [_props {:keys [conn]} {:event/keys [detail]}]
   (let [{:keys [recorder iovideo]} detail
         tx [{:db/id (:db/id recorder)
              :recorder/current-iovideo (:db/id iovideo)}]]
@@ -76,7 +77,10 @@
   (let [recorder-1 (d/pull @conn '[*] (get-in detail [:recorder :db/id]))
         iovideo-1 (d/pull @conn '[*] (get-in recorder-1 [:recorder/current-iovideo :db/id]))
         ioframe-1 (d/pull @conn '[*] (get-in iovideo-1 [:iovideo/initial-ioframe :db/id]))
-        ioframe-system (ioframe.m/create-ioframe-system ioframe-1)]
+        ioframe-system (ioframe.m/create-ioframe-system ioframe-1)
+        old-scene-system (get-in @instance-atom [:iovideo (:db/id iovideo-1)])]
+    (when old-scene-system
+      (ig/halt! (:ioframe-system/ig-instance old-scene-system)))
     (swap! instance-atom assoc-in [:iovideo (:db/id iovideo-1)] ioframe-system)
     (p/transact! conn [{:db/id (:db/id recorder-1)
                         :recorder/last-updated (js/Date.)}])))
