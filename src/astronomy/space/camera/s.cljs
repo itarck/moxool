@@ -18,17 +18,14 @@
       (j/call-in camera [:position :set] px py pz)
       (j/call-in camera [:quaternion :set] qx qy qz qw))))
 
+
 (defn record-camera! [three-atom scene-conn]
-  (let [camera (:camera @three-atom)]
+  (let [camera (:camera @three-atom)
+        position-v3 (j/get camera :position)
+        quaternion-q (j/get camera :quaternion)]
     (when camera
-      (let [position (->
-                      (j/get camera :position)
-                      (j/call :toArray)
-                      vec)
-            quaternion (->
-                        (j/get camera :quaternion)
-                        (j/call :toArray)
-                        vec)]
+      (let [position (vec (j/call position-v3 :toArray))
+            quaternion (vec (j/call quaternion-q :toArray))]
         (p/transact! scene-conn [{:camera/name "default"
                                   :camera/position position
                                   :camera/quaternion quaternion}])))))
