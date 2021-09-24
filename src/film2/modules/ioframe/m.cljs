@@ -2,7 +2,8 @@
   (:require
    [datascript.core :as d]
    [astronomy.system.mini :as mini]
-   [astronomy.system.slider :as slider]))
+   [astronomy.system.slider :as slider]
+   [astronomy.system.city :as city]))
 
 
 ;; sample 
@@ -31,6 +32,9 @@
   [ioframe]
   (slider/create-ioframe-system ioframe))
 
+(defmethod create-ioframe-system :city
+  [ioframe]
+  (city/create-ioframe-system ioframe))
 
 ;; find
 
