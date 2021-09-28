@@ -62,7 +62,8 @@
     #:ioframe-system {:view (:astronomy/root-view astronomy-instance)
                       :conn (:astronomy/conn astronomy-instance)
                       :dom-atom (:astronomy/dom-atom astronomy-instance)
-                      :meta-atom (:astronomy/meta-atom astronomy-instance)}))
+                      :meta-atom (:astronomy/meta-atom astronomy-instance)
+                      :service-chan (:astronomy/service-chan astronomy-instance)}))
 
 
 (comment 
