@@ -144,3 +144,26 @@
   (let [{:system-render/keys [app-id system]} config]
     (rdom/render (:system/view system)
                  (j/call js/document :getElementById app-id))))
+
+
+
+(defn merge-config [default-config user-config]
+  (merge-with merge default-config user-config))
+
+
+(comment
+
+  (def config1 #:system1 {:part1 #:ptype {:pkey1 :dvalue1
+                                          :pkey2 :dvalue2}
+                          :part2 #:ptype {:pkey3 :dvalue3
+                                          :pkey4 :dvalue4}})
+  
+
+  (def config2 #:system1 {:part1 #:ptype {:pkey1 :uvalue1}
+                          :part2 #:ptype {:pkey3 :uvalue3}})
+  
+
+  (merge-config config1 config2)
+  
+  ;; 
+  )
