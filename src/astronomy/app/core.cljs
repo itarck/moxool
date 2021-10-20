@@ -4,10 +4,10 @@
    [integrant.core :as ig]
    [applied-science.js-interop :as j]
    [reagent.dom :as rdom]
-   [astronomy.system.mini :as mini]
+  ;;  [astronomy.system.mini :as mini]
    [astronomy.system.mini2 :as mini2]
-   [film2.system.studio :as studio]
-   [astronomy.conn.mini-factory :as mini-factory]
+  ;;  [film2.system.studio :as studio]
+  ;;  [astronomy.conn.mini-factory :as mini-factory]
   ;;  [astronomy.system.solar2 :as solar2]
    ))
 
