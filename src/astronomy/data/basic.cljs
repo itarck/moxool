@@ -41,7 +41,7 @@
                               :center [0 0 0]
                               :tool/name "spaceship camera tool"
                               :tool/chinese-name "飞船控制"
-                              :tool/icon "/image/moxool/spaceship.jpg"
+                              :tool/icon "image/moxool/spaceship.jpg"
                               :entity/type :spaceship-camera-control})
 
 (def user1

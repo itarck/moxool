@@ -4,10 +4,12 @@
  {:app {:target     :browser
         :output-dir "public/js"
         :asset-path "/js"
-        :modules
-        {:app {:entries [astronomy.app.core]
-               :init-fn astronomy.app.core/init!}}
-        :devtools {:after-load astronomy.app.core/update!}}}
+        :modules {:app {:entries [astronomy.app.core]
+                        :init-fn astronomy.app.core/init!}}
+        :devtools {:after-load astronomy.app.core/update!}}
+  :electron {:target :node-script
+             :output-to "public/main.js"
+             :main electron.main.core/main}}
 ;  
 }
 
