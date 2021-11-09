@@ -8,7 +8,7 @@
                         :init-fn astronomy.app.core/init!}}
         :devtools {:after-load astronomy.app.core/update!}}
   :electron {:target :node-script
-             :output-to "release/main.js"
+             :output-to "public/main.js"
              :main electron.main.core/main}}
 ;  
 }

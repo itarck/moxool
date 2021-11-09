@@ -8,7 +8,10 @@
     "build": "shadow-cljs compile electron app",
     "release": "shadow-cljs release electron app",
     "clean": "rm -rf public/js/* && rm -rf target",
-    "release-electron": "cd release && yarn make"
+    "electron:clean": "rm -rf release", 
+    "electron:prepare": "bb scripts/prepare_release.clj",
+    "electron:init": "cd release && yarn",
+    "electron:make": "cd release && yarn make"
   },
   "devDependencies": {
     "css-loader": "^5.0.1",

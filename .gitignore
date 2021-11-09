@@ -27,3 +27,4 @@ public/models
 yarn.lock
 public/temp
 release
+public/main.js
