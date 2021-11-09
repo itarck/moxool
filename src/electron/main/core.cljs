@@ -22,6 +22,8 @@
             :submitURL "https://example.com/submit-url"
             :autoSubmit false}))
 
-  (.on app "window-all-closed" #(when-not (= js/process.platform "darwin")
-                                  (.quit app)))
+  (.on app "window-all-closed"
+       #(.quit app)
+       #_(when-not (= js/process.platform "darwin")
+          (.quit app)))
   (.on app "ready" init-browser))
