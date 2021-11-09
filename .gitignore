@@ -26,3 +26,4 @@ public/models
 .DS_Store
 yarn.lock
 public/temp
+release

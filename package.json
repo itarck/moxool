@@ -4,11 +4,11 @@
   "description": "moxool astronomy history app",
   "main": "public/main.js",
   "scripts": {
-    "start": "electron .",
     "dev": "shadow-cljs watch electron app",
     "build": "shadow-cljs compile electron app",
     "release": "shadow-cljs release electron app",
-    "clean": "rm -rf public/js/* && rm -rf target"
+    "clean": "rm -rf public/js/* && rm -rf target",
+    "release-electron": "cd release && yarn make"
   },
   "devDependencies": {
     "css-loader": "^5.0.1",
