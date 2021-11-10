@@ -1,14 +1,20 @@
 {:deps true
 
  :builds
- {:app {:target     :browser
-        :output-dir "public/js"
-        :asset-path "/js"
-        :modules {:app {:entries [astronomy.app.core]
-                        :init-fn astronomy.app.core/init!}}
-        :devtools {:after-load astronomy.app.core/update!}}
+ {:webapp {:target     :browser
+           :output-dir "resources/public/js"
+           :asset-path "/js"
+           :modules {:app {:entries [astronomy.app.core]
+                           :init-fn astronomy.app.core/init!}}
+           :devtools {:after-load astronomy.app.core/update!}}
+  :clientapp {:target     :browser
+              :output-dir "release/js"
+              :asset-path "/js"
+              :modules {:app {:entries [astronomy.app.core]
+                              :init-fn astronomy.app.core/init!}}
+              :devtools {:after-load astronomy.app.core/update!}}
   :electron {:target :node-script
-             :output-to "public/main.js"
+             :output-to "release/main.js"
              :main electron.main.core/main}}
 ;  
 }

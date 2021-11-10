@@ -9,7 +9,7 @@
    [ring.middleware.defaults :refer [wrap-defaults site-defaults api-defaults]]))
 
 
-(def resource-folder "/Users/tizac/room/moxool/public")
+(def resource-folder "/Users/tizac/room/moxool/resources/public")
 
 ;; handlers
 
@@ -70,7 +70,7 @@
 (defroutes default-routes
   (->
    (route/not-found "Not Found")
-   (wrap-file "public")
+   (wrap-file "resources/public")
    (range-middleware/wrap-range-header)))
 
 (def app

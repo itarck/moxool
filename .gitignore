@@ -8,8 +8,6 @@ pom.xml.asc
 *.class
 /.lein-*
 /.nrepl-port
-/resources/public/js
-/public/js
 /out
 /.repl
 *.log
@@ -20,11 +18,13 @@ output.*
 .cache
 .lsp
 .clj-kondo
-public/models
 .cpcache
 *.cp
 .DS_Store
 yarn.lock
-public/temp
 release
 public/main.js
+/resources/public/js
+/resources/public/models
+/resources/public/temp
+/resources/public/mp3

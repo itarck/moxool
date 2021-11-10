@@ -1,0 +1,97 @@
+html, body, #app {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+
+.astronomy-backpack {
+    position: absolute;
+    bottom: 10px;
+    right: 20%;
+    width: 60%;
+    height: 36px;
+    font-size: 14px;
+}
+
+.astronomy-cell {
+    width: 36px;
+    height: 36px;
+    margin-right: 3px;
+    background: rgba(255, 255, 255, 0.2)
+}
+
+.astronomy-cell-active {
+    background: rgb(255, 255, 255, 0.9)
+}
+
+.astronomy-button {
+    margin: 3px;
+    width: 30px;
+    height: 30px;
+    background: rgba(200, 200, 200, 0.1)
+}
+
+.astronomy-righthand {
+    position: absolute;
+    bottom: 10px;
+    right: 1%;
+    width: 256px;
+    background: rgba(255, 255, 255, 0.2);
+    font-size: 14px
+}
+
+.astronomy-righthand-tool {
+    margin: 5px;
+    opacity: 0.8;
+    background: rgba(200, 200, 200);
+    overflow: auto;
+}
+
+.methodology-player {
+    position: absolute;
+    background: rgba(200, 200, 200);
+    opacity: 0.8;
+    top: 0px;
+    width: 30%;
+    height: 38px;
+    padding: 5px 15px;
+}
+
+.astronomy-lefthand {
+    position: absolute;
+    bottom: 0px;
+    left: 1%;
+    width: 300px;
+    font-size: 24px;
+}
+
+.astronomy-hud {
+    position: absolute;
+    z-index: 100;
+    top: 10px;
+    left: 160px;
+    width: 960px;
+    /* height: 550px; */
+    background: rgba(255, 255, 255, 0.2);
+    font-size: 14px
+}
+
+.astronomy-hud-content {
+    margin: 5px;
+    /* opacity: 0.8; */
+    width: 950px;
+    /* height: 540px; */
+    background: rgba(200, 200, 200);
+    
+}
+
+
+.methodology-mouse {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 1280px;
+    height: 720px;
+    font-size: 14px;
+}
