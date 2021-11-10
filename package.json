@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "moxool astronomy history app",
   "scripts": {
+    "server/dev": "lein repl",
     "web/dev": "shadow-cljs watch webapp",
     "web/compile": "shadow-cljs compile webapp",
     "web/release": "shadow-cljs release webapp",
