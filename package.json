@@ -9,8 +9,8 @@
     "web/clean": "rm -rf resource/public/js/* && rm -rf target",
     "desktop/clean": "rm -rf release", 
     "desktop/prepare": "bb scripts/prepare_release.clj",
-    "desktop/compile": "shadow-cljs release clientapp electron",
     "desktop/install": "cd release && yarn",
+    "desktop/compile": "shadow-cljs release clientapp electron",
     "desktop/make": "cd release && yarn make"
   },
   "devDependencies": {

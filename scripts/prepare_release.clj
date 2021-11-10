@@ -10,6 +10,12 @@
    (:out (sh "pwd"))
    (string/trim)))
 
+(def source-folder
+  "/resources/public/")
+
+(def dist-folder
+  "/release/")
+
 (def copy-paths
   ["css"
    "image"
@@ -26,16 +32,20 @@
    "main.js"
    "package.json"])
 
-(fs/create-dirs "release/models")
-(fs/create-dirs "release/js")
+
+(defn create-dist-folders! []
+  (fs/create-dirs "release/models")
+  (fs/create-dirs "release/js"))
 
 
 (defn copy-to-release! []
   (doseq [path copy-paths]
     (println "copying " path)
     (fs/copy-tree
-     (str root "/public/" path)
-     (str root "/release/" path)
+     (str root source-folder path)
+     (str root dist-folder path)
      {:replace-existing true})))
 
+
+(create-dist-folders!)
 (copy-to-release!)
