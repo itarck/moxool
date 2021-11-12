@@ -1,6 +1,6 @@
 {
     "name": "moxool_astronomy",
-    "version": "0.0.2-alpha",
+    "version": "0.0.3-alpha",
     "description": "moxool astronomy history app",
     "main": "main.js",
     "scripts": {
