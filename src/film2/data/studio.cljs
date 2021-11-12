@@ -6,7 +6,8 @@
    [astronomy.conn.mini-factory :as mini-factory]))
 
 
-(def mini-db-str (dt/write-transit-str (mini-factory/create-db2)))
+(def mini-db-str1 (dt/write-transit-str (mini-factory/create-db1)))
+(def mini-db-str2 (dt/write-transit-str (mini-factory/create-db2)))
 
 (def slider-db-str (dt/write-transit-str sys.slider/db))
 
@@ -15,30 +16,34 @@
 (def dataset 
   [#:ioframe {:type :mini
               :name "mini-1"
-              :db-transit-str mini-db-str
+              :db-transit-str mini-db-str1
               :description "只有太阳和地球的小型系统"}
-   #:ioframe {:type :slider
-              :name "slider-0"
-              :db-transit-str slider-db-str
-              :description "一个进度条"}
+   #:ioframe {:type :mini
+              :name "mini-2"
+              :db-transit-str mini-db-str2
+              :description "只有太阳和地球的小型系统"}
+   #_#:ioframe {:type :slider
+                :name "slider-0"
+                :db-transit-str slider-db-str
+                :description "一个进度条"}
    #:ioframe {:type :city
               :name "city-1"
               :db-transit-str city-db-str
               :description "一个城市"}
-   #:iovideo {:name "slider move"
-              :start-timestamp 124234
-              :stop-timestamp 534543
-              :total-time 3000
-              :initial-ioframe #:ioframe {:type :slider
-                                          :name "video-1-initial"
-                                          :db-transit-str slider-db-str
-                                          :description "一个进度条"}
-              :tx-logs [{:relative-time 1000
-                         :tx-data [#:slider{:name "bmi"
-                                            :value 80}]}
-                        {:relative-time 2000
-                         :tx-data [#:slider{:name "bmi"
-                                            :value 20}]}]}
+   #_#:iovideo {:name "slider move"
+                :start-timestamp 124234
+                :stop-timestamp 534543
+                :total-time 3000
+                :initial-ioframe #:ioframe {:type :slider
+                                            :name "video-1-initial"
+                                            :db-transit-str slider-db-str
+                                            :description "一个进度条"}
+                :tx-logs [{:relative-time 1000
+                           :tx-data [#:slider{:name "bmi"
+                                              :value 80}]}
+                          {:relative-time 2000
+                           :tx-data [#:slider{:name "bmi"
+                                              :value 20}]}]}
    #:iovideo {:name "city camera move"
               :start-timestamp 124234
               :stop-timestamp 534543
@@ -59,7 +64,7 @@
               :total-time 3000
               :initial-ioframe #:ioframe {:type :mini
                                           :name "mini-initial"
-                                          :db-transit-str mini-db-str
+                                          :db-transit-str mini-db-str1
                                           :description "只有太阳和地球的小型系统"}
               :tx-logs [{:relative-time 1000
                          :tx-data [#:camera{:name "default"
@@ -69,7 +74,7 @@
                          :tx-data [#:camera{:name "default"
                                             :position [80000 80000 80000]
                                             :quaternion [0 0 0 1]}]}]}
-   
+
    #:studio {:name "default"
              :mode :editor
              :editor #:editor {:name "default"
@@ -77,9 +82,9 @@
                                :current-ioframe [:ioframe/name "mini-1"]}
              :player #:player {:name "default"
                                :doc "播放iovideo的工具"
-                               :current-iovideo [:iovideo/name "slider move"]}
+                               :current-iovideo [:iovideo/name "city camera move"]}
              :recorder #:recorder {:name "default"
                                    :doc "编辑和录制iovideo的工具"
                                    :current-menu :create-iovideo
-                                   :current-iovideo [:iovideo/name "slider move"]}}])
+                                   :current-iovideo [:iovideo/name "city camera move"]}}])
 
