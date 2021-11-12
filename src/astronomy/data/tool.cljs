@@ -18,7 +18,7 @@
                 :days-per-step (/ 1 24)
                 :clock [:clock/name "default"]
                 :tool/name "clock control 1"
-                :tool/chinese-name "时光机"
+                :tool/chinese-name "时钟"
                 :tool/icon "image/moxool/clock.jpg"
                 :entity/type :clock-tool})
 

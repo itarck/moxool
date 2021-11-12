@@ -50,7 +50,7 @@
                                       :orbit/type :ellipse-orbit
                                       :orbit/period 87.97
                                       :orbit/color "white"
-                                      :orbit/show? false}
+                                      :orbit/show? true}
     :celestial/spin #:spin {:axis (m.spin/cal-spin-axis 281.01 61.45)
                             :period 58.646
                             :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 58.646)}
@@ -85,7 +85,7 @@
                                       :orbit/type :ellipse-orbit
                                       :orbit/period 224.7
                                       :orbit/color "gold"
-                                      :orbit/show? false}
+                                      :orbit/show? true}
     #_#:circle-orbit {:star [:star/name "sun"]
                       :radius 350
                       :color "gold"
@@ -252,7 +252,7 @@
                                       :orbit/type :ellipse-orbit
                                       :orbit/period 686.93
                                       :orbit/color "red"
-                                      :orbit/show? false}
+                                      :orbit/show? true}
     #_#:circle-orbit {:star [:star/name "sun"]
                     :radius 760.3147908
                     :color "red"
@@ -431,7 +431,7 @@
                                       :orbit/type :ellipse-orbit
                                       :orbit/period (* 11.856 365)
                                       :orbit/color "BurlyWood"
-                                      :orbit/show? false}
+                                      :orbit/show? true}
     #_#:circle-orbit {:star [:star/name "sun"]
                     :color "BurlyWood"
                     :show? true
@@ -601,7 +601,7 @@
                      :orbit/type :ellipse-orbit
                      :orbit/period (* 29.448 365)
                      :orbit/color "darkgoldenrod"
-                     :orbit/show? false}
+                     :orbit/show? true}
     :celestial/spin #:spin {:axis saturn-spin-axis
                             :period 0.444
                             :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 0.444)}

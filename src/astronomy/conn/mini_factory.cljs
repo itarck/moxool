@@ -32,6 +32,7 @@
     (kick-start! conn tools1)
     @conn))
 
+;; for mini2
 
 (def tools2
   [{:db/id [:tool/name "ppt tool"]}
@@ -39,14 +40,24 @@
    {:db/id [:tool/name "spaceship camera tool"]}
    {:db/id [:tool/name "horizon-coordinate-tool"]}
    {:db/id [:tool/name "terrestrial-coordinate-tool"]}
+   {:db/id [:tool/name "astronomical-coordinate-tool"]}
+   {:db/id [:tool/name "planet-tool"]}
    {:db/id [:tool/name "constellation-tool"]}
    {:db/id [:tool/name "atmosphere-tool"]}
-   {:db/id [:tool/name "astronomical-coordinate-tool"]}
    {:db/id [:tool/name "ellipse-orbit-tool"]}])
+
+
+(def basic-dataset
+  [d.basic/camera 
+   d.basic/clock 
+   d.basic/scene 
+   (assoc d.basic/spaceship-camera-control
+          :spaceship-camera-control/position [40000000 40000000 40000000])
+   d.basic/user1])
 
 (defn create-db2 []
   (let [conn (create-empty-conn!)]
-    (d/transact! conn d.basic/dataset1)
+    (d/transact! conn basic-dataset)
     (d/transact! conn d.celestial/dataset1)
     (d/transact! conn d.celestial/dataset2)
     (d/transact! conn d.celestial/dataset3)
