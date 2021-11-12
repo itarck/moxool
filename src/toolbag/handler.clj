@@ -5,6 +5,7 @@
    [compojure.route :as route]
    [ring-range-middleware.core :as range-middleware]
    [ring.middleware.file :refer [wrap-file]]
+   [ring.middleware.cors :refer [wrap-cors]]
    [ring.middleware.format :refer [wrap-restful-format]]
    [ring.middleware.defaults :refer [wrap-defaults site-defaults api-defaults]]))
 
@@ -78,7 +79,9 @@
    (-> api-routes
        (wrap-restful-format)
        (wrap-defaults (-> api-defaults
-                          (assoc-in [:params :multipart] true))))
+                          (assoc-in [:params :multipart] true)))
+       (wrap-cors :access-control-allow-origin [#".*"]
+                  :access-control-allow-methods [:get :put :post :delete]))
    (-> site-routes
        (wrap-defaults (assoc-in site-defaults [:security :anti-forgery] true)))
    default-routes))

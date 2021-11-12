@@ -8,6 +8,9 @@
    [astronomy.ig.service-center]
    [astronomy.conn.mini-factory :as mini-factory]))
 
+
+;; 说明：已经废弃，提取 default 文件
+
 ;; 只有太阳、地球、月球的一个系统
 
 (derive :astronomy/meta-atom :circuit/ratom)  ;; 记录控制整个系统的atom

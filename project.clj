@@ -10,6 +10,7 @@
                  [ring-range-middleware "0.1.0"]
                  [ring-middleware-format "0.7.4"]
                  [ring/ring-defaults "0.3.2"]
+                 [ring-cors "0.1.13"]
                  [integrant "0.8.0"]
                  [hiccup "1.0.5"]
                  [http-kit "2.5.1"]

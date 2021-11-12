@@ -11,7 +11,7 @@
   (let [{:keys [position onClick size]} props
         length (v3/length (v3/from-seq (seq position)))
         board-size (* 2 Math/PI length 1.5 (/ 1 360) size) 
-        texture1 (useTexture "/image/moxool/crosshair.png")]
+        texture1 (useTexture "image/moxool/crosshair.png")]
     ($ Billboard {:args #js [board-size board-size]
                   :position position
                   :onClick onClick}

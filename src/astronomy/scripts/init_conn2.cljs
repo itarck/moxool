@@ -2,7 +2,7 @@
   (:require
    [datascript.core :as d]
    [posh.reagent :as p]
-   [methodology.lib.client :as client]
+   [astronomy.lib.api :as api]
    [astronomy.space.backpack.m :as m.backpack]
    [astronomy.conn.core :refer [create-empty-conn!]]
    [astronomy.tools.spaceship-camera-control.m :as m.spaceship]
@@ -56,11 +56,11 @@
     (d/transact! conn d.basic/dataset1)
     (d/transact! conn d.celestial/dataset1)
     (d/transact! conn d.celestial/dataset3)
-    (d/transact! conn d.celestial/dataset2)
+    (d/transact! conn d.celestial/dataset4)
     ;; (d/transact! conn d.celestial/dataset-newton)
     (d/transact! conn d.galaxy/dataset1)
     (d/transact! conn d.coordinate/dataset1)
-    (d/transact! conn d.coordinate/dataset2)
+    ;; (d/transact! conn d.coordinate/dataset2)
 
     (d/transact! conn d.stars/dataset1)
     (d/transact! conn d.constel/dataset1)
@@ -76,7 +76,7 @@
 (defn async-run2! []
   (let [conn (init-conn!)]
     (println "async-run init-conn !!!!")
-    (client/save-db-file @conn "/temp/frame/solar-2.fra")))
+    (api/save-db-file @conn "/private/frame/solar-0.0.3.fra")))
 
 
 (comment

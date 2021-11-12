@@ -14,28 +14,31 @@
   "/resources/public/")
 
 (def dist-folder
-  "/release/")
+  "/desktop/")
 
 (def copy-paths
   ["css"
-   "image"
-   "js/app.js"
+   "image/moxool"
+   "icons"
    "models/13-galaxy"
-   "models/14-moon"
-   "models/15-earth"
    "models/16-solar"
    "models/constellations.gltf"
    "models/starsphere.gltf"
    "slides"
-   "temp"
+  ;;  "temp"
+   "private"
    "index.html"
-   "main.js"
    "package.json"])
 
+(def copy-paths2
+  ["temp"])
 
 (defn create-dist-folders! []
-  (fs/create-dirs "release/models")
-  (fs/create-dirs "release/js"))
+  (fs/create-dirs "desktop/models")
+  (fs/create-dirs "desktop/js")
+  (fs/create-dirs "desktop/private")
+  (fs/create-dirs "desktop/image")
+  (fs/create-dirs "desktop/icons"))
 
 
 (defn copy-to-release! []

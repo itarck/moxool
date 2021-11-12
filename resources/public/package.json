@@ -1,6 +1,6 @@
 {
     "name": "moxool_astronomy",
-    "version": "0.0.1",
+    "version": "0.0.2-alpha",
     "description": "moxool astronomy history app",
     "main": "main.js",
     "scripts": {
@@ -21,7 +21,9 @@
     },
     "config": {
       "forge": {
-        "packagerConfig": {},
+        "packagerConfig": {
+          "icon": "icons/icon.icns"
+        },
         "makers": [
           {
             "name": "@electron-forge/maker-squirrel",

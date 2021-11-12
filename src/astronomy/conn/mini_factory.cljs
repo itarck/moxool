@@ -7,7 +7,7 @@
    [astronomy.data.coordinate :as d.coordinate]
    [astronomy.data.tool :as d.tool]
    [astronomy.data.misc :as d.misc]
-   [methodology.lib.client :as client]))
+   [astronomy.lib.api :as api]))
 
 
 ;; processes
@@ -57,6 +57,6 @@
 
   (->
    (create-db1)
-   (client/save-db-file "/temp/frame/solar-2.fra"))
+   (api/save-db-file "/temp/frame/solar-2.fra"))
 
   )

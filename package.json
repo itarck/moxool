@@ -1,6 +1,6 @@
 {
   "name": "moxool_astronomy",
-  "version": "0.0.1",
+  "version": "0.0.2-alpha",
   "description": "moxool astronomy history app",
   "scripts": {
     "server/dev": "lein repl",
@@ -8,15 +8,17 @@
     "web/compile": "shadow-cljs compile webapp",
     "web/release": "shadow-cljs release webapp",
     "web/clean": "rm -rf resource/public/js/* && rm -rf target",
-    "desktop/clean": "rm -rf release", 
+    "desktop/dev": "shadow-cljs watch desktop electron",
+    "desktop/start": "cd desktop && yarn start",
     "desktop/prepare": "bb scripts/prepare_release.clj",
-    "desktop/install": "cd release && yarn",
-    "desktop/compile": "shadow-cljs release clientapp electron",
-    "desktop/make": "cd release && yarn make"
+    "desktop/install": "cd desktop && yarn",
+    "desktop/compile": "shadow-cljs release desktop electron",
+    "desktop/make": "cd desktop && yarn make",
+    "desktop/clean": "rm -rf desktop/js && rm -rf desktop/main.js && rm -rf desktop/out", 
+    "desktop/purge": "rm -rf desktop"
   },
   "devDependencies": {
     "css-loader": "^5.0.1",
-    "electron": "^15.3.0",
     "shadow-cljs": "^2.12.2",
     "style-loader": "^2.0.0"
   },
@@ -26,7 +28,6 @@
     "@material-ui/pickers": "3.2.10",
     "@react-three/drei": "^3.11.2",
     "camera-controls": "^1.27.1",
-    "p5": "^1.1.9",
     "react": "17.0.1",
     "react-audio-player": "0.14.0",
     "react-dom": "17.0.1",

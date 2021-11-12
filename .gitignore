@@ -22,9 +22,10 @@ output.*
 *.cp
 .DS_Store
 yarn.lock
-release
+desktop
 public/main.js
 /resources/public/js
 /resources/public/models
 /resources/public/temp
 /resources/public/mp3
+/resources/public/private

@@ -7,15 +7,19 @@
            :modules {:app {:entries [astronomy.app.core]
                            :init-fn astronomy.app.core/init!}}
            :devtools {:after-load astronomy.app.core/update!}}
-  :clientapp {:target     :browser
-              :output-dir "release/js"
-              :asset-path "/js"
-              :modules {:app {:entries [astronomy.app.core]
-                              :init-fn astronomy.app.core/init!}}
-              :devtools {:after-load astronomy.app.core/update!}}
+  :desktop {:target     :browser
+            :output-dir "desktop/js"
+            :asset-path "/js"
+            :modules {:app {:entries [astronomy.app.core]
+                            :init-fn astronomy.app.core/init!}}
+            :devtools {:after-load astronomy.app.core/update!}}
   :electron {:target :node-script
-             :output-to "release/main.js"
+             :output-to "desktop/main.js"
              :main electron.main.core/main}}
+
+ :dev-http
+ {3030 {:root    "desktop"
+        :handler desktop/app}}
 ;  
-}
+ }
 
