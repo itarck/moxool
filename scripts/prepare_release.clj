@@ -16,22 +16,22 @@
 (def dist-folder
   "/desktop/")
 
-(def copy-paths
+(def release-paths
   ["css"
    "image/moxool"
    "icons"
+   "models/3-cityscene_kyoto_1995"
    "models/13-galaxy"
    "models/16-solar"
    "models/constellations.gltf"
    "models/starsphere.gltf"
    "slides"
-  ;;  "temp"
    "private"
    "index.html"
    "package.json"])
 
-(def copy-paths2
-  ["temp"])
+(def dev-paths
+  ["css"])
 
 (defn create-dist-folders! []
   (fs/create-dirs "desktop/models")
@@ -42,7 +42,7 @@
 
 
 (defn copy-to-release! []
-  (doseq [path copy-paths]
+  (doseq [path release-paths]
     (println "copying " path)
     (fs/copy-tree
      (str root source-folder path)
