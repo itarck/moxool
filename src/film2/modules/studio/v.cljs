@@ -19,10 +19,10 @@
                     :width "60%"
                     :background-color "rgba(255,255,255,0.2)"
                     :z-index 10}}
-      [:div {:style {:margin "4px"
+      [:div {:style {:margin "5px"
                      :height "40px"
                      :padding "5px 10px"
-                     :background-color "rgba(255,255,255,0.3)"}}
+                     :background-color "rgba(255,255,255,0.5)"}}
        [:> mt/Grid {:container true :spacing 0}
         [:> mt/Grid {:item true :xs 4}
          [:span "1.模式："]

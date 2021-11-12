@@ -16,7 +16,6 @@
   [{:db/id [:tool/name "ppt tool"]}
    {:db/id [:tool/name "clock control 1"]}
    {:db/id [:tool/name "spaceship camera tool"]}
-   {:db/id [:tool/name "terrestrial-coordinate-tool"]}
    {:db/id [:tool/name "astronomical-coordinate-tool"]}])
 
 
