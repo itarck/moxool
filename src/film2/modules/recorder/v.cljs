@@ -44,7 +44,7 @@
   (let [ioframes (concat [[:none "未选择"]]  @(p/q ioframe.m/all-id-and-names-query conn))
         ioframe-id (:recorder/ioframe-copy-source-id recorder)]
     [:<>
-     [:span {:style {:margin-right "10px"}} "选择导入的ioframe:"]
+     [:span {:style {:margin-right "10px"}} "选择帧"]
      [:> mt/Select {:value (or ioframe-id :none)
                     :onChange (fn [e]
                                 (let [new-value (j/get-in e [:target :value])]
@@ -97,8 +97,8 @@
         iovideo-id-names @(p/q iovideo.m/all-id-and-names-query conn)]
     [:<>
      [:> mt/Grid {:container true :spacing 0}
-      [:> mt/Grid {:item true :xs 2}
-       [:div "2.选择文件"]
+      [:> mt/Grid {:item true :xs 6}
+       [:span "2.文件："]
        [:> mt/Select {:value current-iovideo-id
                       :onChange (fn [e]
                                   (let [new-value (j/get-in e [:target :value])]
@@ -110,8 +110,8 @@
           ^{:key id}
           [:> mt/MenuItem {:value id} name])]]
 
-      [:> mt/Grid {:item true :xs 2}
-       [:div "3.动作"]
+      [:> mt/Grid {:item true :xs 6}
+       [:span "3.动作："]
        [:> mt/Select {:value (:recorder/current-menu recorder-1)
                       :onChange (fn [e]
                                   (let [new-value (j/get-in e [:target :value])]
@@ -121,10 +121,10 @@
                                                               :menu-ident (keyword new-value)}}))))}
         (for [[id name] recorder.m/menu-ident-and-names]
           ^{:key id}
-          [:> mt/MenuItem {:value id} name])]]
+          [:> mt/MenuItem {:value id} name])]
+       [RecorderMenuView {:recorder recorder-1} env]]
       
-      [:> mt/Grid {:item true :xs 8}
-       [RecorderMenuView {:recorder recorder-1} env]]]]))
+      ]]))
 
 
 (defn RecorderSceneView [{:keys [recorder]} {:keys [conn instance-atom] :as env}]
@@ -133,5 +133,4 @@
         view-instance (get-in @instance-atom [:iovideo current-iovideo-id :ioframe-system/view])]
     (if view-instance
       view-instance
-      [:div "default iovideo scene: "
-       current-iovideo-id])))
+      [:div])))

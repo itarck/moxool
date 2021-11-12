@@ -14,8 +14,8 @@
         ioframes @(p/q ioframe.m/all-id-and-names-query conn)]
     [:<>
      [:> mt/Grid {:container true :spacing 0}
-      [:> mt/Grid {:item true :xs 2}
-       [:div "2.选择ioframe"]
+      [:> mt/Grid {:item true :xs 6}
+       [:span "2.文件："]
        [:> mt/Select {:value current-ioframe-id
                       :onChange (fn [e]
                                   (let [new-value (j/get-in e [:target :value])]
@@ -27,13 +27,13 @@
           ^{:key id}
           [:> mt/MenuItem {:value id} name])]]
       
-      [:> mt/Grid {:item true :xs 10}
-       [:div "3.动作"]
-       [:input {:type :button
-                :value "load"
-                :on-click #(go (>! service-chan #:event{:action :editor/load-current-ioframe
-                                                        :detail {:editor editor-1}}))}]]
-      ]
+      [:> mt/Grid {:item true :xs 6}
+       [:span "3.动作："]
+       [:> mt/Button  {:variant "outlined"
+                       :size "small"
+                       :on-click #(go (>! service-chan #:event{:action :editor/load-current-ioframe
+                                                               :detail {:editor editor-1}}))}
+        "加载"]] ]
      
 
      ]))
@@ -46,4 +46,4 @@
         view-instance (get-in @instance-atom [:ioframe current-ioframe-id :ioframe-system/view])]
     (if view-instance
       view-instance
-      [:p "editor default view"])))
+      [:div])))

@@ -15,35 +15,41 @@
     [:<>
      [:div {:style {:position :absolute
                     :top "0px"
+                    :margin "5px"
+                    :width "60%"
+                    :background-color "rgba(255,255,255,0.2)"
+                    :z-index 10}}
+      [:div {:style {:margin "4px"
+                     :height "40px"
+                     :padding "5px 10px"
+                     :background-color "rgba(255,255,255,0.3)"}}
+       [:> mt/Grid {:container true :spacing 0}
+        [:> mt/Grid {:item true :xs 4}
+         [:span "1.模式："]
+         [:span
+          [:> mt/Select {:value (:studio/mode studio-1)
+                         :onChange (fn [e]
+                                     (let [new-value (j/get-in e [:target :value])
+                                           event #:event {:action :studio/change-mode
+                                                          :detail {:studio studio-1
+                                                                   :new-mode (keyword new-value)}}]
+                                       (go (>! service-chan event))))}
+           (for [mode modes]
+             ^{:key mode}
+             [:> mt/MenuItem {:value mode} mode])]]]
+
+        [:> mt/Grid {:item true :xs 8}
+         (case (:studio/mode studio-1)
+           :editor [editor.v/EditorToolView {:editor (:studio/editor studio-1)} env]
+           :player [player.v/PlayerToolView {:player (:studio/player studio-1)} env]
+           :recorder [recorder.v/RecorderToolView {:recorder (:studio/recorder studio-1)} env])]]]
+      ]
+     
+     
+     [:div {:style {:top "0"
+                    :height "100%"
                     :width "100%"
-                    :height "80px"
-                    :padding "5px"}}
-      [:> mt/Grid {:container true :spacing 0}
-       [:> mt/Grid {:item true :xs 2}
-        [:div "1.工作模式： " ]
-        [:div 
-         [:> mt/Select {:value (:studio/mode studio-1)
-                        :onChange (fn [e]
-                                    (let [new-value (j/get-in e [:target :value])
-                                          event #:event {:action :studio/change-mode
-                                                         :detail {:studio studio-1
-                                                                  :new-mode (keyword new-value)}}]
-                                      (go (>! service-chan event))))}
-          (for [mode modes]
-            ^{:key mode}
-            [:> mt/MenuItem {:value mode} mode])]]]
-       
-       [:> mt/Grid {:item true :xs 10}
-        (case (:studio/mode studio-1)
-          :editor [editor.v/EditorToolView {:editor (:studio/editor studio-1)} env]
-          :player [player.v/PlayerToolView {:player (:studio/player studio-1)} env]
-          :recorder [recorder.v/RecorderToolView {:recorder (:studio/recorder studio-1)} env])]]]
-     
-     
-     [:div {:style {:position :absolute
-                    :top "80px"
-                    :height "720px"
-                    :width "1280px"}}
+                    :z-index 1}}
       (case (:studio/mode studio-1)
         :editor [editor.v/EditorSceneView {:editor (:studio/editor studio-1)} env]
         :player [player.v/PlayerSceneView {:player (:studio/player studio-1)} env]
