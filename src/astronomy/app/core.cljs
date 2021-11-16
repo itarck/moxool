@@ -1,15 +1,20 @@
 (ns astronomy.app.core
   (:require
-   [integrant.core :as ig]
    [applied-science.js-interop :as j]
    [reagent.dom :as rdom]
-   [astronomy.system.mini2 :as mini2]))
+   [astronomy.system.mini2 :as mini2])
+  (:require-macros
+   [methodology.lib.resource :refer [read-resource]]))
 
 
 ;; mount point
 
+(def user-config
+  {:astronomy/conn
+   #:conn {:db-transit-str (read-resource "private/frame/solar-0.0.3.fra")}})
+
 (def astronomy-system
-  (ig/init mini2/config))
+  (mini2/create-system! user-config))
 
 
 (defn update! []
