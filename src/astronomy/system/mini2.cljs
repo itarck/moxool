@@ -5,21 +5,20 @@
    [astronomy.conn.schema :refer [schema]]
    [astronomy.parts.root-view :as parts.root-view]
    [astronomy.parts.listeners :as parts.listeners]
-   [pumpnet.core])
+   [pumpnet.core :as pp])
   (:require-macros
    [methodology.lib.resource :refer [read-resource]]))
 
 
-
-(derive :astronomy/meta-atom :circuit/ratom)
-(derive :astronomy/dom-atom :circuit/atom)
-(derive :astronomy/state-atom :circuit/ratom)
-(derive :astronomy/service-chan :circuit/chan)
-(derive :astronomy/conn :circuit/conn)
-(derive :astronomy/publisher :pumpnet/publisher)
-(derive :astronomy/root-view :pumpnet/reagent-view)
-(derive :astronomy/service.listeners :pumpnet/service.listeners)
-
+(def hierarchy
+  {:astronomy/meta-atom :circuit/ratom
+   :astronomy/dom-atom :circuit/atom
+   :astronomy/state-atom :circuit/ratom
+   :astronomy/service-chan :circuit/chan
+   :astronomy/conn :circuit/conn
+   :astronomy/publisher :pumpnet/publisher
+   :astronomy/root-view :pumpnet/reagent-view
+   :astronomy/service.listeners :pumpnet/service.listeners})
 
 
 (def default-config
@@ -63,9 +62,8 @@
 
 
 (defn create-system! [user-config]
-  (let [config (circuit/merge-config
-                default-config
-                user-config)]
+  (pp/load-hierarchy! hierarchy)
+  (let [config (pp/merge-config default-config user-config)]
     (ig/init config)))
 
 
