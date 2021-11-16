@@ -1,4 +1,4 @@
-(ns astronomy.ig.root-view
+(ns astronomy.parts.root-view
   (:require
    ["react-three-fiber" :refer [Canvas]]
    [posh.reagent :as p]

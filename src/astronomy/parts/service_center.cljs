@@ -1,4 +1,4 @@
-(ns astronomy.ig.service-center
+(ns astronomy.parts.service-center
   (:require
    [cljs.core.async :as async :refer [go >! <! chan go-loop]]
    [integrant.core :as ig]

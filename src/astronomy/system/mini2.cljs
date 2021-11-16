@@ -2,9 +2,9 @@
   (:require
    [integrant.core :as ig]
    [methodology.lib.circuit :as circuit]
-   [astronomy.ig.conn]
-   [astronomy.ig.root-view]
-   [astronomy.ig.service-center])
+   [astronomy.parts.conn]
+   [astronomy.parts.root-view]
+   [astronomy.parts.service-center])
   (:require-macros
    [methodology.lib.resource :refer [read-resource]]))
 

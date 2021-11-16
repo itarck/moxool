@@ -1,4 +1,4 @@
-(ns astronomy.ig.conn
+(ns astronomy.parts.conn
   (:require
    [datascript.core :as d]
    [datascript.transit :as dt]
