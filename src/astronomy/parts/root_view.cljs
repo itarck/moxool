@@ -2,7 +2,6 @@
   (:require
    ["react-three-fiber" :refer [Canvas]]
    [posh.reagent :as p]
-   [integrant.core :as ig]
    [astronomy.space.user.m :as m.person]
    [astronomy.objects.astro-scene.m :as m.astro-scene]
    [astronomy.objects.astro-scene.v :as v.astro-scene]
@@ -111,11 +110,3 @@
                              :camera-control spaceship-camera-control} env]))]))
 
 
-
-
-(defmethod ig/init-key :astronomy/root-view [_k config]
-  (let [{:view/keys [props env]} config
-        env2 (merge env {:object-libray object-libray
-                         :tool-library tool-library
-                         :hud-library hud-library})]
-    [RootView props env2]))

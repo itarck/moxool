@@ -3,7 +3,7 @@
    [integrant.core :as ig]
    [methodology.lib.circuit :as circuit]
    [astronomy.conn.schema :refer [schema]]
-   [astronomy.parts.root-view]
+   [astronomy.parts.root-view :as parts.root-view]
    [astronomy.parts.listeners :as parts.listeners]
    [pumpnet.core])
   (:require-macros
@@ -11,12 +11,13 @@
 
 
 
-(derive :astronomy/meta-atom :circuit/ratom)  ;; 记录控制整个系统的atom
-(derive :astronomy/dom-atom :circuit/atom)   ;; 记录dom的状态
-(derive :astronomy/state-atom :circuit/ratom)   ;; 不同服务间共享一些数据
+(derive :astronomy/meta-atom :circuit/ratom)
+(derive :astronomy/dom-atom :circuit/atom)
+(derive :astronomy/state-atom :circuit/ratom)
 (derive :astronomy/service-chan :circuit/chan)
 (derive :astronomy/conn :circuit/conn)
 (derive :astronomy/publisher :pumpnet/publisher)
+(derive :astronomy/root-view :pumpnet/reagent-view)
 (derive :astronomy/service.listeners :pumpnet/service.listeners)
 
 
@@ -32,13 +33,19 @@
     :publisher #:publisher {:pub-fn (fn [event]
                                       (namespace (:event/action event)))
                             :in-chan (ig/ref :astronomy/service-chan)}
-    :root-view #:view {:props {:user-name "dr who"
-                               :scene-name "solar"}
-                       :env {:conn (ig/ref :astronomy/conn)
-                             :service-chan (ig/ref :astronomy/service-chan)
-                             :meta-atom (ig/ref :astronomy/meta-atom)
-                             :state-atom (ig/ref :astronomy/state-atom)
-                             :dom-atom (ig/ref :astronomy/dom-atom)}}
+
+    :root-view
+    #:reagent-view {:view-fn parts.root-view/RootView
+                    :props {:user-name "dr who"
+                            :scene-name "solar"}
+                    :env {:object-libray parts.root-view/object-libray
+                          :tool-library parts.root-view/tool-library
+                          :hud-library parts.root-view/hud-library
+                          :conn (ig/ref :astronomy/conn)
+                          :service-chan (ig/ref :astronomy/service-chan)
+                          :meta-atom (ig/ref :astronomy/meta-atom)
+                          :state-atom (ig/ref :astronomy/state-atom)
+                          :dom-atom (ig/ref :astronomy/dom-atom)}}
 
     :service.listeners
     #:service.listeners {:init-fn parts.listeners/init-service-center!

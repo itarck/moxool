@@ -1,7 +1,6 @@
 (ns astronomy.parts.listeners
   (:require
    [cljs.core.async :as async :refer [go >! <! chan go-loop]]
-   [integrant.core :as ig]
    [astronomy.service.effect :as s.effect]
 
    [astronomy.space.user.s :as s.user]
