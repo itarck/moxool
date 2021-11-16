@@ -10,7 +10,7 @@
     "web/clean": "rm -rf resource/public/js/* && rm -rf target",
     "desktop/dev": "shadow-cljs watch desktop electron",
     "desktop/start": "cd desktop && yarn start",
-    "desktop/prepare": "bb scripts/prepare_release.clj",
+    "desktop/prepare": "bb bbscripts/desktop-prepare.clj",
     "desktop/install": "cd desktop && yarn",
     "desktop/compile": "shadow-cljs release desktop electron",
     "desktop/make": "cd desktop && yarn make",
