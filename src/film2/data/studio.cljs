@@ -1,13 +1,17 @@
 (ns film2.data.studio
-  (:require 
+  (:require
    [datascript.transit :as dt]
    [astronomy.system.slider :as sys.slider]
-   [astronomy.system.city :as sys.city]
-   [astronomy.conn.mini-factory :as mini-factory]))
+   [astronomy.system.city :as sys.city])
+  (:require-macros
+   [methodology.lib.resource :refer [read-resource]]))
 
 
-(def mini-db-str1 (dt/write-transit-str (mini-factory/create-db1)))
-(def mini-db-str2 (dt/write-transit-str (mini-factory/create-db2)))
+(def mini-db-str1
+  (read-resource "private/frame/default.fra"))
+
+(def mini-db-str2
+  (read-resource "private/frame/solar-0.0.3.fra"))
 
 (def slider-db-str (dt/write-transit-str sys.slider/db))
 

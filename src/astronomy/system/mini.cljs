@@ -1,12 +1,12 @@
 (ns astronomy.system.mini
   (:require
-   [datascript.transit :as dt]
    [integrant.core :as ig]
    [methodology.lib.circuit]
    [astronomy.ig.conn]
    [astronomy.ig.root-view]
-   [astronomy.ig.service-center]
-   [astronomy.conn.mini-factory :as mini-factory]))
+   [astronomy.ig.service-center])
+  (:require-macros
+   [methodology.lib.resource :refer [read-resource]]))
 
 
 ;; 说明：已经废弃，提取 default 文件
@@ -19,7 +19,8 @@
 (derive :astronomy/service-chan :circuit/chan)
 
 
-(def default-db (mini-factory/create-db1))
+(def default-db
+  (read-resource "private/frame/default.fra"))
 
 (def default-config
   #:astronomy{:conn #:conn {:initial-db default-db}

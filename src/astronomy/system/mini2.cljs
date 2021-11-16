@@ -4,8 +4,7 @@
    [methodology.lib.circuit :as circuit]
    [astronomy.ig.conn]
    [astronomy.ig.root-view]
-   [astronomy.ig.service-center]
-   [astronomy.conn.mini-factory :as mini-factory])
+   [astronomy.ig.service-center])
   (:require-macros
    [methodology.lib.resource :refer [read-resource]]))
 
