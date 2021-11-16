@@ -2,7 +2,7 @@
   (:require
    [integrant.core :as ig]
    [methodology.lib.circuit :as circuit]
-   [astronomy.parts.conn]
+   [astronomy.conn.schema :refer [schema]]
    [astronomy.parts.root-view]
    [astronomy.parts.service-center])
   (:require-macros
@@ -14,11 +14,13 @@
 (derive :astronomy/dom-atom :circuit/atom)   ;; 记录dom的状态
 (derive :astronomy/state-atom :circuit/ratom)   ;; 不同服务间共享一些数据
 (derive :astronomy/service-chan :circuit/chan)
+(derive :astronomy/conn :circuit/conn)
 
 
 (def default-config
   #:astronomy
-   {:conn #:conn {:db-transit-str (read-resource "private/frame/default.fra")}
+   {:conn #:conn {:schema schema
+                  :db-transit-str (read-resource "private/frame/default.fra")}
     :service-chan #:chan {}
     :meta-atom  #:ratom {:init-value {:mode :read-and-write}}
     :state-atom #:ratom {}
