@@ -11,7 +11,7 @@
 
 (def user-config
   {:astronomy/conn
-   #:conn {:db-transit-str (read-resource "private/frame/solar-0.0.3.fra")}})
+   #:pconn {:db-transit-str (read-resource "private/frame/solar-0.0.3.fra")}})
 
 (def astronomy-system
   (mini2/create-system! user-config))

@@ -1,7 +1,6 @@
 (ns astronomy.system.mini2
   (:require
    [integrant.core :as ig]
-   [methodology.lib.circuit :as circuit]
    [astronomy.conn.schema :refer [schema]]
    [astronomy.parts.root-view :as parts.root-view]
    [astronomy.parts.listeners :as parts.listeners]
@@ -11,11 +10,11 @@
 
 
 (def hierarchy
-  {:astronomy/meta-atom :circuit/ratom
-   :astronomy/dom-atom :circuit/atom
-   :astronomy/state-atom :circuit/ratom
-   :astronomy/service-chan :circuit/chan
-   :astronomy/conn :circuit/conn
+  {:astronomy/meta-atom :pumpnet/ratom
+   :astronomy/dom-atom :pumpnet/atom
+   :astronomy/state-atom :pumpnet/ratom
+   :astronomy/service-chan :pumpnet/chan
+   :astronomy/conn :pumpnet/pconn
    :astronomy/publisher :pumpnet/publisher
    :astronomy/root-view :pumpnet/reagent-view
    :astronomy/service.listeners :pumpnet/service.listeners})
@@ -23,10 +22,10 @@
 
 (def default-config
   #:astronomy
-   {:conn #:conn {:schema schema
-                  :db-transit-str (read-resource "private/frame/default.fra")}
+   {:conn #:pconn {:schema schema
+                   :db-transit-str (read-resource "private/frame/default.fra")}
     :service-chan #:chan {}
-    :meta-atom  #:ratom {:init-value {:mode :read-and-write}}
+    :meta-atom  #:ratom {:initial-value {:mode :read-and-write}}
     :state-atom #:ratom {}
     :dom-atom #:atom {}
     :publisher #:publisher {:pub-fn (fn [event]
@@ -72,7 +71,7 @@
 
   (def user-config
     {:astronomy/conn
-     #:conn {:db-transit-str (read-resource "private/frame/solar-0.0.3.fra")}})
+     #:pconn {:db-transit-str (read-resource "private/frame/solar-0.0.3.fra")}})
 
   (def system
     (create-system! user-config))
