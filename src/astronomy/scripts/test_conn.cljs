@@ -14,7 +14,7 @@
    [astronomy.data.stars :as d.stars]
    [astronomy.data.constellation :as d.constel]
    [astronomy.data.misc :as d.misc]
-   [astronomy.scripts.init-conn2 :as init-conn2]))
+   [astronomy.scripts.db.old-db :as old-db]))
 
 ;; processes
 
@@ -123,7 +123,7 @@
     @conn))
 
 
-(def real-db @(init-conn2/init-conn!))
+(def real-db @(old-db/init-conn!))
 
 
 (comment

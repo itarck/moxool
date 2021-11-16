@@ -1,4 +1,4 @@
-(ns astronomy.scripts.init-conn2
+(ns astronomy.scripts.db.old-db
   (:require
    [datascript.core :as d]
    [posh.reagent :as p]
@@ -34,8 +34,7 @@
    {:db/id [:tool/name "atmosphere-tool"]}
    {:db/id [:tool/name "astronomical-point-tool"]}
   ;;  {:db/id [:tool/name "ruler-tool"]}
-   {:db/id [:tool/name "ellipse-orbit-tool"]}
-   ])
+   {:db/id [:tool/name "ellipse-orbit-tool"]}])
 
 
 (defn kick-start! [conn]
@@ -80,7 +79,7 @@
 
 
 (comment
-  
+
   (async-run2!)
 
   (time (count @(init-conn!)))
