@@ -1,7 +1,7 @@
 (ns film2.modules.ioframe.m
   (:require
    [datascript.core :as d]
-   [astronomy.system.mini :as mini]
+   [astronomy.system.mini2 :as mini2]
    [astronomy.system.slider :as slider]
    [astronomy.system.city :as city]))
 
@@ -20,13 +20,25 @@
 (def schema {:ioframe/name {:db/unique :db.unique/identity}})
 
 
+
 ;; transform
 
 (defmulti create-ioframe-system (fn [ioframe] (:ioframe/type ioframe)))
 
 (defmethod create-ioframe-system :mini
   [ioframe]
-  (mini/create-ioframe-system ioframe))
+  (let [{:ioframe/keys [db db-url db-transit-str]} ioframe
+        conn-config (cond
+                      db-transit-str #:conn {:db-transit-str db-transit-str}
+                      db-url #:conn {:db-url db-url}
+                      db #:conn {:initial-db db})
+        user-config #:astronomy {:conn conn-config}
+        astronomy-instance (mini2/create-system! user-config)]
+    #:ioframe-system {:view (:astronomy/root-view astronomy-instance)
+                      :conn (:astronomy/conn astronomy-instance)
+                      :dom-atom (:astronomy/dom-atom astronomy-instance)
+                      :meta-atom (:astronomy/meta-atom astronomy-instance)
+                      :service-chan (:astronomy/service-chan astronomy-instance)}))
 
 (defmethod create-ioframe-system :slider
   [ioframe]
