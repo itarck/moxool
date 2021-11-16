@@ -19,7 +19,7 @@
 
 (def default-config
   #:astronomy
-   {:conn #:conn {:initial-db (mini-factory/create-db1)}
+   {:conn #:conn {:db-transit-str (read-resource "private/frame/default.fra")}
     :service-chan #:chan {}
     :meta-atom  #:ratom {:init-value {:mode :read-and-write}}
     :state-atom #:ratom {}
