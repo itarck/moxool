@@ -4,20 +4,20 @@
    [astronomy.conn.schema :refer [schema]]
    [astronomy.parts.root-view :as parts.root-view]
    [astronomy.parts.listeners :as parts.listeners]
-   [pumpnet.core :as pp])
+   [fancoil.core :as pp])
   (:require-macros
    [methodology.lib.resource :refer [read-resource]]))
 
 
 (def hierarchy
-  {:astronomy/meta-atom :pumpnet/db.ratom
-   :astronomy/dom-atom :pumpnet/db.atom
-   :astronomy/state-atom :pumpnet/db.ratom
-   :astronomy/service-chan :pumpnet/async.chan
-   :astronomy/conn :pumpnet/db.pconn
-   :astronomy/publisher :pumpnet/async.publisher
-   :astronomy/root-view :pumpnet/view.reagent-view
-   :astronomy/service.listeners :pumpnet/service.listeners})
+  {:astronomy/meta-atom :fancoil/db.ratom
+   :astronomy/dom-atom :fancoil/db.atom
+   :astronomy/state-atom :fancoil/db.ratom
+   :astronomy/service-chan :fancoil/async.chan
+   :astronomy/conn :fancoil/db.pconn
+   :astronomy/publisher :fancoil/async.publisher
+   :astronomy/root-view :fancoil/view.reagent-view
+   :astronomy/service.listeners :fancoil/service.listeners})
 
 
 (def default-config
