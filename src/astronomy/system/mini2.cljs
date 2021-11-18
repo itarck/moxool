@@ -10,40 +10,40 @@
 
 
 (def hierarchy
-  {:astronomy/meta-atom :pumpnet/ratom
-   :astronomy/dom-atom :pumpnet/atom
-   :astronomy/state-atom :pumpnet/ratom
-   :astronomy/service-chan :pumpnet/chan
-   :astronomy/conn :pumpnet/pconn
-   :astronomy/publisher :pumpnet/publisher
-   :astronomy/root-view :pumpnet/reagent-view
+  {:astronomy/meta-atom :pumpnet/db.ratom
+   :astronomy/dom-atom :pumpnet/db.atom
+   :astronomy/state-atom :pumpnet/db.ratom
+   :astronomy/service-chan :pumpnet/async.chan
+   :astronomy/conn :pumpnet/db.pconn
+   :astronomy/publisher :pumpnet/async.publisher
+   :astronomy/root-view :pumpnet/view.reagent-view
    :astronomy/service.listeners :pumpnet/service.listeners})
 
 
 (def default-config
   #:astronomy
-   {:conn #:pconn {:schema schema
-                   :db-transit-str (read-resource "private/frame/default.fra")}
-    :service-chan #:chan {}
-    :meta-atom  #:ratom {:initial-value {:mode :read-and-write}}
-    :state-atom #:ratom {}
-    :dom-atom #:atom {}
-    :publisher #:publisher {:pub-fn (fn [event]
-                                      (namespace (:event/action event)))
-                            :in-chan (ig/ref :astronomy/service-chan)}
+   {:conn #:db.pconn {:schema schema
+                      :db-transit-str (read-resource "private/frame/default.fra")}
+    :service-chan #:async.chan {}
+    :meta-atom  #:db.ratom {:initial-value {:mode :read-and-write}}
+    :state-atom #:db.ratom {}
+    :dom-atom #:db.atom {}
+    :publisher #:async.publisher {:pub-fn (fn [event]
+                                            (namespace (:event/action event)))
+                                  :in-chan (ig/ref :astronomy/service-chan)}
 
     :root-view
-    #:reagent-view {:view-fn parts.root-view/RootView
-                    :props {:user-name "dr who"
-                            :scene-name "solar"}
-                    :env {:object-libray parts.root-view/object-libray
-                          :tool-library parts.root-view/tool-library
-                          :hud-library parts.root-view/hud-library
-                          :conn (ig/ref :astronomy/conn)
-                          :service-chan (ig/ref :astronomy/service-chan)
-                          :meta-atom (ig/ref :astronomy/meta-atom)
-                          :state-atom (ig/ref :astronomy/state-atom)
-                          :dom-atom (ig/ref :astronomy/dom-atom)}}
+    #:view.reagent-view {:view-fn parts.root-view/RootView
+                         :props {:user-name "dr who"
+                                 :scene-name "solar"}
+                         :env {:object-libray parts.root-view/object-libray
+                               :tool-library parts.root-view/tool-library
+                               :hud-library parts.root-view/hud-library
+                               :conn (ig/ref :astronomy/conn)
+                               :service-chan (ig/ref :astronomy/service-chan)
+                               :meta-atom (ig/ref :astronomy/meta-atom)
+                               :state-atom (ig/ref :astronomy/state-atom)
+                               :dom-atom (ig/ref :astronomy/dom-atom)}}
 
     :service.listeners
     #:service.listeners {:init-fn parts.listeners/init-service-center!

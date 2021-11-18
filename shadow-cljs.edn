@@ -18,7 +18,7 @@
              :main electron.main.core/main}}
 
  :dev-http
- {3030 {:root    "desktop"
+ {4000 {:root    "desktop"
         :handler desktop/app}}
 ;  
  }
