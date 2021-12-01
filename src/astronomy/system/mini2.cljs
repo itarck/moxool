@@ -22,42 +22,40 @@
 
 (def default-config
   #:astronomy
-   {:conn #:db.pconn {:schema schema
-                      :db-transit-str (read-resource "private/frame/default.fra")}
-    :service-chan #:async.chan {}
-    :meta-atom  #:db.ratom {:initial-value {:mode :read-and-write}}
-    :state-atom #:db.ratom {}
-    :dom-atom #:db.atom {}
-    :publisher #:async.publisher {:pub-fn (fn [event]
-                                            (namespace (:event/action event)))
-                                  :in-chan (ig/ref :astronomy/service-chan)}
+   {:conn {:schema schema
+           :db-transit-str (read-resource "private/frame/default.fra")}
+    :service-chan {}
+    :meta-atom  {:initial-value {:mode :read-and-write}}
+    :state-atom {}
+    :dom-atom {}
+    :publisher  {:pub-fn (fn [event]
+                           (namespace (:event/action event)))
+                 :in-chan (ig/ref :astronomy/service-chan)}
 
-    :root-view
-    #:view.reagent-view {:view-fn parts.root-view/RootView
-                         :props {:user-name "dr who"
-                                 :scene-name "solar"}
-                         :env {:object-libray parts.root-view/object-libray
-                               :tool-library parts.root-view/tool-library
-                               :hud-library parts.root-view/hud-library
-                               :conn (ig/ref :astronomy/conn)
-                               :service-chan (ig/ref :astronomy/service-chan)
-                               :meta-atom (ig/ref :astronomy/meta-atom)
-                               :state-atom (ig/ref :astronomy/state-atom)
-                               :dom-atom (ig/ref :astronomy/dom-atom)}}
+    :root-view {:view-fn parts.root-view/RootView
+                :props {:user-name "dr who"
+                        :scene-name "solar"}
+                :env {:object-libray parts.root-view/object-libray
+                      :tool-library parts.root-view/tool-library
+                      :hud-library parts.root-view/hud-library
+                      :conn (ig/ref :astronomy/conn)
+                      :service-chan (ig/ref :astronomy/service-chan)
+                      :meta-atom (ig/ref :astronomy/meta-atom)
+                      :state-atom (ig/ref :astronomy/state-atom)
+                      :dom-atom (ig/ref :astronomy/dom-atom)}}
 
-    :service.listeners
-    #:service.listeners {:init-fn parts.listeners/init-service-center!
-                         :publication (ig/ref :astronomy/publisher)
-                         :listeners parts.listeners/listeners
-                         :props {:user {:db/id [:user/name "dr who"]}
-                                 :astro-scene {:db/id [:scene/name "solar"]}
-                                 :camera {:db/id [:camera/name "default"]}
-                                 :spaceship-camera-control {:db/id [:spaceship-camera-control/name "default"]}}
-                         :env {:conn (ig/ref :astronomy/conn)
-                               :service-chan (ig/ref :astronomy/service-chan)
-                               :meta-atom (ig/ref :astronomy/meta-atom)
-                               :state-atom (ig/ref :astronomy/state-atom)
-                               :dom-atom (ig/ref :astronomy/dom-atom)}}})
+    :service.listeners {:init-fn parts.listeners/init-service-center!
+                        :publication (ig/ref :astronomy/publisher)
+                        :listeners parts.listeners/listeners
+                        :props {:user {:db/id [:user/name "dr who"]}
+                                :astro-scene {:db/id [:scene/name "solar"]}
+                                :camera {:db/id [:camera/name "default"]}
+                                :spaceship-camera-control {:db/id [:spaceship-camera-control/name "default"]}}
+                        :env {:conn (ig/ref :astronomy/conn)
+                              :service-chan (ig/ref :astronomy/service-chan)
+                              :meta-atom (ig/ref :astronomy/meta-atom)
+                              :state-atom (ig/ref :astronomy/state-atom)
+                              :dom-atom (ig/ref :astronomy/dom-atom)}}})
 
 
 (defn create-system! [user-config]
