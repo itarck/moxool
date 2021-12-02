@@ -68,6 +68,12 @@
             :aria-labelledby "discrete-slider-restrict"
             :valueLabelDisplay "auto"})]
 
+       ($ mt/Grid {:item true :xs 12}
+          ($ mt/Typography {:variant "subtitle1"} "动作")
+          ($ mt/Button {:variant "outlined"
+                        :size "small"
+                        :onClick #(go (>! service-chan #:event{:action :spaceship-camera-control/refresh-camera}))}
+             "保存当前状态"))
       ;;  
        ]]]))
 
