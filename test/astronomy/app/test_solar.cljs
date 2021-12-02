@@ -25,7 +25,7 @@
 
 
 (def system2
-  (ig/init config ))
+  (ig/init config))
 
 (keys system2)
 

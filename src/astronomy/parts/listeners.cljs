@@ -1,6 +1,8 @@
 (ns astronomy.parts.listeners
   (:require
    [cljs.core.async :as async :refer [go >! <! chan go-loop]]
+   [integrant.core :as ig]
+   
    [astronomy.service.effect :as s.effect]
 
    [astronomy.space.user.s :as s.user]
@@ -153,3 +155,15 @@
                                  (assoc :process-name process-name)
                                  (assoc :handle-event-fn handle-event-fn)))))))
 
+
+(defmethod ig/init-key :astronomy/service.listeners
+  [_key config]
+  (let [{:keys [init-fn publication listeners props env]} config]
+    (init-fn publication listeners props env)
+    {:publication publication}))
+
+
+(defmethod ig/halt-key! :astronomy/service.listeners
+  [_k {:keys [publication]}]
+  (println "halt astronomy/service.listeners")
+  (async/unsub-all publication))

@@ -16,8 +16,7 @@
    :astronomy/service-chan :fancoil/async.chan
    :astronomy/conn :fancoil/db.pconn
    :astronomy/publisher :fancoil/async.publisher
-   :astronomy/root-view :fancoil/view.reagent-view
-   :astronomy/service.listeners :fancoil/service.listeners})
+   :astronomy/root-view :fancoil/view.reagent-view})
 
 
 (def default-config
