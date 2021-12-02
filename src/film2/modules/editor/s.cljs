@@ -6,7 +6,6 @@
    [integrant.core :as ig]
    [posh.reagent :as p]
    [cljs-http.client :as http]
-   [methodology.lib.circuit]
    [film2.modules.ioframe.m :as ioframe.m]))
 
 

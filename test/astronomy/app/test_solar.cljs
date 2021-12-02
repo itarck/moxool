@@ -1,28 +1,32 @@
 (ns astronomy.app.test-solar
   (:require
-   [astronomy.app.solar :as solar]
+   [astronomy.app.solar :as app.solar]
+   [astronomy.system.solar :as system.solar]
    [astronomy.lib.api :as api]
    [datascript.core :as d]
-   [datascript.transit :as dt])
+   [datascript.transit :as dt]
+   [integrant.core :as ig]
+   [fancoil.core :as fancoil])
   (:require-macros
    [methodology.lib.resource :refer [read-resource]]))
 
 
 (def conn
-  (:astronomy/conn solar/system))
+  (:astronomy/conn app.solar/system))
 
 
-(api/save-db-file @conn "/private/frame/dev-20211202-1753.fra")
+#_(api/save-db-file @conn "/private/frame/dev-20211202-1753.fra")
+
+(def user-config
+  app.solar/user-config)
+
+(def config
+  (fancoil/merge-config system.solar/default-config user-config))
 
 
-(:camera/position (d/pull @conn '[*] [:camera/name "default"]))
+(def system2
+  (ig/init config ))
 
-(:spaceship-camera-control/position (d/pull @conn '[*] [:spaceship-camera-control/name "default"]))
+(keys system2)
 
-
-(def db
-  (dt/read-transit-str (read-resource "private/frame/dev-20211202-1735.fra")))
-
-(:camera/position (d/pull db '[*] [:camera/name "default"]))
-
-(:spaceship-camera-control/position (d/pull db '[*] [:spaceship-camera-control/name "default"]))
+(ig/halt! system2)

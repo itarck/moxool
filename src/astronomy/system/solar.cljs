@@ -4,7 +4,7 @@
    [astronomy.conn.schema :refer [schema]]
    [astronomy.parts.root-view :as parts.root-view]
    [astronomy.parts.listeners :as parts.listeners]
-   [fancoil.core :as pp])
+   [fancoil.core :as fancoil])
   (:require-macros
    [methodology.lib.resource :refer [read-resource]]))
 
@@ -57,10 +57,10 @@
                               :state-atom (ig/ref :astronomy/state-atom)
                               :dom-atom (ig/ref :astronomy/dom-atom)}}})
 
+(fancoil/load-hierarchy! hierarchy)
 
 (defn create-system! [user-config]
-  (pp/load-hierarchy! hierarchy)
-  (let [config (pp/merge-config default-config user-config)]
+  (let [config (fancoil/merge-config default-config user-config)]
     (ig/init config)))
 
 
