@@ -11,6 +11,7 @@
   (let [db (d/empty-db schema)
         dataset [d.ioframe/mini-1
                  d.ioframe/mini-2
+                 d.ioframe/city
                  d.iovideo/mini
                  d.cinema/default]]
     (d/db-with db dataset)))

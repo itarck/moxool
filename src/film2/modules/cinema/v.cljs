@@ -11,16 +11,16 @@
   [:div {:style {:position :absolute
                  :top "5px"
                  :right "5px"}}
-   [:> mt/Select {:value "a"
+   [:> mt/Select {:value (:cinema/current-ioframe-name cinema)
                   :style {:color "white"
                           :background "rgba(255, 255, 255, 0.2)"
                           :padding "0 10px"}
                   :onChange (fn [e]
                               (let [new-value (j/get-in e [:target :value])
                                     event #:event {:action :cinema/change-ioframe
-                                                   :detail {:ioframe-name (keyword new-value)}}]
-                                (println event)
-                                #_(go (>! service-chan event))))}
+                                                   :detail {:cinema cinema
+                                                            :ioframe-name new-value}}]
+                                (go (>! service-chan event))))}
 
     (for [ioframe-name (:cinema/ioframe-names cinema)]
       ^{:key ioframe-name}

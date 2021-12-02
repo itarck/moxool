@@ -7,6 +7,7 @@
    [film2.modules.editor.s :as editor.s]
    [film2.modules.player.s :as player.s]
    [film2.modules.recorder.s :as recorder.s]
+   [film2.modules.cinema.s :as cinema.s]
    
 ;; 
    ))
@@ -24,7 +25,10 @@
                       :service-fn player.s/init-service!}
    :recorder #:process {:name "recorder"
                         :listen ["recorder"]
-                        :service-fn recorder.s/init-service!}})
+                        :service-fn recorder.s/init-service!}
+   :cinema #:process {:name "cinema"
+                      :listen ["cinema"]
+                      :handle-event-fn cinema.s/handle-event}})
 
 
 (defn init-service! [props env]
@@ -41,6 +45,23 @@
           (catch js/Error e
             (println process-name ": no handler found for event" (:event/action event)))))
       (recur))))
+
+
+(defn handle-event-process->service
+  [props {:keys [process-name process-chan handle-event-process] :as env}]
+  
+  (go-loop []
+    (let [event (<! process-chan)]
+      (try
+        (cond
+          (vector? event) (go-loop [[e & rs] event]
+                            (when (seq e)
+                              (let [_rst (<! (handle-event-process props env e))]
+                                (recur rs))))
+          :else (handle-event-process props env event))
+        (catch js/Error e
+          (println process-name "service error: " e))))
+    (recur)))
 
 
 (defn init-service-center! [processes props env]

@@ -10,8 +10,7 @@
 
 (def schema
   #:cinema{:name {:db/unique :db.unique/identity}
-           :editor {:db/cardinality :db.cardinality/one :db/valueType :db.type/ref}
-           :current-ioframe {:db/cardinality :db.cardinality/one :db/valueType :db.type/ref}})
+           :editor {:db/cardinality :db.cardinality/one :db/valueType :db.type/ref}})
 
 
 (defn pull-all
