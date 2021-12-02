@@ -27,7 +27,7 @@
             ioframe-1 (d/pull @conn '[*] (get-in editor-1 [:editor/current-ioframe :db/id]))
             scene-system (ioframe.m/create-ioframe-system ioframe-1)
             old-scene-system (get-in @instance-atom [:ioframe (:db/id ioframe-1)])]
-        #_(when old-scene-system
+        (when old-scene-system
           (ig/halt! (:ioframe-system/ig-instance old-scene-system)))
         (swap! instance-atom assoc-in [:ioframe (:db/id ioframe-1)] scene-system)
         (p/transact! conn  [{:db/id (:db/id editor-1)

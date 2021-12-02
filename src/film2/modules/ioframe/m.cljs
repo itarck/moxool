@@ -29,9 +29,9 @@
   [ioframe]
   (let [{:ioframe/keys [db db-url db-transit-str]} ioframe
         conn-config (cond
-                      db-transit-str #:conn {:db-transit-str db-transit-str}
-                      db-url #:conn {:db-url db-url}
-                      db #:conn {:initial-db db})
+                      db-transit-str {:db-transit-str db-transit-str}
+                      db-url {:db-url db-url}
+                      db {:initial-db db})
         user-config #:astronomy {:conn conn-config}
         astronomy-instance (mini2/create-system! user-config)]
     #:ioframe-system {:view (:astronomy/root-view astronomy-instance)
