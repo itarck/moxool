@@ -17,7 +17,14 @@
   #:ioframe {:type :solar
              :name "2.太阳、地球和五大行星"
              :db-transit-str (read-resource "private/frame/solar-0.0.3.fra")
+             :description "2.太阳、地球和五大行星"})
+
+(def solar-20211202-1702
+  #:ioframe {:type :solar
+             :name "3.太阳、地球和五大行星（显示轨道）"
+             :db-transit-str (read-resource "private/frame/dev-20211202-1702.fra")
              :description "只有太阳和地球的小型系统"})
+  
 
 (def city
   #:ioframe {:type :city

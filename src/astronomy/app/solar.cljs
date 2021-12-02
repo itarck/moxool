@@ -13,7 +13,7 @@
   {:astronomy/conn {:db-transit-str (read-resource "private/frame/solar-0.0.3.fra")}})
 
 
-(def system
+(defonce system
   (solar/create-system! user-config))
 
 
