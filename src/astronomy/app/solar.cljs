@@ -1,4 +1,4 @@
-(ns astronomy.app.core
+(ns astronomy.app.solar
   (:require
    [applied-science.js-interop :as j]
    [reagent.dom :as rdom]
@@ -12,13 +12,14 @@
 (def user-config
   {:astronomy/conn {:db-transit-str (read-resource "private/frame/solar-0.0.3.fra")}})
 
-(def astronomy-system
+
+(def system
   (solar/create-system! user-config))
 
 
 (defn update! []
   (rdom/render
-   (:astronomy/root-view astronomy-system)
+   (:astronomy/root-view system)
    (j/call js/document :getElementById  "app")))
 
 
