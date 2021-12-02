@@ -38,7 +38,8 @@
                       :conn (:astronomy/conn astronomy-instance)
                       :dom-atom (:astronomy/dom-atom astronomy-instance)
                       :meta-atom (:astronomy/meta-atom astronomy-instance)
-                      :service-chan (:astronomy/service-chan astronomy-instance)}))
+                      :service-chan (:astronomy/service-chan astronomy-instance)
+                      :ig-instance astronomy-instance}))
 
 (defmethod create-ioframe-system :slider
   [ioframe]
