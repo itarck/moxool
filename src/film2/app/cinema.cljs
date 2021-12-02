@@ -1,24 +1,24 @@
-(ns film2.app.studio
+(ns film2.app.cinema
   (:require
    [applied-science.js-interop :as j]
    [reagent.dom :as rdom]
-   [film2.system.studio :as studio]
-   [film2.db.studio :as db.studio]))
+   [film2.system.cinema :as cinema]
+   [film2.db.cinema :as db.cinema]))
 
 
 ;; mount point
 
 (def user-config
-  #:studio {:conn {:initial-db db.studio/simple-db}})
+  #:cinema {:conn {:initial-db db.cinema/simple-db}})
 
 
 (def system
-  (studio/create-app! user-config))
+  (cinema/create-app! user-config))
 
 
 (defn update! []
   (rdom/render
-   (:studio/view system)
+   (:cinema/view system)
    (j/call js/document :getElementById  "app")))
 
 
@@ -28,7 +28,5 @@
 
 
 (comment
-  
-  (keys system)
-  
-  )
+
+  (keys system))

@@ -10,9 +10,9 @@
   :desktop {:target     :browser
             :output-dir "desktop/js"
             :asset-path "/js"
-            :modules {:app {:entries [film2.app.studio]
-                            :init-fn film2.app.studio/init!}}
-            :devtools {:after-load film2.app.studio/update!}}
+            :modules {:app {:entries [film2.app.cinema]
+                            :init-fn film2.app.cinema/init!}}
+            :devtools {:after-load film2.app.cinema/update!}}
   :electron {:target :node-script
              :output-to "desktop/main.js"
              :main electron.main.core/main}}

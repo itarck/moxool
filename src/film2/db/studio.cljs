@@ -1,4 +1,4 @@
-(ns film2.db.simple
+(ns film2.db.studio
   (:require
    [datascript.core :as d]
    [film2.data.studio :as d.studio]

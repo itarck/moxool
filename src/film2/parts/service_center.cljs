@@ -82,3 +82,5 @@
     {:service-chan service-chan}))
 
 
+(derive :cinema/service-center :studio/service-center)
+

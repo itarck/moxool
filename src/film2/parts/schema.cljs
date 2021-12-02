@@ -6,6 +6,7 @@
    [film2.modules.player.m :as player.m]
    [film2.modules.recorder.m :as recorder.m]
    [film2.modules.studio.m :as studio.m]
+   [film2.modules.cinema.m :as cinema.m]
    ))
 
 
@@ -16,4 +17,5 @@
    editor.m/schema
    recorder.m/schema
    player.m/schema
-   studio.m/schema))
+   studio.m/schema
+   cinema.m/schema))
