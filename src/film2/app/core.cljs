@@ -2,12 +2,18 @@
   (:require
    [applied-science.js-interop :as j]
    [reagent.dom :as rdom]
-   [film2.system.studio :as studio]))
+   [film2.system.studio :as studio]
+   [film2.db.simple :as db.simple]))
 
 
 ;; mount point
 
-(defonce system (studio/create-app! {}))
+(def user-config
+  #:studio {:conn {:initial-db db.simple/simple-db}})
+
+
+(def system
+  (studio/create-app! user-config))
 
 
 (defn update! []

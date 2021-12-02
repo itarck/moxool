@@ -2,9 +2,7 @@
   (:require
    [integrant.core :as ig]
    [fancoil.core]
-
    [film2.parts.schema :refer [schema]]
-   [film2.data.studio :as data.studio]
    [film2.parts.root-view]
    [film2.parts.service-center]))
 
@@ -20,8 +18,7 @@
 
 (def default-config
   #:studio
-   {:conn {:schema schema
-           :initial-tx data.studio/dataset}
+   {:conn {:schema schema}
     :instance-atom {:initial-value {}}
     :service-chan {}
     :service-center {:props {:studio {:db/id [:studio/name "default"]}}
