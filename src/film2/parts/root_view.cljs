@@ -5,5 +5,5 @@
 
 
 (defmethod ig/init-key :studio/view [_k config]
-  (let [{:view/keys [props env]} config]
+  (let [{:keys [props env]} config]
     [studio.v/StudioView props env]))

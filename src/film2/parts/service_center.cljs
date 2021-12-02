@@ -70,7 +70,7 @@
 
 
 (defmethod ig/init-key :studio/service-center [_key config]
-  (let [{:service/keys [processes props env]} config
+  (let [{:keys [processes props env]} config
         process-kvs (if processes
                       (select-keys process-lib processes)
                       process-lib)
