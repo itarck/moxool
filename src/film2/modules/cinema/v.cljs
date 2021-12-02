@@ -1,9 +1,6 @@
 (ns film2.modules.cinema.v
   (:require
-   [applied-science.js-interop :as j]
-   [cljs.core.async :refer [go >!]]
    [posh.reagent :as p]
-   ["@material-ui/core" :as mt]
    [film2.modules.editor.v :as editor.v]))
 
 
