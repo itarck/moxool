@@ -10,7 +10,7 @@
 ;; mount point
 
 (def user-config
-  {:astronomy/conn {:db-transit-str (read-resource "private/frame/solar-0.0.3.fra")}})
+  {:astronomy/conn {:db-transit-str (read-resource "private/frame/dev-20211202-1753.fra")}})
 
 
 (defonce system

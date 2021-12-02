@@ -72,7 +72,8 @@
           ($ mt/Typography {:variant "subtitle1"} "动作")
           ($ mt/Button {:variant "outlined"
                         :size "small"
-                        :onClick #(go (>! service-chan #:event{:action :spaceship-camera-control/refresh-camera}))}
+                        :onClick #(go (>! service-chan #:event{:action :spaceship-camera-control/refresh-camera
+                                                               :detail {:spaceship-camera-control tool}}))}
              "保存当前状态"))
       ;;  
        ]]]))

@@ -53,8 +53,8 @@
 (defmethod handle-event :spaceship-camera-control/refresh-camera
   [_props {:keys [db dom]} {:event/keys [detail]}]
   (let [{:keys [spaceship-camera-control]} detail
-        position (c.camera-controls/get-camera-position (:spaceship-camera-control dom))
-        direction (c.camera-controls/get-camera-direction (:camera dom))
+        position (vec (c.camera-controls/get-camera-position (:spaceship-camera-control dom)))
+        direction (vec (c.camera-controls/get-camera-direction (:camera dom)))
         tx1 (m.spaceship/refresh-camera-tx spaceship-camera-control position direction)
         event #:event {:action :spaceship-camera-control/check-valid-position
                        :detail {:spaceship-camera-control spaceship-camera-control}}]
