@@ -1,4 +1,4 @@
-(ns film2.app.core
+(ns film2.app.studio
   (:require
    [applied-science.js-interop :as j]
    [reagent.dom :as rdom]
