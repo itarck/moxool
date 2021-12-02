@@ -6,7 +6,7 @@
             :mode :editor
             :editor #:editor {:name "default"
                               :doc "编辑ioframe的工具"
-                              :current-ioframe [:ioframe/name "mini-1"]}
+                              :current-ioframe [:ioframe/name "1.太阳和地球的小型系统"]}
             :player #:player {:name "default"
                               :doc "播放iovideo的工具"
                               :current-iovideo [:iovideo/name "mini move"]}

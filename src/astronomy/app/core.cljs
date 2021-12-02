@@ -2,7 +2,7 @@
   (:require
    [applied-science.js-interop :as j]
    [reagent.dom :as rdom]
-   [astronomy.system.mini2 :as mini2])
+   [astronomy.system.solar :as solar])
   (:require-macros
    [methodology.lib.resource :refer [read-resource]]))
 
@@ -13,7 +13,7 @@
   {:astronomy/conn {:db-transit-str (read-resource "private/frame/solar-0.0.3.fra")}})
 
 (def astronomy-system
-  (mini2/create-system! user-config))
+  (solar/create-system! user-config))
 
 
 (defn update! []

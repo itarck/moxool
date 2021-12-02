@@ -1,4 +1,4 @@
-(ns astronomy.system.mini2
+(ns astronomy.system.solar
   (:require
    [integrant.core :as ig]
    [astronomy.conn.schema :refer [schema]]
