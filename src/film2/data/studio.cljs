@@ -3,6 +3,8 @@
 
 (def default
   #:studio {:name "default"
+            :show-admin-menu? true
+            :show-user-menu? true
             :mode :editor
             :editor #:editor {:name "default"
                               :doc "编辑ioframe的工具"
