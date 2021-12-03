@@ -6,7 +6,6 @@
    [astronomy.data.celestial :as d.celestial]
    [astronomy.data.coordinate :as d.coordinate]
    [astronomy.data.tool :as d.tool]
-   [astronomy.data.misc :as d.misc]
    [astronomy.data.galaxy :as d.galaxy]
    [astronomy.lib.api :as api]))
 
@@ -27,14 +26,18 @@
    d.celestial/sun
    d.celestial/earth
    d.coordinate/astronomical-coordinate-earth-center
+  ;;  d.tool/astronomical-coordinate-tool
    d.tool/planet-tool-1
    d.tool/clock-tool1
-   d.galaxy/galaxy])
+   d.galaxy/galaxy
+   ])
 
 
 (defn create-db []
   (let [conn (create-empty-conn!)]
     (d/transact! conn basic-dataset)
+    ;; (d/transact! conn d.stars/dataset1)
+
     (kick-start! conn tools2)
     @conn))
 

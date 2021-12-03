@@ -38,8 +38,8 @@
 
        [:<>
         ;; [v.constel/ConstellationsView {} env]
-        [v.background/BackgroundView {} env]
-        #_[v.star/SavedStarsSphereView {} env]]
+        ;; [v.background/BackgroundView {} env]
+        [v.star/SavedStarsSphereView {} env]]
 
 
        (for [object objects]
