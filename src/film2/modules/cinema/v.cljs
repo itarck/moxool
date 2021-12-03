@@ -70,28 +70,31 @@
                                                                       :detail {:cinema cinema
                                                                                :email email
                                                                                :angel-code angel-code
-                                                                               :from-user? true }}))))}
-             "确定"]]]]]]]))
-  
-  )
+                                                                               :from-user? true}}))))}
+             "确定"]]]]]]])))
+
+(defn BackgroundView []
+  [:> Canvas {:style {:background :black
+                      :style {:height "100%"
+                              :width "100%"}}
+              :shadowMap true}
+   ($ Stars {:radius 100 :depth 100 :count 3000 :factor 4 :saturation 0 :fade true})
+   ($ OrbitControls)])
+
 
 (defn CinemaEntranceView
   [props env]
   [:<>
-   [:> Canvas {:style {:background :black
-                       :style {:height "100%"
-                               :width "100%"}}
-               :shadowMap true}
-    ($ Stars {:radius 100 :depth 100 :count 3000 :factor 4 :saturation 0 :fade true})
-    ($ OrbitControls)]
+   [BackgroundView]
    [LoginView props env]])
 
 
 (defn CinemaView
   [{:keys [cinema] :as props} {:keys [conn] :as env}]
   (let [cinema-1 @(p/pull conn '[*] (:db/id cinema))]
-    (if (:cinema/login? cinema-1)
-      [CinemaScreenView {:cinema cinema-1} env]
-      [CinemaEntranceView {:cinema cinema-1} env])))
+    (case (:cinema/login-state cinema-1)
+      :fail [CinemaEntranceView {:cinema cinema-1} env]
+      :success [CinemaScreenView {:cinema cinema-1} env]
+      [BackgroundView])))
 
 
