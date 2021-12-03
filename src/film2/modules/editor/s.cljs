@@ -24,11 +24,11 @@
   [_props {:keys [conn instance-atom] :as env} {:event/keys [detail]}]
   (go (let [editor-1 (d/pull @conn '[*] (get-in detail [:editor :db/id]))
             ioframe-1 (d/pull @conn '[*] (get-in editor-1 [:editor/current-ioframe :db/id]))
-            scene-system (ioframe.m/create-ioframe-system ioframe-1)
             old-scene-system (get-in @instance-atom [:ioframe (:db/id ioframe-1)])]
-        (swap! instance-atom assoc-in [:ioframe (:db/id ioframe-1)] scene-system)
-        (when old-scene-system
-          ;; (println ":editor/load-current-ioframe old-scene-system" old-scene-system)
+        (when-not old-scene-system
+          (let [scene-system (ioframe.m/create-ioframe-system ioframe-1)]
+            (swap! instance-atom assoc-in [:ioframe (:db/id ioframe-1)] scene-system)))
+        #_(when old-scene-system
           (ig/halt! (:ioframe-system/ig-instance old-scene-system)))
         (p/transact! conn  [{:db/id (:db/id editor-1)
                              :editor/status :ready

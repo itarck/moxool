@@ -15,7 +15,6 @@
                                                      :ioframe {:db/id [:ioframe/name ioframe-name]}}}
                             :event #:event {:action :editor/load-current-ioframe
                                             :detail {:editor (:cinema/editor cinema)}})]
-    (println "film2.modules.cinema.s" effects)
     effects)
   
   
