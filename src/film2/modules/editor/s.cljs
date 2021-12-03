@@ -2,10 +2,7 @@
   (:require
    [cljs.core.async :refer [go go-loop >! <!]]
    [datascript.core :as d]
-   [datascript.transit :as dt]
-   [integrant.core :as ig]
    [posh.reagent :as p]
-   [cljs-http.client :as http]
    [film2.modules.ioframe.m :as ioframe.m]))
 
 
