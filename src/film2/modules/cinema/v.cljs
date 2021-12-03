@@ -41,7 +41,7 @@
      [UserMenuView {:cinema cinema-1} env]]))
 
 (defn LoginView
-  [_props {:keys [service-chan]}]
+  [{:keys [cinema]} {:keys [service-chan]}]
   (let [local-atom (atom {:email ""
                           :angel-code ""})]
     (fn [_props _env]
@@ -64,7 +64,13 @@
                               :onChange #(swap! local-atom assoc :angel-code (j/get-in % [:target :value]))}]]
            [:> mt/Grid {:item true :xs 5}
             [:> mt/Button {:variant "outlined"
-                           :on-click #(println @local-atom)} "确定"]]]]]]]))
+                           :on-click (fn []
+                                       (let [{:keys [email angel-code]} @local-atom]
+                                         (go (>! service-chan #:event{:action :cinema/varify-angle-code
+                                                                      :detail {:cinema cinema
+                                                                               :email email
+                                                                               :angel-code angel-code}}))))}
+             "确定"]]]]]]]))
   
   )
 
@@ -77,7 +83,7 @@
                :shadowMap true}
     ($ Stars {:radius 100 :depth 100 :count 3000 :factor 4 :saturation 0 :fade true})
     ($ OrbitControls)]
-   [LoginView {} env]])
+   [LoginView props env]])
 
 
 (defn CinemaView

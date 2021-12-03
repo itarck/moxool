@@ -1,6 +1,7 @@
 (ns film2.modules.cinema.s
   (:require
-   [astronomy.service.effect :as fx]))
+   [astronomy.service.effect :as fx]
+   [film2.modules.cinema.m :as cinema.m]))
 
 
 (defmulti handle-event (fn [_ _ event] (:event/action event)))
@@ -15,7 +16,12 @@
                                                      :ioframe {:db/id [:ioframe/name ioframe-name]}}}
                             :event #:event {:action :editor/load-current-ioframe
                                             :detail {:editor (:cinema/editor cinema)}})]
-    effects)
-  
-  
-  )
+    effects))
+
+
+(defmethod handle-event :cinema/varify-angle-code
+  [props env {:event/keys [detail]}]
+  (let [{:keys [cinema email angel-code]} detail]
+    (when (cinema.m/varify-angel-code email angel-code)
+      (fx/effects :tx [{:db/id (:db/id cinema)
+                        :cinema/login? true}]))))

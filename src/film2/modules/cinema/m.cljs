@@ -1,6 +1,8 @@
 (ns film2.modules.cinema.m
   (:require
-   [datascript.core :as d]))
+   [clojure.string :as string]
+   [datascript.core :as d]
+   [reagent.crypt :as crypt]))
 
 
 (def sample
@@ -23,3 +25,30 @@
   [db cinema ioframe-name]
   [#:cinema {:db/id (:db/id cinema)
              :current-ioframe-name ioframe-name}])
+
+
+(defn generate-angel-code
+  [email]
+  (let [angel-salt "Thanks angel!!!"]
+    (->
+     (crypt/hash (str email angel-salt) :sha256)
+     (crypt/bytes->hex)
+     (subs 0 6)
+     (string/upper-case))))
+
+
+(defn varify-angel-code
+  [email angel-code]
+  (let [true-angel-code (generate-angel-code email)
+        formatted-angel-code (-> angel-code
+                                 (string/upper-case))]
+    (= formatted-angel-code true-angel-code)))
+
+
+(comment
+  (generate-angel-code "hello")
+  ;; => "D60729"
+
+  
+
+  )
