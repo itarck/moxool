@@ -6,7 +6,8 @@
 
    [astronomy.space.backpack.m :as m.backpack]
    [astronomy.objects.astro-scene.m :as m.astro-scene]
-   [astronomy.objects.clock.m :as m.clock]))
+   [astronomy.objects.clock.m :as m.clock]
+   [astronomy.tools.spaceship-camera-control.m :as m.spaceship]))
 
 
 
@@ -23,7 +24,10 @@
         backpack (d/pull @conn '[*] (-> person :user/backpack :db/id))]
     (p/transact! conn (m.clock/set-clock-time-in-days-tx clock-id 0))
     (p/transact! conn (m.astro-scene/refresh-tx @conn astro-scene))
-    (p/transact! conn (m.backpack/put-in-backpack-tx backpack tools))))
+    (p/transact! conn (m.backpack/put-in-backpack-tx backpack tools))
+    (p/transact! conn (m.spaceship/update-min-distance-tx @conn
+                                                          (:user/camera-control person)
+                                                          (:astro-scene/coordinate astro-scene)))))
 
 
 (comment 
