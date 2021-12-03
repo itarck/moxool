@@ -6,7 +6,8 @@
 (def sample
   #:cinema {:db/id -2
             :name "default"
-            :ioframe-names ["a" "b" "c"]})
+            :ioframe-names ["a" "b" "c"]
+            :login? false})
 
 (def schema
   #:cinema{:name {:db/unique :db.unique/identity}
