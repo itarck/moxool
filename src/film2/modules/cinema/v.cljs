@@ -69,7 +69,8 @@
                                          (go (>! service-chan #:event{:action :cinema/varify-angle-code
                                                                       :detail {:cinema cinema
                                                                                :email email
-                                                                               :angel-code angel-code}}))))}
+                                                                               :angel-code angel-code
+                                                                               :from-user? true }}))))}
              "确定"]]]]]]]))
   
   )

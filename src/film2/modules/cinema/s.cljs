@@ -1,5 +1,6 @@
 (ns film2.modules.cinema.s
   (:require
+   [applied-science.js-interop :as j]
    [astronomy.service.effect :as fx]
    [film2.modules.cinema.m :as cinema.m]))
 
@@ -21,7 +22,23 @@
 
 (defmethod handle-event :cinema/varify-angle-code
   [props env {:event/keys [detail]}]
-  (let [{:keys [cinema email angel-code]} detail]
+  (let [{:keys [cinema email angel-code from-user?]} detail]
+    (when from-user?
+      (j/call js/localStorage :setItem "email" email)
+      (j/call js/localStorage :setItem "angel-code" angel-code))
     (when (cinema.m/varify-angel-code email angel-code)
       (fx/effects :tx [{:db/id (:db/id cinema)
-                        :cinema/login? true}]))))
+                        :cinema/login? true}]
+                  :event #:event {:action :editor/load-current-ioframe
+                                  :detail {:editor {:db/id [:editor/name "default"]}}}))))
+
+
+(defmethod handle-event :cinema/login-from-localstorage
+  [props env {:event/keys [detail]}]
+  (let [email (j/call js/localStorage :getItem "email")
+        angel-code (j/call js/localStorage :getItem "angel-code")]
+    (when (and email angel-code)
+      (fx/effects :event #:event {:action :cinema/varify-angle-code
+                                  :detail {:cinema (:cinema detail)
+                                           :email email
+                                           :angel-code angel-code}}))))

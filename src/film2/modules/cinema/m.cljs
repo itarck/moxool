@@ -1,5 +1,6 @@
 (ns film2.modules.cinema.m
   (:require
+   [applied-science.js-interop :as j]
    [clojure.string :as string]
    [datascript.core :as d]
    [reagent.crypt :as crypt]))
@@ -49,6 +50,7 @@
   (generate-angel-code "hello")
   ;; => "D60729"
 
-  
+  (.setItem js/localStorage "testing" "abc")
+  (j/call js/localStorage :getItem "testing")
 
   )
