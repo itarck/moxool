@@ -27,7 +27,8 @@
     (p/transact! conn (m.backpack/put-in-backpack-tx backpack tools))
     (p/transact! conn (m.spaceship/update-min-distance-tx @conn
                                                           (:user/camera-control person)
-                                                          (:astro-scene/coordinate astro-scene)))))
+                                                          (:astro-scene/coordinate astro-scene)))
+    (p/transact! conn (m.spaceship/update-default-position-tx @conn (:user/camera-control person)))))
 
 
 (comment 

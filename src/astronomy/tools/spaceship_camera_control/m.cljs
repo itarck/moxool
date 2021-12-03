@@ -102,6 +102,12 @@
                        0)]
     (set-min-distance-tx scc min-distance)))
 
+(defn update-default-position-tx [db scc]
+  (let [scc-1 (d/pull db '[*] (:db/id scc))
+        min-distance (:spaceship-camera-control/min-distance scc-1)
+        p (* min-distance 2)]
+    (set-position-tx scc-1 [p p p])))
+
 (defn check-valid-position-tx [scc]
   (let [{:spaceship-camera-control/keys [min-distance position]} scc
         position-v3 (v3/from-seq position)
