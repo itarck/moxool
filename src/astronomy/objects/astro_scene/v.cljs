@@ -37,7 +37,7 @@
                :matrix invert-matrix}
 
        [:<>
-        ;; [v.constel/ConstellationsView {} env]
+        [v.constel/ConstellationsView {} env]
         ;; [v.background/BackgroundView {} env]
         [v.star/SavedStarsSphereView {} env]]
 
