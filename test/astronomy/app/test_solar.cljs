@@ -3,6 +3,7 @@
    [astronomy.app.solar :as app.solar]
    [astronomy.system.solar :as system.solar]
    [astronomy.lib.api :as api]
+   [cljs.core.async :refer [go >!]]
    [datascript.core :as d]
    [datascript.transit :as dt]
    [integrant.core :as ig]
@@ -15,7 +16,7 @@
   (:astronomy/conn app.solar/system))
 
 
-#_(api/save-db-file @conn "/private/frame/dev-20211202-1753.fra")
+(api/save-db-file @conn "/private/frame/angel/scene-1-2-v2.fra")
 
 (def user-config
   app.solar/user-config)
@@ -30,3 +31,14 @@
 (keys system2)
 
 (ig/halt! system2)
+
+
+(def service-chan
+  (:astronomy/service-chan app.solar/system))
+
+
+(go (>! service-chan #:event{:action :spaceship-camera-control/refresh-camera
+                             :detail {:spaceship-camera-control {:db/id [:spaceship-camera-control/name "default"]}}}))
+
+
+(:spaceship-camera-control/position (d/pull @conn '[*] [:spaceship-camera-control/name "default"]))
