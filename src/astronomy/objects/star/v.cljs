@@ -53,7 +53,7 @@
     ;; (println "star view" (:planet/_star star))
     [:mesh {:position position}
 
-     (when (= (:star/name star) "sun")
+     (when (and (= (:star/name star) "sun") (:star/show-light? star))
        [:<>
         ($ DirectionalSunLight {:position #js [0 0 0]
                                 :intensity 5

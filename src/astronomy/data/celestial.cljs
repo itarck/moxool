@@ -21,12 +21,14 @@
                                  :scale [0.002 0.002 0.002]
                                  :shadow? false}
          :celestial/clock [:clock/name "default"]
+         :star/show-light? false
          :object/position [0 0 0]
          :object/quaternion (vec ecliptic-quaternion)
          :object/scene [:scene/name "solar"]
          :object/show? true
          :entity/chinese-name "太阳"
          :entity/type :star})
+
 
 (def mercury
   #:planet
@@ -125,7 +127,7 @@
                                      :orbit/type :ellipse-orbit
                                      :orbit/period 365.256363004
                                      :orbit/color "green"
-                                     :orbit/show? true
+                                     :orbit/show? false
                                      :orbit/show-helper-lines? false}
     #_#:circle-orbit {:star [:star/name "sun"]
                       :radius 498.6596333

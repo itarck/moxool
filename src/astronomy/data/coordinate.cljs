@@ -44,6 +44,25 @@
                                     :default-color "#885500"
                                     :highlight-color "orange"}))
 
+(def astronomical-coordinate-earth-center
+  (merge {:db/id -1001
+          :entity/type :astronomical-coordinate
+          :object/position [0 0 0]
+          :object/quaternion [0 0 0 1]
+          :object/scene [:scene/name "solar"]
+          :coordinate/name "赤道天球坐标系-地球中心"
+          :astro-scene/_coordinate [:scene/name "solar"]
+          :coordinate/type :astronomical-coordinate}
+         #:astronomical-coordinate{:radius shu.light/light-year-unit
+                                   :show-latitude? false
+                                   :show-longitude? false
+                                   :show-latitude-0? false
+                                   :show-lunar-orbit? false
+                                   :center-candidates [{:db/id [:planet/name "earth"]}]
+                                   :center-object [:planet/name "earth"]
+                                   :quaternion [0 0 0 1]
+                                   :default-color "#770000"
+                                   :highlight-color "red"}))
 
 (def terrestrial-coordinate-1
   (merge {:db/id -1003

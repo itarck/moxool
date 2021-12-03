@@ -25,6 +25,9 @@
         ]
     ;; (println "astro scene view mounted ?? " invert-matrix)
     [:<>
+     
+     [:ambientLight {:intensity (:scene/ambient-light-intensity astro-scene)}]
+
      [:mesh {:scale [scale scale scale]}
       ;; [v.atmosphere/AtmosphereView {:object atmosphere} env]
 
@@ -35,8 +38,8 @@
 
        [:<>
         ;; [v.constel/ConstellationsView {} env]
-        ;; [v.background/BackgroundView {} env]
-        [v.star/SavedStarsSphereView {} env]]
+        [v.background/BackgroundView {} env]
+        #_[v.star/SavedStarsSphereView {} env]]
 
 
        (for [object objects]

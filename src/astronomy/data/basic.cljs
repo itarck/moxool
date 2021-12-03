@@ -20,13 +20,16 @@
            :time-in-days 0})
 
 (def scene
-  #:astro-scene {:camera [:camera/name "default"]
-                 :clock [:clock/name "default"]
-                 :celestial-scale 1
-                 :scene/name "solar"
-                 :scene/chinese-name "太阳系"
-                 :scene/scale 10000
-                 :entity/type :scene})
+  #:astro-scene
+   {:camera [:camera/name "default"]
+    :clock [:clock/name "default"]
+    :celestial-scale 1
+    :scene/name "solar"
+    :scene/chinese-name "太阳系"
+    :scene/scale 10000
+    :scene/ambient-light-intensity 0.5
+    :entity/type :scene})
+
 
 (def spaceship-camera-control
   #:spaceship-camera-control {:db/id -10
