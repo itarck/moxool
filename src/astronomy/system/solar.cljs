@@ -21,8 +21,7 @@
 
 (def default-config
   #:astronomy
-   {:conn {:schema schema
-           :db-transit-str (read-resource "private/frame/default.fra")}
+   {:conn {:schema schema}
     :service-chan {}
     :meta-atom  {:initial-value {:mode :read-and-write}}
     :state-atom {}
