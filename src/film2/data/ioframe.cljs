@@ -24,10 +24,18 @@
              :name "3.太阳、地球和五大行星（显示轨道）"
              :db-transit-str (read-resource "private/frame/dev-20211202-1753.fra")
              :description "2.太阳、地球和五大行星"})
-  
+
 
 (def city
   #:ioframe {:type :city
              :name "city-1"
              :db-transit-str (dt/write-transit-str sys.city/db)
              :description "一个城市"})
+
+(def scene-1-1
+  #:ioframe {:type :solar
+             :name "场景1.1：地球和恒星背景"
+             :db-transit-str (read-resource "private/frame/angel/scene-1-1-v20211203.fra")}
+  )
+
+

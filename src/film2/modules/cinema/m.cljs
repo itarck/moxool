@@ -41,6 +41,7 @@
   [email angel-code]
   (let [true-angel-code (generate-angel-code email)
         formatted-angel-code (-> angel-code
+                                 str
                                  (string/upper-case))]
     (= formatted-angel-code true-angel-code)))
 

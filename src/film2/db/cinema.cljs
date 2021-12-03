@@ -12,7 +12,8 @@
         dataset [d.ioframe/mini-1
                  d.ioframe/mini-2
                  d.ioframe/solar-planet5
-                 d.iovideo/mini
+                ;;  d.iovideo/mini
+                 d.ioframe/scene-1-1
                  d.cinema/default]]
     (d/db-with db dataset)))
 

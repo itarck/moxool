@@ -2,6 +2,7 @@
   (:require
    [applied-science.js-interop :as j]
    [astronomy.service.effect :as fx]
+   [datascript.core :as d]
    [film2.modules.cinema.m :as cinema.m]))
 
 
@@ -20,30 +21,33 @@
     effects))
 
 
-(defmethod handle-event :cinema/varify-angle-code
-  [props env {:event/keys [detail]}]
+(defmethod handle-event :cinema/varify-angel-code
+  [props {:keys [db]} {:event/keys [detail]}]
   (let [{:keys [cinema email angel-code from-user?]} detail]
     (when from-user?
       (j/call js/localStorage :setItem "email" email)
       (j/call js/localStorage :setItem "angel-code" angel-code))
-    (if (cinema.m/varify-angel-code email angel-code)
-      (fx/effects :tx [{:db/id (:db/id cinema)
-                        :cinema/login-state :success}]
-                  :event #:event {:action :editor/load-current-ioframe
-                                  :detail {:editor {:db/id [:editor/name "default"]}}})
-      (fx/effects :tx [{:db/id (:db/id cinema)
-                        :cinema/login-state :fail}]))))
+    (let [cinema (d/pull db '[*] (:db/id cinema))]
+      (if (or (cinema.m/varify-angel-code email angel-code) (:cinema/debug? cinema))
+        (fx/effects :tx [{:db/id (:db/id cinema)
+                          :cinema/login-state :success}]
+                    :event #:event {:action :editor/load-current-ioframe
+                                    :detail {:editor {:db/id [:editor/name "default"]}}})
+        (fx/effects :tx [{:db/id (:db/id cinema)
+                          :cinema/login-state :fail}])))
+    ))
 
 
 (defmethod handle-event :cinema/login-from-localstorage
   [props env {:event/keys [detail]}]
   (let [email (j/call js/localStorage :getItem "email")
         angel-code (j/call js/localStorage :getItem "angel-code")]
+    (fx/effects :event #:event {:action :cinema/varify-angel-code
+                                :detail {:cinema (:cinema detail)
+                                         :email email
+                                         :angel-code angel-code}})))
 
-    (if (and email angel-code)
-      (fx/effects :event #:event {:action :cinema/varify-angle-code
-                                  :detail {:cinema (:cinema detail)
-                                           :email email
-                                           :angel-code angel-code}})
-      (fx/effects :tx [{:db/id (:db/id (:cinema detail))
-                        :cinema/login-state :fail}]))))
+
+(defmethod handle-event :default
+  [props env {:event/keys [detail]}]
+  (println "film2.modules.cinema.s: default: " detail))
