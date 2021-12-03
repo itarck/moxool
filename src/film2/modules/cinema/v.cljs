@@ -40,15 +40,38 @@
       [editor.v/EditorSceneView {:editor (:cinema/editor cinema-1)} env]]
      [UserMenuView {:cinema cinema-1} env]]))
 
+(defn LoginView []
+  [:div {:class "cinema-login"}
+   [:div {:class "cinema-login-content"}
+    [:div.p-2
+     [:> mt/Box {:component "form"}
+      [:> mt/Grid {:container true :spacing 1
+                   :direction "column"
+                   :justifyContent "center"
+                   :alignItems "center"
+                   :style {:padding "10px"}}
+       [:> mt/Grid {:item true :xs 10}
+        [:> mt/Typography {:variant "h6"}
+         "请输入试用码"]]
+       [:> mt/Grid {:item true :xs 10}
+        [:> mt/TextField {:id "standard-basic" :label "邮箱" :variant "standard"
+                          :style {:width "300px"}}]]
+       [:> mt/Grid {:item true :xs 10}
+        [:> mt/TextField {:id "standard-basic" :label "试用码" :variant "standard"
+                          :style {:width "300px"}}]]
+       [:> mt/Grid {:item true :xs 5}
+        [:> mt/Button {:variant "outlined"} "确定"]]]]]]])
 
 (defn CinemaEntranceView
   [props env]
-  [:> Canvas {:style {:background :black
-                      :style {:height "100%"
-                              :width "100%"}}
-              :shadowMap true}
-   ($ Stars {:radius 100 :depth 100 :count 3000 :factor 4 :saturation 0 :fade true})
-   ($ OrbitControls)])
+  [:<>
+   [:> Canvas {:style {:background :black
+                       :style {:height "100%"
+                               :width "100%"}}
+               :shadowMap true}
+    ($ Stars {:radius 100 :depth 100 :count 3000 :factor 4 :saturation 0 :fade true})
+    ($ OrbitControls)]
+   [LoginView]])
 
 
 (defn CinemaView
