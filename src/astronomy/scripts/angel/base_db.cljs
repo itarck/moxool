@@ -36,7 +36,12 @@
 
 
 (defn init-scene! [conn]
-  )
+  (let [objects [{:db/id [:star/name "sun"]}
+                 {:db/id [:planet/name "earth"]}]
+        astro-scene (d/pull @conn '[*] [:scene/name "solar"])
+        tx (m.astro-scene/put-objects-tx astro-scene objects)]
+    (println "init-scene: " tx)
+    (p/transact! conn tx)))
 
 
 (defn init-tool! [conn]
@@ -69,17 +74,25 @@
     (p/transact! conn (m.spaceship/update-min-distance-tx @conn scc coordinate))))
 
 
-(defn create-and-save-db! [db-name]
+(defn create-db []
   (let [conn (create-empty-conn!)]
     (load-datasets! conn)
-    ;; (init-tool! conn)
+    (init-scene! conn)
+    (init-tool! conn)
     (kick-start! conn)
-    (api/save-db-file @conn db-name)))
+    @conn))
 
 
 (comment
 
-  (create-and-save-db! "/private/frame/temp/dev-20211206-2.fra")
+  (let [db (create-db)
+        db-name "/private/frame/temp/dev-20211206-5.fra"]
+    (api/save-db-file db db-name))
 
+
+  (let [db (create-db)]
+    (d/pull db '[* {:object/_scene [*]}] [:scene/name "solar"]))
+  
+;;   
   )
 

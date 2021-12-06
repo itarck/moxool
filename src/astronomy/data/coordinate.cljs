@@ -18,7 +18,7 @@
                                    :show-latitude-0? false
                                    :show-lunar-orbit? false
                                    :center-candidates [{:db/id [:planet/name "earth"]}
-                                                       {:db/id [:planet/name "sun"]}]
+                                                       {:db/id [:star/name "sun"]}]
                                    :center-object [:planet/name "earth"]
                                    :quaternion [0 0 0 1]
                                    :default-color "#770000"
@@ -38,7 +38,7 @@
                                     :show-longitude? false
                                     :radius shu.light/light-year-unit
                                     :center-candidates [{:db/id [:planet/name "earth"]}
-                                                        {:db/id [:planet/name "sun"]}]
+                                                        {:db/id [:star/name "sun"]}]
                                     :center-object [:star/name "sun"]
                                     :quaternion (seq m.const/ecliptic-quaternion)
                                     :default-color "#885500"

@@ -21,10 +21,9 @@
                                  :scale [0.002 0.002 0.002]
                                  :shadow? false}
          :celestial/clock [:clock/name "default"]
-         :star/show-light? false
+         :star/show-light? true
          :object/position [0 0 0]
          :object/quaternion (vec ecliptic-quaternion)
-         :object/scene [:scene/name "solar"]
          :object/show? true
          :entity/chinese-name "太阳"
          :entity/type :star})
@@ -59,7 +58,6 @@
     :celestial/gltf #:gltf {:url "models/16-solar/Mercury_1_4878.glb"
                             :scale [0.002 0.002 0.002]}
     :celestial/clock [:clock/name "default"]
-    :object/scene [:scene/name "solar"]
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "水星"
@@ -102,7 +100,6 @@
     :celestial/gltf #:gltf {:url "models/16-solar/Venus_1_12103.glb"
                             :scale [0.002 0.002 0.002]}
     :celestial/clock [:clock/name "default"]
-    :object/scene [:scene/name "solar"]
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "金星"
@@ -150,7 +147,6 @@
                             :rotation [0 (gmath/to-radians 102) 0]
                             :shadow? true}
     :celestial/clock [:clock/name "default"]
-    :object/scene [:scene/name "solar"]
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "地球"
@@ -223,7 +219,6 @@
     ;; :celestial/gltf #:gltf {:url "models/14-moon/scene.gltf"
                             ;; :scale [0.01 0.01 0.01]}
     :celestial/clock [:clock/name "default"]
-    :object/scene [:scene/name "solar"]
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "月球"
@@ -269,7 +264,6 @@
     :celestial/gltf #:gltf {:url "models/16-solar/Mars_1_6792.glb"
                             :scale [0.002 0.002 0.002]}
     :celestial/clock [:clock/name "default"]
-    :object/scene [:scene/name "solar"]
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "火星"
@@ -298,7 +292,6 @@
                             :scale [0.07 0.07 0.07]
                             :shadow? false}
     :celestial/clock [:clock/name "default"]
-    :object/scene [:scene/name "solar"]
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "火卫一"
@@ -328,7 +321,6 @@
                             :scale [0.15 0.15 0.15]
                             :shadow? false}
     :celestial/clock [:clock/name "default"]
-    :object/scene [:scene/name "solar"]
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "火卫二"
@@ -375,7 +367,6 @@
     :celestial/gltf #:gltf {:url "models/16-solar/Ceres_1_1000.glb"
                             :scale [0.002 0.002 0.002]}
     :celestial/clock [:clock/name "default"]
-    :object/scene [:scene/name "solar"]
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "谷神星"
@@ -403,7 +394,6 @@
     :celestial/gltf #:gltf {:url "models/16-solar/Eros_1_10.glb"
                             :scale [0.002 0.002 0.002]}
     :celestial/clock [:clock/name "default"]
-    :object/scene [:scene/name "solar"]
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "爱神星"
@@ -449,7 +439,6 @@
                             :scale [0.002 0.002 0.002]
                             :shadow? true}
     :celestial/clock [:clock/name "default"]
-    :object/scene [:scene/name "solar"]
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "木星"
@@ -478,7 +467,6 @@
                             :scale [0.002 0.002 0.002]
                             :shadow? true}
     :celestial/clock [:clock/name "default"]
-    :object/scene [:scene/name "solar"]
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "木卫一"
@@ -507,7 +495,6 @@
                             :scale [0.002 0.002 0.002]
                             :shadow? false}
     :celestial/clock [:clock/name "default"]
-    :object/scene [:scene/name "solar"]
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "木卫二"
@@ -535,7 +522,6 @@
     :celestial/gltf #:gltf {:url "models/16-solar/Ganymede_1_5268.glb"
                             :scale [0.002 0.002 0.002]}
     :celestial/clock [:clock/name "default"]
-    :object/scene [:scene/name "solar"]
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "木卫三"
@@ -563,7 +549,6 @@
     :celestial/gltf #:gltf {:url "models/16-solar/Callisto_1_4821.glb"
                             :scale [0.002 0.002 0.002]}
     :celestial/clock [:clock/name "default"]
-    :object/scene [:scene/name "solar"]
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "木卫四"
@@ -611,7 +596,6 @@
                             :scale [0.002 0.002 0.002]
                             :shadow? false}
     :celestial/clock [:clock/name "default"]
-    :object/scene [:scene/name "solar"]
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "土星"
@@ -641,7 +625,6 @@
                             :scale [0.002 0.002 0.002]
                             :shadow? false}
     :celestial/clock [:clock/name "default"]
-    :object/scene [:scene/name "solar"]
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "土卫六"
@@ -682,7 +665,6 @@
     :celestial/gltf #:gltf {:url "models/16-solar/Uranus_1_51118.glb"
                             :scale [0.002 0.002 0.002]}
     :celestial/clock [:clock/name "default"]
-    :object/scene [:scene/name "solar"]
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "天王星"
@@ -726,7 +708,6 @@
     :celestial/gltf #:gltf {:url "models/16-solar/Neptune_1_49528.glb"
                             :scale [0.002 0.002 0.002]}
     :celestial/clock [:clock/name "default"]
-    :object/scene [:scene/name "solar"]
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "海王星"
@@ -760,7 +741,6 @@
     :celestial/gltf #:gltf {:url "models/16-solar/Triton_1_2707.glb"
                             :scale [0.002 0.002 0.002]}
     :celestial/clock [:clock/name "default"]
-    :object/scene [:scene/name "solar"]
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "海卫一"
@@ -803,7 +783,6 @@
     :celestial/gltf #:gltf {:url "models/16-solar/Pluto_1_2374.glb"
                             :scale [0.002 0.002 0.002]}
     :celestial/clock [:clock/name "default"]
-    :object/scene [:scene/name "solar"]
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "冥王星"
@@ -833,7 +812,6 @@
                             :scale [0.002 0.002 0.002]
                             :shadow? false}
     :celestial/clock [:clock/name "default"]
-    :object/scene [:scene/name "solar"]
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "卡戎"
@@ -862,7 +840,6 @@
     :celestial/gltf #:gltf {:url "models/16-solar/Eris_1_2326.glb"
                             :scale [0.002 0.002 0.002]}
     :celestial/clock [:clock/name "default"]
-    :object/scene [:scene/name "solar"]
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "阋神星"
@@ -893,7 +870,6 @@
     :celestial/gltf #:gltf {:url "models/16-solar/Haumea_1_1000.glb"
                             :scale [0.002 0.002 0.002]}
     :celestial/clock [:clock/name "default"]
-    :object/scene [:scene/name "solar"]
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "妊神星"
@@ -924,7 +900,6 @@
     :celestial/gltf #:gltf {:url "models/16-solar/Bennu_1_1.glb"
                             :scale [0.002 0.002 0.002]}
     :celestial/clock [:clock/name "default"]
-    :object/scene [:scene/name "solar"]
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "哈雷彗星"
@@ -937,7 +912,6 @@
 (def atmosphere
   #:atmosphere {:name "default"
                 :show? true
-                :object/scene [:scene/name "solar"]
                 :entity/type :atmosphere})
 
 
@@ -972,7 +946,6 @@
                             :rotation [0 (/ Math/PI 2) 0]
                             :shadow? false}
     :celestial/clock [:clock/name "default"]
-    :object/scene [:scene/name "solar"]
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "地球同步卫星"
@@ -1000,7 +973,6 @@
                             :rotation [0 (/ Math/PI 2) 0]
                             :shadow? false}
     :celestial/clock [:clock/name "default"]
-    :object/scene [:scene/name "solar"]
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "牛顿的苹果"
@@ -1033,3 +1005,17 @@
 (def dataset5 [cg-1])
 
 (def dataset-newton [geosynchronous-satellite newton-apple])
+
+
+(def stardard-dataset
+  (concat
+   [sun earth moon]
+   [mercury venus
+    mars
+    phobos deimos
+    ceres eros
+    jupiter
+    io europa ganymede callisto
+    saturn
+    titan uranus neptune triton pluto charon
+    eris haumea halley]))

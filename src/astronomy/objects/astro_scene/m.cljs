@@ -114,3 +114,9 @@
                         (m.coordinate/update-position-and-quaternion-tx db3 coor)))
                     coor-ids)]
     (concat tx1 tx3)))
+
+
+(defn put-objects-tx [astro-scene objects]
+  (mapv (fn [obj] {:db/id (:db/id obj)
+                   :object/scene (:db/id astro-scene)}) 
+       objects))

@@ -24,6 +24,7 @@
         ;; has-day-light? (m.astro-scene/sub-has-day-light? conn astro-scene)
         ]
     ;; (println "astro scene view mounted ?? " invert-matrix)
+    (println "astro scene view: " objects)
     [:<>
      
      [:ambientLight {:intensity (:scene/ambient-light-intensity astro-scene)}]

@@ -63,3 +63,6 @@
 
 
 (def dataset1 [camera clock scene spaceship-camera-control user1])
+
+
+(def standard-dataset [camera clock scene spaceship-camera-control user1])

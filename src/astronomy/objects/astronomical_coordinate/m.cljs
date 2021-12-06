@@ -37,7 +37,7 @@
                                :coordinate/name "赤道天球坐标系"
                                :coordinate/type :astronomical-coordinate
                                :astronomical-coordinate/center-candidates [{:db/id [:planet/name "earth"]}
-                                                                           {:db/id [:planet/name "sun"]}]
+                                                                           {:db/id [:star/name "sun"]}]
                                :astronomical-coordinate/center-object [:planet/name "earth"]
                                :astronomical-coordinate/quaternion [0 0 0 1]})
   (def sample2
@@ -47,7 +47,7 @@
                                :coordinate/name "赤道黄道坐标系"
                                :coordinate/type :astronomical-coordinate
                                :astronomical-coordinate/center-candidates [{:db/id [:planet/name "earth"]}
-                                                                           {:db/id [:planet/name "sun"]}]
+                                                                           {:db/id [:star/name "sun"]}]
                                :astronomical-coordinate/center-object [:planet/name "earth"]
                                :astronomical-coordinate/quaternion [0 0 0 1]})
 
