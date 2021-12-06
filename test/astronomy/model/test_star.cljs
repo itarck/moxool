@@ -1,5 +1,6 @@
 (ns astronomy.model.test-star
   (:require
+   [cljs.test :refer-macros [deftest is testing run-tests]]
    [datascript.core :as d]
    [datascript.transit :as dt]
    [astronomy.conn.core :as conn.core]
@@ -18,14 +19,15 @@
 (def test-conn 
   (conn.core/create-conn-from-db test-db))
 
-(d/pull test-db '[*] [:star/name "sun"])
-
-(d/q '[:find [?planet ...]
-       :where
-       [?planet :planet/star ?star]
-       [?planet :object/scene _]
-       :in $ ?star]
-     test-db [:star/name "sun"])
 
 
-(star.m/sub-planets test-conn {:db/id [:star/name "sun"]})
+(deftest test-star-1
+  (is (= (+ 1 1) 2))
+  (is (->
+       (star.m/sub-planets test-conn {:db/id [:star/name "sun"]})
+       first
+       :planet/name)
+      "earth"))
+
+
+(run-tests)
