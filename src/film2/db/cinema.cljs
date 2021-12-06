@@ -13,6 +13,7 @@
                  d.ioframe/solar-planet5
                  d.ioframe/scene-1-1
                  d.ioframe/scene-1-2
+                 d.ioframe/scene-baseline
                  d.cinema/default]]
     (d/db-with db dataset)))
 
