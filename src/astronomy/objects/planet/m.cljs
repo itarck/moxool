@@ -1,6 +1,7 @@
 (ns astronomy.objects.planet.m
   (:require
    [datascript.core :as d]
+   [posh.reagent :as p]
    [shu.three.vector3 :as v3]
    [shu.three.spherical :as sph]
    [shu.three.quaternion :as q]
@@ -106,6 +107,17 @@
 
 ;; sub
 
+(defn sub-satellites
+  ([conn planet]
+   (sub-satellites conn planet '[*]))
+  ([conn planet selector]
+   (let [ids @(p/q '[:find [?satellite ...]
+                            :where
+                            [?satellite :satellite/planet ?planet]
+                            [?satellite :object/scene _]
+                            :in $ ?planet]
+                          conn (:db/id planet))]
+     (mapv (fn [id] @(p/pull conn selector id)) ids))))
 
 ;; tx
 

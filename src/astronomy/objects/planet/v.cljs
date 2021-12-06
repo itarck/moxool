@@ -11,7 +11,7 @@
    [astronomy.objects.ellipse-orbit.m :as m.ellipse-orbit]
    [methodology.lib.geometry :as v.geo]
    [methodology.view.gltf :as v.gltf]
-   [astronomy.objects.planet.m :as planet]
+   [astronomy.objects.planet.m :as planet.m]
    [astronomy.objects.satellite.v :as satellite.v]
    [astronomy.component.animate :as a]
    [astronomy.component.celestial-sphere :as c.celestial-sphere]
@@ -77,7 +77,7 @@
 
 
 (defn PlanetsHasPositionLogView [props {:keys [conn] :as env}]
-  (let [planet-ids @(p/q planet/query-all-ids-with-tracker conn)]
+  (let [planet-ids @(p/q planet.m/query-all-ids-with-tracker conn)]
     [:<>
      (for [id planet-ids]
        ^{:key id}
@@ -187,14 +187,13 @@
 
 (defn PlanetView 
   [{:keys [planet astro-scene] :as props} {:keys [conn] :as env}]
-  (let [planet @(p/pull conn '[{:satellite/_planet [:db/id]
-                                :celestial/orbit [*]
+  (let [planet @(p/pull conn '[{:celestial/orbit [*]
                                 :celestial/spin [*]} *] (:db/id planet))
+        satellites (planet.m/sub-satellites conn planet)
         ;; center-entity (m.astro-scene/sub-scene-center-entity conn astro-scene)
         {:object/keys [position]} planet
         {:celestial/keys [gltf orbit]} planet
-        {:planet/keys [show-name? chinese-name show-epicycle?]} planet
-        satellites (:satellite/_planet planet)]
+        {:planet/keys [show-name? chinese-name show-epicycle?]} planet]
 
     [:<>
      (when (and (:object/show? planet) gltf)

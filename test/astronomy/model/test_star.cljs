@@ -1,24 +1,17 @@
 (ns astronomy.model.test-star
   (:require
    [cljs.test :refer-macros [deftest is testing run-tests]]
-   [datascript.core :as d]
-   [datascript.transit :as dt]
    [astronomy.conn.core :as conn.core]
-   [posh.reagent :as p]
-   [astronomy.objects.star.m :as star.m])
-  (:require-macros
-   [methodology.lib.resource :refer [read-resource]]))
+   [astronomy.objects.star.m :as star.m]
+   [astronomy.fixture :as fixture]))
 
 
 (def test-db
-  (->>
-   (read-resource "frame/test/test-db1.fra")
-   (dt/read-transit-str)))
+  fixture/test-db1)
 
 
-(def test-conn 
+(def test-conn
   (conn.core/create-conn-from-db test-db))
-
 
 
 (deftest test-star-1
