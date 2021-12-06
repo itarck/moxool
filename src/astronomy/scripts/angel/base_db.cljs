@@ -8,6 +8,7 @@
    [astronomy.tools.spaceship-camera-control.m :as m.spaceship]
    [astronomy.objects.astro-scene.m :as m.astro-scene]
    [astronomy.objects.clock.m :as m.clock]
+   [astronomy.objects.celestial.m :as celestial.m]
    [astronomy.data.basic :as d.basic]
    [astronomy.data.celestial :as d.celestial]
    [astronomy.data.galaxy :as d.galaxy]
@@ -39,9 +40,9 @@
   (let [objects [{:db/id [:star/name "sun"]}
                  {:db/id [:planet/name "earth"]}]
         astro-scene (d/pull @conn '[*] [:scene/name "solar"])
-        tx (m.astro-scene/put-objects-tx astro-scene objects)]
-    (println "init-scene: " tx)
-    (p/transact! conn tx)))
+        tx1 (m.astro-scene/put-objects-tx astro-scene objects)
+        tx2 (mapcat #(celestial.m/add-clock-tx % {:db/id [:clock/name "default"]}) objects)]
+    (p/transact! conn (concat tx1 tx2))))
 
 
 (defn init-tool! [conn]
@@ -86,7 +87,7 @@
 (comment
 
   (let [db (create-db)
-        db-name "/private/frame/temp/dev-20211206-5.fra"]
+        db-name "/private/frame/temp/dev-20211206-7.fra"]
     (api/save-db-file db db-name))
 
 

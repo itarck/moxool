@@ -46,4 +46,4 @@
 (def scene-baseline
   #:ioframe {:type :solar
              :name "场景0：基础数据库"
-             :db-transit-str (read-resource "private/frame/temp/dev-20211206-5.fra")})
+             :db-transit-str (read-resource "private/frame/temp/dev-20211206-7.fra")})

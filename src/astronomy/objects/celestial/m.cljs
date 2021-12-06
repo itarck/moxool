@@ -152,3 +152,6 @@
   [{:db/id (get-in celestial [:celestial/spin :db/id])
     :spin/show-helper? show?}])
 
+(defn add-clock-tx [celestial clock]
+  [{:db/id (:db/id celestial)
+    :celestial/clock (:db/id clock)}])

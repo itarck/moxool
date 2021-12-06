@@ -20,7 +20,7 @@
          :celestial/gltf #:gltf {:url "models/16-solar/Sun_1_1391000.glb"
                                  :scale [0.002 0.002 0.002]
                                  :shadow? false}
-         :celestial/clock [:clock/name "default"]
+         
          :star/show-light? true
          :object/position [0 0 0]
          :object/quaternion (vec ecliptic-quaternion)
@@ -57,7 +57,7 @@
                             :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 58.646)}
     :celestial/gltf #:gltf {:url "models/16-solar/Mercury_1_4878.glb"
                             :scale [0.002 0.002 0.002]}
-    :celestial/clock [:clock/name "default"]
+    
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "水星"
@@ -99,7 +99,7 @@
                             :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 243.0185)}
     :celestial/gltf #:gltf {:url "models/16-solar/Venus_1_12103.glb"
                             :scale [0.002 0.002 0.002]}
-    :celestial/clock [:clock/name "default"]
+    
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "金星"
@@ -146,7 +146,7 @@
                             :scale [0.002 0.002 0.002]
                             :rotation [0 (gmath/to-radians 102) 0]
                             :shadow? true}
-    :celestial/clock [:clock/name "default"]
+    
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "地球"
@@ -218,7 +218,7 @@
                             :shadow? true}
     ;; :celestial/gltf #:gltf {:url "models/14-moon/scene.gltf"
                             ;; :scale [0.01 0.01 0.01]}
-    :celestial/clock [:clock/name "default"]
+    
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "月球"
@@ -263,7 +263,7 @@
                             :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 1.026)}
     :celestial/gltf #:gltf {:url "models/16-solar/Mars_1_6792.glb"
                             :scale [0.002 0.002 0.002]}
-    :celestial/clock [:clock/name "default"]
+    
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "火星"
@@ -291,7 +291,7 @@
     :celestial/gltf #:gltf {:url "models/16-solar/Phobos_1_1000.glb"
                             :scale [0.07 0.07 0.07]
                             :shadow? false}
-    :celestial/clock [:clock/name "default"]
+    
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "火卫一"
@@ -320,7 +320,7 @@
     :celestial/gltf #:gltf {:url "models/16-solar/Deimos_1_1000.glb"
                             :scale [0.15 0.15 0.15]
                             :shadow? false}
-    :celestial/clock [:clock/name "default"]
+    
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "火卫二"
@@ -366,7 +366,7 @@
                             :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 0.3781)}
     :celestial/gltf #:gltf {:url "models/16-solar/Ceres_1_1000.glb"
                             :scale [0.002 0.002 0.002]}
-    :celestial/clock [:clock/name "default"]
+    
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "谷神星"
@@ -393,7 +393,7 @@
                                       :orbit/show? false}
     :celestial/gltf #:gltf {:url "models/16-solar/Eros_1_10.glb"
                             :scale [0.002 0.002 0.002]}
-    :celestial/clock [:clock/name "default"]
+    
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "爱神星"
@@ -438,7 +438,7 @@
     :celestial/gltf #:gltf {:url "models/16-solar/Jupiter_1_142984.glb"
                             :scale [0.002 0.002 0.002]
                             :shadow? true}
-    :celestial/clock [:clock/name "default"]
+    
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "木星"
@@ -466,7 +466,7 @@
     :celestial/gltf #:gltf {:url "models/16-solar/Io_1_3643.glb"
                             :scale [0.002 0.002 0.002]
                             :shadow? true}
-    :celestial/clock [:clock/name "default"]
+    
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "木卫一"
@@ -494,7 +494,7 @@
     :celestial/gltf #:gltf {:url "models/16-solar/Europa_1_3138.glb"
                             :scale [0.002 0.002 0.002]
                             :shadow? false}
-    :celestial/clock [:clock/name "default"]
+    
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "木卫二"
@@ -521,7 +521,7 @@
                             :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 7.15455296)}
     :celestial/gltf #:gltf {:url "models/16-solar/Ganymede_1_5268.glb"
                             :scale [0.002 0.002 0.002]}
-    :celestial/clock [:clock/name "default"]
+    
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "木卫三"
@@ -548,7 +548,7 @@
                             :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 16.6890184)}
     :celestial/gltf #:gltf {:url "models/16-solar/Callisto_1_4821.glb"
                             :scale [0.002 0.002 0.002]}
-    :celestial/clock [:clock/name "default"]
+    
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "木卫四"
@@ -595,7 +595,7 @@
     :celestial/gltf #:gltf {:url "models/16-solar/Saturn_1_120536.glb"
                             :scale [0.002 0.002 0.002]
                             :shadow? false}
-    :celestial/clock [:clock/name "default"]
+    
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "土星"
@@ -624,7 +624,7 @@
     :celestial/gltf #:gltf {:url "models/16-solar/Titan_1_5150.glb"
                             :scale [0.002 0.002 0.002]
                             :shadow? false}
-    :celestial/clock [:clock/name "default"]
+    
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "土卫六"
@@ -664,7 +664,7 @@
                             :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 0.718)}
     :celestial/gltf #:gltf {:url "models/16-solar/Uranus_1_51118.glb"
                             :scale [0.002 0.002 0.002]}
-    :celestial/clock [:clock/name "default"]
+    
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "天王星"
@@ -707,7 +707,7 @@
                             :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 0.67125)}
     :celestial/gltf #:gltf {:url "models/16-solar/Neptune_1_49528.glb"
                             :scale [0.002 0.002 0.002]}
-    :celestial/clock [:clock/name "default"]
+    
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "海王星"
@@ -740,7 +740,7 @@
                             :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 5.876854)}
     :celestial/gltf #:gltf {:url "models/16-solar/Triton_1_2707.glb"
                             :scale [0.002 0.002 0.002]}
-    :celestial/clock [:clock/name "default"]
+    
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "海卫一"
@@ -782,7 +782,7 @@
                             :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 6.387230)}
     :celestial/gltf #:gltf {:url "models/16-solar/Pluto_1_2374.glb"
                             :scale [0.002 0.002 0.002]}
-    :celestial/clock [:clock/name "default"]
+    
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "冥王星"
@@ -811,7 +811,7 @@
     :celestial/gltf #:gltf {:url "models/16-solar/Charon_1_2.glb"
                             :scale [0.002 0.002 0.002]
                             :shadow? false}
-    :celestial/clock [:clock/name "default"]
+    
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "卡戎"
@@ -839,7 +839,7 @@
                                       :orbit/show? false}
     :celestial/gltf #:gltf {:url "models/16-solar/Eris_1_2326.glb"
                             :scale [0.002 0.002 0.002]}
-    :celestial/clock [:clock/name "default"]
+    
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "阋神星"
@@ -869,7 +869,7 @@
                             :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 0.163139208)}
     :celestial/gltf #:gltf {:url "models/16-solar/Haumea_1_1000.glb"
                             :scale [0.002 0.002 0.002]}
-    :celestial/clock [:clock/name "default"]
+    
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "妊神星"
@@ -899,7 +899,7 @@
     ;;                         :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 6.387230)}
     :celestial/gltf #:gltf {:url "models/16-solar/Bennu_1_1.glb"
                             :scale [0.002 0.002 0.002]}
-    :celestial/clock [:clock/name "default"]
+    
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "哈雷彗星"
@@ -919,7 +919,7 @@
   #:celestial-group
    {:object/position [0 0 100]
     :object/quaternion [0 0 0 1]
-    :celestial/clock [:clock/name "default"]
+    
     :celestial/_group [{:db/id [:planet/name "earth"]} {:db/id [:satellite/name "moon"]}]
     :entity/chinese-name "地月系"
     :entity/type :celestial-group})
@@ -945,7 +945,7 @@
                             :scale [0.002 0.002 0.002]
                             :rotation [0 (/ Math/PI 2) 0]
                             :shadow? false}
-    :celestial/clock [:clock/name "default"]
+    
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "地球同步卫星"
@@ -972,7 +972,7 @@
                             :scale [0.002 0.002 0.002]
                             :rotation [0 (/ Math/PI 2) 0]
                             :shadow? false}
-    :celestial/clock [:clock/name "default"]
+    
     :object/quaternion [0 0 0 1]
     :object/show? true
     :entity/chinese-name "牛顿的苹果"
