@@ -1,9 +1,9 @@
 (ns astronomy.conn.core
   (:require
    [datascript.core :as d]
+   [datascript.transit :as dt]
    [posh.reagent :as p]
    [astronomy.conn.schema :refer [schema]]
-
    [astronomy.space.backpack.m :as m.backpack]
    [astronomy.objects.astro-scene.m :as m.astro-scene]
    [astronomy.objects.clock.m :as m.clock]
@@ -13,6 +13,13 @@
 
 (defn create-empty-conn! []
   (let [conn (d/create-conn schema)]
+    (p/posh! conn)
+    conn))
+
+
+(defn create-conn-from-db [db]
+  (let [conn (d/create-conn schema)]
+    (d/reset-conn! conn db)
     (p/posh! conn)
     conn))
 

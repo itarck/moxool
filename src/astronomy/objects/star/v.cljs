@@ -44,7 +44,8 @@
                   :intensity 8}))
 
 (defn StarView [{:keys [astro-scene] :as props} {:keys [conn] :as env}]
-  (let [star @(p/pull conn '[* {:planet/_star [:db/id]}] (get-in props [:object :db/id]))
+  (let [star @(p/pull conn '[*] (get-in props [:object :db/id]))
+        planets (star.m/sub-planets conn star)
         celestial-scale (get-in props [:astro-scene :astro-scene/celestial-scale])
         {:star/keys [color]} star
         {:celestial/keys [gltf radius scale] :or {scale 1}} star
@@ -76,7 +77,7 @@
           [:meshStandardMaterial {:color color}]]))
 
      [:<>
-      (for [planet (:planet/_star star)]
+      (for [planet planets]
         ^{:key (:db/id planet)}
         [planet.v/PlanetView {:planet planet
                               :astro-scene astro-scene} env])]]))

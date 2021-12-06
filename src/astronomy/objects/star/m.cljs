@@ -88,9 +88,17 @@
 
 ;; subs
 
-(defn sub-planets [conn star]
-  (let [star @(p/pull conn '[* {:planet/_star [*]}] (:db/id star))]
-    (:planet/_star star)))
+(defn sub-planets
+  ([conn star]
+   (sub-planets conn star '[*]))
+  ([conn star selector]
+   (let [planet-ids @(p/q '[:find [?planet ...]
+                            :where
+                            [?planet :planet/star ?star]
+                            [?planet :object/scene _]
+                            :in $ ?star]
+                          conn (:db/id star))]
+     (mapv (fn [planet-id] @(p/pull conn selector planet-id)) planet-ids))))
 
 (defn sub-all-constellation-star-ids [conn]
   (let [star-lines @(p/q '[:find [?star-lines ...]
