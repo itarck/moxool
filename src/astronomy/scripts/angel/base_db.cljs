@@ -78,22 +78,33 @@
 (defn create-db []
   (let [conn (create-empty-conn!)]
     (load-datasets! conn)
-    (init-scene! conn)
-    (init-tool! conn)
-    (kick-start! conn)
+    ;; (init-scene! conn)
+    ;; (init-tool! conn)
+    ;; (kick-start! conn)
     @conn))
+
+
+(def base-db
+  (create-db))
 
 
 (comment
 
-  (let [db (create-db)
-        db-name "/private/frame/temp/dev-20211206-7.fra"]
-    (api/save-db-file db db-name))
+  (def path
+    "/private/frame/temp/dev-20211206-7.fra")
+  
+  (def path2 
+    "/frame/dev/base-1.fra")
 
+  
+  (api/save-db-file (create-db) path2)
+  
 
   (let [db (create-db)]
     (d/pull db '[* {:object/_scene [*]}] [:scene/name "solar"]))
+
   
+  (time (create-db))
 ;;   
   )
 

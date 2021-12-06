@@ -1,20 +1,23 @@
 (ns astronomy.app.solar
   (:require
    [applied-science.js-interop :as j]
+   [datascript.transit :as dt]
    [reagent.dom :as rdom]
-   [astronomy.system.solar :as solar]
-   [astronomy.scripts.angel.scene-1-2 :as scene])
+   [astronomy.system.solar :as solar])
   (:require-macros
    [methodology.lib.resource :refer [read-resource]]))
 
 
 ;; mount point
 
-(def db-transit-str 
-  (read-resource "private/frame/dev-20211202-1753.fra"))
+#_(def db
+  (scene/create-db))
 
 (def db
-  (scene/create-db))
+  (->>
+   (read-resource "frame/dev/dev-20211206-1.fra")
+   (dt/read-transit-str)))
+
 
 (def user-config
   {:astronomy/conn {:initial-db db}})
