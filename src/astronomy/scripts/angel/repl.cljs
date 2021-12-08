@@ -1,5 +1,6 @@
 (ns astronomy.scripts.angel.repl
   (:require
+   [posh.reagent :as p]
    [astronomy.app.solar :as app.solar]
    [astronomy.lib.api :as api]
    [cljs.core.async :refer [go >!]]
@@ -26,6 +27,12 @@
   (go (>! service-chan 
           #:event{:action :spaceship-camera-control/refresh-camera
                   :detail {:spaceship-camera-control {:db/id [:spaceship-camera-control/name "default"]}}})))
+
+
+(defn change-sun-light [show?]
+  (p/transact! conn [{:db/id [:star/name "sun"]
+                      :star/show-light? show?}]))
+
 
 ;; processes
 
@@ -76,10 +83,14 @@
                    {:db/id [:tool/name "horizon-coordinate-tool"]}]]
     (slib/init-tool! conn tools-1-3))
 
+  (change-sun-light false)
   (re-frash-camera!)
 
-  (let [db-url "/frame/dev/scene-1-3-v1.fra"]
+  (let [db-url "/frame/dev/scene-1-3-v2.fra"]
     (api/save-db-file @conn db-url))
+
 
 ;;
   )
+
+
