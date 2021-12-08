@@ -45,9 +45,10 @@
                    {:db/id [:tool/name "planet-tool"]}]]
     (slib/init-tool! conn tools-1-1))
 
+  (change-sun-light false)
   (re-frash-camera!)
   
-  (let [db-url "/frame/dev/scene-1-1-v1.fra"]
+  (let [db-url "/frame/dev/scene-1-1-v2.fra"]
     (api/save-db-file @conn db-url))
 ;;
   )
@@ -59,12 +60,14 @@
 
   (let [tools-1-2 [{:db/id [:tool/name "clock control 1"]}
                    {:db/id [:tool/name "planet-tool"]}
-                   {:db/id [:tool/name "constellation-tool"]}]]
+                   {:db/id [:tool/name "constellation-tool"]}
+                   {:db/id [:tool/name "astronomical-coordinate-tool"]}]]
     (slib/init-tool! conn tools-1-2))
 
+  (change-sun-light false)
   (re-frash-camera!)
 
-  (let [db-url "/frame/dev/scene-1-2-v1.fra"]
+  (let [db-url "/frame/dev/scene-1-2-v2.fra"]
     (api/save-db-file @conn db-url))
 
 ;;
