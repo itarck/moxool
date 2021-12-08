@@ -29,9 +29,8 @@
 
 ;; processes
 
-;; scene 1-1 
 
-(comment
+(comment ;; scene 1-1 
 
   (slib/init-tool! conn slib/all-tools)
   
@@ -42,6 +41,24 @@
   (re-frash-camera!)
   
   (let [db-url "/frame/dev/scene-1-1-v1.fra"]
+    (api/save-db-file @conn db-url))
+
+;;
+  )
+
+
+(comment  ;; scene 1-2
+
+  (slib/init-tool! conn slib/all-tools)
+
+  (let [tools-1-1 [{:db/id [:tool/name "clock control 1"]}
+                   {:db/id [:tool/name "planet-tool"]}
+                   {:db/id [:tool/name "constellation-tool"]}]]
+    (slib/init-tool! conn tools-1-1))
+
+  (re-frash-camera!)
+
+  (let [db-url "/frame/dev/scene-1-2-v1.fra"]
     (api/save-db-file @conn db-url))
 
 ;;

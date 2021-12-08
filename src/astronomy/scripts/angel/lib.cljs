@@ -26,6 +26,7 @@
    {:db/id [:tool/name "satellite-tool"]}
    {:db/id [:tool/name "spaceship camera tool"]}
    {:db/id [:tool/name "horizon-coordinate-tool"]}
+   {:db/id [:tool/name "constellation-tool"]}
    {:db/id [:tool/name "terrestrial-coordinate-tool"]}
    {:db/id [:tool/name "astronomical-coordinate-tool"]}
    {:db/id [:tool/name "atmosphere-tool"]}
