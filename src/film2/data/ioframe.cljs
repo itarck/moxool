@@ -32,16 +32,47 @@
              :db-transit-str (dt/write-transit-str sys.city/db)
              :description "一个城市"})
 
+;; angel version 
+
+
+(def db-urls {:base "frame/dev/base-v1.fra"
+              :scene-1-1 "frame/dev/scene-1-1-v2.fra"
+              :scene-1-2 "frame/dev/scene-1-2-v2.fra"
+              :scene-1-3 "frame/dev/scene-1-3-v2.fra"
+              :scene-2-1 "frame/dev/scene-2-1-v1.fra"
+              :scene-2-2 "frame/dev/scene-2-2-v1.fra"
+              :scene-2-3 "frame/dev/scene-2-3-v1.fra"})
+
+
 (def scene-1-1
   #:ioframe {:type :solar
              :name "场景1.1：地球和恒星背景"
-             :db-transit-str (read-resource "frame/dev/scene-1-1-v1.fra")})
+             :db-transit-str (read-resource "frame/dev/scene-1-1-v2.fra")})
 
 (def scene-1-2
   #:ioframe {:type :solar
              :name "场景1.2：天球背景和星座"
-             :db-transit-str (read-resource "frame/dev/scene-1-2-v1.fra")})
+             :db-transit-str (read-resource "frame/dev/scene-1-2-v2.fra")})
 
+(def scene-1-3
+  #:ioframe {:type :solar
+             :name "场景1.3：天球坐标系、地球坐标系和地面坐标系"
+             :db-transit-str (read-resource "frame/dev/scene-1-3-v2.fra")})
+
+(def scene-2-1
+  #:ioframe {:type :solar
+             :name "场景2.1：地球和太阳，观察日和夜"
+             :db-transit-str (read-resource "frame/dev/scene-2-1-v1.fra")})
+
+(def scene-2-2
+  #:ioframe {:type :solar
+             :name "场景2.2：地球和太阳，黄道，观察季节"
+             :db-transit-str (read-resource "frame/dev/scene-2-2-v1.fra")})
+
+(def scene-2-3
+  #:ioframe {:type :solar
+             :name "场景2.3：天球坐标系中心的移动"
+             :db-transit-str (read-resource "frame/dev/scene-2-3-v1.fra")})
 
 (def scene-baseline
   #:ioframe {:type :solar

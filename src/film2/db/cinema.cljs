@@ -8,11 +8,12 @@
 
 (def simple-db
   (let [db (d/empty-db schema)
-        dataset [d.ioframe/mini-1
-                 d.ioframe/mini-2
-                 d.ioframe/solar-planet5
-                 d.ioframe/scene-1-1
+        dataset [d.ioframe/scene-1-1
                  d.ioframe/scene-1-2
+                 d.ioframe/scene-1-3
+                 d.ioframe/scene-2-1
+                 d.ioframe/scene-2-2
+                 d.ioframe/scene-2-3
                  d.ioframe/scene-baseline
                  d.cinema/default]]
     (d/db-with db dataset)))
