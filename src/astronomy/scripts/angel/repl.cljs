@@ -33,6 +33,9 @@
   (p/transact! conn [{:db/id [:star/name "sun"]
                       :star/show-light? show?}]))
 
+(defn change-scene-ambient-light [intensity]
+  (p/transact! conn [{:scene/name "solar"
+                      :scene/ambient-light-intensity intensity}]))
 
 ;; processes
 
@@ -91,9 +94,49 @@
 
   (let [db-url "/frame/dev/scene-1-3-v2.fra"]
     (api/save-db-file @conn db-url))
-
-
 ;;
   )
 
 
+(comment  ;; scene 2-1
+
+  (slib/init-tool! conn slib/all-tools)
+
+  (let [tools-2-1 [{:db/id [:tool/name "clock control 1"]}
+                   {:db/id [:tool/name "planet-tool"]}
+                   {:db/id [:tool/name "constellation-tool"]}
+                   {:db/id [:tool/name "astronomical-coordinate-tool"]}
+                   {:db/id [:tool/name "terrestrial-coordinate-tool"]}
+                   {:db/id [:tool/name "horizon-coordinate-tool"]}]]
+    (slib/init-tool! conn tools-2-1))
+
+  (change-sun-light true)
+  (change-scene-ambient-light 0.1)
+  (re-frash-camera!)
+
+  (let [db-url "/frame/dev/scene-2-1-v1.fra"]
+    (api/save-db-file @conn db-url))
+;;
+  )
+
+
+(comment  ;; scene 2-2
+
+  (slib/init-tool! conn slib/all-tools)
+
+  (let [tools-2-2 [{:db/id [:tool/name "clock control 1"]}
+                   {:db/id [:tool/name "planet-tool"]}
+                   {:db/id [:tool/name "constellation-tool"]}
+                   {:db/id [:tool/name "astronomical-coordinate-tool"]}
+                   {:db/id [:tool/name "terrestrial-coordinate-tool"]}
+                   {:db/id [:tool/name "horizon-coordinate-tool"]}]]
+    (slib/init-tool! conn tools-2-2))
+
+  (change-sun-light true)
+  (change-scene-ambient-light 0.1)
+  (re-frash-camera!)
+
+  (let [db-url "/frame/dev/scene-2-2-v1.fra"]
+    (api/save-db-file @conn db-url))
+;;
+  )

@@ -14,12 +14,14 @@
   {:base "frame/dev/base-v1.fra"
    :scene-1-1 "frame/dev/scene-1-1-v2.fra"
    :scene-1-2 "frame/dev/scene-1-2-v2.fra"
-   :scene-1-3 "frame/dev/scene-1-3-v2.fra"})
+   :scene-1-3 "frame/dev/scene-1-3-v2.fra"
+   :scene-2-1 "frame/dev/scene-2-1-v1.fra"
+   :scene-2-2 "frame/dev/scene-2-2-v1.fra"})
 
 
 (def db
   (->>
-   (read-resource "frame/dev/scene-1-1-v2.fra")
+   (read-resource "frame/dev/scene-2-2-v1.fra")
    (dt/read-transit-str)))
 
 
