@@ -3,7 +3,7 @@
    [datascript.core :as d]
    [posh.reagent :as p]
    [astronomy.lib.api :as api]
-   [astronomy.space.backpack.m :as m.backpack]
+   [astronomy.space.backpack.m :as backpack.m]
    [astronomy.conn.core :refer [create-empty-conn!]]
    [astronomy.tools.spaceship-camera-control.m :as m.spaceship]
    [astronomy.objects.astro-scene.m :as m.astro-scene]
@@ -62,7 +62,14 @@
                {:db/id [:tool/name "ellipse-orbit-tool"]}]
         person (d/pull @conn '[*] [:user/name "dr who"])
         backpack (d/pull @conn '[*] (-> person :user/backpack :db/id))]
-    (p/transact! conn (m.backpack/put-in-backpack-tx backpack tools))))
+    (p/transact! conn (backpack.m/put-in-backpack-tx backpack tools))))
+
+
+(defn clear-backpacks! [conn]
+  (let [person (d/pull @conn '[*] [:user/name "dr who"])
+        backpack (d/pull @conn '[*] (-> person :user/backpack :db/id))
+        tx (backpack.m/clear-backpack-tx @conn backpack)]
+    (p/transact! conn tx)))
 
 
 (defn kick-start! [conn]
@@ -84,26 +91,23 @@
     @conn))
 
 
-(def base-db
-  (create-db))
-
 
 (comment
 
   (def path
     "/private/frame/temp/dev-20211206-7.fra")
-  
-  (def path2 
+
+  (def path2
     "/frame/dev/base-1.fra")
 
-  
+
   (api/save-db-file (create-db) path2)
-  
+
 
   (let [db (create-db)]
     (d/pull db '[* {:object/_scene [*]}] [:scene/name "solar"]))
 
-  
+
   (time (create-db))
 ;;   
   )

@@ -1,5 +1,6 @@
 (ns astronomy.space.backpack.m
   (:require
+   [datascript.core :as d]
    [posh.reagent :as p]))
 
 
@@ -29,7 +30,6 @@
            (:backpack/cell backpack))
    first))
 
-
 (defn put-in-cell-tx [backpack nth-cell tool]
   (let [cell (find-nth-cell backpack nth-cell)]
     [[:db/add (:db/id cell) :backpack-cell/tool (:db/id tool)]]))
@@ -44,6 +44,12 @@
   (apply concat
          (for [i (range (count tools))]
            (put-in-cell-tx backpack i (get tools i)))))
+
+(defn clear-backpack-tx [db backpack]
+  (let [backpack-1 (d/pull db '[{:backpack/cell [*]}] (:db/id backpack))
+        tx (vec (for [cell (:backpack/cell backpack-1)]
+                  [:db.fn/retractAttribute (:db/id cell) :backpack-cell/tool]))]
+    tx))
 
 ;; subscribe 
 
