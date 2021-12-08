@@ -4,7 +4,8 @@
    [astronomy.app.solar :as app.solar]
    [astronomy.lib.api :as api]
    [cljs.core.async :refer [go >!]]
-   [astronomy.scripts.angel.lib :as slib]))
+   [astronomy.scripts.angel.lib :as slib]
+   ))
 
 
 ;; value and refs 
@@ -14,6 +15,14 @@
 
 (def service-chan
   (:astronomy/service-chan app.solar/system))
+
+(def planets-5
+  [{:db/id [:planet/name "mercury"]}
+   {:db/id [:planet/name "venus"]}
+   {:db/id [:planet/name "earth"]}
+   {:db/id [:planet/name "mars"]}
+   {:db/id [:planet/name "jupiter"]}
+   {:db/id [:planet/name "saturn"]}])
 
 ;; help functions
 
@@ -146,7 +155,7 @@
 (comment  ;; scene 2-3
 
   (slib/init-tool! conn slib/all-tools)
-
+  
   (let [tools-2-3 [{:db/id [:tool/name "clock control 1"]}
                    {:db/id [:tool/name "planet-tool"]}
                    {:db/id [:tool/name "constellation-tool"]}
@@ -160,6 +169,31 @@
   (re-frash-camera!)
 
   (let [db-url "/frame/dev/scene-2-3-v1.fra"]
+    (api/save-db-file @conn db-url))
+;;
+  )
+
+
+
+(comment  ;; scene 2-3
+
+  (slib/init-tool! conn slib/all-tools)
+
+  (let [tools-3-1 [{:db/id [:tool/name "clock control 1"]}
+                   {:db/id [:tool/name "planet-tool"]}
+                   {:db/id [:tool/name "constellation-tool"]}
+                   {:db/id [:tool/name "astronomical-coordinate-tool"]}
+                   {:db/id [:tool/name "terrestrial-coordinate-tool"]}
+                   {:db/id [:tool/name "horizon-coordinate-tool"]}]]
+    (slib/init-tool! conn tools-3-1))
+
+  (slib/init-scene! conn planets-5)
+
+  (change-sun-light true)
+  (change-scene-ambient-light 0.1)
+  (re-frash-camera!)
+
+  (let [db-url "/frame/dev/scene-3-1-v1.fra"]
     (api/save-db-file @conn db-url))
 ;;
   )

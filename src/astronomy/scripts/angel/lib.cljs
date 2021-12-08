@@ -2,7 +2,9 @@
   (:require
    [datascript.core :as d]
    [posh.reagent :as p]
-   [astronomy.space.backpack.m :as backpack.m]))
+   [astronomy.space.backpack.m :as backpack.m]
+   [astronomy.objects.astro-scene.m :as astro-scene.m]
+   [astronomy.objects.celestial.m :as celestial.m]))
 
 
 (defn clear-backpack! [conn]
@@ -17,6 +19,13 @@
         backpack (d/pull @conn '[*] (-> person :user/backpack :db/id))]
     (clear-backpack! conn)
     (p/transact! conn (backpack.m/put-in-backpack-tx backpack tools))))
+
+
+(defn init-scene! [conn objects]
+  (let [astro-scene (d/pull @conn '[*] [:scene/name "solar"])
+        tx1 (astro-scene.m/put-objects-tx astro-scene objects)
+        tx2 (mapcat #(celestial.m/add-clock-tx % {:db/id [:clock/name "default"]}) objects)]
+    (p/transact! conn (concat tx1 tx2))))
 
 
 (def all-tools 
