@@ -175,7 +175,7 @@
 
 
 
-(comment  ;; scene 2-3
+(comment  ;; scene 3-1
 
   (slib/init-tool! conn slib/all-tools)
 
@@ -194,6 +194,30 @@
   (re-frash-camera!)
 
   (let [db-url "/frame/dev/scene-3-1-v1.fra"]
+    (api/save-db-file @conn db-url))
+;;
+  )
+
+
+(comment  ;; scene 3-2
+
+  (slib/init-tool! conn slib/all-tools)
+
+  (let [tools-3-1 [{:db/id [:tool/name "clock control 1"]}
+                   {:db/id [:tool/name "planet-tool"]}
+                   {:db/id [:tool/name "constellation-tool"]}
+                   {:db/id [:tool/name "astronomical-coordinate-tool"]}
+                   {:db/id [:tool/name "terrestrial-coordinate-tool"]}
+                   {:db/id [:tool/name "horizon-coordinate-tool"]}]]
+    (slib/init-tool! conn tools-3-1))
+
+  (slib/init-scene! conn planets-5)
+
+  (change-sun-light true)
+  (change-scene-ambient-light 0.1)
+  (re-frash-camera!)
+
+  (let [db-url "/frame/dev/scene-3-2-v1.fra"]
     (api/save-db-file @conn db-url))
 ;;
   )
