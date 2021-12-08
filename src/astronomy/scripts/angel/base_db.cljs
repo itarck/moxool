@@ -65,12 +65,6 @@
     (p/transact! conn (backpack.m/put-in-backpack-tx backpack tools))))
 
 
-(defn clear-backpacks! [conn]
-  (let [person (d/pull @conn '[*] [:user/name "dr who"])
-        backpack (d/pull @conn '[*] (-> person :user/backpack :db/id))
-        tx (backpack.m/clear-backpack-tx @conn backpack)]
-    (p/transact! conn tx)))
-
 
 (defn kick-start! [conn]
   (let [clock-id [:clock/name "default"]
