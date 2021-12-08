@@ -35,12 +35,12 @@
 (def scene-1-1
   #:ioframe {:type :solar
              :name "场景1.1：地球和恒星背景"
-             :db-transit-str (read-resource "private/frame/angel/scene-1-1-v20211203.fra")})
+             :db-transit-str (read-resource "frame/dev/scene-1-1-v1.fra")})
 
 (def scene-1-2
   #:ioframe {:type :solar
              :name "场景1.2：天球背景和星座"
-             :db-transit-str (read-resource "private/frame/angel/scene-1-2-v2.fra")})
+             :db-transit-str (read-resource "frame/dev/scene-1-2-v1.fra")})
 
 
 (def scene-baseline
