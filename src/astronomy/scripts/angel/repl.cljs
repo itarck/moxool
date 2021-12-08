@@ -14,12 +14,6 @@
 (def service-chan
   (:astronomy/service-chan app.solar/system))
 
-(def re-fresh-camera-event
-  #:event{:action :spaceship-camera-control/refresh-camera
-          :detail {:spaceship-camera-control {:db/id [:spaceship-camera-control/name "default"]}}})
-
-(def db-url "/private/frame/angel/scene-1-2-v2.fra")
-
 ;; help functions
 
 
@@ -28,17 +22,27 @@
   (go (>! service-chan event)))
 
 
+(defn re-frash-camera! []
+  (go (>! service-chan 
+          #:event{:action :spaceship-camera-control/refresh-camera
+                  :detail {:spaceship-camera-control {:db/id [:spaceship-camera-control/name "default"]}}})))
+
 ;; processes
 
 ;; scene 1-1 
 
 (comment
 
-  (api/save-db-file @conn db-url)
-
   (slib/init-tool! conn slib/all-tools)
+  
+  (let [tools-1-1 [{:db/id [:tool/name "clock control 1"]}
+                   {:db/id [:tool/name "planet-tool"]}]]
+    (slib/init-tool! conn tools-1-1))
 
-  (slib/clear-backpack! conn)
+  (re-frash-camera!)
+  
+  (let [db-url "/frame/dev/scene-1-1-v1.fra"]
+    (api/save-db-file @conn db-url))
 
 ;;
   )

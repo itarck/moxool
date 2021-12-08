@@ -10,12 +10,14 @@
 
 ;; mount point
 
-#_(def db
-  (scene/create-db))
+(def db-url 
+  {:base "frame/dev/base-v1.fra"
+   :scene-1-1 "temp/frame/scene-1-1-v1.fra"})
+
 
 (def db
   (->>
-   (read-resource "frame/dev/dev-20211206-1.fra")
+   (read-resource "frame/dev/base-v1.fra")
    (dt/read-transit-str)))
 
 
