@@ -45,7 +45,10 @@
    :scene-2-3 "frame/dev/scene-2-3-v1.fra"
    :scene-3-1 "frame/dev/scene-3-1-v1.fra"
    :scene-3-2 "frame/dev/scene-3-2-v1.fra"
-   :scene-3-3 "frame/dev/scene-3-3-v2.fra"})
+   :scene-3-3 "frame/dev/scene-3-3-v2.fra"
+   :scene-4-1 "frame/dev/scene-4-1-v1.fra"
+   :scene-4-2 "frame/dev/scene-4-2-v1.fra"})
+
 
 (def scene-baseline
   #:ioframe {:type :solar
@@ -98,5 +101,12 @@
              :name "场景3.3：地轴的进动"
              :db-transit-str (read-resource "frame/dev/scene-3-3-v2.fra")})
 
+(def scene-4-1
+  #:ioframe {:type :solar
+             :name "场景4.1：在地球上观察月相和月球轨道的变化"
+             :db-transit-str (read-resource "frame/dev/scene-4-1-v1.fra")})
 
-
+(def scene-4-2
+  #:ioframe {:type :solar
+             :name "场景4.2：三体问题，月球轨道的进动"
+             :db-transit-str (read-resource "frame/dev/scene-4-2-v1.fra")})

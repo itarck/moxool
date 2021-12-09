@@ -17,6 +17,8 @@
                  d.ioframe/scene-3-1
                  d.ioframe/scene-3-2
                  d.ioframe/scene-3-3
+                 d.ioframe/scene-4-1
+                 d.ioframe/scene-4-2
                  d.ioframe/scene-baseline
                  d.cinema/default]]
     (d/db-with db dataset)))
