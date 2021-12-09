@@ -63,12 +63,12 @@
                         (go (>! service-chan #:event {:action :spaceship-camera-control/change-zoom
                                                       :detail {:spaceship-camera-control tool
                                                                :zoom value}})))
-            :step 0.2 :min 0.4 :max 100 :marks true
+            :step 0.2 :min 0.4 :max 10 :marks true
             :getAriaValueText identity
             :aria-labelledby "discrete-slider-restrict"
             :valueLabelDisplay "auto"})]
 
-       ($ mt/Grid {:item true :xs 12}
+       #_($ mt/Grid {:item true :xs 12}
           ($ mt/Typography {:variant "subtitle1"} "动作")
           ($ mt/Button {:variant "outlined"
                         :size "small"
