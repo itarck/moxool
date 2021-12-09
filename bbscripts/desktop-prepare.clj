@@ -27,6 +27,7 @@
    "models/starsphere.gltf"
    "slides"
    "private"
+   "frame"
    "index.html"
    "package.json"])
 

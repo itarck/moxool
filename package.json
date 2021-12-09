@@ -1,6 +1,6 @@
 {
-  "name": "moxool_astronomy",
-  "version": "0.0.4-alpha",
+  "name": "moxool.astronomy",
+  "version": "0.0.5-alpha",
   "description": "moxool astronomy history app",
   "scripts": {
     "server/dev": "lein repl",
