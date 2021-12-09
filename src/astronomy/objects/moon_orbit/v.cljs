@@ -28,18 +28,13 @@
    :epoch-days
    }
    "
-  [{:keys [astro-scene orbit moon epoch-day]} {:keys [conn]}]
-  (let [moon-1 @(p/pull conn '[{:satellite/planet [*]}] (:db/id moon))
-        planet-1 (:satellite/planet moon-1)
-        axis (moon-orbit.m/cal-north-pole-vector3 orbit epoch-day)
-        coor-1 (m.coordinate/sub-scene-coordinate conn astro-scene)
-        start-v (m.coordinate/from-system-position-now coor-1 (:object/position planet-1))
-        props {:start start-v
+  [{:keys [orbit epoch-day]} {:keys [conn]}]
+  (let [axis (moon-orbit.m/cal-north-pole-vector3 orbit epoch-day)
+        props {:start [0 0 0]
                :direction axis
-               :length (* 0.8 (:moon-orbit/semi-major-axis orbit))
+               :length (* 1.2 (:moon-orbit/semi-major-axis orbit))
                :arrow-size (* 0.1 (:moon-orbit/semi-major-axis orbit))
-               :color "white"}]
-    ;; (println "NorthAxisView" props)
+               :color "gray"}]
     [v.geo/ArrowLineComponent props]))
 
 
@@ -52,7 +47,7 @@
                           :color color}]))
 
 (defn MoonOrbitView
-  [{:keys [astro-scene orbit celestial clock]} {:keys [conn] :as env}]
+  [{:keys [orbit celestial clock]} {:keys [conn] :as env}]
   (let [clock @(p/pull conn '[*] (:db/id clock))
         epoch-day (:clock/time-in-days clock)
         days (range (+ -60 epoch-day) (+ 0.2 epoch-day) 0.1)]
@@ -65,10 +60,9 @@
        [v.geo/LineComponent {:points [(v3/from-seq [0 0 0])
                                       (moon-orbit.m/cal-perigee-vector orbit epoch-day)]
                              :color "#666"}])
-     
-     [NorthPoleView {:orbit orbit
-                     :epoch-day epoch-day}]
-     [NorthAxisView {:astro-scene astro-scene 
-                     :orbit orbit
-                     :moon celestial
-                     :epoch-day epoch-day} env]]))
+     (when (:moon-orbit/show-north-axis? orbit)
+       [:<>
+        [NorthPoleView {:orbit orbit
+                        :epoch-day epoch-day}]
+        [NorthAxisView {:orbit orbit
+                        :epoch-day epoch-day} env]])]))

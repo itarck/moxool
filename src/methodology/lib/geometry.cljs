@@ -71,7 +71,8 @@
      [LineComponent {:points [start-v end-v]
                      :color color}]
      [:> Cone {:args [(* 0.1 arrow-size) arrow-size 16]
-               :position axis}]]))
+               :position axis}
+      [:meshBasicMaterial {:color color}]]]))
 
 
 (defn CrossComponent

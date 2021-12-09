@@ -272,5 +272,17 @@
 
   (let [db-url "/frame/dev/scene-4-1-v1.fra"]
     (api/save-db-file @conn db-url))
-;;
+
+
+  (def moon-orbit
+    (:celestial/orbit @(p/pull conn '[*] [:satellite/name "moon"])))
+
+  (:db/id moon-orbit)
+
+  
+  (p/transact! conn [[:db/add (:db/id moon-orbit) :moon-orbit/show-perigee? true]])
+
+  ;;
   )
+
+
