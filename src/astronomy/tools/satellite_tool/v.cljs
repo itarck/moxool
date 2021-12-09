@@ -79,6 +79,21 @@
                                                                  :show? show?}}))))}]
           [:span "是"]]]
          
+        (when (= (:satellite/name target) "moon")
+          [:> mt/Grid {:item true :xs 12}
+           [:> mt/Typography {:variant "subtitle1"} "显示辅助线："
+            [:span "否"]
+            [:> mt/Switch
+             {:color "default"
+              :size "small"
+              :checked (or (get-in target [:celestial/orbit :moon-orbit/show-helper-lines?]) false)
+              :onChange (fn [event]
+                          (let [show? (j/get-in event [:target :checked])]
+                            (go (>! service-chan #:event {:action :satellite/show-moon-orbit-helper-lines?
+                                                          :detail {:celestial target
+                                                                   :show? show?}}))))}]
+            [:span "是"]]])
+        
          
 
 ;; 

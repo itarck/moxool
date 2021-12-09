@@ -13,9 +13,10 @@
         tx (m.celestial/update-show-orbit-tx celestial show?)]
     (effects :tx tx)))
 
-(defmethod handle-event :satellite/change-show-object
+(defmethod handle-event :satellite/show-moon-orbit-helper-lines?
   [props _env {:event/keys [detail]}]
   (let [{:keys [celestial show?]} detail
-        tx [{:db/id (:db/id celestial)
-             :object/show? show?}]]
+        tx [{:db/id (get-in celestial [:celestial/orbit :db/id])
+             :moon-orbit/show-helper-lines? show?}]]
     (effects :tx tx)))
+

@@ -13,7 +13,7 @@
   (let [axis (moon-orbit.m/cal-north-pole-vector3 orbit epoch-day)
         north-pole-on-sph (moon-orbit.m/cal-north-pole-on-astronomical-sphere orbit epoch-day)
         props {:center north-pole-on-sph
-               :radius (* 0.01 const/astronomical-sphere-radius)
+               :radius (* 0.005 const/astronomical-sphere-radius)
                :axis axis
                :color "white"
                :circle-points 60}]
@@ -56,12 +56,11 @@
                            :color (:orbit/color orbit)}]
      [CelestialPositionLineView {:celestial celestial} env]
 
-     (when (:moon-orbit/show-perigee? orbit)
-       [v.geo/LineComponent {:points [(v3/from-seq [0 0 0])
-                                      (moon-orbit.m/cal-perigee-vector orbit epoch-day)]
-                             :color "#666"}])
-     (when (:moon-orbit/show-north-axis? orbit)
+     (when (:moon-orbit/show-helper-lines? orbit)
        [:<>
+        [v.geo/LineComponent {:points [(v3/from-seq [0 0 0])
+                                       (moon-orbit.m/cal-perigee-vector orbit epoch-day)]
+                              :color "#666"}]
         [NorthPoleView {:orbit orbit
                         :epoch-day epoch-day}]
         [NorthAxisView {:orbit orbit

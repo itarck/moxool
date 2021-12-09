@@ -254,7 +254,7 @@
 
   (slib/init-tool! conn slib/all-tools)
 
-  (let [tools-3-3 [{:db/id [:tool/name "clock control 1"]}
+  (let [tools-4-1 [{:db/id [:tool/name "clock control 1"]}
                    {:db/id [:tool/name "planet-tool"]}
                    {:db/id [:tool/name "satellite-tool"]}
                    {:db/id [:tool/name "constellation-tool"]}
@@ -262,7 +262,7 @@
                    {:db/id [:tool/name "terrestrial-coordinate-tool"]}
                    {:db/id [:tool/name "horizon-coordinate-tool"]}
                    {:db/id [:tool/name "spaceship camera tool"]}]]
-    (slib/init-tool! conn tools-3-3))
+    (slib/init-tool! conn tools-4-1))
 
   (slib/init-scene! conn (concat planets-5 satellites))
 
@@ -274,15 +274,39 @@
     (api/save-db-file @conn db-url))
 
 
+  ;;
+  )
+
+
+(comment  ;; scene 4-2
+
+  (slib/init-tool! conn slib/all-tools)
+
+  (let [tools-4-2 [{:db/id [:tool/name "clock control 1"]}
+                   {:db/id [:tool/name "planet-tool"]}
+                   {:db/id [:tool/name "satellite-tool"]}
+                   {:db/id [:tool/name "constellation-tool"]}
+                   {:db/id [:tool/name "astronomical-coordinate-tool"]}
+                   {:db/id [:tool/name "terrestrial-coordinate-tool"]}
+                   {:db/id [:tool/name "horizon-coordinate-tool"]}
+                   {:db/id [:tool/name "spaceship camera tool"]}]]
+    (slib/init-tool! conn tools-4-2))
+
+  (slib/init-scene! conn (concat planets-5 satellites))
+
+  (change-sun-light true)
+  (change-scene-ambient-light 0.1)
+  (re-frash-camera!)
+
+  (let [db-url "/frame/dev/scene-4-2-v1.fra"]
+    (api/save-db-file @conn db-url))
+
+
   (def moon-orbit
     (:celestial/orbit @(p/pull conn '[*] [:satellite/name "moon"])))
 
   (:db/id moon-orbit)
 
-  
-  (p/transact! conn [[:db/add (:db/id moon-orbit) :moon-orbit/show-perigee? true]])
 
   ;;
   )
-
-
