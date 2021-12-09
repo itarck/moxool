@@ -63,9 +63,9 @@
                           (go (>! service-chan #:event {:action :satellite/change-show-object
                                                         :detail {:celestial target
                                                                  :show? show?}}))))}]
-          [:span "是"]]]
+          [:span "是"]]
 
-        [:> mt/Grid {:item true :xs 12}
+
          [:> mt/Typography {:variant "subtitle1"} "显示公转轨道："
           [:span "否"]
           [:> mt/Switch
@@ -77,10 +77,10 @@
                           (go (>! service-chan #:event {:action :satellite/change-show-orbit
                                                         :detail {:celestial target
                                                                  :show? show?}}))))}]
-          [:span "是"]]]
-         
-        (when (= (:satellite/name target) "moon")
-          [:> mt/Grid {:item true :xs 12}
+          [:span "是"]]
+
+
+         (when (= (:satellite/name target) "moon")
            [:> mt/Typography {:variant "subtitle1"} "显示辅助线："
             [:span "否"]
             [:> mt/Switch
@@ -92,9 +92,8 @@
                             (go (>! service-chan #:event {:action :satellite/show-moon-orbit-helper-lines?
                                                           :detail {:celestial target
                                                                    :show? show?}}))))}]
-            [:span "是"]]])
-        
-         
+            [:span "是"]])]
+
 
 ;; 
-         ]]]]))
+        ]]]]))
