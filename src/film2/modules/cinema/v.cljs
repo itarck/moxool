@@ -10,6 +10,15 @@
    [film2.modules.editor.v :as editor.v]))
 
 
+(defn LogoView []
+  [:div {:style {:position :absolute :top 0 :left 0 :z-index 10}}
+   [:img {:style {:hegiht "48px"
+                  :width "48px"
+                  :margin "5px"
+                  :border-radius "5px"}
+          :src "image/moxool/lighter1.jpg"}]])
+
+
 (defn UserMenuView [{:keys [cinema]} {:keys [service-chan]}]
   [:div {:style {:position :absolute
                  :top "5px"
@@ -33,6 +42,7 @@
   [{:keys [cinema] :as props} {:keys [conn] :as env}]
   (let [cinema-1 @(p/pull conn '[*] (:db/id cinema))]
     [:<>
+     [LogoView]
      [:div {:style {:top "0"
                     :height "100%"
                     :width "100%"
@@ -74,12 +84,14 @@
              "确定"]]]]]]])))
 
 (defn BackgroundView []
-  [:> Canvas {:style {:background :black
-                      :style {:height "100%"
-                              :width "100%"}}
-              :shadowMap true}
-   ($ Stars {:radius 100 :depth 100 :count 3000 :factor 4 :saturation 0 :fade true})
-   ($ OrbitControls)])
+  [:<>
+   [LogoView]
+   [:> Canvas {:style {:background :black
+                       :style {:height "100%"
+                               :width "100%"}}
+               :shadowMap true}
+    ($ Stars {:radius 100 :depth 100 :count 3000 :factor 4 :saturation 0 :fade true})
+    ($ OrbitControls)]])
 
 
 (defn CinemaEntranceView
