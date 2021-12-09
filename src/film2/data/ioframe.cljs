@@ -35,14 +35,22 @@
 ;; angel version 
 
 
-(def db-urls {:base "frame/dev/base-v1.fra"
-              :scene-1-1 "frame/dev/scene-1-1-v2.fra"
-              :scene-1-2 "frame/dev/scene-1-2-v2.fra"
-              :scene-1-3 "frame/dev/scene-1-3-v2.fra"
-              :scene-2-1 "frame/dev/scene-2-1-v1.fra"
-              :scene-2-2 "frame/dev/scene-2-2-v1.fra"
-              :scene-2-3 "frame/dev/scene-2-3-v1.fra"})
+(def db-url
+  {:base "frame/dev/base-v1.fra"
+   :scene-1-1 "frame/dev/scene-1-1-v2.fra"
+   :scene-1-2 "frame/dev/scene-1-2-v2.fra"
+   :scene-1-3 "frame/dev/scene-1-3-v2.fra"
+   :scene-2-1 "frame/dev/scene-2-1-v1.fra"
+   :scene-2-2 "frame/dev/scene-2-2-v1.fra"
+   :scene-2-3 "frame/dev/scene-2-3-v1.fra"
+   :scene-3-1 "frame/dev/scene-3-1-v1.fra"
+   :scene-3-2 "frame/dev/scene-3-2-v1.fra"
+   :scene-3-3 "frame/dev/scene-3-3-v2.fra"})
 
+(def scene-baseline
+  #:ioframe {:type :solar
+             :name "场景0：基础数据库"
+             :db-transit-str (read-resource "private/frame/temp/dev-20211206-7.fra")})
 
 (def scene-1-1
   #:ioframe {:type :solar
@@ -74,7 +82,21 @@
              :name "场景2.3：天球坐标系中心的移动"
              :db-transit-str (read-resource "frame/dev/scene-2-3-v1.fra")})
 
-(def scene-baseline
+
+(def scene-3-1
   #:ioframe {:type :solar
-             :name "场景0：基础数据库"
-             :db-transit-str (read-resource "private/frame/temp/dev-20211206-7.fra")})
+             :name "场景3.1：日心说，太阳中心视角下的五大行星"
+             :db-transit-str (read-resource "frame/dev/scene-3-1-v1.fra")})
+
+(def scene-3-2
+  #:ioframe {:type :solar
+             :name "场景3.2：地心说，地球中心视角下的五大行星"
+             :db-transit-str (read-resource "frame/dev/scene-3-2-v1.fra")})
+
+(def scene-3-3
+  #:ioframe {:type :solar
+             :name "场景3.3：地轴的进动"
+             :db-transit-str (read-resource "frame/dev/scene-3-3-v2.fra")})
+
+
+

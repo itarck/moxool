@@ -1,4 +1,5 @@
-{:paths ["src" "resources" "resources/public"]
+{
+ :paths ["src" "resources" "resources/public"]
 
  :deps {thheller/shadow-cljs {:mvn/version "2.11.14"}
         applied-science/js-interop {:mvn/version "0.2.7"}
@@ -7,7 +8,7 @@
         com.lucasbradstreet/cljs-uuid-utils {:mvn/version "1.0.2"}
         cljs-bean/cljs-bean {:mvn/version "1.6.0"}
         cljs-http/cljs-http {:mvn/version "0.1.46"}
-        com.andrewmcveigh/cljs-time {:mvn/version "0.5.2"} 
+        com.andrewmcveigh/cljs-time {:mvn/version "0.5.2"}
         datascript/datascript {:mvn/version "1.1.0"}
         datascript-transit/datascript-transit {:mvn/version "0.3.0"}
         denistakeda/posh {:mvn/version "0.5.8"}
@@ -20,7 +21,12 @@
         reagent-utils/reagent-utils {:mvn/version "0.3.3"}
         venantius/accountant {:mvn/version "0.2.5"}
         lilactown/helix {:mvn/version "0.1.0"}
-        fancoil/fancoil {:local/root "/Users/tizac/room/fancoil"}}}
+        fancoil/fancoil {:local/root "/Users/tizac/room/fancoil"}}
+
+ :aliases {:shadow-cljs
+           {:extra-deps {thheller/shadow-cljs {:mvn/version "2.11.14"}}
+            :main-opts ["-m" "shadow.cljs.devtools.cli"]
+            :jvm-opts ["-Xmx3G"]}}}
 
 
 
