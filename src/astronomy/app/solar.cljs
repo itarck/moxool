@@ -22,12 +22,13 @@
    :scene-3-2 "frame/dev/scene-3-2-v1.fra"
    :scene-3-3 "frame/dev/scene-3-3-v2.fra"
    :scene-4-1 "frame/dev/scene-4-1-v1.fra"
-   :scene-4-2 "frame/dev/scene-4-2-v1.fra"})
+   :scene-4-2 "frame/dev/scene-4-2-v1.fra"
+   :scene-full "frame/dev/full-v1.fra"})
 
 
 (def db
   (->>
-   (read-resource "frame/dev/scene-4-2-v1.fra")
+   (read-resource "frame/dev/full-v1.fra")
    (dt/read-transit-str)))
 
 

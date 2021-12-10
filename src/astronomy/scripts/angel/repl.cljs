@@ -64,7 +64,7 @@
         rotation (e/from-quaternion (q/multiply q1 q2))]
     (p/transact! conn
                  [{:db/id (:db/id (:celestial/gltf moon))
-                   :gltf/rotation rotation}])))
+                   :gltf/rotation (vec rotation)}])))
 
 ;; processes
 
