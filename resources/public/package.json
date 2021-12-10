@@ -1,8 +1,8 @@
 {
-  "name": "moxool.astronomy",
-  "version": "0.0.5-alpha",
+  "name": "Mox.Astronomy",
+  "version": "0.0.6-alpha",
   "author": "Mox",
-  "description": "moxool astronomy history app",
+  "description": "An explorable model of astronomy",
   "main": "main.js",
   "scripts": {
     "start": "electron-forge start",

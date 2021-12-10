@@ -1,7 +1,8 @@
 {
-  "name": "moxool.astronomy",
-  "version": "0.0.5-alpha",
-  "description": "moxool astronomy history app",
+  "name": "Mox.Astronomy",
+  "version": "0.0.6-alpha",
+  "author": "Mox",
+  "description": "An explorable model of astronomy",
   "scripts": {
     "server/dev": "lein repl",
     "web/dev": "shadow-cljs watch webapp",
