@@ -110,3 +110,8 @@
   #:ioframe {:type :solar
              :name "场景4.2：三体问题，月球轨道的进动"
              :db-transit-str (read-resource "frame/dev/scene-4-2-v1.fra")})
+
+(def scene-full
+  #:ioframe {:type :solar
+             :name "探索场景"
+             :db-transit-str (read-resource "frame/dev/full-v1.fra")})
