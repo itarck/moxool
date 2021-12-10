@@ -21,8 +21,3 @@
              :moon-orbit/show-helper-lines? show?}]]
     (effects :tx tx)))
 
-(defmethod handle-event :satellite/change-in-scene?
-  [props _env {:event/keys [detail]}]
-  (let [{:keys [satellite in-scene?]} detail
-        tx (satellite.m/change-in-scene? satellite in-scene?)]
-    (effects :tx tx)))

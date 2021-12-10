@@ -23,7 +23,13 @@
                                  :detail {:astro-scene astro-scene
                                           :coordinate coordinate}}))))
 
-
+(defmethod handle-event! :astro-scene/change-objects-in-scene
+  [props {:keys [conn]} {:event/keys [detail]}]
+  (let [{:keys [astro-scene objects in-scene?]} detail
+        tx (if in-scene?
+             (m.astro-scene/put-objects-tx astro-scene objects)
+             (m.astro-scene/remove-objects-tx astro-scene objects))]
+    (p/transact! conn tx)))
 
 (defn init-service! [props {:keys [process-chan] :as env}]
   (println "astro-scene started")

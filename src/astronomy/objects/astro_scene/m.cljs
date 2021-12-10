@@ -120,3 +120,8 @@
   (mapv (fn [obj] {:db/id (:db/id obj)
                    :object/scene (:db/id astro-scene)}) 
        objects))
+
+(defn remove-objects-tx [astro-scene objects]
+  (mapv (fn [obj]
+          [:db/retract (:db/id obj) :object/scene (:db/id astro-scene)])
+        objects))

@@ -9,7 +9,7 @@
    [astronomy.objects.satellite.m :as satellite.m]))
 
 
-(defn SatelliteToolView [props {:keys [service-chan conn]}]
+(defn SatelliteToolView [{:keys [astro-scene] :as props} {:keys [service-chan conn]}]
   (let [tool @(p/pull conn '[*] (get-in props [:tool :db/id]))
         target @(p/pull conn '[{:celestial/orbit [*]
                                 :celestial/spin [*]} *] (get-in tool [:tool/target :db/id]))
@@ -60,8 +60,9 @@
             :size "small"
             :checked in-scene?
             :onChange (fn [event]
-                        (go (>! service-chan #:event {:action :satellite/change-in-scene?
-                                                      :detail {:satellite target
+                        (go (>! service-chan #:event {:action :astro-scene/change-objects-in-scene
+                                                      :detail {:astro-scene astro-scene
+                                                               :objects [target]
                                                                :in-scene? (not in-scene?)}})))}]
           [:span "是"]]
 

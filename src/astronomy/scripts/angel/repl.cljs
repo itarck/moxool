@@ -330,7 +330,7 @@
 
 (comment ;; scene full
 
-  #_(slib/init-tool! conn slib/all-tools)
+  (slib/init-tool! conn slib/all-tools)
 
   (re-frash-camera!)
 
@@ -340,5 +340,7 @@
 
   (let [db-url "/frame/dev/full-v1.fra"]
     (api/save-db-file @conn db-url))
+
+  
 ;;
   )

@@ -105,7 +105,7 @@
              astro-scene-1 @(p/pull conn '[*] [:scene/name scene-name])
              spaceship-camera-control (:user/camera-control user-1)]
          [v.user/UserView {:user user
-                             :astro-scene astro-scene-1
-                             :camera-control spaceship-camera-control} env]))]))
+                           :astro-scene astro-scene-1
+                           :camera-control spaceship-camera-control} env]))]))
 
 
