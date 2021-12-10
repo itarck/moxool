@@ -72,6 +72,14 @@
         planet-position (planet.m/cal-system-position-at-epoch db (:satellite/planet satellite-1) epoch-days)]
     (mapv + object-position planet-position)))
 
+(defn in-scene? [satellite]
+  (boolean (:object/scene satellite)))
+
+(defn change-in-scene? [satellite in-scene?]
+  (if in-scene?
+    [{:db/id (:db/id satellite)
+      :object/scene [:scene/name "solar"]}]
+    [[:db.fn/retractAttribute (:db/id satellite) :object/scene]]))
 
 ;; abstract
 

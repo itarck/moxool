@@ -13,6 +13,7 @@
   (let [tool @(p/pull conn '[*] (get-in props [:tool :db/id]))
         target @(p/pull conn '[{:celestial/orbit [*]
                                 :celestial/spin [*]} *] (get-in tool [:tool/target :db/id]))
+        in-scene? (satellite.m/in-scene? target)
         candidate-id-and-names (sort-by first @(p/q satellite.m/query-all-id-and-chinese-name conn))
         {:celestial/keys [scale] :or {scale 1}} target]
     [:div {:class "astronomy-righthand"}
@@ -57,12 +58,11 @@
           [:> mt/Switch
            {:color "default"
             :size "small"
-            :checked (or (get-in target [:object/show?]) false)
+            :checked in-scene?
             :onChange (fn [event]
-                        (let [show? (j/get-in event [:target :checked])]
-                          (go (>! service-chan #:event {:action :satellite/change-show-object
-                                                        :detail {:celestial target
-                                                                 :show? show?}}))))}]
+                        (go (>! service-chan #:event {:action :satellite/change-in-scene?
+                                                      :detail {:satellite target
+                                                               :in-scene? (not in-scene?)}})))}]
           [:span "是"]]
 
 

@@ -1,6 +1,7 @@
 (ns astronomy.objects.satellite.h
   (:require
    [astronomy.objects.celestial.m :as m.celestial]
+   [astronomy.objects.satellite.m :as satellite.m]
    [astronomy.service.effect :refer [effects]]))
 
 
@@ -20,3 +21,8 @@
              :moon-orbit/show-helper-lines? show?}]]
     (effects :tx tx)))
 
+(defmethod handle-event :satellite/change-in-scene?
+  [props _env {:event/keys [detail]}]
+  (let [{:keys [satellite in-scene?]} detail
+        tx (satellite.m/change-in-scene? satellite in-scene?)]
+    (effects :tx tx)))
