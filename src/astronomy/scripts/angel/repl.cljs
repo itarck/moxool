@@ -5,6 +5,9 @@
    [astronomy.lib.api :as api]
    [cljs.core.async :refer [go >!]]
    [astronomy.scripts.angel.lib :as slib]
+   [shu.three.quaternion :as q]
+   [shu.three.vector3 :as v3]
+   [shu.three.euler :as e]
    ))
 
 
@@ -48,6 +51,16 @@
 (defn change-scene-ambient-light [intensity]
   (p/transact! conn [{:scene/name "solar"
                       :scene/ambient-light-intensity intensity}]))
+
+(defn set-moon-rotation! []
+  (let [moon @(p/pull conn '[*] [:satellite/name "moon"])
+        q1 (q/from-axis-angle (v3/from-seq [0 1 0]) (/ Math/PI 2))
+        q2 (q/from-unit-vectors (v3/from-seq [0 0 -1])
+                                (v3/normalize (v3/from-seq [-0.92099222494957 -0.2626882147761619 -1.034279284990182])))
+        rotation (e/from-quaternion (q/multiply q1 q2))]
+    (p/transact! conn
+                 [{:db/id (:db/id (:celestial/gltf moon))
+                   :gltf/rotation rotation}])))
 
 ;; processes
 
@@ -307,6 +320,52 @@
 
   (:db/id moon-orbit)
 
-
   ;;
+  )
+
+
+(comment ;; scene full
+
+  (slib/init-tool! conn slib/all-tools)
+
+  (let [tools-1-1 [{:db/id [:tool/name "clock control 1"]}
+                   {:db/id [:tool/name "planet-tool"]}]]
+    (slib/init-tool! conn tools-1-1))
+
+  (change-sun-light false)
+  (re-frash-camera!)
+
+  (let [db-url "/frame/dev/scene-1-1-v2.fra"]
+    (api/save-db-file @conn db-url))
+
+  (def earth
+    @(p/pull conn '[*] [:planet/name "earth"]))
+
+  (slib/init-scene! conn (concat satellites))
+
+  (:object/position earth)
+  ;; => (442.9497885783528 191.68192377598768 -88.40464973856325)
+
+  (def moon
+    @(p/pull conn '[*] [:satellite/name "moon"]))
+
+  (:object/position moon)
+  ;; => (-0.92099222494957 -0.2626882147761619 -1.034279284990182)
+
+  (def q1
+    (q/from-axis-angle (v3/from-seq [0 1 0]) (/ Math/PI 2)))
+
+  (def q2
+    (q/from-unit-vectors (v3/from-seq [0 0 -1])
+                         (v3/normalize (v3/from-seq [-0.92099222494957 -0.2626882147761619 -1.034279284990182]))))
+
+  (q/multiply q1 q2)
+  ;; => #object[Quaternion [-0.07076578910766212 0.9064647935000296 0.07076578910766211 0.41025112349497417]]
+
+  (def rotation
+    (e/from-quaternion (q/multiply q1 q2)))
+  
+  (set-moon-rotation!)
+
+;;
   )

@@ -214,7 +214,8 @@
                             :angular-velocity (shu.angle/period-to-angular-velocity-in-radians 27.321661)}
     :celestial/gltf #:gltf {:url "models/16-solar/Moon_1_3474.glb"
                             :scale [0.002 0.002 0.002]
-                            :rotation [0 (/ Math/PI 2) 0]
+                            ;; :rotation [0 (/ Math/PI 2) 0]
+                            :rotation [-2.8637472114504985 0.823811510849329 2.8637472114504985 "XYZ"]
                             :shadow? true}
     ;; :celestial/gltf #:gltf {:url "models/14-moon/scene.gltf"
                             ;; :scale [0.01 0.01 0.01]}
