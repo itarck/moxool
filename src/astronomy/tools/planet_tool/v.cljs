@@ -9,12 +9,13 @@
    [astronomy.objects.planet.m :as planet.m]))
 
 
-(defn PlanetToolView [props {:keys [service-chan conn]}]
+(defn PlanetToolView [{:keys [astro-scene] :as props} {:keys [service-chan conn]}]
   (let [tool @(p/pull conn '[*] (get-in props [:tool :db/id]))
         target @(p/pull conn '[{:celestial/orbit [*]
                                 :celestial/spin [*]} *] (get-in tool [:tool/target :db/id]))
         candidate-id-and-names (sort-by first @(p/q planet.m/query-all-id-and-chinese-name conn))
-        {:celestial/keys [scale] :or {scale 1}} target]
+        {:celestial/keys [scale] :or {scale 1}} target
+        in-scene? (planet.m/in-scene? target)]
     [:div {:class "astronomy-righthand"}
      [:div {:class "astronomy-righthand-tool"}
       [:div.p-2
@@ -57,19 +58,32 @@
            [:> mt/Typography {:variant "subtitle1"} (str "自转周期：" (gstring/format "%0.3f" p) "日")])]
 
         [:> mt/Grid {:item true :xs 12}
-         (when (= :planet (:entity/type target))
-           [:> mt/Typography {:variant "subtitle1"} "显示公转轨道："
-            [:span "否"]
-            [:> mt/Switch
-             {:color "default"
-              :size "small"
-              :checked (or (get-in target [:celestial/orbit :orbit/show?]) false)
-              :onChange (fn [event]
-                          (let [show? (j/get-in event [:target :checked])]
-                            (go (>! service-chan #:event {:action :planet/show-orbit
-                                                          :detail {:celestial target
-                                                                   :show? show?}}))))}]
-            [:span "是"]])
+
+         [:> mt/Typography {:variant "subtitle1"} "显示行星："
+          [:span "否"]
+          [:> mt/Switch
+           {:color "default"
+            :size "small"
+            :checked in-scene?
+            :onChange (fn [event]
+                        (go (>! service-chan #:event {:action :astro-scene/change-objects-in-scene
+                                                      :detail {:astro-scene astro-scene
+                                                               :objects [target]
+                                                               :in-scene? (not in-scene?)}})))}]
+          [:span "是"]]
+
+         [:> mt/Typography {:variant "subtitle1"} "显示公转轨道："
+          [:span "否"]
+          [:> mt/Switch
+           {:color "default"
+            :size "small"
+            :checked (or (get-in target [:celestial/orbit :orbit/show?]) false)
+            :onChange (fn [event]
+                        (let [show? (j/get-in event [:target :checked])]
+                          (go (>! service-chan #:event {:action :planet/show-orbit
+                                                        :detail {:celestial target
+                                                                 :show? show?}}))))}]
+          [:span "是"]]
 
          [:> mt/Typography {:variant "subtitle1"} "显示赤道平面："
           [:span "否"]
@@ -151,10 +165,10 @@
                           (go (>! service-chan #:event {:action :planet/change-scale
                                                         :detail {:planet target
                                                                  :scale value}})))
-              :step 10 :min 1 :max 1000 :marks true
+              :step 10 :min 1 :max 100 :marks true
               :getAriaValueText identity
               :aria-labelledby "discrete-slider-restrict"
               :valueLabelDisplay "auto"})]
-         
+
 ;; 
          ]]]]]))

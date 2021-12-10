@@ -94,6 +94,9 @@
   (let [system-position (cal-system-position-at-epoch db planet epoch-days)]
     (m.coordinate/from-system-position-at-epoch db coordinate epoch-days system-position)))
 
+(defn in-scene? 
+  [planet]
+  (boolean (:object/scene planet)))
 
 ;; 实现接口
 

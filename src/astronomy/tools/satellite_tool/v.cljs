@@ -53,7 +53,7 @@
            [:> mt/Typography {:variant "subtitle1"} (str "自转周期：" (gstring/format "%0.3f" p) "日")])]
 
         [:> mt/Grid {:item true :xs 12}
-         [:> mt/Typography {:variant "subtitle1"} "显示星体："
+         [:> mt/Typography {:variant "subtitle1"} "显示卫星："
           [:span "否"]
           [:> mt/Switch
            {:color "default"
