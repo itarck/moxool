@@ -28,7 +28,11 @@
    {:db/id [:planet/name "saturn"]}])
 
 (def satellites
-  [{:db/id [:satellite/name "moon"]}])
+  [{:db/id [:satellite/name "moon"]}
+   {:db/id [:satellite/name "io"]}
+   {:db/id [:satellite/name "europa"]}
+   {:db/id [:satellite/name "ganymede"]}
+   {:db/id [:satellite/name "callisto"]}])
 
 ;; help functions
 
@@ -326,46 +330,15 @@
 
 (comment ;; scene full
 
-  (slib/init-tool! conn slib/all-tools)
+  #_(slib/init-tool! conn slib/all-tools)
 
-  (let [tools-1-1 [{:db/id [:tool/name "clock control 1"]}
-                   {:db/id [:tool/name "planet-tool"]}]]
-    (slib/init-tool! conn tools-1-1))
-
-  (change-sun-light false)
   (re-frash-camera!)
 
-  (let [db-url "/frame/dev/scene-1-1-v2.fra"]
-    (api/save-db-file @conn db-url))
+  (slib/init-scene! conn satellites)
 
-  (def earth
-    @(p/pull conn '[*] [:planet/name "earth"]))
-
-  (slib/init-scene! conn (concat satellites))
-
-  (:object/position earth)
-  ;; => (442.9497885783528 191.68192377598768 -88.40464973856325)
-
-  (def moon
-    @(p/pull conn '[*] [:satellite/name "moon"]))
-
-  (:object/position moon)
-  ;; => (-0.92099222494957 -0.2626882147761619 -1.034279284990182)
-
-  (def q1
-    (q/from-axis-angle (v3/from-seq [0 1 0]) (/ Math/PI 2)))
-
-  (def q2
-    (q/from-unit-vectors (v3/from-seq [0 0 -1])
-                         (v3/normalize (v3/from-seq [-0.92099222494957 -0.2626882147761619 -1.034279284990182]))))
-
-  (q/multiply q1 q2)
-  ;; => #object[Quaternion [-0.07076578910766212 0.9064647935000296 0.07076578910766211 0.41025112349497417]]
-
-  (def rotation
-    (e/from-quaternion (q/multiply q1 q2)))
-  
   (set-moon-rotation!)
 
+  (let [db-url "/frame/dev/full-v1.fra"]
+    (api/save-db-file @conn db-url))
 ;;
   )
