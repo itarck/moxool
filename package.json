@@ -3,6 +3,7 @@
   "version": "0.0.6-alpha",
   "author": "Mox",
   "description": "An explorable model of astronomy",
+  "license": "UNLICENSED",
   "scripts": {
     "server/dev": "lein repl",
     "web/dev": "shadow-cljs watch webapp",
