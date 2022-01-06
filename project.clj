@@ -17,7 +17,7 @@
                  [ultra-csv "0.2.3"]]
 
   :source-paths ["src"]
-  :resource-paths ["public"]
+  :resource-paths ["resources/public"]
 
   :profiles {:dev {:dependencies
                    [[integrant/repl "0.3.1"]

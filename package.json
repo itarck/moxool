@@ -6,9 +6,9 @@
   "license": "UNLICENSED",
   "scripts": {
     "server/dev": "lein repl",
-    "web/dev": "shadow-cljs watch webapp",
-    "web/compile": "shadow-cljs compile webapp",
-    "web/release": "shadow-cljs release webapp",
+    "web/dev": "clj -A:shadow-cljs watch webapp",
+    "web/compile": "clj -A:shadow-cljs compile webapp",
+    "web/release": "clj -A:shadow-cljs release webapp",
     "web/clean": "rm -rf resource/public/js/* && rm -rf target",
     "desktop/dev": "clj -A:shadow-cljs watch desktop electron",
     "desktop/start": "cd desktop && yarn start",
