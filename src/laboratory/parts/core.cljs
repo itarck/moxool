@@ -1,7 +1,7 @@
 (ns laboratory.parts.core
   (:require
-   [laboratory.parts.framework.core]
-   [laboratory.parts.entity.core]
-   [laboratory.parts.scene.core]
-   [laboratory.parts.user.core]
-   [laboratory.parts.object.core]))
+   [laboratory.parts.framework]
+   [laboratory.parts.entity]
+   [laboratory.parts.scene]
+   [laboratory.parts.user]
+   [laboratory.parts.object]))

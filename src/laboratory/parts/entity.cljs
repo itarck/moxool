@@ -1,4 +1,4 @@
-(ns laboratory.parts.entity.sub
+(ns laboratory.parts.entity
   (:require
    [posh.reagent :as p]
    [fancoil.base :as base]))

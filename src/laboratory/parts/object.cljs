@@ -1,10 +1,18 @@
-(ns laboratory.parts.object.view
+(ns laboratory.parts.object
   (:require
    [fancoil.base :as base]
+   [fancoil.module.posh.base :as posh.base]
    [applied-science.js-interop :as j]
    [reagent.dom]
    ["three" :as three]
-   ["@react-three/drei" :refer [Box Plane OrbitControls]]))
+   ["@react-three/drei" :refer [Box]]))
+
+
+(defmethod posh.base/schema :object/schema
+  [_ _]
+  {:object/name {:db/unique :db.unique/identity}
+   :object/scene {:db/cardinality :db.cardinality/one :db/valueType :db.type/ref}})
+
 
 
 (defmethod base/view :object/view
