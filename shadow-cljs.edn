@@ -1,14 +1,22 @@
 {:deps true
 
  :builds
- {:webapp {:target     :browser
+ {:lab {:target     :browser
+        :output-dir "resources/public/js"
+        :asset-path "/js"
+        :modules {:app {:entries [laboratory.app.box]
+                        :init-fn laboratory.app.box/init!}}
+        :devtools {:after-load laboratory.app.box/update!
+                   :http-root   "resources/public"
+                   :http-port   4001}}
+  :webapp {:target     :browser
            :output-dir "resources/public/js"
            :asset-path "/js"
            :modules {:app {:entries [film2.app.cinema]
                            :init-fn film2.app.cinema/init!}}
            :devtools {:after-load film2.app.cinema/update!
                       :http-root   "resources/public"
-                      :http-port   4000}}
+                      :http-port   4001}}
   :desktop {:target     :browser
             :output-dir "desktop/js"
             :asset-path "/js"
@@ -16,7 +24,7 @@
                             :init-fn film2.app.cinema/init!}}
             :devtools {:after-load film2.app.cinema/update!
                        :http-root   "desktop"
-                       :http-port   4000}}
+                       :http-port   4001}}
   :electron {:target :node-script
              :output-to "desktop/main.js"
              :main electron.main.core/main}}
