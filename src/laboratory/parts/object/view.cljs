@@ -2,15 +2,9 @@
   (:require
    [fancoil.base :as base]
    [applied-science.js-interop :as j]
-   [helix.core :refer [defnc $] :as h]
    [reagent.dom]
    ["three" :as three]
-   ["camera-controls" :as CameraControls]
-   ["@react-three/drei" :refer [Box Plane OrbitControls]]
-   ["react-three-fiber" :refer [Canvas useFrame extend useThree]]))
-
-
-(extend #js {:CameraControls CameraControls})
+   ["@react-three/drei" :refer [Box Plane OrbitControls]]))
 
 
 (defmethod base/view :object/view
