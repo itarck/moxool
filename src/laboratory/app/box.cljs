@@ -5,12 +5,14 @@
    [fancoil.core :as fc]
    [integrant.core :as ig]
    [fancoil.module.posh.unit]
-   [laboratory.parts.scene.core]
-   [laboratory.parts.object.core]))
+   [laboratory.parts.core]))
 
 
 (def initial-tx
-  [{:scene/name "default"
+  [{:framework/name "default"
+    :framework/scene -1}
+   {:db/id -1
+    :scene/name "default"
     :scene/background "white"}
    {:object/type :box
     :object/position [0 0 0]
@@ -60,10 +62,11 @@
 
 (defn mount-root
   []
-  (rdom/render [(::fu/view system) :scene/view {:scene {:db/id [:scene/name "default"]}}]
-               (js/document.getElementById "app")))
+  (let [view (::fu/view system)]
+    (rdom/render [view :framework/view {:db/id [:framework/name "default"]}]
+                 (js/document.getElementById "app")))
+  )
 
 
 (defn ^:export init! []
   (mount-root))
-
