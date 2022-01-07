@@ -7,7 +7,7 @@
    [datascript.core :as d]
    [posh.reagent :as p]
    [integrant.core :as ig]
-   [fancoil.core :as fancoil]
+   [fan.core :as fan]
    [astronomy.scripts.angel.lib :as slib])
   )
 
@@ -22,7 +22,7 @@
   app.solar/user-config)
 
 (def config
-  (fancoil/merge-config system.solar/default-config user-config))
+  (fan/merge-config system.solar/default-config user-config))
 
 
 (def system2

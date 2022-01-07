@@ -21,7 +21,7 @@
         reagent-utils/reagent-utils {:mvn/version "0.3.3"}
         venantius/accountant {:mvn/version "0.2.5"}
         lilactown/helix {:mvn/version "0.1.0"}
-       ;;  fancoil/fancoil {:local/root "/Users/tizac/room/fancoil"}
+        fan/fan {:local/root "/Users/tizac/room/fan"}
         }
 
  :aliases {:shadow-cljs

@@ -1,7 +1,7 @@
 (ns film2.system.studio
   (:require
    [integrant.core :as ig]
-   [fancoil.core]
+   [fan.core]
    [film2.parts.schema :refer [schema]]
    [film2.parts.root-view]
    [film2.parts.service-center]))
@@ -10,9 +10,9 @@
 ;; ig
 
 
-(derive :studio/conn :fancoil/db.pconn)
-(derive :studio/instance-atom :fancoil/db.atom)
-(derive :studio/service-chan :fancoil/async.chan)
+(derive :studio/conn :fan/db.pconn)
+(derive :studio/instance-atom :fan/db.atom)
+(derive :studio/service-chan :fan/async.chan)
 
 
 

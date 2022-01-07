@@ -1,16 +1,16 @@
 (ns film2.system.cinema
   (:require
    [integrant.core :as ig]
-   [fancoil.core]
+   [fan.core]
    [film2.parts.schema :refer [schema]]
    [film2.parts.root-view]
    [film2.parts.service-center]
    [film2.parts.process]))
 
 
-(derive :cinema/conn :fancoil/db.pconn)
-(derive :cinema/instance-atom :fancoil/db.atom)
-(derive :cinema/service-chan :fancoil/async.chan)
+(derive :cinema/conn :fan/db.pconn)
+(derive :cinema/instance-atom :fan/db.atom)
+(derive :cinema/service-chan :fan/async.chan)
 
 
 (def default-config

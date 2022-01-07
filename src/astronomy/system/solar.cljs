@@ -4,19 +4,19 @@
    [astronomy.conn.schema :refer [schema]]
    [astronomy.parts.root-view :as parts.root-view]
    [astronomy.parts.listeners :as parts.listeners]
-   [fancoil.core :as fancoil])
+   [fan.core :as fan])
   (:require-macros
    [methodology.lib.resource :refer [read-resource]]))
 
 
 (def hierarchy
-  {:astronomy/meta-atom :fancoil/db.ratom
-   :astronomy/dom-atom :fancoil/db.atom
-   :astronomy/state-atom :fancoil/db.ratom
-   :astronomy/service-chan :fancoil/async.chan
-   :astronomy/conn :fancoil/db.pconn
-   :astronomy/publisher :fancoil/async.publisher
-   :astronomy/root-view :fancoil/view.reagent-view})
+  {:astronomy/meta-atom :fan/db.ratom
+   :astronomy/dom-atom :fan/db.atom
+   :astronomy/state-atom :fan/db.ratom
+   :astronomy/service-chan :fan/async.chan
+   :astronomy/conn :fan/db.pconn
+   :astronomy/publisher :fan/async.publisher
+   :astronomy/root-view :fan/view.reagent-view})
 
 
 (def default-config
@@ -55,10 +55,10 @@
                               :state-atom (ig/ref :astronomy/state-atom)
                               :dom-atom (ig/ref :astronomy/dom-atom)}}})
 
-(fancoil/load-hierarchy! hierarchy)
+(fan/load-hierarchy! hierarchy)
 
 (defn create-system! [user-config]
-  (let [config (fancoil/merge-config default-config user-config)]
+  (let [config (fan/merge-config default-config user-config)]
     (ig/init config)))
 
 
