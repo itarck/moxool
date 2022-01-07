@@ -6,10 +6,13 @@
 
 (def initial-tx
   [{:framework/name "default"
-    :framework/scene -1}
+    :framework/scene -1
+    :framework/user -2}
    {:db/id -1
     :scene/name "default"
     :scene/background "white"}
+   {:db/id -2
+    :user/name "default"}
    {:object/type :box
     :object/position [0 0 0]
     :object/rotation [0 0 0]

@@ -28,13 +28,13 @@
 
 
 (defmethod base/view :user/view
-  [{:keys [subscribe] :as core} _ {:keys [user]}]
+  [{:keys [subscribe] :as core} _ user]
   (let [user @(subscribe :entity/pull (:db/id user))
         backpack (:user/backpack user)]
     [:<>
      [base/view core :user/left-hand.view {}]
-     [base/view core :backpack/view {:user user
+     #_[base/view core :backpack/view {:user user
                                      :backpack backpack}]
-     (when (:user/right-tool user)
+     #_(when (:user/right-tool user)
        [base/view core :user/right-hand.view {:user user
                                               :tool (:user/right-tool user)}])]))
