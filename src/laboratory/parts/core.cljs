@@ -3,4 +3,5 @@
    [laboratory.parts.framework.core]
    [laboratory.parts.entity.core]
    [laboratory.parts.scene.core]
+   [laboratory.parts.user.core]
    [laboratory.parts.object.core]))
