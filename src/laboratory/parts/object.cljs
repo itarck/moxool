@@ -3,7 +3,6 @@
    [fancoil.base :as base]
    [fancoil.module.posh.base :as posh.base]
    [applied-science.js-interop :as j]
-   [reagent.dom]
    ["three" :as three]
    ["@react-three/drei" :refer [Box]]))
 
@@ -12,7 +11,6 @@
   [_ _]
   {:object/name {:db/unique :db.unique/identity}
    :object/scene {:db/cardinality :db.cardinality/one :db/valueType :db.type/ref}})
-
 
 
 (defmethod base/view :object/view

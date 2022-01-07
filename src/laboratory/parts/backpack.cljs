@@ -19,6 +19,7 @@
 
 
 (defmethod posh.base/schema :backpack/schema
+  [_ _]
   {:backpack/name {:db/unique :db.unique/identity}
    :backpack/owner {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
    :backpack/active-cell {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
