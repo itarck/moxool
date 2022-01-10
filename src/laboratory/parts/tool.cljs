@@ -25,15 +25,17 @@
 ;; view
 
 (defmethod base/view :tool/view
-  [{:keys [subscribe]} _ tool]
+  [{:keys [subscribe] :as core} _ tool]
   (let [tool @(subscribe :entity/pull {:id (:db/id tool)})]
-    [:div {:class "astronomy-righthand"}
-     [:div {:class "astronomy-righthand-tool"}
-      [:div.p-2
-       [:div
-        [:img {:src (:tool/icon tool)
-               :class "astronomy-button"}]
-        [:span {:style {:font-size "18px"
-                        :font-weight "bold"}}
-         (:tool/chinese-name tool)]]]]]))
+    (if (:tool/type tool)
+      [base/view core (keyword (:tool/type tool) "view") tool]
+      [:div {:class "astronomy-righthand"}
+       [:div {:class "astronomy-righthand-tool"}
+        [:div.p-2
+         [:div
+          [:img {:src (:tool/icon tool)
+                 :class "astronomy-button"}]
+          [:span {:style {:font-size "18px"
+                          :font-weight "bold"}}
+           (:tool/chinese-name tool)]]]]])))
 
