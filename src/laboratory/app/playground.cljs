@@ -2,7 +2,8 @@
   (:require
    [fancoil.base :as base]
    [reagent.dom :as rdom]
-   [laboratory.system.zero :as zero]))
+   [laboratory.system.zero :as zero]
+   [cljs.spec.alpha :as s]))
 
 
 (def initial-tx
@@ -18,7 +19,7 @@
 (def user-config 
   {::zero/pconn {:initial-tx initial-tx}})
 
-(def instance
+(defonce instance
   (zero/init user-config))
 
 (def entry
@@ -38,14 +39,17 @@
   (mount-root))
 
 
-(comment 
-  (def model 
+(comment
+  (def model
     (partial base/model {}))
 
   (model :framework/create
          #:framework {:db/id -1
                       :scene -2
-                      :user -3})
+                      :user -3}))
 
 
+(comment
+
+  (s/valid? :db/id 324)
   )

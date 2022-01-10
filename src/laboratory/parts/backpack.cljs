@@ -16,7 +16,6 @@
 
 ;; schema
 
-
 (defmethod posh.base/schema :backpack/schema
   [_ _]
   {:backpack/name {:db/unique :db.unique/identity}
@@ -48,8 +47,8 @@
 
 (defmethod base/model :backpack/put-in-cell-tx
   [_ _ {:keys [backpack nth-cell tool]}]
-  (let [cell (base/model {} :backpack/find-nth-cell {:backpack backpack 
-                                                   :nth-cell nth-cell})]
+  (let [cell (base/model {} :backpack/find-nth-cell {:backpack backpack
+                                                     :nth-cell nth-cell})]
     [[:db/add (:db/id cell) :backpack-cell/tool (:db/id tool)]]))
 
 (defmethod base/model :backpack/active-cell-tx
@@ -64,11 +63,11 @@
   [_ _ {:keys [backpack tools]}]
   (apply concat
          (for [i (range (count tools))]
-           (base/model {} :backpack/put-in-cell-tx {:backpack backpack 
-                                                  :nth-cell i 
-                                                  :tool (get tools i)}))))
+           (base/model {} :backpack/put-in-cell-tx {:backpack backpack
+                                                    :nth-cell i
+                                                    :tool (get tools i)}))))
 
-(defmethod base/model :backpack/clear-backpack-tx 
+(defmethod base/model :backpack/clear-backpack-tx
   [_ _ {:keys [db backpack]}]
   (let [backpack-1 (d/pull db '[{:backpack/cell [*]}] (:db/id backpack))
         tx (vec (for [cell (:backpack/cell backpack-1)]

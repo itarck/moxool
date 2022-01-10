@@ -15,6 +15,7 @@
 
 (def default-config
   {::schema {}
+   ::fu/spec {}
    ::pconn {:schema (ig/ref ::schema)}
    ::fu/subscribe {:pconn (ig/ref ::pconn)}
    ::fu/inject {:pconn (ig/ref ::pconn)}
@@ -38,4 +39,5 @@
   [user-config]
   (let [config (fc/merge-config default-config user-config)]
     (ig/init config)))
+
 
