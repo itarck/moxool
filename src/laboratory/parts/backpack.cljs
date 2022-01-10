@@ -80,10 +80,15 @@
   [{:keys [model]} _ {:request/keys [body]}]
   (let [{:keys [user cell active-cell backpack]} body
         tx (if (= (:db/id active-cell) (:db/id cell))
-             (model :backpack/deactive-cell-tx {:backpack backpack})
-             (model :backpack/active-cell-tx {:backpack backpack
-                                              :cell-id (:db/id cell)}))]
-    {:posh/tx tx}))
+             (concat
+              (model :backpack/deactive-cell-tx {:backpack backpack})
+              (model :user/drop-tool-tx {:user user}))
+             (concat
+              (model :backpack/active-cell-tx {:backpack backpack
+                                               :cell-id (:db/id cell)})
+              (model :user/select-tool-tx {:user user
+                                           :tool-id (-> cell :backpack-cell/tool :db/id)})))]
+    {:log/out tx}))
 
 ;; subscribe 
 

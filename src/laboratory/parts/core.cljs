@@ -5,4 +5,5 @@
    [laboratory.parts.scene]
    [laboratory.parts.user]
    [laboratory.parts.backpack]
-   [laboratory.parts.object]))
+   [laboratory.parts.object]
+   [laboratory.parts.tool]))

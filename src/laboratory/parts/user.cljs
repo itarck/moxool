@@ -21,6 +21,17 @@
                  :framework/_user [:framework/name "default"]}]
     (merge default props)))
 
+
+(defmethod base/model :user/select-tool-tx
+  [_ _ {:keys [user tool-id]}]
+  (when tool-id
+    [[:db/add (:db/id user) :user/right-tool tool-id]]))
+
+(defmethod base/model :user/drop-tool-tx
+  [_ _ {:keys [user]}]
+  [[:db.fn/retractAttribute (:db/id user) :user/right-tool]])
+
+
 ;; view
 
 (defmethod base/view :user/left-hand.view
@@ -34,7 +45,7 @@
   [{:keys [subscribe] :as core} _ {:keys [tool]}]
   (let [tool @(subscribe :entity/pull (:db/id tool))
         tool-type (:entity/type tool)]
-    [base/view core (keyword tool-type "view") {:tool tool}]))
+    [base/view core :tool/view tool]))
 
 
 (defmethod base/view :user/view
@@ -44,6 +55,6 @@
     [:<>
      [base/view core :user/left-hand.view {}]
      [base/view core :backpack/view backpack]
-     #_(when (:user/right-tool user)
-         [base/view core :user/right-hand.view {:user user
-                                                :tool (:user/right-tool user)}])]))
+     (when (:user/right-tool user)
+       [base/view core :user/right-hand.view {:user user
+                                              :tool (:user/right-tool user)}])]))
