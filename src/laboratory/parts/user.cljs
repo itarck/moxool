@@ -43,7 +43,7 @@
 
 (defmethod base/view :user/right-hand.view
   [{:keys [subscribe] :as core} _ {:keys [tool]}]
-  (let [tool @(subscribe :entity/pull (:db/id tool))
+  (let [tool @(subscribe :entity/pull {:id (:db/id tool)})
         tool-type (:entity/type tool)]
     [base/view core :tool/view tool]))
 
@@ -55,6 +55,6 @@
     [:<>
      [base/view core :user/left-hand.view {}]
      [base/view core :backpack/view backpack]
-     (when (:user/right-tool user)
-       [base/view core :user/right-hand.view {:user user
-                                              :tool (:user/right-tool user)}])]))
+     (when (:user/right-tool user1)
+       [base/view core :user/right-hand.view {:user user1
+                                              :tool (:user/right-tool user1)}])]))

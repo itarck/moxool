@@ -88,7 +88,7 @@
                                                :cell-id (:db/id cell)})
               (model :user/select-tool-tx {:user user
                                            :tool-id (-> cell :backpack-cell/tool :db/id)})))]
-    {:log/out tx}))
+    {:posh/tx tx}))
 
 ;; subscribe 
 
@@ -103,7 +103,7 @@
 (defmethod base/view :backpack/view
   [{:keys [subscribe dispatch]} _ backpack]
   (let [bp @(subscribe :backpack/pull {:id (:db/id backpack)})
-        user @(subscribe :entity/pull {:id (get-in bp [:user/_backpack :db/id])})
+        user @(subscribe :entity/pull {:id (get-in bp [:user/_backpack 0 :db/id])})
         active-cell (:backpack/active-cell bp)]
     [:div {:class "d-flex justify-content-center astronomy-backpack"}
      (for [cell (:backpack/cell bp)]

@@ -5,13 +5,19 @@
 
 ;; value
 
-(def sample 
+(def sample
   {:tool/name "constellation-tool"
    :tool/chinese-name "星座"
    :tool/icon "/image/pirate/earth.jpg"
    :tool/type :constellation-tool
    :entity/type :constellation-tool})
 
+;; model 
+
+(defmethod base/model :tool/create
+  [_ _ props]
+  (let [default {}]
+    (merge default props)))
 
 ;; handle
 
