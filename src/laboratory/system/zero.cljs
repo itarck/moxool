@@ -4,7 +4,8 @@
    [fancoil.core :as fc]
    [integrant.core :as ig]
    [fancoil.module.posh.unit]
-   [laboratory.parts.core]))
+   [laboratory.parts.core]
+   [laboratory.unit.process]))
 
 
 (def hierarchy
@@ -16,11 +17,12 @@
 (def default-config
   {::schema {}
    ::fu/spec {}
+   ::fu/model {}
    ::pconn {:schema (ig/ref ::schema)}
    ::fu/subscribe {:pconn (ig/ref ::pconn)}
    ::fu/inject {:pconn (ig/ref ::pconn)}
    ::fu/do! {:pconn (ig/ref ::pconn)}
-   ::fu/handle {}
+   ::fu/handle {:model (ig/ref ::fu/model)}
    ::fu/process {:inject (ig/ref ::fu/inject)
                  :do! (ig/ref ::fu/do!)
                  :handle (ig/ref ::fu/handle)}

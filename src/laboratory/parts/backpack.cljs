@@ -74,6 +74,17 @@
                   [:db.fn/retractAttribute (:db/id cell) :backpack-cell/tool]))]
     tx))
 
+;; handle 
+
+(defmethod base/handle :backpack/click-cell
+  [{:keys [model]} _ {:request/keys [body]}]
+  (let [{:keys [user cell active-cell backpack]} body
+        tx (if (= (:db/id active-cell) (:db/id cell))
+             (model :backpack/deactive-cell-tx {:backpack backpack})
+             (model :backpack/active-cell-tx {:backpack backpack
+                                              :cell-id (:db/id cell)}))]
+    {:posh/tx tx}))
+
 ;; subscribe 
 
 (defmethod base/subscribe :backpack/pull
@@ -97,10 +108,10 @@
                      "astronomy-cell")]
          ^{:key (:db/id cell)}
          [:div {:class style
-                :onClick #(dispatch :user/click-backpack-cell {:user user
-                                                               :backpack bp
-                                                               :cell cell
-                                                               :active-cell active-cell})}
+                :onClick #(dispatch :backpack/click-cell {:user user
+                                                          :backpack bp
+                                                          :cell cell
+                                                          :active-cell active-cell})}
           (when tool
             [:img {:src (-> tool :tool/icon)
                    :class "astronomy-button"}])]))]))
