@@ -3,7 +3,8 @@
    [fancoil.base :as base]
    [reagent.dom :as rdom]
    [laboratory.system.zero :as zero]
-   [cljs.spec.alpha :as s]))
+   [cljs.spec.alpha :as s]
+   [fancoil.unit :as fu]))
 
 
 (def initial-tx
@@ -52,4 +53,10 @@
 (comment
 
   (s/valid? :db/id 324)
+
+  (s/check-asserts true)
+
+  (let [spec (::fu/spec instance)]
+    (spec :assert :entity/entity {:db/id [:scene/name "34"]}))
+
   )
