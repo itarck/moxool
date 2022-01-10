@@ -4,9 +4,9 @@
  {:lab {:target     :browser
         :output-dir "resources/public/js"
         :asset-path "/js"
-        :modules {:app {:entries [laboratory.app.box]
-                        :init-fn laboratory.app.box/init!}}
-        :devtools {:after-load laboratory.app.box/update!
+        :modules {:app {:entries [laboratory.app.playground]
+                        :init-fn laboratory.app.playground/init!}}
+        :devtools {:after-load laboratory.app.playground/update!
                    :http-root   "resources/public"
                    :http-port   4001}}
   :webapp {:target     :browser

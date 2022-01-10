@@ -1,4 +1,4 @@
-(ns laboratory.app.box
+(ns laboratory.app.playground
   (:require
    [reagent.dom :as rdom]
    [laboratory.system.zero :as zero]))
