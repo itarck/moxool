@@ -6,14 +6,13 @@
    [posh.reagent :as p]))
 
 
-(def sample
-  #:backpack {:db/id -3
-              :name "default"
-              :owner -1
-              :cell [#:backpack-cell{:index 0
-                                     :tool -1}
-                     #:backpack-cell{:index 1
-                                     :tool -2}]})
+;; data
+
+(def default
+  #:backpack {:name "default"
+              :owner [:user/name "default"]
+              :cell (vec (for [i (range 12)]
+                           #:backpack-cell{:index i}))})
 
 ;; schema
 
@@ -30,6 +29,15 @@
 
 
 ;; model
+
+(defmethod base/model :backpack/create
+  [_ _ props]
+  (let [default #:backpack {:name "default"
+                            :user/_backpack [:user/name "default"]
+                            :owner [:user/name "default"]
+                            :cell (vec (for [i (range 12)]
+                                         #:backpack-cell{:index i}))}]
+    (merge default props)))
 
 (defmethod base/model :backpack/find-nth-cell
   [_ _ {:keys [backpack nth-cell]}]
@@ -71,15 +79,16 @@
 
 (defmethod base/subscribe :backpack/pull
   [{:keys [pconn]} _ {:keys [pattern id]}]
-  (let [pt (or pattern '[* {:backpack/cell [{:backpack-cell/tool [*]}]}])]
-    @(p/pull pconn pt id)))
+  (let [pt (or pattern '[* {:backpack/cell [{:backpack-cell/tool [*]}]
+                            :user/_backpack [:db/id]}])]
+    (p/pull pconn pt id)))
 
 ;; view
 
 (defmethod base/view :backpack/view
   [{:keys [subscribe dispatch]} _ backpack]
   (let [bp @(subscribe :backpack/pull {:id (:db/id backpack)})
-        user @(subscribe :entity/pull {:id (get-in bp [:backpack/user :db/id])})
+        user @(subscribe :entity/pull {:id (get-in bp [:user/_backpack :db/id])})
         active-cell (:backpack/active-cell bp)]
     [:div {:class "d-flex justify-content-center astronomy-backpack"}
      (for [cell (:backpack/cell bp)]

@@ -7,8 +7,9 @@
 
 (def initial-tx
   [(base/model {} :framework/create {})
-   (base/model {} :scene/create {})
+   (base/model {} :scene/create {:scene/background "black"})
    (base/model {} :user/create {})
+   (base/model {} :backpack/create {})
    (base/model {} :object/create #:object{:scale [1 1 5]})
    (base/model {} :object/create #:object{:position [3 0 0]
                                           :scale [3 3 3]})])
