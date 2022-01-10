@@ -11,11 +11,23 @@
   [_ _]
   {:scene/name {:db/unique :db.unique/identity}})
 
+;; model
+
+(defmethod base/model :scene/create
+  [_ _ props]
+  (let [default #:scene {:name "default"
+                         :background "white"
+                         :framework/_scene [:framework/name "default"]}]
+    (merge default props)))
+
+
+;; sub
 
 (defmethod base/subscribe :scene/pull-one
   [{:keys [pconn]} _ {:db/keys [id]}]
   (p/pull pconn '[* {:object/_scene [*]}] id))
 
+;; view
 
 (defmethod base/view :scene/view
   [{:keys [subscribe] :as config} _signal props]

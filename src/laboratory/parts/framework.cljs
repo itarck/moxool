@@ -11,6 +11,13 @@
    :framework/scene {:db/cardinality :db.cardinality/one :db/valueType :db.type/ref}
    :framework/user {:db/cardinality :db.cardinality/one :db/valueType :db.type/ref}})
 
+;; model
+
+(defmethod base/model :framework/create
+  [_ _ props]
+  (let [default #:framework {:name "default"}]
+    (merge default props)))
+
 ;; view
 
 (defmethod base/view :framework/view

@@ -1,28 +1,17 @@
 (ns laboratory.app.playground
   (:require
+   [fancoil.base :as base]
    [reagent.dom :as rdom]
    [laboratory.system.zero :as zero]))
 
 
 (def initial-tx
-  [{:framework/name "default"
-    :framework/scene -1
-    :framework/user -2}
-   {:db/id -1
-    :scene/name "default"
-    :scene/background "white"}
-   {:db/id -2
-    :user/name "default"}
-   {:object/type :box
-    :object/position [0 0 0]
-    :object/rotation [0 0 0]
-    :object/scale [1 1 5]
-    :object/scene [:scene/name "default"]}
-   {:object/type :box
-    :object/position [3 0 0]
-    :object/rotation [0 0 0]
-    :object/scale [3 2 5]
-    :object/scene [:scene/name "default"]}])
+  [(base/model {} :framework/create {})
+   (base/model {} :scene/create {})
+   (base/model {} :user/create {})
+   (base/model {} :object/create #:object{:scale [1 1 5]})
+   (base/model {} :object/create #:object{:position [3 0 0]
+                                          :scale [3 3 3]})])
 
 
 (def user-config 
@@ -46,3 +35,16 @@
 
 (defn ^:export init! []
   (mount-root))
+
+
+(comment 
+  (def model 
+    (partial base/model {}))
+
+  (model :framework/create
+         #:framework {:db/id -1
+                      :scene -2
+                      :user -3})
+
+
+  )

@@ -29,38 +29,38 @@
    :backpack-cell/tool {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}})
 
 
-;; helper
+;; model
 
-(defmethod base/tap :backpack/find-nth-cell
+(defmethod base/model :backpack/find-nth-cell
   [_ _ {:keys [backpack nth-cell]}]
   (->
    (filter (fn [cell] (= (:backpack-cell/index cell) nth-cell))
            (:backpack/cell backpack))
    first))
 
-(defmethod base/tap :backpack/put-in-cell-tx
+(defmethod base/model :backpack/put-in-cell-tx
   [_ _ {:keys [backpack nth-cell tool]}]
-  (let [cell (base/tap {} :backpack/find-nth-cell {:backpack backpack 
+  (let [cell (base/model {} :backpack/find-nth-cell {:backpack backpack 
                                                    :nth-cell nth-cell})]
     [[:db/add (:db/id cell) :backpack-cell/tool (:db/id tool)]]))
 
-(defmethod base/tap :backpack/active-cell-tx
+(defmethod base/model :backpack/active-cell-tx
   [_ _ {:keys [backpack cell-id]}]
   [[:db/add (:db/id backpack) :backpack/active-cell cell-id]])
 
-(defmethod base/tap :backpack/deactive-cell-tx
+(defmethod base/model :backpack/deactive-cell-tx
   [_ _ {:keys [backpack]}]
   [[:db.fn/retractAttribute (:db/id backpack) :backpack/active-cell]])
 
-(defmethod base/tap :backpack/put-in-packpack-tx
+(defmethod base/model :backpack/put-in-packpack-tx
   [_ _ {:keys [backpack tools]}]
   (apply concat
          (for [i (range (count tools))]
-           (base/tap {} :backpack/put-in-cell-tx {:backpack backpack 
+           (base/model {} :backpack/put-in-cell-tx {:backpack backpack 
                                                   :nth-cell i 
                                                   :tool (get tools i)}))))
 
-(defmethod base/tap :backpack/clear-backpack-tx 
+(defmethod base/model :backpack/clear-backpack-tx 
   [_ _ {:keys [db backpack]}]
   (let [backpack-1 (d/pull db '[{:backpack/cell [*]}] (:db/id backpack))
         tx (vec (for [cell (:backpack/cell backpack-1)]

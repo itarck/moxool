@@ -13,6 +13,16 @@
    :user/right-tool {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}})
 
 
+;; model
+
+(defmethod base/model :user/create
+  [_ _ props]
+  (let [default {:user/name "default"
+                 :framework/_user [:framework/name "default"]}]
+    (merge default props)))
+
+;; view
+
 (defmethod base/view :user/left-hand.view
   [_ _ _]
   [:div {:class "astronomy-lefthand"}
