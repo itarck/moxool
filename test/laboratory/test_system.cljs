@@ -12,6 +12,10 @@
   (let [sys (zero/init {} [::fu/model])]
     (::fu/model sys)))
 
+(defn create-handle-unit []
+  (let [sys (zero/init {} [::fu/handle])]
+    (::fu/handle sys)))
+
 (defn create-db-system []
   (let [sys (zero/init {}
                        [::fu/process
@@ -28,5 +32,7 @@
   (keys (create-db-system))
   ;; => (:laboratory.system.zero/schema :laboratory.system.zero/pconn :fancoil.unit/do! :fancoil.unit/model :fancoil.unit/handle :fancoil.unit/inject :fancoil.unit/process :fancoil.unit/subscribe)
 
+  (keys (zero/init {} [::fu/handle]))
+  ;; => (:fancoil.unit/spec :fancoil.unit/model :fancoil.unit/handle)
 
   )

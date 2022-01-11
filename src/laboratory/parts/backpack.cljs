@@ -52,8 +52,8 @@
     [[:db/add (:db/id cell) :backpack-cell/tool (:db/id tool)]]))
 
 (defmethod base/model :backpack/active-cell-tx
-  [_ _ {:keys [backpack cell-id]}]
-  [[:db/add (:db/id backpack) :backpack/active-cell cell-id]])
+  [_ _ {:keys [backpack cell]}]
+  [[:db/add (:db/id backpack) :backpack/active-cell (:db/id cell)]])
 
 (defmethod base/model :backpack/deactive-cell-tx
   [_ _ {:keys [backpack]}]
@@ -85,7 +85,7 @@
               (model :user/drop-tool-tx {:user user}))
              (concat
               (model :backpack/active-cell-tx {:backpack backpack
-                                               :cell-id (:db/id cell)})
+                                               :cell cell})
               (model :user/select-tool-tx {:user user
                                            :tool (:backpack-cell/tool cell)})))]
     {:posh/tx tx}))

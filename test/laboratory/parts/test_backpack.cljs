@@ -1,14 +1,10 @@
-(ns laboratory.parts.test-user
+(ns laboratory.parts.test-backpack
   (:require
    [cljs.test :refer-macros [deftest is are testing run-tests]]
    [laboratory.test-system :as test-system]))
 
 
-(def user-sample
-  {:db/id -1
-   :user/name "dr who"
-   :user/backpack {:db/id -34}
-   :user/right-tool {:db/id -100}})
+;; model test
 
 (deftest test-spec-unit
   (let [spec (test-system/create-spec-unit)]
@@ -25,6 +21,13 @@
           [[:db.fn/retractAttribute -1 :user/right-tool]]))))
 
 
+;; event test
+
+(deftest test-handle-unit
+  (let [handle (test-system/create-handle-unit)]
+    
+    ))
+
 (run-tests)
 
 
@@ -37,5 +40,8 @@
   (let [model (test-system/create-model-unit)]
     (model :user/select-tool-tx {:user {:db/id 1}
                                  :tool {:db/id 2}}))
-
-)
+  
+  (let [handle (test-system/create-handle-unit)]
+    (handle :backpack/click-cell)
+    )
+  )
