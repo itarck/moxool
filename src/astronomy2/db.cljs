@@ -22,12 +22,10 @@
              (base/model {} :object/create #:object{:scale [1 1 1]
                                                     :position [-3 0 0]})
              (base/model {} :tool/create #:tool{:db/id -1
-                                                :type :universe-tool
                                                 :name "universe tool"
                                                 :chinese-name "宇宙"
                                                 :icon "image/moxool/universe.webp"})
              (base/model {} :tool/create #:tool{:db/id -2
-                                                :type :clock-tool
                                                 :name "clock tool"
                                                 :chinese-name "时钟"
                                                 :icon "image/moxool/clock.jpg"})]]

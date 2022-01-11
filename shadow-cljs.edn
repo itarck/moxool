@@ -12,38 +12,30 @@
            :asset-path "/js"
            :modules {:app {:entries [astronomy2.app]
                            :init-fn astronomy2.app/init!}}
-           :devtools {:after-load astronomy2.app/update!
-                      :http-root   "resources/public"
-                      :http-port   4001}}
+           :devtools {:after-load astronomy2.app/update!}}
   :lab {:target     :browser
         :output-dir "resources/public/js"
         :asset-path "/js"
         :modules {:app {:entries [laboratory.app.playground]
                         :init-fn laboratory.app.playground/init!}}
-        :devtools {:after-load laboratory.app.playground/update!
-                   :http-root   "resources/public"
-                   :http-port   4001}}
+        :devtools {:after-load laboratory.app.playground/update!}}
   :webapp {:target     :browser
            :output-dir "resources/public/js"
            :asset-path "/js"
            :modules {:app {:entries [film2.app.cinema]
                            :init-fn film2.app.cinema/init!}}
-           :devtools {:after-load film2.app.cinema/update!
-                      :http-root   "resources/public"
-                      :http-port   4001}}
+           :devtools {:after-load film2.app.cinema/update!}}
   :desktop {:target     :browser
             :output-dir "desktop/js"
             :asset-path "/js"
             :modules {:app {:entries [film2.app.cinema]
                             :init-fn film2.app.cinema/init!}}
-            :devtools {:after-load film2.app.cinema/update!
-                       :http-root   "desktop"
-                       :http-port   4001}}
+            :devtools {:after-load film2.app.cinema/update!}}
   :electron {:target :node-script
              :output-to "desktop/main.js"
              :main electron.main.core/main}}
 
- :dev-http {4100 "resources/public"}
-;  
+ :dev-http {4001 "resources/public"}
+ ;
  }
 
