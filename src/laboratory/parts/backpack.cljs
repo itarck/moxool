@@ -103,7 +103,7 @@
 (defmethod base/view :backpack/view
   [{:keys [subscribe dispatch]} _ backpack]
   (let [bp @(subscribe :backpack/pull {:id (:db/id backpack)})
-        user @(subscribe :entity/pull {:id (get-in bp [:user/_backpack 0 :db/id])})
+        user @(subscribe :db/pull {:id (get-in bp [:user/_backpack 0 :db/id])})
         active-cell (:backpack/active-cell bp)]
     [:div {:class "d-flex justify-content-center astronomy-backpack"}
      (for [cell (:backpack/cell bp)]

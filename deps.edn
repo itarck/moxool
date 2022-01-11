@@ -1,4 +1,4 @@
-{:paths ["src" "resources" "resources/public"]
+{:paths ["src" "resources" "resources/public" "test"]
 
  :deps {thheller/shadow-cljs {:mvn/version "2.11.14"}
         applied-science/js-interop {:mvn/version "0.2.7"}

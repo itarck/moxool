@@ -26,7 +26,7 @@
 
 (defmethod base/view :tool/view
   [{:keys [subscribe] :as core} _ tool]
-  (let [tool @(subscribe :entity/pull {:id (:db/id tool)})]
+  (let [tool @(subscribe :db/pull {:id (:db/id tool)})]
     (if (:tool/type tool)
       [base/view core (keyword (:tool/type tool) "view") tool]
       [:div {:class "astronomy-righthand"}

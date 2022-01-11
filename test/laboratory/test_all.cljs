@@ -3,7 +3,7 @@
    [cljs.test :refer-macros [run-all-tests]]
    [laboratory.parts.test-backpack]
    [laboratory.parts.test-user]
-   [laboratory.parts.test-entity]))
+   [laboratory.parts.test-db]))
 
 
 

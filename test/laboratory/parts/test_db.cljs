@@ -1,8 +1,8 @@
-(ns laboratory.parts.test-entity
+(ns laboratory.parts.test-db
   (:require 
    [laboratory.dbs.dev :as dbs.dev]
    [cljs.test :refer-macros [deftest is are testing run-tests]]
-   [laboratory.parts.entity]
+   [laboratory.parts.db]
    [laboratory.test-system :as test-system]))
 
 ;; fixture
@@ -21,13 +21,13 @@
     (testing "testing spec-unit"
       (is (spec :valid? :db/id [:df/fd 34]))
       (is (spec :valid? :db/id 345))
-      (is (spec :valid? :entity/model {:db/id [:df/fd 34]})))))
+      (is (spec :valid? :db/entity {:db/id [:df/fd 34]})))))
 
 
 (deftest test-model-unit
   (let [model (test-system/create-model-unit)]
     (testing "testing model unit"
-      (is (= (model :entity/pull {:id [:user/name "default"]
+      (is (= (model :db/pull {:id [:user/name "default"]
                                   :db test-db})
              {:db/id 3, :user/backpack #:db{:id 4}, :user/name "default"})))))
 
@@ -37,7 +37,7 @@
 
 (comment 
   (let [model (test-system/create-model-unit)]
-    (model :entity/pull {:id [:user/name "default"]
+    (model :db/pull {:id [:user/name "default"]
                          :db test-db}))
   ;; => {:db/id 3, :user/backpack #:db{:id 4}, :user/name "default"}
 

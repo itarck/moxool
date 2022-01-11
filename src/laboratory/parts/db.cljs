@@ -1,4 +1,4 @@
-(ns laboratory.parts.entity
+(ns laboratory.parts.db
   (:require
    [datascript.core :as d]
    [posh.reagent :as p]
@@ -22,14 +22,14 @@
 
 ;; model 
 
-(defmethod base/model :entity/pull
+(defmethod base/model :db/pull
   [_ _ props]
   (let [{:keys [id pattern db] :or {pattern '[*]}} props]
     (d/pull db pattern id)))
 
 ;; subscribe
 
-(defmethod base/subscribe :entity/pull
+(defmethod base/subscribe :db/pull
   [{:keys [pconn]} _ {id :id pattern :pattern :or {pattern '[*]}}]
   (p/pull pconn pattern id))
 
