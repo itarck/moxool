@@ -2,9 +2,6 @@
   (:require
    [laboratory.dbs.dev :as dbs.dev]
    [fancoil.unit :as fu]
-   [datascript.core :as d]
-   [posh.reagent :as p]
-   [laboratory.system.zero :as zero]
    [cljs.test :refer-macros [deftest is are testing run-tests]]
    [laboratory.test-system :as test-system]))
 
@@ -88,7 +85,7 @@
                             :active-cell {:db/id 3}}}))
 
   (let [system (test-system/create-event-system {:initial-db test-db})
-        {::fu/keys [process subscribe spec]} system
+        {::fu/keys [process subscribe]} system
         bp @(subscribe :backpack/pull {:id [:backpack/name "default"]})
         user (first (:user/_backpack bp))
         cell (first (:backpack/cell bp))]
@@ -96,5 +93,7 @@
              {:request/body {:user user
                              :backpack bp
                              :cell cell}})
-    (= (:db/id cell)
-       (:db/id (:backpack/active-cell @(subscribe :backpack/pull {:id [:backpack/name "default"]}))))))
+    (is (= (:db/id cell)
+           (-> @(subscribe :backpack/pull {:id [:backpack/name "default"]})
+               :backpack/active-cell
+               :db/id)))))
