@@ -1,7 +1,15 @@
 {:deps true
 
  :builds
- {:lab {:target     :browser
+ {:arch {:target     :browser
+         :output-dir "resources/public/js"
+         :asset-path "/js"
+         :modules {:app {:entries [architecture.app]
+                         :init-fn architecture.app/init!}}
+         :devtools {:after-load architecture.app/update!
+                    :http-root   "resources/public"
+                    :http-port   4001}}
+  :lab {:target     :browser
         :output-dir "resources/public/js"
         :asset-path "/js"
         :modules {:app {:entries [laboratory.app.playground]

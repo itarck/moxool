@@ -28,17 +28,19 @@
 ;; view 
 
 (defmethod base/view :object/view
-  [_core _signal {:keys [object]}]
-  ^{:key (:db/id object)}
-  [:> Box {:on-click (fn [e]
-                       (let [inter (j/get-in e [:intersections 0 :point])]
-                         (js/console.log "box click" inter)))
-           :args [1 1 1]
-           :position (:object/position object)
-           :rotation (:object/rotation object)
-           :scale (:object/scale object)}
-   [:meshStandardMaterial {:color "red"
-                           :side three/DoubleSide
-                           :opacity 0.1
-                           :transparent true}]])
+  [core _method object]
+  (let [detail-type (keyword (:object/type object) "view")]
+    (if (:object/type object)
+      [base/view core detail-type object]
+      [:> Box {:on-click (fn [e]
+                           (let [inter (j/get-in e [:intersections 0 :point])]
+                             (js/console.log "box click" inter)))
+               :args [1 1 1]
+               :position (:object/position object)
+               :rotation (:object/rotation object)
+               :scale (:object/scale object)}
+       [:meshStandardMaterial {:color "red"
+                               :side three/DoubleSide
+                               :opacity 0.1
+                               :transparent true}]])))
 

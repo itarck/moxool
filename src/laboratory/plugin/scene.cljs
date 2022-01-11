@@ -39,5 +39,5 @@
      [:> OrbitControls]
      [:gridHelper {:args [100 100] :position [0 0 0]}]
      (for [object objects]
-       (base/view config :object/view {:object object}))]))
+       (base/view config :object/view object))]))
 
