@@ -1,7 +1,6 @@
 (ns architecture.plugin.box
   (:require
    [fancoil.base :as base]
-   [fancoil.module.posh.base :as posh.base]
    [applied-science.js-interop :as j]
    ["three" :as three]
    ["@react-three/drei" :refer [Box]]))
@@ -24,7 +23,7 @@
 ;; view 
 
 (defmethod base/view :box/view
-  [_core _signal {:keys [object]}]
+  [_core _method object]
   ^{:key (:db/id object)}
   [:> Box {:on-click (fn [e]
                        (let [inter (j/get-in e [:intersections 0 :point])]
@@ -35,6 +34,6 @@
            :scale (:object/scale object)}
    [:meshStandardMaterial {:color "blue"
                            :side three/DoubleSide
-                           :opacity 0.1
+                           :opacity 0.5
                            :transparent true}]])
 
