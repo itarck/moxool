@@ -50,16 +50,15 @@
    (let [system (test-system/create-event-system {:initial-db test-db})
          {::fu/keys [process subscribe]} system
          bp @(subscribe :backpack/pull {:id [:backpack/name "default"]})
-         user (first (:user/_backpack bp))
-         cell (first (:backpack/cell bp))]
-     (process :backpack/click-cell
-              {:request/body {:user user
-                              :backpack bp
-                              :cell cell}})
+         cell (first (:backpack/cell bp))
+         request {:request/body {:user (first (:user/_backpack bp))
+                                 :backpack bp
+                                 :cell cell}}
+         _ (process :backpack/click-cell request)
+         bp-after @(subscribe :backpack/pull {:id [:backpack/name "default"]})]
      (is (= (:db/id cell)
-            (-> @(subscribe :backpack/pull {:id [:backpack/name "default"]})
-                :backpack/active-cell
-                :db/id))))))
+            (get-in bp-after [:backpack/active-cell :db/id]))))))
+
 
 (run-tests)
 
@@ -84,16 +83,4 @@
                             :cell {:db/id 3}
                             :active-cell {:db/id 3}}}))
 
-  (let [system (test-system/create-event-system {:initial-db test-db})
-        {::fu/keys [process subscribe]} system
-        bp @(subscribe :backpack/pull {:id [:backpack/name "default"]})
-        user (first (:user/_backpack bp))
-        cell (first (:backpack/cell bp))]
-    (process :backpack/click-cell
-             {:request/body {:user user
-                             :backpack bp
-                             :cell cell}})
-    (is (= (:db/id cell)
-           (-> @(subscribe :backpack/pull {:id [:backpack/name "default"]})
-               :backpack/active-cell
-               :db/id)))))
+  )
