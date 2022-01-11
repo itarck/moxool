@@ -5,7 +5,6 @@
    [fancoil.core :as fc]
    [fancoil.module.posh.unit]
    [laboratory.plugin.core]
-   [architecture.plugin.core]
    [astronomy2.plugin.core]))
 
 
@@ -34,10 +33,10 @@
    ::inject {:pconn (ig/ref ::pconn)}
    ::do! {:pconn (ig/ref ::pconn)}
    ::handle {:model (ig/ref ::model)
-                :spec (ig/ref ::spec)}
+             :spec (ig/ref ::spec)}
    ::process {:inject (ig/ref ::inject)
-                 :do! (ig/ref ::do!)
-                 :handle (ig/ref ::handle)}
+              :do! (ig/ref ::do!)
+              :handle (ig/ref ::handle)}
    ::view {:dispatch (ig/ref ::dispatch)
            :subscribe (ig/ref ::subscribe)}
    ::chan {}
@@ -56,5 +55,3 @@
   ([user-config unit-keys]
    (let [config (fc/merge-config default-config user-config)]
      (ig/init config unit-keys))))
-
-

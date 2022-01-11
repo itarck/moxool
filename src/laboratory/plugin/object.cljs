@@ -41,6 +41,6 @@
                :scale (:object/scale object)}
        [:meshStandardMaterial {:color "red"
                                :side three/DoubleSide
-                               :opacity 0.1
+                               :opacity 0.5
                                :transparent true}]])))
 
