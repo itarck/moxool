@@ -17,7 +17,8 @@
     "desktop/compile": "clj -A:shadow-cljs release desktop electron",
     "desktop/make": "cd desktop && yarn make",
     "desktop/clean": "rm -rf desktop/js && rm -rf desktop/main.js && rm -rf desktop/out", 
-    "desktop/purge": "rm -rf desktop"
+    "desktop/purge": "rm -rf desktop",
+    "lab": "clj -A:shadow-cljs watch lab"
   },
   "devDependencies": {
     "css-loader": "^5.0.1",

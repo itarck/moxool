@@ -38,8 +38,11 @@
 
 
 (defn init
-  [user-config]
-  (let [config (fc/merge-config default-config user-config)]
-    (ig/init config)))
+  ([user-config]
+   (let [config (fc/merge-config default-config user-config)]
+     (ig/init config)))
+  ([user-config unit-keys]
+   (let [config (fc/merge-config default-config user-config)]
+     (ig/init config unit-keys))))
 
 
