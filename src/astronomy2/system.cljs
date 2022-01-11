@@ -1,12 +1,12 @@
-(ns architecture.system
+(ns astronomy2.system
   (:require
    [fancoil.unit :as fu]
    [fancoil.core :as fc]
    [integrant.core :as ig]
    [fancoil.module.posh.unit]
    [laboratory.plugin.core]
-   [laboratory.unit.process]
-   [architecture.plugin.core]))
+   [architecture.plugin.core]
+   [astronomy2.plugin.core]))
 
 
 (def hierarchy

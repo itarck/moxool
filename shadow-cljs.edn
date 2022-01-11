@@ -6,9 +6,15 @@
          :asset-path "/js"
          :modules {:app {:entries [architecture.app]
                          :init-fn architecture.app/init!}}
-         :devtools {:after-load architecture.app/update!
-                    :http-root   "resources/public"
-                    :http-port   4001}}
+         :devtools {:after-load architecture.app/update!}}
+  :astro2 {:target     :browser
+           :output-dir "resources/public/js"
+           :asset-path "/js"
+           :modules {:app {:entries [astronomy2.app]
+                           :init-fn astronomy2.app/init!}}
+           :devtools {:after-load astronomy2.app/update!
+                      :http-root   "resources/public"
+                      :http-port   4001}}
   :lab {:target     :browser
         :output-dir "resources/public/js"
         :asset-path "/js"
@@ -37,6 +43,7 @@
              :output-to "desktop/main.js"
              :main electron.main.core/main}}
 
+ :dev-http {4100 "resources/public"}
 ;  
  }
 

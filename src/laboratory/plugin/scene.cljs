@@ -30,7 +30,7 @@
 ;; view
 
 (defmethod base/view :scene/view
-  [{:keys [subscribe] :as config} _signal props]
+  [{:keys [subscribe] :as core} _signal props]
   (let [scene @(subscribe :scene/pull-one props)
         objects (:object/_scene scene)]
     [:> Canvas {:camera {:position [1 3 3]}
@@ -39,5 +39,6 @@
      [:> OrbitControls]
      [:gridHelper {:args [100 100] :position [0 0 0]}]
      (for [object objects]
-       (base/view config :object/view object))]))
+       ^{:key (:db/id object)}
+       [base/view core :object/view object])]))
 
