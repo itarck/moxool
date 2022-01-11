@@ -1,10 +1,9 @@
 (ns laboratory.test-all
   (:require 
    [cljs.test :refer-macros [run-all-tests]]
-   [laboratory.parts.test-backpack]
-   [laboratory.parts.test-user]
-   [laboratory.parts.test-db]))
+   [laboratory.plugin.test-backpack]
+   [laboratory.plugin.test-user]
+   [laboratory.plugin.test-db]))
 
 
-
-(run-all-tests #"laboratory.parts.test\-.*")
+(run-all-tests #"laboratory.plugin.test\-.*")

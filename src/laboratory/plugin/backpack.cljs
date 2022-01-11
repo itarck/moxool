@@ -1,4 +1,4 @@
-(ns laboratory.parts.backpack
+(ns laboratory.plugin.backpack
   (:require
    [fancoil.base :as base]
    [fancoil.module.posh.base :as posh.base]

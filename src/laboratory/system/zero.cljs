@@ -4,7 +4,7 @@
    [fancoil.core :as fc]
    [integrant.core :as ig]
    [fancoil.module.posh.unit]
-   [laboratory.parts.core]
+   [laboratory.plugin.core]
    [laboratory.unit.process]))
 
 

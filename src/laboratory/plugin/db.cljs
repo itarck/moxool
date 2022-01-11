@@ -1,4 +1,4 @@
-(ns laboratory.parts.db
+(ns laboratory.plugin.db
   (:require
    [datascript.core :as d]
    [posh.reagent :as p]

@@ -1,8 +1,8 @@
-(ns laboratory.parts.test-db
+(ns laboratory.plugin.test-db
   (:require 
    [laboratory.dbs.dev :as dbs.dev]
    [cljs.test :refer-macros [deftest is are testing run-tests]]
-   [laboratory.parts.db]
+   [laboratory.plugin.db]
    [laboratory.test-system :as test-system]))
 
 ;; fixture

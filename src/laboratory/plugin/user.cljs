@@ -1,4 +1,4 @@
-(ns laboratory.parts.user
+(ns laboratory.plugin.user
   (:require
    [cljs.spec.alpha :as s]
    [fancoil.base :as base]

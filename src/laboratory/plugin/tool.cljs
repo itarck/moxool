@@ -1,4 +1,4 @@
-(ns laboratory.parts.tool
+(ns laboratory.plugin.tool
   (:require
    [fancoil.base :as base]
    [posh.reagent :as p]))

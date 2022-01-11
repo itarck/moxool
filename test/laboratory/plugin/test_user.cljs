@@ -1,4 +1,4 @@
-(ns laboratory.parts.test-user
+(ns laboratory.plugin.test-user
   (:require
    [cljs.test :refer-macros [deftest is are testing run-tests]]
    [laboratory.test-system :as test-system]))

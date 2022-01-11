@@ -1,4 +1,4 @@
-(ns laboratory.parts.object
+(ns laboratory.plugin.object
   (:require
    [fancoil.base :as base]
    [fancoil.module.posh.base :as posh.base]

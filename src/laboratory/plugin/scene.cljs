@@ -1,4 +1,4 @@
-(ns laboratory.parts.scene
+(ns laboratory.plugin.scene
   (:require
    [posh.reagent :as p]
    [fancoil.base :as base]

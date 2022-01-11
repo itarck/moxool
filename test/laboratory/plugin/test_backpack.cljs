@@ -1,4 +1,4 @@
-(ns laboratory.parts.test-backpack
+(ns laboratory.plugin.test-backpack
   (:require
    [laboratory.dbs.dev :as dbs.dev]
    [fancoil.unit :as fu]
