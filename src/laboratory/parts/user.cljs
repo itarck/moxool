@@ -47,7 +47,7 @@
   (spec :assert :db/entity user)
   (spec :assert (s/nilable :db/entity) tool)
   (when tool
-    [[:db/add (:db/id user) :user/right-tool tool]]))
+    [[:db/add (:db/id user) :user/right-tool (:db/id tool)]]))
 
 (defmethod base/model :user/drop-tool-tx
   [{:keys [spec]} _ {:keys [user]}]

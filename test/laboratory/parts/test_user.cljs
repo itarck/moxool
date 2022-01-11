@@ -18,11 +18,11 @@
 (deftest test-model-unit
   (let [model (test-system/create-model-unit)]
     (testing "testing model unit"
-      (is (model :user/select-tool-tx {:user {:db/id -1}
-                                       :tool {:db/id -2}})
-          [[:db/add -1 :user/right-tool -2]])
-      (is (model :user/drop-tool-tx {:user {:db/id -1}})
-          [[:db.fn/retractAttribute -1 :user/right-tool]]))))
+      (is (= (model :user/select-tool-tx {:user {:db/id -1}
+                                          :tool {:db/id -2}})
+             [[:db/add -1 :user/right-tool -2]]))
+      (is (= (model :user/drop-tool-tx {:user {:db/id -1}})
+             [[:db.fn/retractAttribute -1 :user/right-tool]])))))
 
 
 (run-tests)

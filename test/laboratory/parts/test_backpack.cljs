@@ -14,19 +14,25 @@
 (deftest test-model-unit
   (let [model (test-system/create-model-unit)]
     (testing "testing model unit"
-      (is (model :user/select-tool-tx {:user {:db/id -1}
-                                       :tool {:db/id -2}})
-          [[:db/add -1 :user/right-tool -2]])
-      (is (model :user/drop-tool-tx {:user {:db/id -1}})
-          [[:db.fn/retractAttribute -1 :user/right-tool]]))))
+      (is (= (model :user/select-tool-tx {:user {:db/id -1}
+                                          :tool {:db/id -2}})
+             [[:db/add -1 :user/right-tool -2]]))
+      (is (= (model :user/drop-tool-tx {:user {:db/id -1}})
+             [[:db.fn/retractAttribute -1 :user/right-tool]])))))
 
 
 ;; event test
 
 (deftest test-handle-unit
   (let [handle (test-system/create-handle-unit)]
-    
-    ))
+    (is (= (handle :backpack/click-cell
+                   {:request/body {:user {:db/id 1}
+                                   :backpack {:db/id 2}
+                                   :cell {:db/id 3}
+                                   :active-cell {:db/id 3}}})
+           #:posh{:tx '([:db.fn/retractAttribute 2 :backpack/active-cell] [:db.fn/retractAttribute 1 :user/right-tool])}))))
+
+
 
 (run-tests)
 
@@ -44,4 +50,14 @@
   (let [handle (test-system/create-handle-unit)]
     (handle :backpack/click-cell)
     )
+  
+  (let [handle (test-system/create-handle-unit)]
+    (handle :backpack/click-cell
+            {:request/body {:user {:db/id 1}
+                            :backpack {:db/id 2}
+                            :cell {:db/id 3}
+                            :active-cell {:db/id 3}}}))
+  
+
+  
   )
