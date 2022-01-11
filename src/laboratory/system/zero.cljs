@@ -22,7 +22,8 @@
    ::fu/subscribe {:pconn (ig/ref ::pconn)}
    ::fu/inject {:pconn (ig/ref ::pconn)}
    ::fu/do! {:pconn (ig/ref ::pconn)}
-   ::fu/handle {:model (ig/ref ::fu/model)}
+   ::fu/handle {:model (ig/ref ::fu/model)
+                :spec (ig/ref ::fu/spec)}
    ::fu/process {:inject (ig/ref ::fu/inject)
                  :do! (ig/ref ::fu/do!)
                  :handle (ig/ref ::fu/handle)}

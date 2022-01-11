@@ -16,8 +16,8 @@
   (let [sys (zero/init {} [::fu/handle])]
     (::fu/handle sys)))
 
-(defn create-db-system []
-  (let [sys (zero/init {}
+(defn create-event-system [{:keys [initial-db]}]
+  (let [sys (zero/init {::zero/pconn {:initial-db initial-db}}
                        [::fu/process
                         ::fu/subscribe])]
     sys))
@@ -29,7 +29,7 @@
 
   (create-model-unit)
 
-  (keys (create-db-system))
+  (keys (create-event-system))
   ;; => (:laboratory.system.zero/schema :laboratory.system.zero/pconn :fancoil.unit/do! :fancoil.unit/model :fancoil.unit/handle :fancoil.unit/inject :fancoil.unit/process :fancoil.unit/subscribe)
 
   (keys (zero/init {} [::fu/handle]))
