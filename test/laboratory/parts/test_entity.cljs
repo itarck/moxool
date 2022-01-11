@@ -1,9 +1,16 @@
 (ns laboratory.parts.test-entity
   (:require 
+   [laboratory.dbs.dev :as dbs.dev]
    [cljs.test :refer-macros [deftest is are testing run-tests]]
    [laboratory.parts.entity]
    [laboratory.test-system :as test-system]))
 
+;; fixture
+
+(def test-db
+  (dbs.dev/create-dev-db1))
+
+;; 
 
 (deftest test-add
   (is (= (+ 1 2) 3)))
@@ -17,4 +24,21 @@
       (is (spec :valid? :entity/model {:db/id [:df/fd 34]})))))
 
 
+(deftest test-model-unit
+  (let [model (test-system/create-model-unit)]
+    (testing "testing model unit"
+      (is (= (model :entity/pull {:id [:user/name "default"]
+                                  :db test-db})
+             {:db/id 3, :user/backpack #:db{:id 4}, :user/name "default"})))))
+
+
 (run-tests)
+
+
+(comment 
+  (let [model (test-system/create-model-unit)]
+    (model :entity/pull {:id [:user/name "default"]
+                         :db test-db}))
+  ;; => {:db/id 3, :user/backpack #:db{:id 4}, :user/name "default"}
+
+  )
