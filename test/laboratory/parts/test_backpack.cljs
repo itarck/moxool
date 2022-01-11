@@ -32,6 +32,13 @@
 
 ;; event test
 
+(deftest test-subscribe-unit
+  (testing "subscribe backpack/pull"
+    (let [system (test-system/create-event-system {:initial-db test-db})
+          {::fu/keys [subscribe spec]} system]
+      (is (spec :valid? :db/entity
+                @(subscribe :backpack/pull {:id [:backpack/name "default"]}))))))
+
 (deftest test-handle-unit
   (let [handle (test-system/create-handle-unit)]
     (is (= (handle :backpack/click-cell
@@ -41,14 +48,21 @@
                                    :active-cell {:db/id 3}}})
            #:posh{:tx '([:db.fn/retractAttribute 2 :backpack/active-cell] [:db.fn/retractAttribute 1 :user/right-tool])}))))
 
-
-(deftest test-subscribe-unit
-  (testing "subscribe backpack/pull"
-    (let [system (test-system/create-event-system {:initial-db test-db})
-          {::fu/keys [process subscribe spec]} system]
-      (is (spec :valid? :db/entity
-                @(subscribe :backpack/pull {:id [:backpack/name "default"]}))))))
-
+(deftest test-process-unit
+  (testing ":backpack/click-cell"
+   (let [system (test-system/create-event-system {:initial-db test-db})
+         {::fu/keys [process subscribe]} system
+         bp @(subscribe :backpack/pull {:id [:backpack/name "default"]})
+         user (first (:user/_backpack bp))
+         cell (first (:backpack/cell bp))]
+     (process :backpack/click-cell
+              {:request/body {:user user
+                              :backpack bp
+                              :cell cell}})
+     (is (= (:db/id cell)
+            (-> @(subscribe :backpack/pull {:id [:backpack/name "default"]})
+                :backpack/active-cell
+                :db/id))))))
 
 (run-tests)
 
@@ -74,5 +88,13 @@
                             :active-cell {:db/id 3}}}))
 
   (let [system (test-system/create-event-system {:initial-db test-db})
-        {::fu/keys [process subscribe spec]} system]
-    @(subscribe :backpack/pull {:id [:backpack/name "default"]})))
+        {::fu/keys [process subscribe spec]} system
+        bp @(subscribe :backpack/pull {:id [:backpack/name "default"]})
+        user (first (:user/_backpack bp))
+        cell (first (:backpack/cell bp))]
+    (process :backpack/click-cell
+             {:request/body {:user user
+                             :backpack bp
+                             :cell cell}})
+    (= (:db/id cell)
+       (:db/id (:backpack/active-cell @(subscribe :backpack/pull {:id [:backpack/name "default"]}))))))
