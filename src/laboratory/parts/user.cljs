@@ -1,5 +1,6 @@
 (ns laboratory.parts.user
   (:require
+   [cljs.spec.alpha :as s]
    [fancoil.base :as base]
    [fancoil.module.posh.base :as posh.base]))
 
@@ -21,6 +22,16 @@
    :user/camera-control {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
    :user/right-tool {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}})
 
+;; spec
+
+(defmethod base/spec :user/name
+  [_ _]
+  string?)
+
+(defmethod base/spec :user/backpack
+  [_ _]
+  (base/spec {} :db/entity)
+  (s/def :user/backpack :db/entity))
 
 ;; model
 
@@ -32,12 +43,15 @@
 
 
 (defmethod base/model :user/select-tool-tx
-  [_ _ {:keys [user tool-id]}]
-  (when tool-id
-    [[:db/add (:db/id user) :user/right-tool tool-id]]))
+  [{:keys [spec]} _ {:keys [user tool]}]
+  (spec :assert :db/entity user)
+  (spec :assert (s/nilable :db/entity) tool)
+  (when tool
+    [[:db/add (:db/id user) :user/right-tool tool]]))
 
 (defmethod base/model :user/drop-tool-tx
-  [_ _ {:keys [user]}]
+  [{:keys [spec]} _ {:keys [user]}]
+  (spec :assert :db/entity user)
   [[:db.fn/retractAttribute (:db/id user) :user/right-tool]])
 
 

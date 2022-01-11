@@ -18,16 +18,22 @@
 (deftest test-model-unit
   (let [model (test-system/create-model-unit)]
     (testing "testing model unit"
-      (is (model :user/select-tool-tx {:user user-sample
-                                       :tool-id -2})
-          [[:db/add -1 :user/right-tool -2]]))))
+      (is (model :user/select-tool-tx {:user {:db/id -1}
+                                       :tool {:db/id -2}})
+          [[:db/add -1 :user/right-tool -2]])
+      (is (model :user/drop-tool-tx {:user {:db/id -1}})
+          [[:db.fn/retractAttribute -1 :user/right-tool]]))))
 
 
 (run-tests)
 
 
-(comment 
+(comment
+
+  (let [spec (test-system/create-spec-unit)]
+    (spec :valid? :user/backpack {:db/id 34}))
   
+
   (def model (test-system/create-model-unit))
 
   (model :user/create {})
@@ -37,6 +43,11 @@
                                :tool-id -2})
   ;; => [[:db/add -1 :user/right-tool -2]]
 
+  (model :user/drop-tool-tx {:user {:db/id -1}})
+  ;; => [[:db.fn/retractAttribute -1 :user/right-tool]]
 
-  
+;; => nil
+
+
+
   )

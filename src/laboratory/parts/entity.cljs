@@ -13,16 +13,10 @@
     (s/or :id int?
           :lookup-ref vector?)))
 
-(defmethod base/spec :entity/id
-  [_ _ _]
-  (s/def :entity/id
-    (s/or :id int?
-          :lookup-ref vector?)))
-
-(defmethod base/spec :entity/model
+(defmethod base/spec :db/entity
   [_ _ _]
   (base/spec {} :db/id)
-  (s/def :entity/model
+  (s/def :db/entity
     (s/keys :req [:db/id])))
 
 ;; subscribe

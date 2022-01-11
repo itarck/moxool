@@ -87,7 +87,7 @@
               (model :backpack/active-cell-tx {:backpack backpack
                                                :cell-id (:db/id cell)})
               (model :user/select-tool-tx {:user user
-                                           :tool-id (-> cell :backpack-cell/tool :db/id)})))]
+                                           :tool (:backpack-cell/tool cell)})))]
     {:posh/tx tx}))
 
 ;; subscribe 

@@ -17,7 +17,7 @@
 (def default-config
   {::schema {}
    ::fu/spec {}
-   ::fu/model {}
+   ::fu/model {:spec (ig/ref ::fu/spec)}
    ::pconn {:schema (ig/ref ::schema)}
    ::fu/subscribe {:pconn (ig/ref ::pconn)}
    ::fu/inject {:pconn (ig/ref ::pconn)}
