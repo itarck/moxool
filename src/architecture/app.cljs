@@ -20,6 +20,9 @@
                                                               {:backpack-cell/index 1
                                                                :backpack-cell/tool -2}]})
              (base/model {} :object/create #:object{:scale [1 1 5]})
+             (base/model {} :object/create #:object{:scale [1 1 1]
+                                                    :position [-3 0 0]
+                                                    :type :cylinder})
              (base/model {} :object/create #:object{:position [3 0 0]
                                                     :scale [3 3 3]
                                                     :type :box})
