@@ -5,12 +5,28 @@
    [cljs.test :refer-macros [deftest is are testing run-tests]]
    [laboratory.test-helper :as helper]))
 
+
+;; Unit test
+
 ;; db
 
-(def test-db
-  (dbs.dev/create-dev-db1))
+(def initial-tx
+  [#:user {:name "default"}
+   #:backpack {:name "default"
+               :user/_backpack [:user/name "default"]
+               :cell (vec (for [i (range 12)]
+                            #:backpack-cell{:index i}))}])
 
-;; model test
+(def test-db1
+  (helper/create-initial-db initial-tx))
+
+(def model 
+  (helper/create-model-unit))
+
+(model :backpack/find-nth-cell2
+       {:db test-db1
+        :backpack {:db/id [:backpack/name "default"]}
+        :nth-cell 4})
 
 (deftest test-spec-unit
   (let [spec (helper/create-spec-unit)]
@@ -28,6 +44,9 @@
 
 
 ;; event test
+
+(def test-db
+  (dbs.dev/create-dev-db1))
 
 (deftest test-subscribe-unit
   (testing "subscribe backpack/pull"

@@ -8,31 +8,42 @@
    [laboratory.unit.process]))
 
 
+
 (def hierarchy
   {::schema [:fancoil.module.posh/schema]
    ::pconn [:fancoil.module.posh/pconn]
-   ::view [::fu/view]})
+   ::spec [::fu/spec]
+   ::model [::fu/model]
+   ::subscribe [::fu/subscribe]
+   ::inject [::fu/inject]
+   ::do! [::fu/do!]
+   ::handle [::fu/handle]
+   ::process [::fu/process]
+   ::view [::fu/view]
+   ::chan [::fu/chan]
+   ::dispatch [::fu/dispatch]
+   ::service [::fu/service]})
 
 
 (def default-config
   {::schema {}
-   ::fu/spec {}
-   ::fu/model {:spec (ig/ref ::fu/spec)}
+   ::spec {}
+   ::model {:spec (ig/ref ::spec)}
    ::pconn {:schema (ig/ref ::schema)}
-   ::fu/subscribe {:pconn (ig/ref ::pconn)}
-   ::fu/inject {:pconn (ig/ref ::pconn)}
-   ::fu/do! {:pconn (ig/ref ::pconn)}
-   ::fu/handle {:model (ig/ref ::fu/model)
-                :spec (ig/ref ::fu/spec)}
-   ::fu/process {:inject (ig/ref ::fu/inject)
-                 :do! (ig/ref ::fu/do!)
-                 :handle (ig/ref ::fu/handle)}
-   ::view {:dispatch (ig/ref ::fu/dispatch)
-           :subscribe (ig/ref ::fu/subscribe)}
-   ::fu/chan {}
-   ::fu/dispatch {:out-chan (ig/ref ::fu/chan)}
-   ::fu/service {:process (ig/ref ::fu/process)
-                 :in-chan (ig/ref ::fu/chan)}})
+   ::subscribe {:pconn (ig/ref ::pconn)}
+   ::inject {:pconn (ig/ref ::pconn)}
+   ::do! {:pconn (ig/ref ::pconn)}
+   ::handle {:model (ig/ref ::model)
+             :spec (ig/ref ::spec)}
+   ::process {:inject (ig/ref ::inject)
+              :do! (ig/ref ::do!)
+              :handle (ig/ref ::handle)}
+   ::view {:dispatch (ig/ref ::dispatch)
+           :subscribe (ig/ref ::subscribe)}
+   ::chan {}
+   ::dispatch {:out-chan (ig/ref ::chan)}
+   ::service {:process (ig/ref ::process)
+              :in-chan (ig/ref ::chan)}})
 
 
 (fc/load-hierarchy hierarchy)
