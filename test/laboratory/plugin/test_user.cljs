@@ -1,6 +1,7 @@
 (ns laboratory.plugin.test-user
   (:require
    [cljs.test :refer-macros [deftest is are testing run-tests]]
+   [cljs.spec.alpha :as s]
    [laboratory.test-helper :as helper]))
 
 
@@ -10,10 +11,18 @@
    :user/backpack {:db/id -34}
    :user/right-tool {:db/id -100}})
 
+;; sepc
+
+(def spec 
+  (helper/create-spec-unit))
+
 (deftest test-spec-unit
   (let [spec (helper/create-spec-unit)]
     (testing "testing spec unit"
-      (is (spec :valid? :db/id 345)))))
+      (is (spec :valid? :db/id 345)
+          (s/valid? :user/entity user-sample)))))
+
+;; model 
 
 (deftest test-model-unit
   (let [model (helper/create-model-unit)]

@@ -9,9 +9,8 @@
 ;; spec
 
 (defmethod base/spec :db/spec
-  [_ _ _]
-  {:spec/require []
-   :spec/def {:db/id (s/or :id int? :lookup-ref vector?)}})
+  [_ _]
+  (s/def :db/id (s/or :id int? :lookup-ref vector?)))
 
 
 ;; model 

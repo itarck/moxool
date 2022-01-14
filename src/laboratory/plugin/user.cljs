@@ -27,9 +27,10 @@
 
 (defmethod base/spec :user/spec
   [_ _]
-  {:spec/require [:db/spec]
-   :spec/def {:user/name string?
-              :user/backpack (s/keys :req [:db/id])}})
+  (base/spec {} :db/spec)
+  (s/def :user/name string?)
+  (s/def :user/backpack (s/keys :req [:db/id]))
+  (s/def :user/entity (s/keys :req [:db/id :user/name :user/backpack])))
 
 ;; model
 
