@@ -1,6 +1,7 @@
 (ns laboratory.plugin.test-backpack
   (:require
    [cljs.spec.alpha :as s]
+   [datascript.core :as d]
    [laboratory.dbs.dev :as dbs.dev]
    [laboratory.system.zero :as zero]
    [cljs.test :refer-macros [deftest is testing run-tests]]
@@ -41,10 +42,8 @@
 (def model
   (helper/create-model-unit))
 
-(def backpack
-  (model :entity/pull {:db test-db1
-                       :entity {:db/id [:backpack/name "default"]}}))
-
+(def backpack 
+  (d/pull test-db1 '[*] [:backpack/name "default"]))
 
 (deftest test-model-unit
   (testing ":backpack/pull"

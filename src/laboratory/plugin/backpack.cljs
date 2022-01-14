@@ -46,11 +46,6 @@
                                          #:backpack-cell{:index i}))}]
     (merge default entity)))
 
-(defmethod base/model :backpack/pull
-  [_ _ {:keys [db entity]}]
-  (s/assert :entity/entity entity)
-  (d/pull db '[*] (:db/id entity)))
-
 (defmethod base/model :backpack/get-nth-cell
   [_ _ {:keys [backpack nth-cell]}]
   (s/assert :backpack/backpack backpack)
