@@ -25,6 +25,8 @@
                    :db/isComponent true}
    :backpack-cell/tool {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}})
 
+;; spec
+
 
 ;; model
 

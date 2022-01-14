@@ -8,17 +8,11 @@
 
 ;; spec
 
-(defmethod base/spec :db/id
+(defmethod base/spec :db/spec
   [_ _ _]
-  (s/def :db/id
-    (s/or :id int?
-          :lookup-ref vector?)))
+  {:spec/require []
+   :spec/def {:db/id (s/or :id int? :lookup-ref vector?)}})
 
-(defmethod base/spec :db/entity
-  [_ _ _]
-  (base/spec {} :db/id)
-  (s/def :db/entity
-    (s/keys :req [:db/id])))
 
 ;; model 
 

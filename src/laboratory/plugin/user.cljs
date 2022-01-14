@@ -24,14 +24,12 @@
 
 ;; spec
 
-(defmethod base/spec :user/name
-  [_ _]
-  string?)
 
-(defmethod base/spec :user/backpack
+(defmethod base/spec :user/spec
   [_ _]
-  (base/spec {} :db/entity)
-  (s/def :user/backpack :db/entity))
+  {:spec/require [:db/spec]
+   :spec/def {:user/name string?
+              :user/backpack (s/keys :req [:db/id])}})
 
 ;; model
 
