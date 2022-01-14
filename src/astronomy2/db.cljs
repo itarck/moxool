@@ -18,10 +18,10 @@
         tx [(model :framework/create {})
             (model :scene/create {:scene/background "black"})
             (model :user/create {})
-            (model :backpack/create {:backpack/cell [{:backpack-cell/index 0
-                                                      :backpack-cell/tool -1}
-                                                     {:backpack-cell/index 1
-                                                      :backpack-cell/tool -2}]})
+            (model :backpack/create {:backpack/cells [{:backpack-cell/index 0
+                                                       :backpack-cell/tool -1}
+                                                      {:backpack-cell/index 1
+                                                       :backpack-cell/tool -2}]})
             (model :object/create #:object{:scale [1 1 5]})
             (model :object/create #:object{:scale [1 1 1]
                                            :position [-3 0 0]})

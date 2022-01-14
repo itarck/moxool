@@ -2,6 +2,7 @@
   (:require
    [cljs.spec.alpha :as s]
    [laboratory.base :as base]
+   [reagent.core :as r]
    [datascript.core :as d]
    [posh.reagent :as p]))
 
@@ -41,7 +42,7 @@
   (let [default #:backpack {:name "default"
                             :user/_backpack [:user/name "default"]
                             :owner [:user/name "default"]
-                            :cell (vec (for [i (range 12)]
+                            :cells (vec (for [i (range 12)]
                                          #:backpack-cell{:index i}))}]
     (merge default entity)))
 
@@ -128,6 +129,13 @@
   (let [pt (or pattern '[* {:user/_backpack [:db/id]}])]
     (p/pull pconn pt (:db/id entity))))
 
+(defmethod base/subscribe :backpack/sub-cells-and-tools
+  [{:keys [pconn]} _ {:keys [backpack]}]
+  (let [bp @(p/pull pconn '[{:backpack/cells [{:backpack-cell/tool [*]}]}]
+                    (:db/id backpack))]
+    (r/reaction (get-in bp [:backpack/cells]))))
+
+
 ;; view
 
 (defmethod base/view :backpack/view
@@ -135,19 +143,18 @@
   (s/assert :db/entity backpack)
   (let [bp @(subscribe :backpack/pull {:entity backpack})
         user @(subscribe :db/pull {:entity (get-in bp [:user/_backpack 0])})
-        active-cell (:backpack/active-cell bp)]
+        active-cell (:backpack/active-cell bp)
+        cells @(subscribe :backpack/sub-cells-and-tools {:backpack bp})]
     [:div {:class "d-flex justify-content-center astronomy-backpack"}
-     (for [cell (:backpack/cells bp)]
+     (for [cell cells]
        (let [tool (:backpack-cell/tool cell)
              style (if (= (:db/id active-cell) (:db/id cell))
                      "astronomy-cell astronomy-cell-active"
                      "astronomy-cell")]
          ^{:key (:db/id cell)}
          [:div {:class style
-                :onClick #(dispatch :backpack/click-cell {:user user
-                                                          :backpack bp
-                                                          :cell cell
-                                                          :active-cell active-cell})}
+                :onClick #(dispatch :backpack/click-cell {:backpack bp
+                                                          :cell cell})}
           (when tool
             [:img {:src (-> tool :tool/icon)
                    :class "astronomy-button"}])]))]))

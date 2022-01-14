@@ -11,8 +11,8 @@
   [(base/model {} :framework/create {})
    (base/model {} :scene/create {:scene/background "black"})
    (base/model {} :user/create {})
-   (base/model {} :backpack/create {:backpack/cell [{:backpack-cell/index 0
-                                                     :backpack-cell/tool -1}
+   (base/model {} :backpack/create {:backpack/cells [{:backpack-cell/index 0
+                                                      :backpack-cell/tool -1}
                                                     {:backpack-cell/index 1
                                                      :backpack-cell/tool -2}]})
    (base/model {} :object/create #:object{:scale [1 1 5]})

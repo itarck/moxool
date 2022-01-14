@@ -27,3 +27,6 @@
   [{:keys [pconn]} _ {id :id pattern :pattern :or {pattern '[*]}}]
   (p/pull pconn pattern id))
 
+(defmethod base/subscribe :entity/pull
+  [{:keys [pconn]} _ {:keys [entity]}]
+  (p/pull pconn '[*] (:db/id entity)))
