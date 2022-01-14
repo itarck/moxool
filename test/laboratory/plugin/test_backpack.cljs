@@ -53,13 +53,6 @@
       (is (s/valid? :backpack/backpack bp))
       (is (= 12 (count (model :backpack/sorted-cells {:backpack bp}))))))
 
-  (testing ":backpack/query-nth-cell"
-    (is (= (model :backpack/query-nth-cell
-                  {:db test-db1
-                   :backpack {:db/id [:backpack/name "default"]}
-                   :nth-cell 0})
-           {:db/id 3})))
-  
   (testing ":backpack/active and deactive cell"
     (let [cell (first (model :backpack/sorted-cells {:backpack backpack}))]
       (is (= (model :backpack/active-cell-tx {:backpack backpack :cell cell})
@@ -106,7 +99,7 @@
 
 (deftest test-subscribe-unit
   (testing "subscribe backpack/pull"
-    (is (spec :valid? :db/entity
+    (is (spec :valid? :entity/entity
               @(subscribe :backpack/pull {:entity {:db/id [:backpack/name "default"]}})))))
 
 
