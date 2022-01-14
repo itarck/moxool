@@ -104,9 +104,9 @@
     {:posh/tx tx}))
 
 (defmethod base/handle :backpack/click-cell
-  [{:keys [model]} _ {:request/keys [body] db :pconn/db}]
+  [{:keys [model]} _ {:request/keys [body] db :posh/db}]
   (let [{:keys [backpack cell]} body
-        backpack (d/pull db '[:backpack/active-cell] (:db/id backpack))
+        backpack (d/pull db '[*] (:db/id backpack))
         active-cell (:backpack/active-cell backpack)
         tx (if (= (:db/id active-cell) (:db/id cell))
              (model :backpack/deactive-cell-tx {:backpack backpack})
