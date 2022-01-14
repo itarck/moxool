@@ -42,16 +42,14 @@
   (helper/create-model-unit))
 
 (def backpack
-  (model :backpack/pull {:db test-db1
-                         :entity {:db/id [:backpack/name "default"]}}))
+  (model :entity/pull {:db test-db1
+                       :entity {:db/id [:backpack/name "default"]}}))
 
 
 (deftest test-model-unit
   (testing ":backpack/pull"
-    (let [bp (model :backpack/pull {:db test-db1
-                                    :entity {:db/id [:backpack/name "default"]}})]
-      (is (s/valid? :backpack/backpack bp))
-      (is (= 12 (count (model :backpack/sorted-cells {:backpack bp}))))))
+    (is (s/valid? :backpack/backpack backpack))
+    (is (= 12 (count (model :backpack/sorted-cells {:backpack backpack})))))
 
   (testing ":backpack/active and deactive cell"
     (let [cell (first (model :backpack/sorted-cells {:backpack backpack}))]
@@ -96,10 +94,9 @@
 (def subscribe
   (::zero/subscribe system))
 
-
 (deftest test-subscribe-unit
   (testing "subscribe backpack/pull"
-    (is (spec :valid? :entity/entity
+    (is (spec :valid? :backpack/backpack
               @(subscribe :backpack/pull {:entity {:db/id [:backpack/name "default"]}})))))
 
 
@@ -109,23 +106,3 @@
 
 (run-tests)
 
-
-(comment
-
-  (let [bp (model :backpack/pull {:db test-db1
-                                  :entity {:db/id [:backpack/name "default"]}})]
-    (is (= [[:db/add 3 :backpack-cell/tool -100] [:db/add 4 :backpack-cell/tool -101]]
-           (model :backpack/init-tools-tx {:backpack bp
-                                           :tools [{:db/id -100}
-                                                   {:db/id -101}]}))))
-
-  (let [bp (model :backpack/pull {:db test-db1
-                                  :entity {:db/id [:backpack/name "default"]}})
-        cell (first (model :backpack/sorted-cells {:backpack bp}))]
-    (is (=
-         #:posh{:tx '([:db.fn/retractAttribute 2 :backpack/active-cell] [:db/add 2 :backpack/active-cell 3])}
-         (handle :backpack/click-cell {:request/body {:backpack bp :cell cell}
-                                       :posh/db test-db1}))))
-  
-
-  )
