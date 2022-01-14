@@ -48,7 +48,7 @@
 
 (defmethod base/model :backpack/pull
   [_ _ {:keys [db entity]}]
-  (s/assert :db/entity entity)
+  (s/assert :entity/entity entity)
   (d/pull db '[*] (:db/id entity)))
 
 (defmethod base/model :backpack/get-nth-cell
@@ -105,7 +105,7 @@
 
 (defmethod base/subscribe :backpack/pull
   [{:keys [pconn]} _ {:keys [entity pattern]}]
-  (s/assert :db/entity entity)
+  (s/assert :entity/entity entity)
   (let [pt (or pattern '[* {:user/_backpack [:db/id]}])]
     (p/pull pconn pt (:db/id entity))))
 
@@ -119,9 +119,9 @@
 
 (defmethod base/view :backpack/view
   [{:keys [subscribe dispatch]} _ backpack]
-  (s/assert :db/entity backpack)
+  (s/assert :entity/entity backpack)
   (let [bp @(subscribe :backpack/pull {:entity backpack})
-        user @(subscribe :db/pull {:entity (get-in bp [:user/_backpack 0])})
+        user @(subscribe :entity/pull {:entity (get-in bp [:user/_backpack 0])})
         active-cell (:backpack/active-cell bp)
         cells @(subscribe :backpack/sub-cells-and-tools {:backpack bp})]
     [:div {:class "d-flex justify-content-center astronomy-backpack"}

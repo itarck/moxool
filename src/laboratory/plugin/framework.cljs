@@ -20,8 +20,8 @@
 ;; view
 
 (defmethod base/view :framework/view
-  [{:keys [subscribe] :as core} _signal props]
-  (let [fw @(subscribe :db/pull {:id (:db/id props)})]
+  [{:keys [subscribe] :as core} _signal entity]
+  (let [fw @(subscribe :entity/pull {:entity entity})]
     [:<>
      [base/view core :scene/view (:framework/scene fw)]
      [base/view core :user/view (:framework/user fw)]]))

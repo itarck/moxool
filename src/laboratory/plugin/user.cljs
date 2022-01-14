@@ -30,7 +30,7 @@
 
 (defmethod base/spec :user/spec
   [_ _]
-  (base/spec {} :db/spec)
+  (base/spec {} :entity/spec)
   (s/def :user/name string?)
   (s/def :user/backpack (s/keys :req [:db/id]))
   (s/def :user/entity (s/keys :req [:db/id :user/name :user/backpack])))
@@ -47,7 +47,7 @@
 
 (defmethod base/subscribe :user/right-hand-tool
   [{:keys [pconn]} _ {:keys [user]}]
-  (s/assert :db/entity user)
+  (s/assert :entity/entity user)
   (let [user @(p/pull pconn '[{:user/backpack
                                [{:backpack/active-cell 
                                  [{:backpack-cell/tool [*]}]}]}] (:db/id user))]
@@ -64,14 +64,14 @@
 
 (defmethod base/view :user/right-hand.view
   [{:keys [subscribe] :as core} _ {:keys [tool]}]
-  (let [tool @(subscribe :db/pull {:id (:db/id tool)})
+  (let [tool @(subscribe :entity/pull {:entity tool})
         tool-type (:entity/type tool)]
     [base/view core :tool/view tool]))
 
 
 (defmethod base/view :user/view
   [{:keys [subscribe] :as core} _ user]
-  (let [user1 @(subscribe :db/pull {:id (:db/id user)})
+  (let [user1 @(subscribe :entity/pull {:entity user})
         right-hand-tool @(subscribe :user/right-hand-tool {:user user})
         backpack (:user/backpack user1)]
     [:<>

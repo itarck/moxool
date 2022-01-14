@@ -37,17 +37,10 @@
 (deftest test-model-unit
   (let [model (helper/create-model-unit)]
     (testing "testing model unit"
-      (is (= (model :db/pull {:id [:user/name "default"]
-                              :db test-db})
+      (is (= (model :entity/pull {:entity {:id [:user/name "default"]}
+                                  :db test-db})
              {:db/id 3, :user/backpack #:db{:id 4}, :user/name "default"})))))
 
 
 (run-tests)
 
-
-(comment
-  (let [model (helper/create-model-unit)]
-    (model :db/pull {:id [:user/name "default"]
-                     :db test-db}))
-  ;; => {:db/id 3, :user/backpack #:db{:id 4}, :user/name "default"}
-  )

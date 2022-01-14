@@ -1,4 +1,4 @@
-(ns laboratory.plugin.db
+(ns laboratory.plugin.entity
   (:require
    [datascript.core :as d]
    [posh.reagent :as p]
@@ -8,24 +8,20 @@
 
 ;; spec
 
-(defmethod base/spec :db/spec
+(defmethod base/spec :entity/spec
   [_ _]
   (s/def :db/id (s/or :id int? :lookup-ref vector?))
-  (s/def :db/entity (s/keys :req [:db/id])))
+  (s/def :entity/entity (s/keys :req [:db/id])))
 
 
 ;; model 
 
-(defmethod base/model :db/pull
+(defmethod base/model :entity/pull
   [_ _ props]
-  (let [{:keys [id pattern db] :or {pattern '[*]}} props]
-    (d/pull db pattern id)))
+  (let [{:keys [entity pattern db] :or {pattern '[*]}} props]
+    (d/pull db pattern (:db/id entity))))
 
 ;; subscribe
-
-(defmethod base/subscribe :db/pull
-  [{:keys [pconn]} _ {id :id pattern :pattern :or {pattern '[*]}}]
-  (p/pull pconn pattern id))
 
 (defmethod base/subscribe :entity/pull
   [{:keys [pconn]} _ {:keys [entity]}]
