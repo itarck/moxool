@@ -4,8 +4,7 @@
    [datascript.core :as d]
    [posh.reagent :as p]
    [reagent.core :as r]
-   [fancoil.base :as base]
-   [fancoil.module.posh.base :as posh.base]))
+   [laboratory.base :as base]))
 
 ;; data
 
@@ -18,7 +17,7 @@
 
 ;; schema
 
-(defmethod posh.base/schema :astro-scene/schema
+(defmethod base/schema :astro-scene/schema
   [_ _]
   #:astro-scene{:coordinate {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
                 :clock {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
