@@ -10,7 +10,8 @@
 
 (defmethod base/spec :db/spec
   [_ _]
-  (s/def :db/id (s/or :id int? :lookup-ref vector?)))
+  (s/def :db/id (s/or :id int? :lookup-ref vector?))
+  (s/def :db/entity (s/keys :req [:db/id])))
 
 
 ;; model 

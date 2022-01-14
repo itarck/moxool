@@ -1,7 +1,10 @@
 (ns laboratory.plugin.user
   (:require
    [cljs.spec.alpha :as s]
-   [laboratory.base :as base]))
+   [laboratory.base :as base]
+   [posh.reagent :as p]
+   [reagent.core :as r]))
+
 
 
 ;; data
@@ -53,6 +56,16 @@
   (spec :assert :db/entity user)
   [[:db.fn/retractAttribute (:db/id user) :user/right-tool]])
 
+
+;; subscribe
+
+(defmethod base/subscribe :user/right-hand-tool
+  [{:keys [pconn]} _ {:keys [user]}]
+  (s/assert :db/entity user)
+  (let [user @(p/pull pconn '[{:user/backpack
+                               [{:backpack/active-cell
+                                 [{:backpack-cell/tool [*]}]}]}] (:db/id user))]
+    (r/reaction (get-in user [:user/backpack :backpack/active-cell :backpack-cell/tool]))))
 
 ;; view
 

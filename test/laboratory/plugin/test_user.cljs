@@ -2,14 +2,31 @@
   (:require
    [cljs.test :refer-macros [deftest is are testing run-tests]]
    [cljs.spec.alpha :as s]
-   [laboratory.test-helper :as helper]))
+   [laboratory.system.zero :as zero]
+   [laboratory.test-helper :as helper]
+   [posh.reagent :as p]))
 
+
+;; data
 
 (def user-sample
   {:db/id -1
-   :user/name "dr who"
-   :user/backpack {:db/id -34}
-   :user/right-tool {:db/id -100}})
+   :user/name "default"
+   :user/backpack #:backpack {:name "default"
+                              :active-cell {:db/id -2}
+                              :cell [#:backpack-cell{:db/id -2
+                                                     :index 0
+                                                     :tool {:db/id -3}}
+                                     #:backpack-cell{:index 1}]}})
+
+(def tool-sample
+  {:db/id -3})
+
+(def test-db 
+  (helper/create-initial-db 
+   [user-sample
+    tool-sample]))
+
 
 ;; sepc
 
@@ -34,6 +51,23 @@
              [[:db.fn/retractAttribute -1 :user/right-tool]])))))
 
 
+;; subscribe
+
+(helper/create-event-system test-db)
+
+(def system 
+  (helper/create-event-system test-db))
+
+(def pconn 
+  (::zero/pconn system))
+
+(def sub 
+  (::zero/subscribe system))
+
+@(sub :user/right-hand-tool {:user {:db/id [:user/name "default"]}})
+
+
+
 (run-tests)
 
 
@@ -48,3 +82,4 @@
                                  :tool {:db/id 2}}))
 
 )
+
