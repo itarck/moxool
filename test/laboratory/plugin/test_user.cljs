@@ -1,7 +1,7 @@
 (ns laboratory.plugin.test-user
   (:require
    [cljs.test :refer-macros [deftest is are testing run-tests]]
-   [laboratory.test-system :as test-system]))
+   [laboratory.test-helper :as helper]))
 
 
 (def user-sample
@@ -11,12 +11,12 @@
    :user/right-tool {:db/id -100}})
 
 (deftest test-spec-unit
-  (let [spec (test-system/create-spec-unit)]
+  (let [spec (helper/create-spec-unit)]
     (testing "testing spec unit"
       (is (spec :valid? :db/id 345)))))
 
 (deftest test-model-unit
-  (let [model (test-system/create-model-unit)]
+  (let [model (helper/create-model-unit)]
     (testing "testing model unit"
       (is (= (model :user/select-tool-tx {:user {:db/id -1}
                                           :tool {:db/id -2}})
@@ -30,11 +30,11 @@
 
 (comment
 
-  (let [spec (test-system/create-spec-unit)]
+  (let [spec (helper/create-spec-unit)]
     (spec :valid? :user/backpack {:db/id 34}))
 
 
-  (let [model (test-system/create-model-unit)]
+  (let [model (helper/create-model-unit)]
     (model :user/select-tool-tx {:user {:db/id 1}
                                  :tool {:db/id 2}}))
 

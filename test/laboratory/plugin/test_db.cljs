@@ -3,7 +3,7 @@
    [laboratory.dbs.dev :as dbs.dev]
    [cljs.test :refer-macros [deftest is are testing run-tests]]
    [laboratory.plugin.db]
-   [laboratory.test-system :as test-system]))
+   [laboratory.test-helper :as helper]))
 
 ;; fixture
 
@@ -17,7 +17,7 @@
 
 
 (deftest test-spec-unit
-  (let [spec (test-system/create-spec-unit)]
+  (let [spec (helper/create-spec-unit)]
     (testing "testing spec-unit"
       (is (spec :valid? :db/id [:df/fd 34]))
       (is (spec :valid? :db/id 345))
@@ -25,7 +25,7 @@
 
 
 (deftest test-model-unit
-  (let [model (test-system/create-model-unit)]
+  (let [model (helper/create-model-unit)]
     (testing "testing model unit"
       (is (= (model :db/pull {:id [:user/name "default"]
                                   :db test-db})
@@ -36,7 +36,7 @@
 
 
 (comment 
-  (let [model (test-system/create-model-unit)]
+  (let [model (helper/create-model-unit)]
     (model :db/pull {:id [:user/name "default"]
                          :db test-db}))
   ;; => {:db/id 3, :user/backpack #:db{:id 4}, :user/name "default"}

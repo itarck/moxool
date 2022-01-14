@@ -45,6 +45,17 @@
            (:backpack/cell backpack))
    first))
 
+(defmethod base/model :backpack/find-nth-cell2
+  [_ _ {:keys [db backpack nth-cell]}]
+  (let [cell-id (d/q '[:find ?cell-id .
+                       :where
+                       [?bp-id :backpack/cell ?cell-id]
+                       [?cell-id :backpack-cell/index ?nth-cell]
+                       :in $ ?bp-id ?nth-cell]
+                     db (:db/id backpack) nth-cell)]
+    (when cell-id
+      {:db/id cell-id})))
+
 (defmethod base/model :backpack/put-in-cell-tx
   [_ _ {:keys [backpack nth-cell tool]}]
   (let [cell (base/model {} :backpack/find-nth-cell {:backpack backpack
@@ -59,7 +70,7 @@
   [_ _ {:keys [backpack]}]
   [[:db.fn/retractAttribute (:db/id backpack) :backpack/active-cell]])
 
-(defmethod base/model :backpack/put-in-packpack-tx
+(defmethod base/model :backpack/put-in-backpack-tx
   [_ _ {:keys [backpack tools]}]
   (apply concat
          (for [i (range (count tools))]
@@ -74,9 +85,10 @@
                   [:db.fn/retractAttribute (:db/id cell) :backpack-cell/tool]))]
     tx))
 
+
 ;; handle 
 
-(defmethod base/handle :backpack/click-cell
+#_(defmethod base/handle :backpack/click-cell
   [{:keys [model]} _ {:request/keys [body]}]
   (let [{:keys [user cell active-cell backpack]} body
         tx (if (= (:db/id active-cell) (:db/id cell))
@@ -88,6 +100,18 @@
                                                :cell cell})
               (model :user/select-tool-tx {:user user
                                            :tool (:backpack-cell/tool cell)})))]
+    {:posh/tx tx}))
+
+(defmethod base/handle :backpack/click-cell
+  [{:keys [model]} _ {:request/keys [body] db :pconn/db}]
+  (let [{:keys [backpack cell]} body
+        backpack (d/pull db '[:backpack/active-cell] (:db/id backpack))
+        active-cell (:backpack/active-cell backpack)
+        tx (if (= (:db/id active-cell) (:db/id cell))
+             (model :backpack/deactive-cell-tx {:backpack backpack})
+             (concat
+              (model :backpack/deactive-cell-tx {:backpack backpack})
+              (model :backpack/active-cell-tx {:backpack backpack :cell cell})))]
     {:posh/tx tx}))
 
 ;; subscribe 

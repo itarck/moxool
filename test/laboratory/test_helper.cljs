@@ -1,4 +1,4 @@
-(ns laboratory.test-system
+(ns laboratory.test-helper
   (:require
    [fancoil.unit :as fu]
    [laboratory.system.zero :as zero]))
