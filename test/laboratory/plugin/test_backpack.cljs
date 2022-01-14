@@ -83,8 +83,19 @@
 
 ;; handle 
 
+(def handle 
+  (helper/create-handle-unit test-db1))
+
 (deftest test-handle-unit
-  (is true))
+  (testing "handle backpack/click-cell "
+    (let [bp (model :backpack/pull {:db test-db1
+                                    :entity {:db/id [:backpack/name "default"]}})
+          cell (first (model :backpack/sorted-cells {:backpack bp}))]
+      (is (=
+           #:posh{:tx '([:db.fn/retractAttribute 2 :backpack/active-cell]
+                        [:db/add 2 :backpack/active-cell 3])}
+           (handle :backpack/click-cell {:request/body {:backpack bp :cell cell}
+                                         :posh/db test-db1}))))))
 
 ;; subscribe
 
@@ -104,7 +115,6 @@
               @(subscribe :backpack/pull {:entity {:db/id [:backpack/name "default"]}})))))
 
 
-
 (deftest test-process-unit
   (is true))
 
@@ -112,13 +122,22 @@
 (run-tests)
 
 
-(comment 
-  
+(comment
+
   (let [bp (model :backpack/pull {:db test-db1
                                   :entity {:db/id [:backpack/name "default"]}})]
     (is (= [[:db/add 3 :backpack-cell/tool -100] [:db/add 4 :backpack-cell/tool -101]]
            (model :backpack/init-tools-tx {:backpack bp
                                            :tools [{:db/id -100}
                                                    {:db/id -101}]}))))
-  ;; 
+
+  (let [bp (model :backpack/pull {:db test-db1
+                                  :entity {:db/id [:backpack/name "default"]}})
+        cell (first (model :backpack/sorted-cells {:backpack bp}))]
+    (is (=
+         #:posh{:tx '([:db.fn/retractAttribute 2 :backpack/active-cell] [:db/add 2 :backpack/active-cell 3])}
+         (handle :backpack/click-cell {:request/body {:backpack bp :cell cell}
+                                       :posh/db test-db1}))))
+  
+
   )

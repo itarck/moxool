@@ -16,9 +16,14 @@
   (let [sys (zero/init {} [::zero/model])]
     (::zero/model sys)))
 
-(defn create-handle-unit []
-  (let [sys (zero/init {} [::zero/handle])]
-    (::zero/handle sys)))
+(defn create-handle-unit
+  ([]
+   (let [sys (zero/init {} [::zero/handle])]
+     (::zero/handle sys)))
+  ([initial-db]
+   (let [sys (zero/init {::zero/pconn {:initial-db initial-db}}
+                        [::zero/handle])]
+     (::zero/handle sys))))
 
 (defn create-initial-db
   [initial-tx]
