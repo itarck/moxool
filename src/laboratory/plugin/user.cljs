@@ -1,8 +1,8 @@
 (ns laboratory.plugin.user
   (:require
    [cljs.spec.alpha :as s]
-   [fancoil.base :as base]
-   [fancoil.module.posh.base :as posh.base]))
+   [laboratory.base :as base]))
+
 
 ;; data
 
@@ -14,7 +14,7 @@
 
 ;; schema
 
-(defmethod posh.base/schema :user/schema
+(defmethod base/schema :user/schema
   [_ _]
   {:user/name {:db/unique :db.unique/identity}
    :user/backpack {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}

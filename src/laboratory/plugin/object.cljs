@@ -1,7 +1,6 @@
 (ns laboratory.plugin.object
   (:require
-   [fancoil.base :as base]
-   [fancoil.module.posh.base :as posh.base]
+   [laboratory.base :as base]
    [applied-science.js-interop :as j]
    ["three" :as three]
    ["@react-three/drei" :refer [Box]]))
@@ -9,7 +8,7 @@
 
 ;; schema
 
-(defmethod posh.base/schema :object/schema
+(defmethod base/schema :object/schema
   [_ _]
   {:object/name {:db/unique :db.unique/identity}
    :object/scene {:db/cardinality :db.cardinality/one :db/valueType :db.type/ref}})

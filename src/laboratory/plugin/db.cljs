@@ -2,7 +2,7 @@
   (:require
    [datascript.core :as d]
    [posh.reagent :as p]
-   [fancoil.base :as base]
+   [laboratory.base :as base]
    [cljs.spec.alpha :as s]))
 
 

@@ -1,11 +1,10 @@
 (ns laboratory.plugin.framework
   (:require
-   [fancoil.base :as base]
-   [fancoil.module.posh.base :as posh.base]))
+   [laboratory.base :as base]))
 
 ;; schema
 
-(defmethod posh.base/schema :framework/schema
+(defmethod base/schema :framework/schema
   [_ _]
   {:framework/name {:db/unique :db.unique/identity}
    :framework/scene {:db/cardinality :db.cardinality/one :db/valueType :db.type/ref}

@@ -1,7 +1,7 @@
 (ns laboratory.plugin.tool
   (:require
-   [fancoil.base :as base]
-   [posh.reagent :as p]))
+   [laboratory.base :as base]))
+
 
 ;; value
 

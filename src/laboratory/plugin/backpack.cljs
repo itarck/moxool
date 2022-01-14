@@ -1,7 +1,6 @@
 (ns laboratory.plugin.backpack
   (:require
-   [fancoil.base :as base]
-   [fancoil.module.posh.base :as posh.base]
+   [laboratory.base :as base]
    [datascript.core :as d]
    [posh.reagent :as p]))
 
@@ -16,7 +15,7 @@
 
 ;; schema
 
-(defmethod posh.base/schema :backpack/schema
+(defmethod base/schema :backpack/schema
   [_ _]
   {:backpack/name {:db/unique :db.unique/identity}
    :backpack/owner {:db/valueType :db.type/ref :db/cardinality :db.cardinality/one}

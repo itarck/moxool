@@ -1,13 +1,12 @@
 (ns laboratory.plugin.scene
   (:require
    [posh.reagent :as p]
-   [fancoil.base :as base]
-   [fancoil.module.posh.base :as posh.base]
+   [laboratory.base :as base]
    ["@react-three/drei" :refer [OrbitControls]]
    ["react-three-fiber" :refer [Canvas]]))
 
 
-(defmethod posh.base/schema :scene/schema
+(defmethod base/schema :scene/schema
   [_ _]
   {:scene/name {:db/unique :db.unique/identity}})
 
