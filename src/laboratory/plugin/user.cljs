@@ -63,7 +63,7 @@
   [{:keys [pconn]} _ {:keys [user]}]
   (s/assert :db/entity user)
   (let [user @(p/pull pconn '[{:user/backpack
-                               [{:backpack/active-cell
+                               [{:backpack/active-cell 
                                  [{:backpack-cell/tool [*]}]}]}] (:db/id user))]
     (r/reaction (get-in user [:user/backpack :backpack/active-cell :backpack-cell/tool]))))
 
@@ -86,10 +86,10 @@
 (defmethod base/view :user/view
   [{:keys [subscribe] :as core} _ user]
   (let [user1 @(subscribe :db/pull {:id (:db/id user)})
+        right-hand-tool @(subscribe :user/right-hand-tool {:user user})
         backpack (:user/backpack user1)]
     [:<>
      [base/view core :user/left-hand.view {}]
      [base/view core :backpack/view backpack]
-     (when (:user/right-tool user1)
-       [base/view core :user/right-hand.view {:user user1
-                                              :tool (:user/right-tool user1)}])]))
+     (when right-hand-tool
+       [base/view core :user/right-hand.view {:tool right-hand-tool}])]))
