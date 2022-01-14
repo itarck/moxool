@@ -12,8 +12,8 @@
 (def default
   #:backpack {:name "default"
               :owner [:user/name "default"]
-              :cell (vec (for [i (range 12)]
-                           #:backpack-cell{:index i}))})
+              :cells (vec (for [i (range 12)]
+                            #:backpack-cell{:index i}))})
 
 ;; schema
 
@@ -50,24 +50,6 @@
   [_ _ {:keys [db entity]}]
   (s/assert :db/entity entity)
   (d/pull db '[*] (:db/id entity)))
-
-(defmethod base/model :backpack/sync
-  [_ _ {:keys [db entity]}]
-  (if (s/valid? :backpack/backpack entity)
-    entity
-    (base/model :backpack/pull {:entity entity
-                                :db db})))
-
-(defmethod base/model :backpack/query-nth-cell
-  [_ _ {:keys [db backpack nth-cell]}]
-  (let [cell-id (d/q '[:find ?cell-id .
-                       :where
-                       [?bp-id :backpack/cells ?cell-id]
-                       [?cell-id :backpack-cell/index ?nth-cell]
-                       :in $ ?bp-id ?nth-cell]
-                     db (:db/id backpack) nth-cell)]
-    (when cell-id
-      {:db/id cell-id})))
 
 (defmethod base/model :backpack/get-nth-cell
   [_ _ {:keys [backpack nth-cell]}]
@@ -109,11 +91,9 @@
 ;; handle 
 
 (defmethod base/handle :backpack/click-cell
-  [{:keys [model]} _ {:request/keys [body] db :posh/db}]
-  (let [{:keys [backpack cell]} body
-        backpack (model :backpack/sync {:entity backpack
-                                        :db db})
-        active-cell (:backpack/active-cell backpack)
+  [{:keys [model]} _ {{:keys [backpack cell]} :request/body}]
+  (s/assert :backpack/backpack backpack)
+  (let [active-cell (:backpack/active-cell backpack)
         tx (if (= (:db/id active-cell) (:db/id cell))
              (model :backpack/deactive-cell-tx {:backpack backpack})
              (concat
@@ -134,7 +114,6 @@
   (let [bp @(p/pull pconn '[{:backpack/cells [{:backpack-cell/tool [*]}]}]
                     (:db/id backpack))]
     (r/reaction (get-in bp [:backpack/cells]))))
-
 
 ;; view
 

@@ -41,6 +41,10 @@
 (def model
   (helper/create-model-unit))
 
+(def backpack
+  (model :backpack/pull {:db test-db1
+                         :entity {:db/id [:backpack/name "default"]}}))
+
 
 (deftest test-model-unit
   (testing ":backpack/pull"
@@ -57,29 +61,23 @@
            {:db/id 3})))
   
   (testing ":backpack/active and deactive cell"
-    (let [bp (model :backpack/pull {:db test-db1
-                                    :entity {:db/id [:backpack/name "default"]}})
-          cell (first (model :backpack/sorted-cells {:backpack bp}))]
-      (is (= (model :backpack/active-cell-tx {:backpack bp :cell cell})
+    (let [cell (first (model :backpack/sorted-cells {:backpack backpack}))]
+      (is (= (model :backpack/active-cell-tx {:backpack backpack :cell cell})
              [[:db/add 2 :backpack/active-cell 3]]))
-      (is (= (model :backpack/deactive-cell-tx {:backpack bp})
+      (is (= (model :backpack/deactive-cell-tx {:backpack backpack})
              [[:db.fn/retractAttribute 2 :backpack/active-cell]]))))
   
   (testing ":backpack/put-in-nth-cell-tx"
-    (let [bp (model :backpack/pull {:db test-db1
-                                    :entity {:db/id [:backpack/name "default"]}})]
-      (is (= (model :backpack/put-in-nth-cell-tx {:backpack bp
-                                                  :nth-cell 0
-                                                  :tool {:db/id -100}})
-             [[:db/add 3 :backpack-cell/tool -100]]))))
+    (is (= (model :backpack/put-in-nth-cell-tx {:backpack backpack
+                                                :nth-cell 0
+                                                :tool {:db/id -100}})
+           [[:db/add 3 :backpack-cell/tool -100]])))
   
   (testing ":backpack/init-tools-tx"
-    (let [bp (model :backpack/pull {:db test-db1
-                                    :entity {:db/id [:backpack/name "default"]}})]
-      (is (= [[:db/add 3 :backpack-cell/tool -100] [:db/add 4 :backpack-cell/tool -101]]
-             (model :backpack/init-tools-tx {:backpack bp
-                                             :tools [{:db/id -100}
-                                                     {:db/id -101}]}))))))
+    (is (= [[:db/add 3 :backpack-cell/tool -100] [:db/add 4 :backpack-cell/tool -101]]
+           (model :backpack/init-tools-tx {:backpack backpack
+                                           :tools [{:db/id -100}
+                                                   {:db/id -101}]})))))
 
 ;; handle 
 
@@ -88,14 +86,11 @@
 
 (deftest test-handle-unit
   (testing "handle backpack/click-cell "
-    (let [bp (model :backpack/pull {:db test-db1
-                                    :entity {:db/id [:backpack/name "default"]}})
-          cell (first (model :backpack/sorted-cells {:backpack bp}))]
+    (let [cell (first (model :backpack/sorted-cells {:backpack backpack}))]
       (is (=
            #:posh{:tx '([:db.fn/retractAttribute 2 :backpack/active-cell]
                         [:db/add 2 :backpack/active-cell 3])}
-           (handle :backpack/click-cell {:request/body {:backpack bp :cell cell}
-                                         :posh/db test-db1}))))))
+           (handle :backpack/click-cell {:request/body {:backpack backpack :cell cell}}))))))
 
 ;; subscribe
 
