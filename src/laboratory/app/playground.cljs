@@ -5,24 +5,22 @@
    [laboratory.system.zero :as zero]
    [cljs.spec.alpha :as s]
    [fancoil.unit :as fu]
-   [laboratory.dbs.dev :as dev]
-   [laboratory.dbs.helper :as helper]))
+   [laboratory.dbs.dev :as dev]))
 
 
 #_(def dev-db 
   (dev/create-dev-db1))
 
-(def dev-db
-  (helper/create-initial-db
-   [{:framework/name "default"
-     :framework/scene {:scene/name "default"}}
-    {:gltf/url "models/3-cityscene_kyoto_1995/scene.gltf"
-     :object/type :gltf
-     :object/scale [0.001 0.001 0.001]
-     :object/scene [:scene/name "default"]}]))
+(def initial-tx
+  [{:framework/name "default"
+    :framework/scene {:scene/name "default"}}
+   {:gltf/url "models/3-cityscene_kyoto_1995/scene.gltf"
+    :object/type :gltf
+    :object/scale [0.001 0.001 0.001]
+    :object/scene [:scene/name "default"]}])
 
 (def user-config 
-  {::zero/pconn {:initial-db dev-db}})
+  {::zero/pconn {:initial-tx initial-tx}})
 
 (defonce instance
   (zero/init user-config))
