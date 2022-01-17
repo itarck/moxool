@@ -16,7 +16,10 @@
   (helper/create-initial-db
    [{:framework/name "default"
      :framework/scene {:scene/name "default"}}
-    {:object/scene [:scene/name "default"]}]))
+    {:gltf/url "models/3-cityscene_kyoto_1995/scene.gltf"
+     :object/type :gltf
+     :object/scale [0.001 0.001 0.001]
+     :object/scene [:scene/name "default"]}]))
 
 (def user-config 
   {::zero/pconn {:initial-db dev-db}})

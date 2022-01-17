@@ -5,5 +5,6 @@
    [laboratory.plugin.scene]
    [laboratory.plugin.user]
    [laboratory.plugin.backpack]
+   [laboratory.plugin.tool]
    [laboratory.plugin.object]
-   [laboratory.plugin.tool]))
+   [laboratory.plugin.gltf]))
