@@ -48,12 +48,12 @@
     (merge default entity)))
 
 (defmethod base/model :backpack/sync
-  [{:keys [spec]} _ {:keys [backpack db]}]
-  (if (spec :valid? :backpack/backpack backpack)
-    backpack
+  [{:keys [spec]} _ {:keys [entity db]}]
+  (if (spec :valid? :backpack/backpack entity)
+    entity
     (d/pull db '[* {:user/_backpack [:db/id]
                     :backpack/cells [*]}]
-            (:db/id backpack))))
+            (:db/id entity))))
 
 (defmethod base/model :backpack/get-nth-cell
   [_ _ {:keys [backpack nth-cell]}]
@@ -109,13 +109,15 @@
   [{:keys [model]} _ {{:keys [backpack nth-cell tool]} :request/body db :posh/db}]
   (s/assert :entity/entity backpack)
   (s/assert :entity/entity tool)
-  (let [backpack (model :backpack/sync {:backpack backpack :db db})
+  (let [backpack (model :backpack/sync {:entity backpack :db db})
         tx (model :backpack/put-in-nth-cell-tx {:backpack backpack :tool tool :nth-cell nth-cell})]
     {:posh/tx tx}))
 
-(defmethod base/handle :backpack/init-tools-event
+(defmethod base/handle :backpack/put-tools-in
   [{:keys [model]} _ {{:keys [backpack tools]} :request/body db :posh/db}]
-  (let [backpack (model :backpack/sync {:backpack backpack :db db})
+  (s/assert :entity/entity backpack)
+  (s/assert (s/coll-of :entity/entity) tools)
+  (let [backpack (model :backpack/sync {:entity backpack :db db})
         tx (model :backpack/init-tools-tx {:backpack backpack :tools tools})]
     {:posh/tx tx}))
 

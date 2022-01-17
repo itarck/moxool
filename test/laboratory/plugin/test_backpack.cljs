@@ -16,7 +16,8 @@
    #:backpack {:name "default"
                :cells (vec (for [i (range 12)]
                              #:backpack-cell{:index i}))}
-   #:tool{:name "tool1"}])
+   #:tool{:name "tool1"}
+   #:tool{:name "tool2"}])
 
 (def test-db
   (helper/create-initial-db initial-tx))
@@ -115,7 +116,16 @@
                              :tool {:db/id [:tool/name "tool1"]}}})
     (let [bp @(subscribe :backpack/pull {:entity {:db/id [:backpack/name "default"]}})
           tool1 (get-in bp [:backpack/cells 0 :backpack-cell/tool])]
-      (is (= tool1 #:db{:id 15})))))
+      (is (= tool1 #:db{:id 15}))))
+  
+  (testing "handle event backpack/put-tools-in"
+    (process :backpack/put-tools-in
+             {:request/body {:backpack {:db/id [:backpack/name "default"]}
+                             :tools [{:db/id [:tool/name "tool1"]}
+                                     {:db/id [:tool/name "tool2"]}]}})
+    (let [bp @(subscribe :backpack/pull {:entity {:db/id [:backpack/name "default"]}})
+          tool2 (get-in bp [:backpack/cells 1 :backpack-cell/tool])]
+      tool2)))
 
 
 (run-tests)
