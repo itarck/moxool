@@ -21,8 +21,11 @@
 
 (defmethod base/view :framework/view
   [{:keys [subscribe] :as core} _signal entity]
-  (let [fw @(subscribe :entity/pull {:entity entity})]
+  (let [fw @(subscribe :entity/pull {:entity entity})
+        {:framework/keys [scene user]} fw]
     [:<>
-     [base/view core :scene/view (:framework/scene fw)]
-     [base/view core :user/view (:framework/user fw)]]))
+     (when scene
+       [base/view core :scene/view (:framework/scene fw)])
+     (when user
+       [base/view core :user/view (:framework/user fw)])]))
 

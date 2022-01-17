@@ -7,7 +7,6 @@
    [laboratory.plugin.core]))
 
 
-
 (def hierarchy
   {::schema [:fancoil.module.posh/schema]
    ::pconn [:fancoil.module.posh/pconn]

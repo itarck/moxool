@@ -33,7 +33,7 @@
   (s/def :object/rotation (s/tuple number? number? number?))
   (s/def :object/scale (s/tuple number? number? number?))
   (s/def :object/scene :entity/entity)
-  (s/def :object/object (s/keys :req [:db/id :object/position :object/rotation :object/scale])))
+  (s/def :object/object (s/keys :req [:db/id])))
 
 ;; model 
 
@@ -57,9 +57,9 @@
                            (let [inter (j/get-in e [:intersections 0 :point])]
                              (js/console.log "box click" inter)))
                :args [1 1 1]
-               :position (:object/position object)
-               :rotation (:object/rotation object)
-               :scale (:object/scale object)}
+               :position (or (:object/position object) [0 0 0])
+               :rotation (or (:object/rotation object) [0 0 0])
+               :scale (or (:object/scale object) [1 1 1])}
        [:meshStandardMaterial {:color "red"
                                :side three/DoubleSide
                                :opacity 0.5
