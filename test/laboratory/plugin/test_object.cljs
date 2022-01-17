@@ -5,9 +5,11 @@
    [clojure.test.check.generators]
    [cljs.test :refer-macros [deftest is are testing run-tests]]
    [datascript.core :as d]
+   [posh.reagent :as p]
    [laboratory.plugin.entity]
    [laboratory.system.zero :as zero]
-   [laboratory.test-helper :as helper]))
+   [laboratory.test-helper :as helper]
+   [laboratory.app.playground :as app]))
 
 ;; data 
 
@@ -44,11 +46,24 @@
 (deftest test-subscribe)
 
 
-(run-tests)
-
-
+;; view
 
 (comment
+  (do
+    (def tx
+      [#:scene {:name ::scene}
+       #:framework {:name "default"
+                    :scene [:scene/name ::scene]}
+       #:object {:name "object1"
+                 :position [0 0 0]
+                 :rotation [0 0 0]
+                 :scale [1 1 34]
+                 :scene {:db/id [:scene/name ::scene]}}])
 
-  (gen/generate (s/gen :object/object))
-  )
+    (def pconn
+      (:laboratory.system.zero/pconn app/instance))
+
+    (p/transact! pconn tx)))
+
+
+(run-tests)
