@@ -97,6 +97,14 @@
               (model :backpack/active-cell-tx {:backpack backpack :cell cell})))]
     {:posh/tx tx}))
 
+(defmethod base/handle :backpack/put-tool-into-nth-cell
+  [{:keys [model]} _ {{:keys [backpack nth-cell tool]} :request/body db :posh/db}]
+  (s/assert :entity/entity backpack)
+  (s/assert :entity/entity tool)
+  (let [backpack (d/pull db '[*] (:db/id backpack))
+        tx (model :backpack/put-in-nth-cell-tx {:backpack backpack :tool tool :nth-cell nth-cell})]
+    {:posh/tx tx}))
+
 ;; subscribe 
 
 (defmethod base/subscribe :backpack/pull

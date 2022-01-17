@@ -1,5 +1,6 @@
 (ns laboratory.plugin.tool
   (:require
+   [cljs.spec.alpha :as s]
    [laboratory.base :as base]))
 
 
@@ -11,6 +12,18 @@
    :tool/icon "/image/pirate/earth.jpg"
    :tool/type :constellation-tool
    :entity/type :constellation-tool})
+
+;; schema
+
+(defmethod base/schema :tool/scheme
+  [_ _]
+  {:tool/name {:db/unique :db.unique/identity}})
+
+;; spec 
+
+(defmethod base/spec :tool/spec
+  [_ _]
+  (s/def :tool/name string?))
 
 ;; model 
 

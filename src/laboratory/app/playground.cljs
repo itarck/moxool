@@ -4,7 +4,8 @@
    [reagent.dom :as rdom]
    [laboratory.system.zero :as zero]
    [cljs.spec.alpha :as s]
-   [fancoil.unit :as fu]))
+   [fancoil.unit :as fu]
+   [laboratory.dbs.dev :as dev]))
 
 
 (def initial-tx
@@ -28,6 +29,8 @@
                                       :icon "image/moxool/clock.jpg"})])
 
 
+(def dev-db 
+  (dev/create-dev-db1))
 
 (def user-config 
   {::zero/pconn {:initial-tx initial-tx}})

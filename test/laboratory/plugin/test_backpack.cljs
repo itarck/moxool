@@ -2,7 +2,6 @@
   (:require
    [cljs.spec.alpha :as s]
    [datascript.core :as d]
-   [laboratory.dbs.dev :as dbs.dev]
    [laboratory.system.zero :as zero]
    [cljs.test :refer-macros [deftest is testing run-tests]]
    [laboratory.test-helper :as helper]))
@@ -16,9 +15,10 @@
   [#:user {:name "default"}
    #:backpack {:name "default"
                :cells (vec (for [i (range 12)]
-                             #:backpack-cell{:index i}))}])
+                             #:backpack-cell{:index i}))}
+   #:tool{:name "tool1"}])
 
-(def test-db1
+(def test-db
   (helper/create-initial-db initial-tx))
 
 ;; spec 
@@ -43,7 +43,7 @@
   (helper/create-model-unit))
 
 (def backpack 
-  (d/pull test-db1 '[*] [:backpack/name "default"]))
+  (d/pull test-db '[*] [:backpack/name "default"]))
 
 (deftest test-model-unit
   (testing ":backpack/pull"
@@ -72,26 +72,35 @@
 ;; handle 
 
 (def handle 
-  (helper/create-handle-unit test-db1))
+  (helper/create-handle-unit test-db))
 
 (deftest test-handle-unit
-  (testing "handle backpack/click-cell "
+  (testing "handle event backpack/click-cell "
     (let [cell (first (model :backpack/sorted-cells {:backpack backpack}))]
       (is (=
            #:posh{:tx '([:db.fn/retractAttribute 2 :backpack/active-cell]
                         [:db/add 2 :backpack/active-cell 3])}
-           (handle :backpack/click-cell {:request/body {:backpack backpack :cell cell}}))))))
+           (handle :backpack/click-cell {:request/body {:backpack backpack :cell cell}})))))
+  
+  (testing "handle event backpack/put-tool-into-nth-cell"
+    (is (= (handle :backpack/put-tool-into-nth-cell
+                   {:request/body {:backpack {:db/id [:backpack/name "default"]}
+                                   :nth-cell 0
+                                   :tool {:db/id [:tool/name "tool1"]}}
+                    :posh/db test-db})
+           #:posh{:tx [[:db/add 3 :backpack-cell/tool [:tool/name "tool1"]]]}))))
 
 ;; subscribe
 
-(def test-db
-  (dbs.dev/create-dev-db1))
 
 (def system
   (helper/create-event-system test-db))
 
 (def subscribe
   (::zero/subscribe system))
+
+(def process
+  (::zero/process system))
 
 (deftest test-subscribe-unit
   (testing "subscribe backpack/pull"
@@ -105,14 +114,3 @@
 
 (run-tests)
 
-
-(comment
-
-  @(subscribe :pull '[*] [:user/name "default"])
-
-  @(subscribe :q '[:find ?id .
-                   :in $ ?name
-                   :where [?id :user/name ?name]]
-              "default")
-
-  )
