@@ -107,10 +107,15 @@
     (is (spec :valid? :backpack/backpack
               @(subscribe :backpack/pull {:entity {:db/id [:backpack/name "default"]}})))))
 
-
 (deftest test-process-unit
-  (is true))
+  (testing "handle event backpack/put-tool-into-nth-cell"
+    (process :backpack/put-tool-into-nth-cell
+             {:request/body {:backpack {:db/id [:backpack/name "default"]}
+                             :nth-cell 0
+                             :tool {:db/id [:tool/name "tool1"]}}})
+    (let [bp @(subscribe :backpack/pull {:entity {:db/id [:backpack/name "default"]}})
+          tool1 (get-in bp [:backpack/cells 0 :backpack-cell/tool])]
+      (is (= tool1 #:db{:id 15})))))
 
 
 (run-tests)
-

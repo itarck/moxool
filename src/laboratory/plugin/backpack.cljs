@@ -47,6 +47,14 @@
                                          #:backpack-cell{:index i}))}]
     (merge default entity)))
 
+(defmethod base/model :backpack/sync
+  [{:keys [spec]} _ {:keys [entity db]}]
+  (if (spec :valid? :backpack/backpack entity)
+    entity
+    (d/pull db '[* {:user/_backpack [:db/id]
+                    :backpack/cells [*]}]
+            (:db/id entity))))
+
 (defmethod base/model :backpack/get-nth-cell
   [_ _ {:keys [backpack nth-cell]}]
   (s/assert :backpack/backpack backpack)
@@ -101,7 +109,7 @@
   [{:keys [model]} _ {{:keys [backpack nth-cell tool]} :request/body db :posh/db}]
   (s/assert :entity/entity backpack)
   (s/assert :entity/entity tool)
-  (let [backpack (d/pull db '[*] (:db/id backpack))
+  (let [backpack (model :backpack/sync {:entity backpack :db db})
         tx (model :backpack/put-in-nth-cell-tx {:backpack backpack :tool tool :nth-cell nth-cell})]
     {:posh/tx tx}))
 
@@ -110,7 +118,8 @@
 (defmethod base/subscribe :backpack/pull
   [{:keys [pconn]} _ {:keys [entity pattern]}]
   (s/assert :entity/entity entity)
-  (let [pt (or pattern '[* {:user/_backpack [:db/id]}])]
+  (let [pt (or pattern '[* {:user/_backpack [:db/id]
+                            :backpack/cells [*]}])]
     (p/pull pconn pt (:db/id entity))))
 
 (defmethod base/subscribe :backpack/sub-cells-and-tools
