@@ -1,7 +1,6 @@
 (ns laboratory.dbs.dev
   (:require
    [datascript.core :as d]
-   [fancoil.base :as base]
    [laboratory.system.zero :as zero]))
 
 
@@ -10,26 +9,31 @@
 
 
 (defn create-dev-db1 []
-  (let [conn (d/create-conn schema)
-        tx  [(base/model {} :framework/create {})
-             (base/model {} :scene/create {:scene/background "black"})
-             (base/model {} :user/create {})
-             (base/model {} :backpack/create {:backpack/cells
-                                              [{:backpack-cell/index 0}
-                                               {:backpack-cell/index 1}]})
-             (base/model {} :object/create #:object{:scale [1 1 5]})
-             (base/model {} :object/create #:object{:position [3 0 0]
-                                                    :scale [3 3 3]})
-             (base/model {} :tool/create #:tool{:db/id -1
-                                                :name "universe tool"
-                                                :chinese-name "宇宙"
-                                                :icon "image/moxool/universe.webp"})
-             (base/model {} :tool/create #:tool{:db/id -2
-                                                :name "clock tool"
-                                                :chinese-name "时钟"
-                                                :icon "image/moxool/clock.jpg"})]]
-    (d/transact! conn tx)
-    @conn))
+  (let [system (zero/init {} [::zero/process])
+        {::zero/keys [process model pconn]} system
+        tx [(model :framework/create {})
+            (model :scene/create {:scene/background "black"})
+            (model :user/create {})
+            (model :backpack/create {:backpack/cells
+                                     (for [i (range 10)]
+                                       {:backpack-cell/index i})})
+            (model :object/create #:object{:scale [1 1 5]})
+            (model :object/create #:object{:position [3 0 0]
+                                           :scale [3 3 3]})
+            (model :tool/create #:tool{:db/id -1
+                                       :name "universe tool"
+                                       :chinese-name "宇宙"
+                                       :icon "image/moxool/universe.webp"})
+            (model :tool/create #:tool{:db/id -2
+                                       :name "clock tool"
+                                       :chinese-name "时钟"
+                                       :icon "image/moxool/clock.jpg"})]]
+    (d/transact! pconn tx)
+    (process :backpack/put-tool-into-nth-cell
+             {:request/body {:backpack {:db/id [:backpack/name "default"]}
+                             :nth-cell 0
+                             :tool {:db/id [:tool/name "universe tool"]}}})
+    @pconn))
 
 
 (comment 

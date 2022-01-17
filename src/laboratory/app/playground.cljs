@@ -8,32 +8,11 @@
    [laboratory.dbs.dev :as dev]))
 
 
-(def initial-tx
-  [(base/model {} :framework/create {})
-   (base/model {} :scene/create {:scene/background "black"})
-   (base/model {} :user/create {})
-   (base/model {} :backpack/create {:backpack/cells [{:backpack-cell/index 0
-                                                      :backpack-cell/tool -1}
-                                                    {:backpack-cell/index 1
-                                                     :backpack-cell/tool -2}]})
-   (base/model {} :object/create #:object{:scale [1 1 5]})
-   (base/model {} :object/create #:object{:position [3 0 0]
-                                          :scale [3 3 3]})
-   (base/model {} :tool/create #:tool{:db/id -1
-                                      :name "universe tool"
-                                      :chinese-name "宇宙"
-                                      :icon "image/moxool/universe.webp"})
-   (base/model {} :tool/create #:tool{:db/id -2
-                                      :name "clock tool"
-                                      :chinese-name "时钟"
-                                      :icon "image/moxool/clock.jpg"})])
-
-
 (def dev-db 
   (dev/create-dev-db1))
 
 (def user-config 
-  {::zero/pconn {:initial-tx initial-tx}})
+  {::zero/pconn {:initial-db dev-db}})
 
 (defonce instance
   (zero/init user-config))
