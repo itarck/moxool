@@ -2,6 +2,7 @@
   (:require
    [fancoil.base :as base]
    [reagent.dom :as rdom]
+   [posh.reagent :as p]
    [laboratory.system.zero :as zero]
    [cljs.spec.alpha :as s]
    [fancoil.unit :as fu]
@@ -28,6 +29,10 @@
 (def entry
   {:db/id [:framework/name "default"]})
 
+(defn app-transact! [tx]
+  (let [pconn (::zero/pconn instance)]
+    (p/transact! pconn tx)))
+
 ;; -------------------------
 ;; Initialize app
 
@@ -40,6 +45,8 @@
 
 (defn ^:export init! []
   (mount-root))
+
+
 
 
 (comment

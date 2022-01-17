@@ -14,9 +14,6 @@
 
 ;; schema
 
-(defmethod base/schema :gltf/schema
-  [_ _]
-  {})
 
 ;; spec
 
@@ -64,8 +61,3 @@
                  :id (:db/id gltf)
                  :shadow? shadow?}]]]))
 
-
-(comment
-
-  (s/def :object/position (s/cat :x number? :y number? :z number?))
-  (s/valid? :object/position [3 3 -34]))

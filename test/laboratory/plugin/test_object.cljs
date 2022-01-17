@@ -5,7 +5,6 @@
    [clojure.test.check.generators]
    [cljs.test :refer-macros [deftest is are testing run-tests]]
    [datascript.core :as d]
-   [posh.reagent :as p]
    [laboratory.plugin.entity]
    [laboratory.system.zero :as zero]
    [laboratory.test-helper :as helper]
@@ -49,21 +48,17 @@
 ;; view
 
 (comment
-  (do
-    (def tx
-      [#:scene {:name ::scene}
-       #:framework {:name "default"
-                    :scene [:scene/name ::scene]}
-       #:object {:name "object1"
-                 :position [0 0 0]
-                 :rotation [0 0 0]
-                 :scale [1 1 34]
-                 :scene {:db/id [:scene/name ::scene]}}])
 
-    (def pconn
-      (:laboratory.system.zero/pconn app/instance))
-
-    (p/transact! pconn tx)))
+  (let [tx [#:scene {:name ::scene}
+            #:framework {:name "default"
+                         :scene [:scene/name ::scene]}
+            #:object {:name "object1"
+                      :position [0 0 0]
+                      :rotation [0 0 0]
+                      :scale [1 1 3]
+                      :scene {:db/id [:scene/name ::scene]}}]]
+    (app/app-transact! tx))
+  )
 
 
 (run-tests)
