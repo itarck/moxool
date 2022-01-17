@@ -6,6 +6,14 @@
    ["@react-three/drei" :refer [Box]]))
 
 
+;; data 
+
+(def sample 
+  #:object {:position [0 0 0]
+            :rotation [0 0 0]
+            :scale [1 1 1]
+            :scene {:db/id [:scene/name "default"]}})
+
 ;; schema
 
 (defmethod base/schema :object/schema

@@ -1,14 +1,31 @@
 (ns laboratory.plugin.scene
   (:require
+   [cljs.spec.alpha :as s]
    [posh.reagent :as p]
    [laboratory.base :as base]
    ["@react-three/drei" :refer [OrbitControls]]
    ["react-three-fiber" :refer [Canvas]]))
 
+;; value
+
+(def sample 
+  #:scene{:name "default"
+          :background "white"
+          :framework/_scene [:framework/name "default"]})
+
+;; schema
 
 (defmethod base/schema :scene/schema
   [_ _]
   {:scene/name {:db/unique :db.unique/identity}})
+
+;; spec
+
+(defmethod base/spec :scene/spec
+  [_ _]
+  (base/spec {} :entity/spec)
+  (s/def :scene/name string?)
+  (s/def :scene/scene (s/keys :req [:db/id :scene/name])))
 
 ;; model
 
