@@ -29,10 +29,10 @@
                                        :chinese-name "时钟"
                                        :icon "image/moxool/clock.jpg"})]]
     (d/transact! pconn tx)
-    (process :backpack/put-tool-into-nth-cell
+    (process :backpack/put-tools-in
              {:request/body {:backpack {:db/id [:backpack/name "default"]}
-                             :nth-cell 0
-                             :tool {:db/id [:tool/name "universe tool"]}}})
+                             :tools [{:db/id [:tool/name "universe tool"]}
+                                     {:db/id [:tool/name "clock tool"]}]}})
     @pconn))
 
 
