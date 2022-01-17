@@ -14,13 +14,6 @@
   (s/def :entity/entity (s/keys :req [:db/id])))
 
 
-;; model 
-
-(defmethod base/model :entity/pull
-  [_ _ props]
-  (let [{:keys [entity pattern db] :or {pattern '[*]}} props]
-    (d/pull db pattern (:db/id entity))))
-
 ;; subscribe
 
 (defmethod base/subscribe :entity/pull

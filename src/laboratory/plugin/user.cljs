@@ -33,7 +33,7 @@
   (base/spec {} :entity/spec)
   (s/def :user/name string?)
   (s/def :user/backpack (s/keys :req [:db/id]))
-  (s/def :user/entity (s/keys :req [:db/id :user/name :user/backpack])))
+  (s/def :user/user (s/keys :req [:db/id :user/name :user/backpack])))
 
 ;; model
 
