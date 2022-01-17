@@ -105,3 +105,14 @@
 
 (run-tests)
 
+
+(comment
+
+  @(subscribe :pull '[*] [:user/name "default"])
+
+  @(subscribe :q '[:find ?id .
+                   :in $ ?name
+                   :where [?id :user/name ?name]]
+              "default")
+
+  )

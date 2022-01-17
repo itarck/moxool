@@ -1,12 +1,17 @@
 (ns laboratory.plugin.test-entity
   (:require
-   [laboratory.dbs.dev :as dbs.dev]
    [cljs.spec.alpha :as s]
    [cljs.spec.gen.alpha :as gen]
    [clojure.test.check.generators]
    [cljs.test :refer-macros [deftest is are testing run-tests]]
    [laboratory.plugin.entity]
+   [laboratory.system.zero :as zero]
    [laboratory.test-helper :as helper]))
+
+;; data 
+
+(def test-db 
+  (helper/create-initial-db [{:user/name "default"}]))
 
 ;; spec
 
@@ -27,12 +32,23 @@
       (is (spec :valid? :db/id 345))
       (is (spec :valid? :entity/entity {:db/id [:df/fd 34]})))))
 
+;; subscribe
 
-;; model 
+(def system
+  (helper/create-event-system test-db))
 
-(def test-db
-  (dbs.dev/create-dev-db1))
+(def subscribe
+  (::zero/subscribe system))
 
+(deftest test-subscribe
+  (testing "testing subscribe :pull and :q"
+    (is (= @(subscribe :pull '[*] [:user/name "default"])
+           {:db/id 1, :user/name "default"}))
+    (is (= @(subscribe :q '[:find ?id .
+                            :in $ ?name
+                            :where [?id :user/name ?name]]
+                       "default")
+           1))))
 
 
 (run-tests)
