@@ -31,6 +31,7 @@
 
 (defmethod base/spec :backpack/spec
   [_ _]
+  (base/spec {} :entity/spec)
   (s/def :backpack-cell/backpack-cell (s/keys :req [:db/id :backpack-cell/index]))
   (s/def :backpack/cells (s/coll-of :backpack-cell/backpack-cell))
   (s/def :backpack/backpack (s/keys :req [:db/id :backpack/name :backpack/cells])))

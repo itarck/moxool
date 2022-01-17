@@ -1,5 +1,6 @@
 (ns laboratory.plugin.test-user
   (:require
+   [datascript.core :as d]
    [cljs.test :refer-macros [deftest is are testing run-tests]]
    [cljs.spec.alpha :as s]
    [laboratory.system.zero :as zero]
@@ -8,28 +9,25 @@
 
 ;; data
 
-(def user-sample
-  {:db/id -1
-   :user/name "default"
-   :user/backpack #:backpack {:db/id -11
-                              :name "default"
-                              :active-cell {:db/id -2}
-                              :cells [#:backpack-cell{:db/id -2
-                                                      :index 0
-                                                      :tool {:db/id -3}}
-                                      #:backpack-cell{:index 1}]}})
-
-(def tool-sample
-  {:db/id -3})
+(def tx
+  [{:db/id -1
+    :user/name "default"
+    :user/backpack #:backpack {:db/id -11
+                               :name "default"
+                               :active-cell {:db/id -2}
+                               :cells [#:backpack-cell{:db/id -2
+                                                       :index 0
+                                                       :tool {:db/id -3}}
+                                       #:backpack-cell{:db/id -3
+                                                       :index 1}]}}])
 
 
 (def test-db 
-  (helper/create-initial-db 
-   [user-sample
-    tool-sample]))
+  (helper/create-initial-db tx))
 
+(def user-sample 
+  (d/pull test-db '[*] [:user/name "default"]))
 
-(is (s/valid? :user/user user-sample))
 
 ;; sepc
 

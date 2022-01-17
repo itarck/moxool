@@ -5,7 +5,6 @@
    [integrant.core :as ig]
    [fancoil.module.posh.unit]
    [laboratory.plugin.core]
-   [laboratory.unit.process]
    [architecture.plugin.core]))
 
 

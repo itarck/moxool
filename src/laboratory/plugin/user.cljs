@@ -12,8 +12,7 @@
 (def user-sample
   #:user {:db/id -1
           :name "dr who"
-          :backpack {:db/id -34}
-          :user/right-tool {:db/id -100}})
+          :backpack {:db/id -34}})
 
 ;; schema
 
