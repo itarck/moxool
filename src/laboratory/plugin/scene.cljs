@@ -30,24 +30,25 @@
 ;; model
 
 (defmethod base/model :scene/create
-  [_ _ props]
+  [_ _ entity]
   (let [default #:scene {:name "default"
                          :background "white"
                          :framework/_scene [:framework/name "default"]}]
-    (merge default props)))
+    (merge default entity)))
 
 
 ;; sub
 
-(defmethod base/subscribe :scene/pull-one
-  [{:keys [pconn]} _ {:db/keys [id]}]
-  (p/pull pconn '[* {:object/_scene [*]}] id))
+(defmethod base/subscribe :scene/pull
+  [{:keys [pconn]} _ {:keys [entity pattern]}]
+  (let [pattern (or pattern '[* {:object/_scene [*]}])]
+    (p/pull pconn pattern (:db/id entity))))
 
 ;; view
 
 (defmethod base/view :scene/view
-  [{:keys [subscribe] :as core} _signal props]
-  (let [scene @(subscribe :scene/pull-one props)
+  [{:keys [subscribe] :as core} _signal scene]
+  (let [scene @(subscribe :scene/pull {:entity scene})
         objects (:object/_scene scene)]
     [:> Canvas {:camera {:position [1 3 3]}
                 :style {:background (:scene/background scene)}}
