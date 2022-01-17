@@ -35,8 +35,9 @@
 ;; view 
 
 (defmethod base/view :object/view
-  [core _method object]
-  (let [detail-type (keyword (:object/type object) "view")]
+  [{:keys [subscribe] :as core} _method object]
+  (let [object @(subscribe :entity/pull {:entity object})
+        detail-type (keyword (:object/type object) "view")]
     (if (:object/type object)
       [base/view core detail-type object]
       [:> Box {:on-click (fn [e]

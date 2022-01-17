@@ -41,13 +41,13 @@
 
 (defmethod base/subscribe :scene/pull
   [{:keys [pconn]} _ {:keys [entity pattern]}]
-  (let [pattern (or pattern '[* {:object/_scene [*]}])]
+  (let [pattern (or pattern '[* {:object/_scene [:db/id]}])]
     (p/pull pconn pattern (:db/id entity))))
 
 ;; view
 
 (defmethod base/view :scene/view
-  [{:keys [subscribe] :as core} _signal scene]
+  [{:keys [subscribe] :as core} _method scene]
   (let [scene @(subscribe :scene/pull {:entity scene})
         objects (:object/_scene scene)]
     [:> Canvas {:camera {:position [1 3 3]}
