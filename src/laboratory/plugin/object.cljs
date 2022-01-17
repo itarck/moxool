@@ -29,9 +29,9 @@
   [_ _]
   (base/spec {} :entity/spec)
   (s/def :object/name string?)
-  (s/def :object/position (s/cat :x number? :y number? :z number?))
-  (s/def :object/rotation (s/cat :x number? :y number? :z number?))
-  (s/def :object/scale (s/cat :x number? :y number? :z number?))
+  (s/def :object/position (s/tuple number? number? number?))
+  (s/def :object/rotation (s/tuple number? number? number?))
+  (s/def :object/scale (s/tuple number? number? number?))
   (s/def :object/scene :entity/entity)
   (s/def :object/object (s/keys :req [:db/id :object/position :object/rotation :object/scale])))
 

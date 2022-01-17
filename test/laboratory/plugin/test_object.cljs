@@ -47,7 +47,8 @@
 (run-tests)
 
 
-(comment
-  (gen/generate (s/gen :object/object))
 
+(comment
+
+  (gen/generate (s/gen :object/object))
   )
