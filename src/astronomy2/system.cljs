@@ -1,12 +1,11 @@
 (ns astronomy2.system
   (:require
+   [posh.reagent :as p]
    [integrant.core :as ig]
    [fancoil.unit :as fu]
    [fancoil.core :as fc]
    [fancoil.module.posh.unit]
    [laboratory.plugin.core]
-   [laboratory.system :as lab.sys]
-   [posh.reagent :as p]
    [astronomy2.plugin.core]))
 
 
