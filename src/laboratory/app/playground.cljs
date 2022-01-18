@@ -3,7 +3,7 @@
    [fancoil.base :as base]
    [reagent.dom :as rdom]
    [posh.reagent :as p]
-   [laboratory.system.zero :as zero]
+   [laboratory.system :as sys]
    [cljs.spec.alpha :as s]
    [fancoil.unit :as fu]
    [laboratory.dbs.dev :as dev]))
@@ -17,16 +17,16 @@
     :framework/scene {:scene/name "default"}}])
 
 (def user-config 
-  {::zero/pconn {:initial-tx initial-tx}})
+  {::sys/pconn {:initial-tx initial-tx}})
 
 (defonce instance
-  (zero/init user-config))
+  (sys/init user-config))
 
 (def entry
   {:db/id [:framework/name "default"]})
 
 (defn app-transact! [tx]
-  (let [pconn (::zero/pconn instance)]
+  (let [pconn (::sys/pconn instance)]
     (p/transact! pconn tx)))
 
 ;; -------------------------
@@ -34,7 +34,7 @@
 
 (defn mount-root
   []
-  (let [view (::zero/view instance)]
+  (let [view (::sys/view instance)]
     (rdom/render [view :framework/view entry]
                  (js/document.getElementById "app"))))
 

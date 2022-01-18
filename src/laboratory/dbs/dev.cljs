@@ -1,16 +1,16 @@
 (ns laboratory.dbs.dev
   (:require
    [datascript.core :as d]
-   [laboratory.system.zero :as zero]))
+   [laboratory.system :as sys]))
 
 
 (def schema
-  (::zero/schema (zero/init {})))
+  (::sys/schema (sys/init {})))
 
 
 (defn create-dev-db1 []
-  (let [system (zero/init {} [::zero/process])
-        {::zero/keys [process model pconn]} system
+  (let [system (sys/init {} [::sys/process])
+        {::sys/keys [process model pconn]} system
         tx [(model :framework/create {})
             (model :scene/create {:scene/background "black"})
             (model :user/create {})

@@ -3,7 +3,7 @@
    [datascript.core :as d]
    [cljs.test :refer-macros [deftest is are testing run-tests]]
    [cljs.spec.alpha :as s]
-   [laboratory.system.zero :as zero]
+   [laboratory.system :as sys]
    [laboratory.test-helper :as helper]))
 
 
@@ -50,10 +50,10 @@
   (helper/create-event-system test-db))
 
 (def pconn
-  (::zero/pconn system))
+  (::sys/pconn system))
 
 (def sub
-  (::zero/subscribe system))
+  (::sys/subscribe system))
 
 
 (run-tests)

@@ -1,10 +1,11 @@
-(ns laboratory.system.zero
+(ns laboratory.system
   (:require
    [fancoil.unit :as fu]
    [fancoil.core :as fc]
-   [integrant.core :as ig]
    [fancoil.module.posh.unit]
-   [laboratory.plugin.core]))
+   [laboratory.plugin.core]
+   [integrant.core :as ig]
+   [posh.reagent :as p]))
 
 
 (def hierarchy
@@ -56,3 +57,13 @@
      (ig/init config unit-keys))))
 
 
+;; homies version of system
+
+(defmulti system
+  (fn [core method & args]
+    method))
+
+(defmethod system :transact!
+  [core _ tx]
+  (let [pconn (::pconn core)]
+    (p/transact! pconn tx)))

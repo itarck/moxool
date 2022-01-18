@@ -6,7 +6,7 @@
    [cljs.test :refer-macros [deftest is are testing run-tests]]
    [datascript.core :as d]
    [laboratory.plugin.entity]
-   [laboratory.system.zero :as zero]
+   [laboratory.system :as sys]
    [laboratory.test-helper :as helper]
    [laboratory.app.playground :as app]))
 
@@ -40,7 +40,7 @@
   (helper/create-event-system test-db))
 
 (def subscribe
-  (::zero/subscribe system))
+  (::sys/subscribe system))
 
 (deftest test-subscribe)
 

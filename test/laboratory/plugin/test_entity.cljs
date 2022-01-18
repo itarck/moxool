@@ -5,7 +5,7 @@
    [clojure.test.check.generators]
    [cljs.test :refer-macros [deftest is are testing run-tests]]
    [laboratory.plugin.entity]
-   [laboratory.system.zero :as zero]
+   [laboratory.system :as sys]
    [laboratory.test-helper :as helper]))
 
 ;; data 
@@ -38,7 +38,7 @@
   (helper/create-event-system test-db))
 
 (def subscribe
-  (::zero/subscribe system))
+  (::sys/subscribe system))
 
 (deftest test-subscribe
   (testing "testing subscribe :pull and :q"

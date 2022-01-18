@@ -1,11 +1,11 @@
 (ns laboratory.dbs.helper
   (:require
    [datascript.core :as d]
-   [laboratory.system.zero :as zero]))
+   [laboratory.system :as sys]))
 
 (defn create-schema-unit []
-  (let [sys (zero/init {} [::zero/schema])]
-    (::zero/schema sys)))
+  (let [sys (sys/init {} [::sys/schema])]
+    (::sys/schema sys)))
 
 
 (defn create-initial-db

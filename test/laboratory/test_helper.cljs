@@ -2,28 +2,28 @@
   (:require
    [fancoil.unit :as fu]
    [datascript.core :as d]
-   [laboratory.system.zero :as zero]))
+   [laboratory.system :as sys]))
 
 (defn create-schema-unit []
-  (let [sys (zero/init {} [::zero/schema])]
-    (::zero/schema sys)))
+  (let [sys (sys/init {} [::sys/schema])]
+    (::sys/schema sys)))
 
 (defn create-spec-unit []
-  (let [sys (zero/init {} [::zero/spec])]
-    (::zero/spec sys)))
+  (let [sys (sys/init {} [::sys/spec])]
+    (::sys/spec sys)))
 
 (defn create-model-unit []
-  (let [sys (zero/init {} [::zero/model])]
-    (::zero/model sys)))
+  (let [sys (sys/init {} [::sys/model])]
+    (::sys/model sys)))
 
 (defn create-handle-unit
   ([]
-   (let [sys (zero/init {} [::zero/handle])]
-     (::zero/handle sys)))
+   (let [sys (sys/init {} [::sys/handle])]
+     (::sys/handle sys)))
   ([initial-db]
-   (let [sys (zero/init {::zero/pconn {:initial-db initial-db}}
-                        [::zero/handle])]
-     (::zero/handle sys))))
+   (let [sys (sys/init {::sys/pconn {:initial-db initial-db}}
+                        [::sys/handle])]
+     (::sys/handle sys))))
 
 (defn create-initial-db
   [initial-tx]
@@ -34,14 +34,14 @@
 
 (defn create-event-system
   [initial-db]
-  (let [sys (zero/init {::zero/pconn {:initial-db initial-db}}
-                       [::zero/process
-                        ::zero/subscribe])]
+  (let [sys (sys/init {::sys/pconn {:initial-db initial-db}}
+                       [::sys/process
+                        ::sys/subscribe])]
     sys))
 
 (defn create-whole-system
   [initial-db]
-  (zero/init {::zero/pconn {:initial-db initial-db}}))
+  (sys/init {::sys/pconn {:initial-db initial-db}}))
 
 (comment
 
@@ -53,9 +53,9 @@
     (create-initial-db [{:framework{:name "default"}}]))
 
   (keys (create-event-system db))
-  ;; => (:laboratory.system.zero/schema :laboratory.system.zero/pconn :fancoil.unit/do! :fancoil.unit/model :fancoil.unit/handle :fancoil.unit/inject :fancoil.unit/process :fancoil.unit/subscribe)
+  ;; => (:laboratory.system.sys/schema :laboratory.system.sys/pconn :fancoil.unit/do! :fancoil.unit/model :fancoil.unit/handle :fancoil.unit/inject :fancoil.unit/process :fancoil.unit/subscribe)
 
-  (keys (zero/init {} [::fu/handle]))
+  (keys (sys/init {} [::fu/handle]))
   ;; => (:fancoil.unit/spec :fancoil.unit/model :fancoil.unit/handle)
 
   )

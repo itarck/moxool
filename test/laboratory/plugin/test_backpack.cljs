@@ -2,7 +2,7 @@
   (:require
    [cljs.spec.alpha :as s]
    [datascript.core :as d]
-   [laboratory.system.zero :as zero]
+   [laboratory.system :as sys]
    [cljs.test :refer-macros [deftest is testing run-tests]]
    [laboratory.test-helper :as helper]))
 
@@ -98,10 +98,10 @@
   (helper/create-event-system test-db))
 
 (def subscribe
-  (::zero/subscribe system))
+  (::sys/subscribe system))
 
 (def process
-  (::zero/process system))
+  (::sys/process system))
 
 (deftest test-subscribe-unit
   (testing "subscribe backpack/pull"
