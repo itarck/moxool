@@ -4,7 +4,7 @@
    [astronomy2.system :as sys]))
 
 
-(def temp-sys 
+(def temp-sys
   (sys/init {}))
 
 (def schema
@@ -13,7 +13,11 @@
 (def model
   (::sys/model temp-sys))
 
-(defn create-basic-db []
+(defmulti create-db 
+  (fn [db-type] db-type))
+
+(defmethod create-db :basic
+  [_]
   (let [conn (d/create-conn schema)
         tx [#:scene {:name ::basic
                      :background "black"
@@ -30,7 +34,8 @@
     (d/transact! conn tx)
     @conn))
 
-(defn create-db []
+(defmethod create-db :simple
+  [_]
   (let [conn (d/create-conn schema)
         tx [(model :framework/create {})
             (model :scene/create {:scene/background "black"})
@@ -53,8 +58,3 @@
     (d/transact! conn tx)
     @conn))
 
-
-(comment 
-  (create-db)
-  
-  )
