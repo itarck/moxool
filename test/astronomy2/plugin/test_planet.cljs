@@ -14,6 +14,7 @@
   @(subscribe :entity/pull {:entity {:db/id [:planet/name "earth"]}}))
 
 (pprint sun)
+
 (pprint earth)
 
 ;; spec

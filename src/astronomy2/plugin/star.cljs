@@ -58,7 +58,7 @@
 (defmethod base/subscribe :star/pull
   [{:keys [pconn]} _ {:keys [entity]}]
   (s/assert :entity/entity entity)
-  (p/pull pconn '[* {:planet/_star [*]}] (:db/id entity)))
+  (p/pull pconn '[* {:planet/_star [:db/id]}] (:db/id entity)))
 
 ;; view 
 
