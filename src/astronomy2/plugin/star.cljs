@@ -25,9 +25,7 @@
    :object/position [0 0 0]
    :object/quaternion [0 0 0 1]
    :object/show? true
-
-   :entity/chinese-name "太阳"
-   :entity/type :star})
+   :object/type :star})
 
 
 ;; schema 
@@ -39,9 +37,16 @@
 
 ;; spec
 
-
+(defmethod base/spec :star/spec
+  [_ _]
+  (s/def :star/name string?))
 
 ;; model
+
+(defmethod base/model :star/create
+  [_ _ props]
+  (let [default {:object/type :star}]
+    (merge default props)))
 
 ;; view 
 
@@ -65,8 +70,7 @@
   (let [star @(subscribe :entity/pull {:entity entity})
         {:star/keys [color]} star
         {:object/keys [position quaternion]} star]
-    ;; (println "star view" (:planet/_star star))
-    [:mesh {:position position}
+    [:mesh {:position (or position [0 0 0])}
 
      (if (:gltf/url star)
        [:mesh {:quaternion (or quaternion [0 0 0 1])}

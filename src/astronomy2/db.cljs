@@ -19,18 +19,18 @@
 (defmethod create-db :basic
   [_]
   (let [conn (d/create-conn schema)
-        tx [#:scene {:name ::basic
+        tx [#:scene {:name "default"
                      :background "black"
                      :type :astro-scene
                      :scale [1 1 1]}
-            #:object {:scene [:scene/name ::basic]
+            #:object {:scene [:scene/name "default"]
                       :type :box
                       :position [0 0 0]
                       :rotation [0 0 0]
                       :scale [1 1 1]
                       :box/color "blue"}
             #:framework{:name "default"
-                        :scene [:scene/name ::basic]}]]
+                        :scene [:scene/name "default"]}]]
     (d/transact! conn tx)
     @conn))
 

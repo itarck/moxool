@@ -56,7 +56,7 @@
             :rotation (or rotation [0 0 0])
             :castShadow true
             :receiveShadow true}
-     [:mesh {:scale (:gltf/scale gltf)}
+     [:mesh {:scale (or (:gltf/scale gltf) [1 1 1])}
       [:> Suspense {:fallback nil}
        [:> Model {:url url
                   :id (:db/id gltf)
