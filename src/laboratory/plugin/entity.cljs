@@ -1,10 +1,14 @@
 (ns laboratory.plugin.entity
   (:require
-   [datascript.core :as d]
    [posh.reagent :as p]
    [laboratory.base :as base]
    [cljs.spec.alpha :as s]))
 
+;; schema
+
+(defmethod base/schema :entity/schema
+  [_ _]
+  {:entity/name {:db/unique :db.unique/identity}})
 
 ;; spec
 
@@ -16,6 +20,7 @@
                                        :number number?)))
   (s/def :db/id (s/or :id int?
                       :lookup-ref :db/lookup-ref))
+  (s/def :entity/name string?)
   (s/def :entity/entity (s/keys :req [:db/id])))
 
 
