@@ -19,6 +19,9 @@
   (let [pconn (::sys/pconn instance)]
     (p/transact! pconn tx)))
 
+(def homies
+  (partial sys/system instance))
+
 ;; -------------------------
 ;; Initialize app
 
