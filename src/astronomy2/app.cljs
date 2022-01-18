@@ -5,8 +5,14 @@
    [astronomy2.db :as db]))
 
 
+#_(def initial-db
+  (db/create-db :basic))
+
+(def initial-db
+  (db/create-db :test-db))
+
 (def user-config
-  {::sys/pconn {:initial-db (db/create-db :basic)}})
+  {::sys/pconn {:initial-db initial-db}})
 
 (defonce instance
   (sys/init user-config))

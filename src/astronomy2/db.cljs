@@ -77,8 +77,8 @@
             (model :planet/create #:planet
                                    {:name "earth"
                                     :star [:star/name "sun"]
-                                    :gltf/url "models/11-tierra/scene.gltf"
-                                    :gltf/scale [0.2 0.2 0.2]
+                                    :gltf/url "models/16-solar/Earth_1_12756.glb"
+                                    :gltf/scale [0.02 0.02 0.02]
                                     :object/scene {:db/id [:scene/name "default"]}
                                     :object/position [0 0 100]})
             (model :tool/create #:tool{:db/id -1

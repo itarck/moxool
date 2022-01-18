@@ -80,6 +80,7 @@
 (defmethod base/view :star/view
   [{:keys [subscribe] :as core} _ entity]
   (let [star @(subscribe :entity/pull {:entity entity})
+        planets (:planet/_star star)
         {:star/keys [color]} star
         {:object/keys [position quaternion]} star]
     [:mesh {:position (or position [0 0 0])}
@@ -92,9 +93,8 @@
                    :quaternion (or quaternion [0 0 0 1])}
         [:meshStandardMaterial {:color color}]])
 
-     #_[:<>
+     [:<>
       (for [planet planets]
         ^{:key (:db/id planet)}
-        [planet.v/PlanetView {:planet planet} ])]])
-  )
+        [base/view core :planet/view planet])]]))
 

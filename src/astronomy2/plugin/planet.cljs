@@ -49,9 +49,8 @@
 
 ;; view 
 
-
-(comment 
-  
-  (s/explain :planet/planet planet-1)
-  
-  )
+(defmethod base/view :planet/view
+  [{:keys [subscribe] :as core} _ entity]
+  (let [planet @(subscribe :entity/pull {:entity entity})]
+    (when (:gltf/url planet)
+      [base/view core :gltf/view planet])))
