@@ -1,5 +1,6 @@
 (ns astronomy2.plugin.test-star
   (:require
+   [cljs.test :refer-macros [deftest is are testing run-tests]]
    [datascript.core :as d]
    [astronomy2.system :as sys]
    [astronomy2.plugin.star]
@@ -31,22 +32,32 @@
   (let [basic-db (db/create-db :basic)]
     (d/db-with basic-db [sun])))
 
+(def sun-1
+  (d/pull test-db '[*] [:star/name "sun"]))
 
 ;; helper
 
 (defonce instance
   (sys/init {}))
 
+(def spec 
+  (::sys/spec instance))
+
 (def model 
   (::sys/model instance))
 
+;; spec 
+
+(spec :valid? :star/star sun-1)
+
 ;; model 
 
-(model :star/create {:gltf/url "models/16-solar/Sun_1_1391000.glb"
-                     :object/scene [:scene/name ::scene]})
-;; => {:entity/type :star, :gltf/url "models/16-solar/Sun_1_1391000.glb", :object/scene [:scene/name :astronomy2.plugin.test-star/scene]}
-
-
+(deftest test-model
+  (testing "testing model"
+    (is (= (model :star/create {:gltf/url "models/16-solar/Sun_1_1391000.glb"
+                                :object/scene [:scene/name ::scene]})
+           {:object/type :star, :gltf/url "models/16-solar/Sun_1_1391000.glb"
+            :object/scene [:scene/name :astronomy2.plugin.test-star/scene]}))))
 
 ;; view
 
@@ -68,3 +79,6 @@
 
 ;; 
   )
+
+
+(run-tests)

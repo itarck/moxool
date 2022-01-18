@@ -39,7 +39,10 @@
 
 (defmethod base/spec :star/spec
   [_ _]
-  (s/def :star/name string?))
+  (base/spec {} :entity/spec)
+  (s/def :star/name string?)
+  (s/def :star/star (s/keys :req [:db/id]
+                            :opt [:star/name])))
 
 ;; model
 
