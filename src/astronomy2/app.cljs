@@ -6,11 +6,8 @@
    [astronomy2.db :as db]))
 
 
-(def initial-db
-  (db/create-db))
-
 (def user-config
-  {::sys/pconn {:initial-db initial-db}})
+  {::sys/pconn {:initial-db (db/create-basic-db)}})
 
 (defonce instance
   (sys/init user-config))

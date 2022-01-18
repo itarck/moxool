@@ -13,6 +13,23 @@
 (def model
   (::sys/model temp-sys))
 
+(defn create-basic-db []
+  (let [conn (d/create-conn schema)
+        tx [#:scene {:name ::basic
+                     :background "black"
+                     :type :astro-scene
+                     :scale [1 1 1]}
+            #:object {:scene [:scene/name ::basic]
+                      :type :box
+                      :position [0 0 0]
+                      :rotation [0 0 0]
+                      :scale [1 1 1]
+                      :box/color "blue"}
+            #:framework{:name "default"
+                        :scene [:scene/name ::basic]}]]
+    (d/transact! conn tx)
+    @conn))
+
 (defn create-db []
   (let [conn (d/create-conn schema)
         tx [(model :framework/create {})
@@ -39,4 +56,5 @@
 
 (comment 
   (create-db)
+  
   )
