@@ -1,6 +1,7 @@
 (ns astronomy2.app
   (:require
    [reagent.dom :as rdom]
+   [posh.reagent :as p]
    [astronomy2.system :as sys]
    [astronomy2.db :as db]))
 
@@ -16,6 +17,10 @@
 
 (def entry
   {:db/id [:framework/name "default"]})
+
+(defn app-transact! [tx]
+  (let [pconn (::sys/pconn instance)]
+    (p/transact! pconn tx)))
 
 ;; -------------------------
 ;; Initialize app

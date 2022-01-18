@@ -4,7 +4,9 @@
    [datascript.core :as d]
    [posh.reagent :as p]
    [reagent.core :as r]
-   [laboratory.base :as base]))
+   [laboratory.base :as base]
+   ["@react-three/drei" :refer [OrbitControls]]
+   ["react-three-fiber" :refer [Canvas]]))
 
 ;; data
 
@@ -73,9 +75,9 @@
 
 ;; subscribe
 
-(defmethod base/subscribe :astro-scene/sub-scene-with-objects
-  [{:keys [pconn]} _ {:keys [id]}]
-  (p/pull pconn '[* {:object/_scene [*]}] id))
+(defmethod base/subscribe :astro-scene/pull
+  [{:keys [pconn]} _ {:keys [entity]}]
+  (p/pull pconn '[* {:object/_scene [:db/id]}] (:db/id entity)))
 
 (defmethod base/subscribe :astro-scene/sub-scene-name-exist?
   [{:keys [pconn]} _ {:keys [scene-name]}]
@@ -112,3 +114,20 @@
 
     (r/reaction center-entity)))
 
+;; view 
+
+(defmethod base/view :astro-scene/view
+  [{:keys [subscribe] :as core} _ entity]
+  (let [astro-scene @(subscribe :astro-scene/pull {:entity entity})
+        {scale :scene/scale
+         objects :object/_scene} astro-scene]
+    [:> Canvas {:camera {:position [1 3 3]}
+                :style {:background (:scene/background astro-scene)}}
+     [:<>
+      [:ambientLight {:intensity (or (:scene/ambient-light-intensity astro-scene) 0.5)}]
+      [:gridHelper {:args [100 100] :position [0 0 0]}]
+      [:> OrbitControls]
+      [:mesh {:scale scale}
+       (for [object objects]
+         ^{:key (:db/id object)}
+         [base/view core :object/view object])]]]))
