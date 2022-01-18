@@ -1,11 +1,12 @@
 (ns astronomy2.system
   (:require
    [integrant.core :as ig]
-   [posh.reagent :as p]
    [fancoil.unit :as fu]
    [fancoil.core :as fc]
    [fancoil.module.posh.unit]
    [laboratory.plugin.core]
+   [laboratory.system :as lab.sys]
+   [posh.reagent :as p]
    [astronomy2.plugin.core]))
 
 
@@ -56,11 +57,6 @@
   ([user-config unit-keys]
    (let [config (fc/merge-config default-config user-config)]
      (ig/init config unit-keys))))
-
-
-(defn transact! [instance tx]
-  (let [pconn (::pconn instance)]
-    (p/transact! pconn tx)))
 
 
 ;; homies version of system
