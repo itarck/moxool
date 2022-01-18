@@ -1,17 +1,14 @@
-(ns laboratory.app.playground
+(ns laboratory.app
   (:require
-   [fancoil.base :as base]
    [reagent.dom :as rdom]
-   [laboratory.system :as sys]
-   [cljs.spec.alpha :as s]
-   [fancoil.unit :as fu]))
+   [laboratory.system :as sys]))
 
 
 (def initial-tx
   [{:framework/name "default"
     :framework/scene {:scene/name "default"}}])
 
-(def user-config 
+(def user-config
   {::sys/pconn {:initial-tx initial-tx}})
 
 (defonce instance
@@ -19,7 +16,6 @@
 
 (def entry
   {:db/id [:framework/name "default"]})
-
 
 (def homies
   (partial sys/system instance))
@@ -38,25 +34,3 @@
   (mount-root))
 
 
-
-
-(comment
-  (def model
-    (partial base/model {}))
-
-  (model :framework/create
-         #:framework {:db/id -1
-                      :scene -2
-                      :user -3}))
-
-
-(comment
-
-  (s/valid? :db/id 324)
-
-  (s/check-asserts true)
-
-  (let [spec (::fu/spec instance)]
-    (spec :assert :entity/entity {:db/id [:scene/name "34"]}))
-
-  )

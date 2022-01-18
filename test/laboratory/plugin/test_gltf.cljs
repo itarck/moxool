@@ -1,11 +1,9 @@
 (ns laboratory.plugin.test-gltf
   (:require 
-   [laboratory.app.playground :as app]))
-
+   [laboratory.app :as app]))
 
 
 ;; view 
-
 
 (comment
   (let [tx [#:framework{:name "default"

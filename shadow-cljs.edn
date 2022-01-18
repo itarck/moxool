@@ -16,9 +16,9 @@
   :lab {:target     :browser
         :output-dir "resources/public/js"
         :asset-path "/js"
-        :modules {:app {:entries [laboratory.app.playground]
-                        :init-fn laboratory.app.playground/init!}}
-        :devtools {:after-load laboratory.app.playground/update!}}
+        :modules {:app {:entries [laboratory.app]
+                        :init-fn laboratory.app/init!}}
+        :devtools {:after-load laboratory.app/update!}}
   :webapp {:target     :browser
            :output-dir "resources/public/js"
            :asset-path "/js"

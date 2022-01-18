@@ -8,7 +8,7 @@
    [laboratory.plugin.entity]
    [laboratory.system :as sys]
    [laboratory.test-helper :as helper]
-   [laboratory.app.playground :as app]))
+   [laboratory.app :as app]))
 
 ;; data 
 
