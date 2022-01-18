@@ -1,27 +1,25 @@
-(ns astronomy2.plugin.test-star
+(ns astronomy2.plugin.test-planet
   (:require
-   [astronomy2.plugin.star]
-   [astronomy2.app :as app]))
+   [cljs.pprint :refer [pprint]]
+   [cljs.test :refer-macros [deftest testing is run-tests]]
+   [astronomy2.test-helper :refer [test-db spec model subscribe homies]]))
 
 
-;; data 
+;; subscribe
+
+(def sun
+  @(subscribe :star/pull {:entity {:db/id [:star/name "sun"]}}))
 
 (def earth
-  #:planet
-   {:db/id -1
-    :name "earth"
-    :chinese-name "地球"
-    :radius 5
-    :color "blue"
-    :star [:star/name "sun"]
-    :gltf/url "models/11-tierra/scene.gltf"
-    :gltf/scale [0.2 0.2 0.2]
+  @(subscribe :entity/pull {:entity {:db/id [:planet/name "earth"]}}))
 
-    :object/scene {:db/id [:scene/name "solar"]}
-    :object/position [0 0 100]
-    :object/quaternion [0 0 0 1]
-    :entity/type :planet})
+(pprint sun)
+(pprint earth)
 
+;; spec
+
+(deftest test-spec
+  (is (spec :valid? :planet/planet earth)))
 
 
 ;; view
@@ -29,27 +27,6 @@
 (comment
 
   (do
-    (def sun
-      {:star/name "sun"
-       :star/chinese-name "太阳"
-       :star/show-light? true
-
-       :celestial/radius 2.321606103
-       :celestial/radius-string "109.1 地球半径"
-
-       :gltf/url "models/16-solar/Sun_1_1391000.glb"
-       :gltf/scale [0.002 0.002 0.002]
-       :gltf/shadow? false
-
-       :object/type :star
-       :object/position [0 0 0]
-       :object/quaternion [0 0 0 1]
-       :object/show? true
-       :object/scene [:scene/name ::scene]
-
-       :entity/chinese-name "太阳"
-       :entity/type :star})
-
     (def tx
       [#:scene {:name ::scene
                 :background "black"
@@ -59,7 +36,10 @@
                    :scene [:scene/name ::scene]}
        sun])
 
-    (app/homies :transact! tx))
+    (homies :transact! tx))
 
 ;; 
   )
+
+
+(run-tests)

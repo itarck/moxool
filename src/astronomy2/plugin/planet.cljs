@@ -41,6 +41,11 @@
 
 ;; model
 
+(defmethod base/model :planet/create
+  [_ _ props]
+  (let [default #:planet
+                 {:object/type :planet}]
+    (merge default props)))
 
 ;; view 
 

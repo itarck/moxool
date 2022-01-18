@@ -4,6 +4,7 @@
    [laboratory.base :as base]
    [applied-science.js-interop :as j]
    [helix.core :refer [defnc $]]
+   [posh.reagent :as p]
    ["@react-three/drei" :refer [Sphere]]
    ["three" :as three]))
 
@@ -41,6 +42,7 @@
   [_ _]
   (base/spec {} :entity/spec)
   (s/def :star/name string?)
+  (s/def :planet/_star (s/coll-of :entity/entity))
   (s/def :star/star (s/keys :req [:db/id]
                             :opt [:star/name])))
 
@@ -50,6 +52,13 @@
   [_ _ props]
   (let [default {:object/type :star}]
     (merge default props)))
+
+;; sub
+
+(defmethod base/subscribe :star/pull
+  [{:keys [pconn]} _ {:keys [entity]}]
+  (s/assert :entity/entity entity)
+  (p/pull pconn '[* {:planet/_star [*]}] (:db/id entity)))
 
 ;; view 
 
