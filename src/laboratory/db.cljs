@@ -1,4 +1,4 @@
-(ns laboratory.dbs.dev
+(ns laboratory.db
   (:require
    [datascript.core :as d]
    [laboratory.system :as sys]))
@@ -7,8 +7,11 @@
 (def schema
   (::sys/schema (sys/init {})))
 
+(defmulti create-db
+  (fn [db-type] db-type))
 
-(defn create-dev-db1 []
+(defmethod create-db :dev-db1
+  [_]
   (let [system (sys/init {} [::sys/process])
         {::sys/keys [process model pconn]} system
         tx [(model :framework/create {})
@@ -36,6 +39,7 @@
     @pconn))
 
 
-(comment 
-  (create-dev-db1)
-  )
+
+
+(comment
+  (create-db :dev-db1))

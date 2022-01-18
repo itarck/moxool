@@ -4,12 +4,8 @@
    [reagent.dom :as rdom]
    [laboratory.system :as sys]
    [cljs.spec.alpha :as s]
-   [fancoil.unit :as fu]
-   [laboratory.dbs.dev :as dev]))
+   [fancoil.unit :as fu]))
 
-
-#_(def dev-db 
-  (dev/create-dev-db1))
 
 (def initial-tx
   [{:framework/name "default"
