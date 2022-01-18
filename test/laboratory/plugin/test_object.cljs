@@ -57,7 +57,7 @@
                       :rotation [0 0 0]
                       :scale [1 1 3]
                       :scene {:db/id [:scene/name ::scene]}}]]
-    (app/app-transact! tx))
+    (app/homies :transact! tx))
   )
 
 

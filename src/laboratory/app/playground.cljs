@@ -2,7 +2,6 @@
   (:require
    [fancoil.base :as base]
    [reagent.dom :as rdom]
-   [posh.reagent :as p]
    [laboratory.system :as sys]
    [cljs.spec.alpha :as s]
    [fancoil.unit :as fu]
@@ -25,9 +24,9 @@
 (def entry
   {:db/id [:framework/name "default"]})
 
-(defn app-transact! [tx]
-  (let [pconn (::sys/pconn instance)]
-    (p/transact! pconn tx)))
+
+(def homies
+  (partial sys/system instance))
 
 ;; -------------------------
 ;; Initialize app

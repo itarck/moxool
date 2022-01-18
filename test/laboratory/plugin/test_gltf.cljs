@@ -14,5 +14,5 @@
              :object/type :gltf
              :object/scale [0.001 0.001 0.001]
              :object/scene [:scene/name ::scene]}]]
-    (app/app-transact! tx))
+    (app/homies :transact! tx))
   )
