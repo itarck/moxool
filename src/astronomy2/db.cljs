@@ -76,6 +76,7 @@
 
             (model :planet/create #:planet
                                    {:name "earth"
+                                    :chinese-name "地球"
                                     :star [:star/name "sun"]
                                     :gltf/url "models/16-solar/Earth_1_12756.glb"
                                     :gltf/scale [0.02 0.02 0.02]
@@ -85,10 +86,13 @@
                                        :name "universe tool"
                                        :chinese-name "宇宙"
                                        :icon "image/moxool/universe.webp"})
-            (model :tool/create #:tool{:db/id -2
-                                       :name "clock tool"
-                                       :chinese-name "时钟"
-                                       :icon "image/moxool/clock.jpg"})]]
+            (model :tool/create {:db/id -2
+                                 :tool/name "planet-tool"
+                                 :tool/chinese-name "行星"
+                                 :tool/icon "image/moxool/planet.jpg"
+                                 :tool/target [:planet/name "earth"]
+                                 :tool/type :planet-tool})
+            ]]
     (d/transact! conn tx)
     @conn))
 

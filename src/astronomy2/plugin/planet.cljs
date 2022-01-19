@@ -47,6 +47,20 @@
                  {:object/type :planet}]
     (merge default props)))
 
+;; subscribe 
+
+(defmethod base/subscribe :planet/pull
+  [core _ {:keys [entity]}]
+  (base/subscribe core :pull '[*] (:db/id entity)))
+
+(defmethod base/subscribe :planet/sub-planets-with-chinese-names
+  [core _ _]
+  (let [query '[:find ?id ?chinese-name
+                :where
+                [?id :object/type :planet]
+                [?id :planet/chinese-name ?chinese-name]]]
+    (base/subscribe core :q query)))
+
 ;; view 
 
 (defmethod base/view :planet/view

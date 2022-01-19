@@ -11,7 +11,10 @@
   @(subscribe :star/pull {:entity {:db/id [:star/name "sun"]}}))
 
 (def earth
-  @(subscribe :entity/pull {:entity {:db/id [:planet/name "earth"]}}))
+  @(subscribe :planet/pull {:entity {:db/id [:planet/name "earth"]}}))
+
+@(subscribe :planet/sub-planets-with-chinese-names)
+;; => #{[10 "地球"]}
 
 (pprint sun)
 

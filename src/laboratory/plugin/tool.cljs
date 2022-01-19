@@ -17,7 +17,8 @@
 
 (defmethod base/schema :tool/scheme
   [_ _]
-  {:tool/name {:db/unique :db.unique/identity}})
+  {:tool/name {:db/unique :db.unique/identity}
+   :tool/target {:db/cardinality :db.cardinality/one :db/valueType :db.type/ref}})
 
 ;; spec 
 
