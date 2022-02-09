@@ -46,7 +46,7 @@
       [:div {:class "astronomy-righthand"}
        [:div {:class "astronomy-righthand-tool"}
         [:div.p-2
-         [:div
+         [:div.flex
           [:img {:src (:tool/icon tool)
                  :class "astronomy-button"}]
           [:span {:style {:font-size "18px"

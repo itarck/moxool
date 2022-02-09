@@ -151,7 +151,7 @@
         user @(subscribe :entity/pull {:entity (get-in bp [:user/_backpack 0])})
         active-cell (:backpack/active-cell bp)
         cells @(subscribe :backpack/sub-cells-and-tools {:backpack bp})]
-    [:div {:class "d-flex justify-content-center astronomy-backpack"}
+    [:div {:class "d-flex justify-content-center"}
      (for [cell cells]
        (let [tool (:backpack-cell/tool cell)
              style (if (= (:db/id active-cell) (:db/id cell))

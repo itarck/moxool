@@ -50,16 +50,17 @@
   [{:keys [subscribe] :as core} _method scene]
   (let [scene @(subscribe :scene/pull {:entity scene})
         objects (:object/_scene scene)]
-    (if (:scene/type scene)
-      [base/view core (keyword (:scene/type scene) "view") scene]
-      [:> Canvas {:camera {:position [1 3 3]}
-                  :style {:background (:scene/background scene)}}
-       [:ambientLight {:intensity 0.5}]
-       [:> OrbitControls]
-       [:gridHelper {:args [100 100] :position [0 0 0]}]
-       (for [object objects]
-         ^{:key (:db/id object)}
-         [base/view core :object/view object])]
-      )
+    [:div.w-full.h-full.z-20
+     (if (:scene/type scene)
+       [base/view core (keyword (:scene/type scene) "view") scene]
+       [:> Canvas {:camera {:position [1 3 3]}
+                   :style {:background (:scene/background scene)}}
+        [:ambientLight {:intensity 0.5}]
+        [:> OrbitControls]
+        [:gridHelper {:args [100 100] :position [0 0 0]}]
+        (for [object objects]
+          ^{:key (:db/id object)}
+          [base/view core :object/view object])])]
+    
     ))
 

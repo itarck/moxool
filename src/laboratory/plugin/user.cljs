@@ -56,10 +56,10 @@
 
 (defmethod base/view :user/left-hand.view
   [_ _ _]
-  [:div {:class "astronomy-lefthand"}
-   [:div {:style {:font-size "14px"
-                  :color "#aaa"}}
-    [:p "left hand"]]])
+  [:div.z-30
+   {:style {:font-size "14px"
+            :color "#aaa"}}
+   [:p "left hand"]])
 
 (defmethod base/view :user/right-hand.view
   [{:keys [subscribe] :as core} _ {:keys [tool]}]
@@ -73,8 +73,14 @@
   (let [user1 @(subscribe :entity/pull {:entity user})
         right-hand-tool @(subscribe :user/right-hand-tool {:user user})
         backpack (:user/backpack user1)]
-    [:<>
-     [base/view core :user/left-hand.view {}]
-     [base/view core :backpack/view backpack]
-     (when right-hand-tool
-       [base/view core :user/right-hand.view {:tool right-hand-tool}])]))
+    [:div.relative.w-full.flex.items-end.justify-between.z-10
+     {:style {:margin-top "-100vh"
+              :height "100vh"
+              :pointer-events "none"}}
+     [:div.w-32.z-30
+      [base/view core :user/left-hand.view {}]]
+     [:div
+      [base/view core :backpack/view backpack]]
+     [:div.w-68
+      (when right-hand-tool
+        [base/view core :user/right-hand.view {:tool right-hand-tool}])]]))

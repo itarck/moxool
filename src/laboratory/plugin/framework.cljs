@@ -23,7 +23,7 @@
   [{:keys [subscribe] :as core} _signal entity]
   (let [fw @(subscribe :entity/pull {:entity entity})
         {:framework/keys [scene user]} fw]
-    [:<>
+    [:div.h-full.w-full
      (when scene
        [base/view core :scene/view (:framework/scene fw)])
      (when user
