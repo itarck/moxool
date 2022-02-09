@@ -40,42 +40,42 @@
 
 (defn handler-view
   [domain-system platform-atom]
-  (let [handle (::fu/handle domain-system)
-        process (::fu/process domain-system)
+  (let [handle (::sys/handle domain-system)
+        process (::sys/process domain-system)
         tools (:handler-keys @platform-atom)
         selected-tool (:selected-handler @platform-atom)
         input-value (:input-value @platform-atom)
         output-value (:output-value @platform-atom)]
-    [:div "tool view"
-     [:select.form-select {:style {:width "90%"}
-                           :value (str selected-tool)
-                           :on-change (fn [e]
-                                        (let [value (j/get-in e [:target :value])]
-                                          (swap! platform-atom assoc :selected-handler value)))}
+    
+    [:div.text-sm
+     [:p "Tools"]
+     [:select.w-full.my-2.p-2
+      {:value (str selected-tool)
+       :on-change (fn [e]
+                    (let [value (j/get-in e [:target :value])]
+                      (swap! platform-atom assoc :selected-handler value)))}
       (for [tool-name tools]
         ^{:key tool-name}
         [:option {:value (str tool-name)} (str tool-name)])]
 
-     [:textarea {:style {:width "90%"
-                         :height "260px"}
-                 :value input-value
-                 :on-change (fn [e]
-                              (let [value (j/get-in e [:target :value])]
-                                (swap! platform-atom assoc :input-value value)))}]
+     [:textarea.w-full.h-60
+      {:value input-value
+       :on-change (fn [e]
+                    (let [value (j/get-in e [:target :value])]
+                      (swap! platform-atom assoc :input-value value)))}]
      
-     [:button {:type :button
-               :class "btn btn-light"
-               :on-click (fn [e]
-                           (let [handler-key (read-string selected-tool)
-                                 input-value (read-string input-value)
-                                 output-value (handle handler-key input-value)]
-                             (swap! platform-atom assoc :output-value (str output-value))
-                             (process handler-key input-value)))}
-      "commit"]
+     [:div 
+      [:button.bg-gray-200.hover:bg-gray-300.p-1.m-1.rounded.border-1.text-sm.float-right
+       {:type :button
+        :on-click (fn [e]
+                    (let [handler-key (read-string selected-tool)
+                          input-value (read-string input-value)]
+                      (process handler-key input-value)))}
+       "commit"]]
+     
 
-     [:textarea {:style {:width "90%"
-                         :height "260px"}
-                 :value output-value}]]))
+     [:p.w-full.h-60.bg-white.border.clear-both
+      {:value output-value}]]))
 
 
 (defn platform-view
@@ -84,7 +84,7 @@
     [:div.row.gx-0
      [:div.col-9
       [view :framework/view entry]]
-     [:div.col-3.bg-gray-300.p-2
+     [:div.col-3.bg-gray-100.p-2
       [handler-view domain-system platform-atom]]]))
 
 

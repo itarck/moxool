@@ -6,7 +6,8 @@
    [fancoil.core :as fc]
    [fancoil.module.posh.unit]
    [laboratory.plugin.core]
-   [astronomy2.plugin.core]))
+   [astronomy2.plugin.core]
+   [astronomy2.unit]))
 
 
 (def hierarchy

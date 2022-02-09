@@ -47,6 +47,12 @@
                                          #:backpack-cell{:index i}))}]
     (merge default entity)))
 
+(defmethod base/model :backpack/pull
+  [{:keys [spec]} _ {:keys [entity db]}]
+  (d/pull db '[* {:user/_backpack [:db/id]
+                  :backpack/cells [*]}]
+          (:db/id entity)))
+
 (defmethod base/model :backpack/sync
   [{:keys [spec]} _ {:keys [entity db]}]
   (if (spec :valid? :backpack/backpack entity)
@@ -95,9 +101,9 @@
 ;; handle 
 
 (defmethod base/handle :backpack/click-cell
-  [{:keys [model]} _ {{:keys [backpack cell]} :request/body}]
-  (s/assert :backpack/backpack backpack)
-  (let [active-cell (:backpack/active-cell backpack)
+  [{:keys [model]} _ {{:keys [backpack cell]} :request/body db :posh/db}]
+  (let [backpack (model :backpack/pull {:entity backpack :db db})
+        active-cell (:backpack/active-cell backpack)
         tx (if (= (:db/id active-cell) (:db/id cell))
              (model :backpack/deactive-cell-tx {:backpack backpack})
              (concat
