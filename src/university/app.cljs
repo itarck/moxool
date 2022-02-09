@@ -40,14 +40,13 @@
 
 (defn handler-view
   [domain-system platform-atom]
-  (let [handle (::sys/handle domain-system)
-        process (::sys/process domain-system)
+  (let [process (::sys/process domain-system)
         tools (:handler-keys @platform-atom)
         selected-tool (:selected-handler @platform-atom)
         input-value (:input-value @platform-atom)
         output-value (:output-value @platform-atom)]
     
-    [:div.text-sm
+    [:div.flex.flex-column.text-sm.h-full
      [:p "Tools"]
      [:select.w-full.my-2.p-2
       {:value (str selected-tool)
@@ -58,7 +57,7 @@
         ^{:key tool-name}
         [:option {:value (str tool-name)} (str tool-name)])]
 
-     [:textarea.w-full.h-60
+     [:textarea.w-full.grow
       {:value input-value
        :on-change (fn [e]
                     (let [value (j/get-in e [:target :value])]
@@ -74,17 +73,17 @@
        "commit"]]
      
 
-     [:p.w-full.h-60.bg-white.border.clear-both
+     [:p.w-full.grow.bg-white.border.clear-both
       {:value output-value}]]))
 
 
 (defn platform-view
   [domain-system platform-atom]
   (let [view (::sys/view domain-system)]
-    [:div.row.gx-0
-     [:div.col-9
+    [:div.flex.h-full
+     [:div.grow
       [view :framework/view entry]]
-     [:div.col-3.bg-gray-100.p-2
+     [:div.w-64.bg-gray-100.p-2
       [handler-view domain-system platform-atom]]]))
 
 
