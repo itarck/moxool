@@ -13,6 +13,12 @@
            :modules {:app {:entries [astronomy2.app]
                            :init-fn astronomy2.app/init!}}
            :devtools {:after-load astronomy2.app/update!}}
+  :university {:target     :browser
+               :output-dir "resources/public/js"
+               :asset-path "/js"
+               :modules {:app {:entries [university.app]
+                               :init-fn university.app/init!}}
+               :devtools {:after-load university.app/update!}}
   :lab {:target     :browser
         :output-dir "resources/public/js"
         :asset-path "/js"
