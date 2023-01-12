@@ -7,6 +7,12 @@
          :modules {:app {:entries [architecture.app]
                          :init-fn architecture.app/init!}}
          :devtools {:after-load architecture.app/update!}}
+  :astro {:target     :browser
+          :output-dir "resources/public/js"
+          :asset-path "/js"
+          :modules {:app {:entries [astronomy.app.solar]
+                          :init-fn astronomy.app.solar/init!}}
+          :devtools {:after-load astronomy.app.solar/update!}}
   :astro2 {:target     :browser
            :output-dir "resources/public/js"
            :asset-path "/js"

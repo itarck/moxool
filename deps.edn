@@ -23,7 +23,8 @@
         org.clojure/test.check {:mvn/version "1.1.1"}
         fan/fan {:local/root "/Users/tizac/room/fan"}
         com.github.itarck/fancoil {:local/root "/Users/tizac/room/fancoil"}
-        com.github.itarck/fancoil.module {:local/root "/Users/tizac/room/fancoil.module"}}
+       ;;  com.github.itarck/fancoil.module {:local/root "/Users/tizac/room/fancoil.module"}
+        }
 
  :aliases {:shadow-cljs
            {:extra-deps {thheller/shadow-cljs {:mvn/version "2.11.14"}}
