@@ -45,9 +45,15 @@
             :devtools {:after-load film2.app.cinema/update!}}
   :electron {:target :node-script
              :output-to "desktop/main.js"
-             :main electron.main.core/main}}
+             :main electron.main.core/main}
+  :extension {:target     :browser
+              :output-dir "resources/public/js"
+              :asset-path "/js"
+              :modules {:app {:entries [astronomy.app.extension]
+                              :init-fn astronomy.app.extension/init!}}
+              :devtools {:after-load astronomy.app.extension/update!}}}
 
- :dev-http {4001 "resources/public"}
+ :dev-http {3002 "resources/public"}
  ;
  }
 
