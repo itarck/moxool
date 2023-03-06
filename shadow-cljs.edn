@@ -1,36 +1,14 @@
 {:deps true
 
  :builds
- {:arch {:target     :browser
-         :output-dir "resources/public/js"
-         :asset-path "/js"
-         :modules {:app {:entries [architecture.app]
-                         :init-fn architecture.app/init!}}
-         :devtools {:after-load architecture.app/update!}}
+ {
   :astro {:target     :browser
           :output-dir "resources/public/js"
           :asset-path "/js"
           :modules {:app {:entries [astronomy.app.solar]
                           :init-fn astronomy.app.solar/init!}}
           :devtools {:after-load astronomy.app.solar/update!}}
-  :astro2 {:target     :browser
-           :output-dir "resources/public/js"
-           :asset-path "/js"
-           :modules {:app {:entries [astronomy2.app]
-                           :init-fn astronomy2.app/init!}}
-           :devtools {:after-load astronomy2.app/update!}}
-  :university {:target     :browser
-               :output-dir "resources/public/js"
-               :asset-path "/js"
-               :modules {:app {:entries [university.app]
-                               :init-fn university.app/init!}}
-               :devtools {:after-load university.app/update!}}
-  :lab {:target     :browser
-        :output-dir "resources/public/js"
-        :asset-path "/js"
-        :modules {:app {:entries [laboratory.app]
-                        :init-fn laboratory.app/init!}}
-        :devtools {:after-load laboratory.app/update!}}
+
   :webapp {:target     :browser
            :output-dir "resources/public/js"
            :asset-path "/js"
@@ -45,15 +23,9 @@
             :devtools {:after-load film2.app.cinema/update!}}
   :electron {:target :node-script
              :output-to "desktop/main.js"
-             :main electron.main.core/main}
-  :extension {:target     :browser
-              :output-dir "resources/public/js"
-              :asset-path "/js"
-              :modules {:app {:entries [astronomy.app.extension]
-                              :init-fn astronomy.app.extension/init!}}
-              :devtools {:after-load astronomy.app.extension/update!}}}
+             :main electron.main.core/main}}
 
- :dev-http {3002 "resources/public"}
+ :dev-http {5001 "resources/public"}
  ;
  }
 
