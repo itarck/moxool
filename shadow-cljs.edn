@@ -1,8 +1,7 @@
 {:deps true
 
  :builds
- {
-  :astro {:target     :browser
+ {:astro {:target     :browser
           :output-dir "resources/public/js"
           :asset-path "/js"
           :modules {:app {:entries [astronomy.app.solar]
@@ -23,7 +22,14 @@
             :devtools {:after-load film2.app.cinema/update!}}
   :electron {:target :node-script
              :output-to "desktop/main.js"
-             :main electron.main.core/main}}
+             :main electron.main.core/main}
+
+  :extension {:target     :browser
+              :output-dir "resources/public/js"
+              :asset-path "/js"
+              :modules {:app {:entries [extension.moxool]
+                              :init-fn extension.moxool/init!}}
+              :devtools {:after-load extension.moxool/update!}}}
 
  :dev-http {5001 "resources/public"}
  ;

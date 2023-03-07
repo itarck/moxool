@@ -21,8 +21,12 @@
         venantius/accountant {:mvn/version "0.2.5"}
         lilactown/helix {:mvn/version "0.1.0"}
         org.clojure/test.check {:mvn/version "1.1.1"}
+        
         com.github.itarck/fan {:git/url "ssh://git@ssh.github.com:443/itarck/fan"
-                               :git/sha "adae3c0c004966201e2d84c623aed8fc2b4eeeab"}}
+                               :git/sha "adae3c0c004966201e2d84c623aed8fc2b4eeeab"}
+        com.github.jipulab/masonry {:git/url "ssh://git@ssh.github.com:443/jipulab/masonry"
+                            ;;   :git/tag "0.2.1"
+                                    :git/sha "6eb383713ef6caaf6c86e7bef60c861b77f16e79"}}
 
  :aliases {:shadow-cljs
            {:extra-deps {thheller/shadow-cljs {:mvn/version "2.11.14"}}
