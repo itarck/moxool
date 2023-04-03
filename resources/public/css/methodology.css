@@ -50,6 +50,11 @@ html, body, #app {
     overflow: auto;
 }
 
+.astronomy-righthand-tool img 
+{
+    display:inline;
+}
+
 .methodology-player {
     position: absolute;
     background: rgba(200, 200, 200);
