@@ -14,9 +14,9 @@
 
 ## 项目说明
 - 本项目是一个太阳系行星系统的演示模型，100年内的日月食误差大约在小时级别。
-- 这是在2021年暑假的业余项目，录制[天文学史系列视频](https://space.bilibili.com/502118781/channel/seriesdetail?sid=758365)时用到过的代码脚本，封装了一些典型场景，供天文爱好者学习交流。
+- 这是在2021年暑假的业余项目，录制[天文学史系列视频](https://space.bilibili.com/502118781/channel/seriesdetail?sid=758365)时用到过的代码脚本，封装了一些典型场景。并非成熟软件，仅供天文爱好者学习交流。
 - 本项目中的3D模型从[NASA官网](https://solarsystem.nasa.gov/solar-system/our-solar-system/overview/)下载，本项目仅供学习交流，禁止商用。
-- 桌面版本从[这里](https://github.com/itarck/moxool/releases/tag/0.1.0-alpha)选择对应操作系统下载。
+- 桌面版本从[这里](https://github.com/itarck/moxool/releases/tag/0.1.0-alpha)选择对应操作系统下载，相关可交互的[场景说明](https://github.com/itarck/moxool/blob/main/SCENES.md).
 
 ## 开发相关：
 - 用了clojurescript编写, 用到了[react-three-fiber](https://github.com/pmndrs/react-three-fiber), [reagent](https://github.com/reagent-project/reagent), [datascript](https://github.com/tonsky/datascript), [posh](https://github.com/denistakeda/posh)等库
