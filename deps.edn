@@ -1,6 +1,6 @@
 {:paths ["src" "resources" "resources/public" "test"]
 
- :deps {thheller/shadow-cljs {:mvn/version "2.11.14"}
+ :deps {thheller/shadow-cljs {:mvn/version "2.19.5"}
         applied-science/js-interop {:mvn/version "0.2.7"}
         arttuka/reagent-material-ui {:mvn/version "4.11.2-0"}
         binaryage/devtools {:mvn/version "1.0.0"}
@@ -19,7 +19,7 @@
         reagent/reagent {:mvn/version "1.1.0"}
         reagent-utils/reagent-utils {:mvn/version "0.3.3"}
         venantius/accountant {:mvn/version "0.2.5"}
-        lilactown/helix {:mvn/version "0.1.0"}
+        lilactown/helix {:mvn/version "0.1.10"}
         org.clojure/test.check {:mvn/version "1.1.1"}
         
         com.github.itarck/fan {:git/url "ssh://git@ssh.github.com:443/itarck/fan"
@@ -29,6 +29,6 @@
                                     :git/sha "6eb383713ef6caaf6c86e7bef60c861b77f16e79"}}
 
  :aliases {:shadow-cljs
-           {:extra-deps {thheller/shadow-cljs {:mvn/version "2.11.14"}}
+           {:extra-deps {thheller/shadow-cljs {:mvn/version "2.19.5"}}
             :main-opts ["-m" "shadow.cljs.devtools.cli"]
             :jvm-opts ["-Xmx3G"]}}}

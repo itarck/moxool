@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "css-loader": "^5.0.1",
-    "shadow-cljs": "^2.12.2",
+    "shadow-cljs": "^2.19.5",
     "style-loader": "^2.0.0"
   },
   "dependencies": {
